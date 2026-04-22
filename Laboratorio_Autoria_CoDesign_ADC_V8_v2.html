@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratorio de Autoría · Co-design Workshops · ADC V8</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   RESET + VARIABLES · SISTEMA ADC V8
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --abismo:        #030304;
+  --negro-deep:    #060608;
+  --negro:         #0A0A0C;
+  --negro-suave:   #111114;
+  --negro-card:    #17171B;
+  --negro-elevado: #1E1E23;
+
+  --oro-genesis:   #3D2E0A;
+  --oro-latente:   #6B4E1A;
+  --oro:           #C9A84C;
+  --oro-vivo:      #E8C97A;
+  --oro-palido:    #F5E8C0;
+  --oro-dim:       rgba(201,168,76,0.06);
+  --oro-borde:     rgba(201,168,76,0.20);
+  --oro-borde-med: rgba(201,168,76,0.40);
+  --oro-hover:     rgba(201,168,76,0.38);
+  --oro-glow:      rgba(201,168,76,0.12);
+
+  --blanco:        #F2F2EE;
+  --gris-claro:    #AAAAAA;
+  --gris:          #666666;
+  --gris-oscuro:   #2A2A2E;
+
+  --director:      #C9A84C;
+  --gerente:       #7EB8C9;
+  --edat:          #9B6B9B;
+  --novel:         #4A9F6A;
+  --consolidado:   #C08C40;
+  --aad:           #E07B54;
+
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Montserrat', sans-serif;
+  --mono:  'JetBrains Mono', 'Courier New', monospace;
+
+  --t-fast: 0.2s ease;
+  --t-med:  0.4s ease;
+  --t-slow: 0.8s ease;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--negro);
+  color: var(--blanco);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.75;
+  overflow-x: hidden;
+  padding-top: 56px;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.015) 1px, transparent 1px);
+  background-size: 72px 72px;
+  pointer-events: none; z-index: 0;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10,10,12,0.97);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--oro-borde);
+  padding: 0 48px; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-brand { font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--oro); letter-spacing: 4px; }
+.nav-center { font-family: var(--mono); font-size: 7.5px; letter-spacing: 3px; text-transform: uppercase; color: var(--gris); }
+.nav-links { display: flex; gap: 24px; list-style: none; }
+.nav-links a { color: var(--gris); text-decoration: none; font-size: 7.5px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; transition: color var(--t-fast); }
+.nav-links a:hover { color: var(--oro); }
+
+/* ── ÍNDICE LATERAL ── */
+.indice-lateral {
+  position: fixed; right: 28px; top: 50%;
+  transform: translateY(-50%);
+  z-index: 90; display: flex; flex-direction: column; gap: 9px;
+}
+.indice-punto {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gris-oscuro); border: 1px solid var(--gris);
+  cursor: pointer; transition: all 0.3s; position: relative;
+}
+.indice-punto.activo { background: var(--oro); border-color: var(--oro); width: 8px; height: 8px; }
+.indice-punto:hover::after, .indice-punto.activo::after {
+  content: attr(data-label);
+  position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+  font-size: 7.5px; font-weight: 500; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--oro);
+  white-space: nowrap; font-family: var(--sans);
+}
+.indice-punto:hover { background: var(--oro-vivo); border-color: var(--oro); }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+
+/* ── PORTADA ── */
+#portada { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+#portada::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, rgba(201,168,76,0.07) 0%, transparent 60%); pointer-events: none; }
+.portada-contenido { text-align: center; z-index: 1; padding: 80px 48px; position: relative; }
+.portada-eyebrow { font-size: 8px; font-weight: 500; letter-spacing: 6px; text-transform: uppercase; color: var(--gris); display: block; margin-bottom: 52px; }
+.portada-titulo { font-family: var(--serif); font-size: clamp(56px, 8vw, 112px); font-weight: 300; color: var(--oro); letter-spacing: 12px; line-height: 1; margin-bottom: 8px; }
+.portada-subtitulo { font-size: 9px; font-weight: 300; letter-spacing: 7px; text-transform: uppercase; color: var(--gris-claro); margin-bottom: 36px; }
+.linea-oro { width: 72px; height: 1px; background: var(--oro); margin: 0 auto 40px; }
+.portada-descripcion { font-family: var(--serif); font-size: 21px; font-weight: 300; font-style: italic; color: var(--gris-claro); line-height: 1.6; max-width: 580px; margin: 0 auto 56px; }
+.portada-id { display: inline-block; font-family: var(--mono); font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--gris); border: 1px solid var(--gris-oscuro); padding: 8px 20px; margin-top: 8px; }
+.portada-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); font-size: 7.5px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gris); display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.portada-scroll::after { content: ''; width: 1px; height: 40px; background: var(--oro-borde); animation: scrollLine 2s ease infinite; }
+@keyframes scrollLine { 0%,100%{opacity:0.3;transform:scaleY(0.5)} 50%{opacity:1;transform:scaleY(1)} }
+
+/* ── SECCIÓN BASE ── */
+section { min-height: 100vh; padding: 108px 96px 88px; position: relative; }
+section.oscuro { background: var(--negro); }
+section.suave  { background: var(--negro-suave); }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+.titulo-seccion { margin-bottom: 72px; }
+.titulo-seccion .numero { font-size: 8.5px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; color: var(--oro); display: block; margin-bottom: 20px; }
+.titulo-seccion h2 { font-family: var(--serif); font-size: clamp(40px, 5vw, 58px); font-weight: 300; line-height: 1.1; color: var(--blanco); margin-bottom: 24px; }
+.titulo-seccion h2 em { font-style: italic; color: var(--oro); }
+.divider { width: 60px; height: 1px; background: var(--oro); margin: 24px 0; }
+.titulo-seccion .descripcion { font-size: 14px; font-weight: 300; color: var(--gris-claro); max-width: 640px; line-height: 1.9; }
+
+/* ── ARQ MAP ── */
+.arq-map { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 48px; }
+.arq-bloque { background: var(--negro-card); border: 1px solid var(--gris-oscuro); padding: 44px 40px; position: relative; overflow: hidden; transition: border-color var(--t-med); }
+.arq-bloque::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.arq-bloque.p21::before { background: var(--oro); }
+.arq-bloque.p30::before { background: linear-gradient(90deg, var(--gerente), var(--edat), var(--novel), var(--consolidado), var(--aad)); }
+.arq-bloque:hover { border-color: var(--oro-borde); }
+.arq-tag { font-size: 7.5px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; display: block; color: var(--oro); }
+.arq-nombre { font-family: var(--serif); font-size: 32px; font-weight: 300; color: var(--blanco); margin-bottom: 8px; line-height: 1.2; }
+.arq-sub { font-family: var(--mono); font-size: 9px; color: var(--gris); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+.arq-desc { font-size: 13px; font-weight: 300; color: var(--gris-claro); line-height: 1.85; margin-bottom: 28px; }
+.arq-entregable { border-left: 2px solid var(--oro-borde); padding-left: 16px; font-size: 12px; font-weight: 400; color: var(--oro); font-family: var(--serif); font-style: italic; line-height: 1.6; }
+.arq-num { font-family: var(--serif); font-size: 96px; font-weight: 300; line-height: 1; position: absolute; top: 16px; right: 24px; color: var(--oro); opacity: 0.06; }
+.arq-workshops-count { display: flex; gap: 6px; margin-top: 20px; flex-wrap: wrap; }
+.workshop-dot { width: 28px; height: 4px; border-radius: 2px; background: var(--gris-oscuro); }
+
+/* ── TABLA WORKSHOPS P21 ── */
+.tabla-workshops { width: 100%; border-collapse: collapse; margin-top: 32px; }
+.tabla-workshops th { font-size: 7.5px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--oro); padding: 14px 20px; border-bottom: 1px solid var(--oro-borde); text-align: left; background: var(--negro-deep); }
+.tabla-workshops td { font-size: 12px; font-weight: 300; color: var(--gris-claro); padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); line-height: 1.7; }
+.tabla-workshops tr:hover td { background: var(--oro-dim); }
+.tabla-workshops td:first-child { font-weight: 500; color: var(--blanco); font-family: var(--mono); font-size: 11px; letter-spacing: 1px; }
+
+/* ── CICLO DE DESTILACIÓN ── */
+.ciclo-grid { display: grid; grid-template-columns: 1fr 48px 1fr 48px 1fr; gap: 0; margin-top: 56px; align-items: start; }
+.ciclo-flecha { display: flex; align-items: center; justify-content: center; padding-top: 40px; color: var(--oro); opacity: 0.5; font-size: 24px; }
+.ciclo-col { background: var(--negro-card); border: 1px solid var(--gris-oscuro); padding: 36px 32px; position: relative; overflow: hidden; }
+.ciclo-col::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.ciclo-entrada::before { background: var(--edat); }
+.ciclo-proceso::before { background: var(--oro); }
+.ciclo-salida::before { background: var(--novel); }
+.ciclo-label { font-size: 7.5px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 24px; display: block; }
+.ciclo-titulo { font-family: var(--serif); font-size: 28px; font-weight: 300; line-height: 1.1; margin-bottom: 20px; }
+.ciclo-items { display: flex; flex-direction: column; gap: 10px; }
+.ciclo-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 14px; background: rgba(255,255,255,0.02); border-left: 1px solid var(--gris-oscuro); }
+.ciclo-item-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.ciclo-item-texto { font-size: 11px; font-weight: 300; color: var(--gris-claro); line-height: 1.6; }
+
+/* ── VOCES DEL ECOSISTEMA ── */
+.voces-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 48px; }
+.voz-card { background: var(--negro-card); border: 1px solid var(--gris-oscuro); padding: 28px 24px; position: relative; overflow: hidden; transition: border-color var(--t-med); }
+.voz-card:hover { border-color: var(--oro-borde); }
+.voz-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.voz-icono { font-family: var(--serif); font-size: 40px; font-weight: 300; color: var(--oro); opacity: 0.15; margin-bottom: 16px; line-height: 1; }
+.voz-tipo { font-size: 7.5px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--oro); margin-bottom: 12px; display: block; }
+.voz-nombre { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--blanco); margin-bottom: 10px; line-height: 1.2; }
+.voz-desc { font-size: 11px; font-weight: 300; color: var(--gris); line-height: 1.7; }
+
+/* ── WORKSHOP CARDS ── */
+.workshops-grid { display: flex; flex-direction: column; gap: 2px; margin-top: 48px; }
+.workshop-card { background: var(--negro-card); border: 1px solid var(--gris-oscuro); padding: 0; position: relative; overflow: hidden; transition: border-color var(--t-med); }
+.workshop-card:hover { border-color: var(--oro-borde); }
+.workshop-header { display: grid; grid-template-columns: 64px 1fr; align-items: stretch; min-height: 80px; }
+.workshop-num { display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 28px; font-weight: 300; color: var(--oro); opacity: 0.6; border-right: 1px solid var(--gris-oscuro); background: var(--negro-deep); }
+.workshop-meta { padding: 20px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.workshop-rol-tag { font-size: 7.5px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 5px 14px; border: 1px solid; display: inline-block; }
+.workshop-nombre { font-family: var(--serif); font-size: 22px; font-weight: 400; line-height: 1.2; }
+.workshop-body { padding: 28px 32px 32px 96px; border-top: 1px solid var(--gris-oscuro); }
+.workshop-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.wb-bloque { }
+.wb-label { font-size: 7.5px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--gris); margin-bottom: 10px; }
+.wb-valor { font-size: 12px; font-weight: 300; color: var(--gris-claro); line-height: 1.8; }
+.wb-entregable { border-top: 1px solid var(--gris-oscuro); padding-top: 16px; }
+.wb-entregable .wb-label { color: var(--oro); }
+.wb-entregable .wb-valor { color: var(--blanco); font-style: italic; font-family: var(--serif); font-size: 14px; line-height: 1.6; }
+
+/* ── LIENZOS EN WORKSHOP ── */
+.lienzos-section { border-top: 1px solid var(--gris-oscuro); padding-top: 16px; margin-top: 4px; }
+.lienzos-label { font-size: 7.5px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--aad); margin-bottom: 10px; }
+.lienzos-lista { display: flex; flex-wrap: wrap; gap: 6px; }
+.lienzo-tag { font-size: 7px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 4px 10px; border: 1px solid rgba(224,123,84,0.3); color: var(--aad); background: rgba(224,123,84,0.05); }
+
+/* ── DURACIÓN BADGE ── */
+.duracion-badge { font-family: var(--mono); font-size: 7.5px; letter-spacing: 2.5px; text-transform: uppercase; padding: 5px 12px; border: 1px solid var(--gris-oscuro); color: var(--gris); }
+
+/* Role color variants */
+.rol-director .workshop-rol-tag { color: var(--director); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.06); }
+.rol-gerente  .workshop-rol-tag { color: var(--gerente);  border-color: rgba(126,184,201,0.4); background: rgba(126,184,201,0.06); }
+.rol-edat     .workshop-rol-tag { color: var(--edat);     border-color: rgba(155,107,155,0.4); background: rgba(155,107,155,0.06); }
+.rol-novel    .workshop-rol-tag { color: var(--novel);    border-color: rgba(74,159,106,0.4);  background: rgba(74,159,106,0.06); }
+.rol-consolidado .workshop-rol-tag { color: var(--consolidado); border-color: rgba(192,140,64,0.4); background: rgba(192,140,64,0.06); }
+.rol-aad      .workshop-rol-tag { color: var(--aad);      border-color: rgba(224,123,84,0.4);  background: rgba(224,123,84,0.06); }
+.rol-director .workshop-nombre { color: var(--director); }
+.rol-gerente  .workshop-nombre { color: var(--gerente); }
+.rol-edat     .workshop-nombre { color: var(--edat); }
+.rol-novel    .workshop-nombre { color: var(--novel); }
+.rol-consolidado .workshop-nombre { color: var(--consolidado); }
+.rol-aad      .workshop-nombre { color: var(--aad); }
+.rol-sintesis .workshop-rol-tag { color: var(--oro); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.06); }
+.rol-sintesis .workshop-nombre { color: var(--oro); }
+
+/* ── BLUEPRINTS ── */
+.blueprints-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 48px; }
+.bp-card { background: var(--negro-card); border: 1px solid var(--gris-oscuro); padding: 28px 24px; position: relative; transition: border-color var(--t-med); min-height: 180px; }
+.bp-card:hover { border-color: var(--oro-borde); }
+.bp-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.bp-p21::before      { background: var(--director); }
+.bp-gerente::before  { background: var(--gerente); }
+.bp-edat::before     { background: var(--edat); }
+.bp-novel::before    { background: var(--novel); }
+.bp-consolidado::before { background: var(--consolidado); }
+.bp-aad::before      { background: var(--aad); }
+.bp-agencia::before  { background: linear-gradient(90deg, var(--director), var(--gerente), var(--edat)); }
+.bp-num { font-family: var(--serif); font-size: 48px; font-weight: 300; line-height: 1; color: var(--oro); opacity: 0.1; margin-bottom: 16px; }
+.bp-tag { font-size: 7px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; display: block; }
+.bp-nombre { font-family: var(--serif); font-size: 16px; font-weight: 400; line-height: 1.3; margin-bottom: 12px; }
+.bp-desc { font-size: 11px; font-weight: 300; color: var(--gris); line-height: 1.7; }
+
+/* ── DOCUMENTOS MAESTROS ── */
+.boveda-capas { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 48px; }
+.boveda-capa { background: var(--negro-card); border: 1px solid var(--gris-oscuro); padding: 44px 40px; position: relative; overflow: hidden; }
+.boveda-capa::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.boveda-capa.capa-1::before { background: var(--gerente); }
+.boveda-capa.capa-2::before { background: var(--oro); }
+.boveda-capa-num { font-family: var(--serif); font-size: 80px; font-weight: 300; line-height: 1; color: var(--oro); opacity: 0.06; position: absolute; top: 16px; right: 24px; }
+.boveda-tag { font-size: 7.5px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--oro); margin-bottom: 16px; display: block; }
+.boveda-nombre { font-family: var(--serif); font-size: 30px; font-weight: 300; color: var(--blanco); margin-bottom: 12px; line-height: 1.2; }
+.boveda-desc { font-size: 13px; font-weight: 300; color: var(--gris-claro); line-height: 1.85; margin-bottom: 24px; }
+.boveda-items { display: flex; flex-direction: column; gap: 8px; }
+.boveda-item { display: flex; gap: 12px; align-items: flex-start; }
+.boveda-item-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--oro); flex-shrink: 0; margin-top: 7px; }
+.boveda-item-texto { font-size: 12px; font-weight: 300; color: var(--gris-claro); line-height: 1.6; }
+
+/* ── MÓDULO REFERIDO ── */
+.referido-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; margin-top: 48px; }
+.ref-card { background: var(--negro-card); border: 1px solid var(--gris-oscuro); padding: 36px 32px; position: relative; }
+.ref-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.ref-card.para-agente::before { background: var(--consolidado); }
+.ref-card.para-edat::before   { background: var(--edat); }
+.ref-card.para-agencia::before{ background: var(--director); }
+.ref-para { font-size: 7.5px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px; display: block; }
+.ref-titulo { font-family: var(--serif); font-size: 24px; font-weight: 300; color: var(--blanco); margin-bottom: 16px; line-height: 1.2; }
+.ref-desc { font-size: 12px; font-weight: 300; color: var(--gris-claro); line-height: 1.85; }
+
+.protocolo-referido { margin-top: 48px; background: var(--negro-card); border: 1px solid var(--oro-borde); border-left: 3px solid var(--oro); padding: 40px 44px; }
+.protocolo-titulo { font-size: 8px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--oro); margin-bottom: 24px; }
+.protocolo-steps { display: flex; flex-direction: column; gap: 0; }
+.protocolo-step { display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.protocolo-step:last-child { border-bottom: none; }
+.step-num { font-family: var(--serif); font-size: 22px; font-weight: 300; color: var(--oro); opacity: 0.4; line-height: 1.4; }
+.step-texto { font-size: 12px; font-weight: 300; color: var(--gris-claro); line-height: 1.75; padding-top: 3px; }
+.step-texto strong { color: var(--blanco); font-weight: 500; }
+
+.rol-timing { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+.timing-badge { font-size: 7.5px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; padding: 6px 14px; border: 1px solid; }
+.timing-cons { color: var(--consolidado); border-color: rgba(192,140,64,0.4); background: rgba(192,140,64,0.06); }
+.timing-nov  { color: var(--novel); border-color: rgba(74,159,106,0.4); background: rgba(74,159,106,0.06); }
+
+/* ── MICROECONOMÍA POR ROL ── */
+.microeconomia-grid { display: flex; flex-direction: column; gap: 2px; margin-top: 48px; }
+.micro-row { display: grid; grid-template-columns: 200px 1fr 1fr 1fr; gap: 0; background: var(--negro-card); border: 1px solid var(--gris-oscuro); transition: border-color var(--t-med); }
+.micro-row:hover { border-color: var(--oro-borde); }
+.micro-row-header { display: grid; grid-template-columns: 200px 1fr 1fr 1fr; gap: 0; background: var(--negro-deep); border: 1px solid var(--gris-oscuro); border-bottom: none; }
+.micro-col-head { padding: 10px 20px; font-size: 7.5px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--oro); }
+.micro-rol { padding: 24px 20px; display: flex; flex-direction: column; gap: 6px; border-right: 1px solid var(--gris-oscuro); }
+.micro-rol-nombre { font-family: var(--serif); font-size: 17px; font-weight: 400; line-height: 1.2; }
+.micro-rol-sub { font-family: var(--mono); font-size: 7.5px; color: var(--gris); letter-spacing: 2px; text-transform: uppercase; }
+.micro-col { padding: 24px 20px; border-right: 1px solid var(--gris-oscuro); font-size: 11px; font-weight: 300; color: var(--gris-claro); line-height: 1.7; }
+.micro-col:last-child { border-right: none; }
+
+/* ── REGLAS ── */
+.reglas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 48px; }
+.regla-card { background: var(--negro-card); border: 1px solid var(--gris-oscuro); padding: 36px 32px; transition: border-color var(--t-med); }
+.regla-card:hover { border-color: var(--oro-borde); }
+.regla-num { font-size: 7.5px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--oro); margin-bottom: 14px; display: block; }
+.regla-titulo { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--blanco); margin-bottom: 12px; line-height: 1.3; }
+.regla-desc { font-size: 12px; font-weight: 300; color: var(--gris-claro); line-height: 1.85; }
+
+/* ── CITA ── */
+.cita-bloque { border-left: 2px solid var(--oro); padding: 28px 36px; background: var(--oro-dim); margin: 48px 0; }
+.cita-texto { font-family: var(--serif); font-size: 22px; font-weight: 300; font-style: italic; color: var(--blanco); line-height: 1.6; margin-bottom: 14px; }
+.cita-autor { font-size: 8.5px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--oro); }
+
+/* ── CONEXIONES CANON ── */
+.conexiones-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; margin-top: 48px; }
+.con-card { background: var(--negro-card); border: 1px solid var(--gris-oscuro); padding: 28px 24px; }
+.con-id { font-family: var(--mono); font-size: 9px; color: var(--oro); letter-spacing: 2px; margin-bottom: 10px; display: block; }
+.con-nombre { font-size: 13px; font-weight: 500; color: var(--blanco); margin-bottom: 8px; line-height: 1.3; }
+.con-motivo { font-size: 11px; font-weight: 300; color: var(--gris); line-height: 1.7; }
+
+/* ── ESTADO BADGE ── */
+.estado-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 7.5px; letter-spacing: 2.5px; text-transform: uppercase; padding: 7px 16px; border: 1px solid; margin-top: 28px; }
+.estado-badge.activo { color: var(--novel); border-color: rgba(74,159,106,0.4); background: rgba(74,159,106,0.06); }
+.estado-badge.expandido { color: var(--oro); border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.06); }
+.estado-badge::before { content: '●'; font-size: 6px; }
+
+/* ── CIERRE ── */
+.cierre-contenido { text-align: center; padding: 88px 48px; max-width: 640px; margin: 0 auto; }
+.cierre-emblema { font-family: var(--mono); font-size: 7.5px; letter-spacing: 3px; text-transform: uppercase; color: var(--gris); display: block; margin-bottom: 48px; }
+.cierre-frase { font-family: var(--serif); font-size: clamp(28px, 4vw, 44px); font-weight: 300; color: var(--blanco); line-height: 1.35; margin-bottom: 32px; }
+.cierre-frase em { color: var(--oro); font-style: italic; }
+.cierre-linea { width: 60px; height: 1px; background: var(--oro); margin: 0 auto 32px; }
+.cierre-sub { font-family: var(--serif); font-size: 16px; font-weight: 300; font-style: italic; color: var(--gris-claro); margin-bottom: 8px; }
+.cierre-autor { font-size: 8px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gris); }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">ADC</span>
+  <ul class="nav-links">
+    <li><a href="#arquitectura">Arquitectura</a></li>
+    <li><a href="#p21">P21</a></li>
+    <li><a href="#ciclo">Ciclo</a></li>
+    <li><a href="#p30">P30</a></li>
+    <li><a href="#boveda">Bóveda</a></li>
+    <li><a href="#referido">Referido</a></li>
+    <li><a href="#roles">Roles</a></li>
+    <li><a href="#reglas">Reglas</a></li>
+  </ul>
+</nav>
+
+<div class="indice-lateral">
+  <div class="indice-punto" data-label="Portada"      data-target="portada"></div>
+  <div class="indice-punto" data-label="Arquitectura" data-target="arquitectura"></div>
+  <div class="indice-punto" data-label="P21"          data-target="p21"></div>
+  <div class="indice-punto" data-label="Ciclo"        data-target="ciclo"></div>
+  <div class="indice-punto" data-label="P30 Voces"    data-target="voces"></div>
+  <div class="indice-punto" data-label="P30 Workshops"data-target="p30"></div>
+  <div class="indice-punto" data-label="Bóveda"       data-target="boveda"></div>
+  <div class="indice-punto" data-label="Referido"     data-target="referido"></div>
+  <div class="indice-punto" data-label="Roles"        data-target="roles"></div>
+  <div class="indice-punto" data-label="Reglas"       data-target="reglas"></div>
+  <div class="indice-punto" data-label="Canon"        data-target="canon"></div>
+</div>
+
+<!-- PORTADA -->
+<section id="portada" class="oscuro" style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
+<div class="portada-contenido">
+  <span class="portada-eyebrow reveal">ADC V8 · Corpus Arquitectónico · C_LAB</span>
+  <div class="portada-titulo reveal reveal-d1">LABORATORIO</div>
+  <div class="portada-subtitulo reveal reveal-d2">de Autoría · Co-design Workshops · Sistema ADC V8</div>
+  <div class="linea-oro reveal reveal-d3"></div>
+  <p class="portada-descripcion reveal reveal-d3">El espacio donde el diagnóstico se convierte en diseño propio del Director. Si los roles se van, los sistemas se quedan. Cada perfil nuevo personaliza su experiencia — el origen permanece.</p>
+  <div class="reveal reveal-d4">
+    <span class="portada-id">C_LAB · Laboratorio de Autoría · ADC V8 v2 · Centralidad Personal · Sprint Bridge · Abril 2026</span>
+    <br>
+    <span class="estado-badge expandido" style="margin-top:12px;">Arquitectura Completa · V8 Activo</span>
+  </div>
+</div>
+<div class="portada-scroll reveal">Explorar</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §0 · PUENTE · RESEARCH LAB + CENTRALIDAD PERSONAL -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="puente" class="oscuro">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">00 · Lo que Llega Antes</span>
+    <h2>El Laboratorio<br><em>no comienza aquí.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">El Laboratorio de Autoría recibe el trabajo ya hecho. Dos etapas anteriores definen la profundidad y la calidad de lo que se co-crea en los Workshops: el Research Lab (inteligencia del sistema antes del primer contacto) y la Centralidad Personal (el centro del Director antes de que diseñe). Sin estas bases, los Blueprints son arquitectura sobre supuestos — no sobre realidad del sistema.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin:32px 0">
+
+    <div style="background:rgba(126,184,201,0.05);border:1px solid rgba(126,184,201,0.2);border-top:3px solid var(--azul);padding:28px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--azul);margin-bottom:12px">01 · Research Lab · La Entrada Inteligente</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--blanco);margin-bottom:12px;line-height:1.2">La inteligencia del sistema<br><em>antes del primer contacto.</em></div>
+      <p style="font-size:10px;color:var(--gris-cl);line-height:1.8;margin-bottom:14px;">El Facilitador ejecuta el Research Lab antes de que el Director sepa que está siendo leído. El output del Research Lab es la materia prima que alimenta directamente el Workshop 00 (Voces del Ecosistema) del P30 — no como datos abstractos sino como percepciones reales con nombre, área y patrón.</p>
+      <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(126,184,201,0.15);padding:14px 16px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:6.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--azul);margin-bottom:8px">Lo que llega al Laboratorio desde el Research Lab</div>
+        <ul style="font-size:9px;color:var(--gris-cl);line-height:1.8;padding-left:16px">
+          <li>Percepciones reales del equipo (anónimas) por dimensión: Cultura · Liderazgo · Desarrollo · Servicio · Claridad de Rol</li>
+          <li>Brecha Director vs. percepción del ecosistema — el espejo más honesto antes del Laboratorio</li>
+          <li>Internal Champions identificados con nombre, rol e indicadores observables</li>
+          <li>3–4 hipótesis diagnósticas confirmadas con las voces reales del sistema</li>
+          <li>Caso canónico GAM: 5 generaciones · 4 fracturas · Internal Champions mapeados — todo llegó al Laboratorio documentado antes del primer Workshop</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="background:rgba(176,125,176,0.05);border:1px solid rgba(176,125,176,0.2);border-top:3px solid #B07DB0;padding:28px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#B07DB0;margin-bottom:12px">02 · Centralidad Personal · Ley VIII</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--blanco);margin-bottom:12px;line-height:1.2">El centro del Director<br><em>antes de que diseñe.</em></div>
+      <p style="font-size:10px;color:var(--gris-cl);line-height:1.8;margin-bottom:14px;">Cuando la Biopsia Sistémica detecta una fractura de origen, se prescribe el módulo de Centralidad Personal (CP4–CP24) antes de que el Director entre al P21. El output de la Centralidad Personal alimenta el W·01 del P21 con profundidad real — no con introspección de superficie.</p>
+      <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(176,125,176,0.15);padding:14px 16px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:6.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#B07DB0;margin-bottom:8px">Lo que llega al Laboratorio desde Centralidad Personal</div>
+        <ul style="font-size:9px;color:var(--gris-cl);line-height:1.8;padding-left:16px">
+          <li>6 Espejos mapeados en Miro: Identidad · Origen · Vínculos · Tiempo · Salud · Visión</li>
+          <li>Plano de sí mismo y mapa de sistema familiar — los cimientos del Espejo II del Laboratorio</li>
+          <li>Patrones de pensamiento, lenguajes y creencias limitantes identificados y trabajados</li>
+          <li>IAD personal de cierre que alimenta el IAD S2 del P21 con datos reales de arquitectura interna</li>
+          <li>Ikigai personal construido — ancla directa del W·01 del P21 (Diagnóstico de Personalidad)</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);padding:16px 24px;text-align:center">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;font-style:italic;color:var(--blanco);line-height:1.5">Research Lab → Centralidad Personal → <strong style="font-style:normal;color:var(--oro)">Laboratorio de Autoría</strong> → Bóveda → Sprint</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gris);margin-top:8px">La columna vertebral de ADC · Cada etapa alimenta a la siguiente · El Director no diseña en el vacío</div>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §1 · ARQUITECTURA GENERAL -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="arquitectura" class="suave">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">01 · Arquitectura del Laboratorio de Autoría</span>
+    <h2>El espacio donde el<br><em>Director construye su sistema.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">El Laboratorio de Autoría no es un taller ni una junta de trabajo — es el proceso mediante el cual el Director se convierte en arquitecto de su propia agencia. Opera en dos momentos distintos: uno individual (P21) y uno colectivo (P30). Lo que nace aquí le pertenece al Director. Los sistemas se quedan aunque los roles cambien. <strong>Ley de Autoría. Ley de Cimentación.</strong></p>
+  </div>
+
+  <div class="arq-map reveal">
+
+    <div class="arq-bloque p21">
+      <span class="arq-num">21</span>
+      <span class="arq-tag">Primer Momento · P21 · Soberanía VIP</span>
+      <div class="arq-nombre">Director Experience</div>
+      <div class="arq-sub">Individual · Solo el Director · Cirugía del Origen</div>
+      <p class="arq-desc">Intervención 1 a 1. El Director y el Facilitador Metodológico construyen la arquitectura del líder — no del sistema de la agencia. Primero se interviene el origen. Sin cimiento sólido, no hay edificio que valga. Son 5 Co-design Workshops individuales sobre Miro que producen el primer activo de la Bóveda de Soberanía.</p>
+      <div class="arq-entregable">Blueprint del Director Experience — primer activo de la Bóveda. Condición de acceso al P30.</div>
+      <div class="arq-workshops-count">
+        <div class="workshop-dot" style="background:var(--oro);"></div>
+        <div class="workshop-dot" style="background:var(--oro);"></div>
+        <div class="workshop-dot" style="background:var(--oro);"></div>
+        <div class="workshop-dot" style="background:var(--oro);"></div>
+        <div class="workshop-dot" style="background:var(--oro);"></div>
+        <span style="font-size:8px;color:var(--gris);letter-spacing:2px;text-transform:uppercase;align-self:center;margin-left:8px;">5 workshops individuales</span>
+      </div>
+    </div>
+
+    <div class="arq-bloque p30">
+      <span class="arq-num">30</span>
+      <span class="arq-tag">Segundo Momento · P30 · Laboratorio de Autoría Colectivo</span>
+      <div class="arq-nombre">8 Momentos por Rol</div>
+      <div class="arq-sub">Colectivo · Director + Equipo · Escucha + Co-diseño + Síntesis</div>
+      <p class="arq-desc">Comienza con las Voces del Ecosistema — diagnóstico de todos los actores antes de construir. Sigue con 6 Co-design Workshops por rol (4hrs c/u · 2 sesiones de 2hrs). Cierra con la Síntesis de Agencia — todo el equipo · 4hrs · Blueprint integrador. Los Blueprints individuales alimentan el Strategic Blueprint Maestro.</p>
+      <div class="arq-entregable">7 Blueprints de rol + 1 Blueprint Maestro = Bóveda v1 + Documentos Maestros co-creados.</div>
+      <div class="arq-workshops-count">
+        <div class="workshop-dot" style="background:rgba(201,168,76,0.3);"></div>
+        <div class="workshop-dot" style="background:var(--gerente);"></div>
+        <div class="workshop-dot" style="background:var(--edat);"></div>
+        <div class="workshop-dot" style="background:var(--gerente);"></div>
+        <div class="workshop-dot" style="background:var(--novel);"></div>
+        <div class="workshop-dot" style="background:var(--consolidado);"></div>
+        <div class="workshop-dot" style="background:var(--aad);"></div>
+        <div class="workshop-dot" style="background:var(--oro);"></div>
+        <span style="font-size:8px;color:var(--gris);letter-spacing:2px;text-transform:uppercase;align-self:center;margin-left:8px;">Diagnóstico + 6 workshops + Síntesis</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cita-bloque reveal" style="margin-top:48px;">
+    <p class="cita-texto">"Lo que construyo en el Laboratorio no es mío — es de ellos. Si los roles se van, los sistemas se quedan. Cada persona nueva llega a un sistema que ya tiene arquitectura — y solo tiene que personalizarlo desde quién es."</p>
+    <span class="cita-autor">Fer U · Facilitador Metodológico · Ley de Autoría · ADC V8</span>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §2 · P21 · DIRECTOR EXPERIENCE -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="p21" class="oscuro">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">02 · P21 · Director Experience · 5 Co-design Workshops Individuales</span>
+    <h2>Primero el origen.<br><em>Siempre el Director.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">Los 5 Workshops del P21 son individuales — solo el Director. Operan sobre la persona, no sobre el sistema de la agencia. Sin este Blueprint, el Facilitador Metodológico no tiene referencia para leer las Voces del Ecosistema en contexto. El P21 no es preparación — es la condición de posibilidad de todo lo que sigue.</p>
+  </div>
+
+  <table class="tabla-workshops reveal">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Workshop</th>
+        <th>Lienzos de co-creación</th>
+        <th>Entregable en Miro</th>
+        <th>Ley ADC activada</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>W·01</td>
+        <td>Diagnóstico de Personalidad como Director</td>
+        <td>User Persona del Director · Business Canvas del rol · Ikigai personal</td>
+        <td>Perfil de Mando del Director</td>
+        <td>Ley Fundamental · El origen determina el resultado</td>
+      </tr>
+      <tr>
+        <td>W·02</td>
+        <td>Stakeholder Map</td>
+        <td>Stakeholder Map · Empathy Map (actores clave) · Mapa de dependencias</td>
+        <td>Mapa de Stakeholders de la Agencia</td>
+        <td>Ley del Espejo · La agencia refleja al Director</td>
+      </tr>
+      <tr>
+        <td>W·03</td>
+        <td>Ecosystem Architecture</td>
+        <td>Business Canvas agencia · Journey Map del Director · Pre-mortem del sistema actual</td>
+        <td>Arquitectura del Ecosistema Actual vs. Deseado</td>
+        <td>Ley de Cimentación · No hay arquitectura sobre cimientos inestables</td>
+      </tr>
+      <tr>
+        <td>W·04</td>
+        <td>Táctica Estratégica del Rol</td>
+        <td>How Might We · Matriz de prioridades · Compromisos de Voluntad</td>
+        <td>Blueprint Táctico del Director</td>
+        <td>Ley de Autoría · Lo que se co-crea pertenece al Director</td>
+      </tr>
+      <tr>
+        <td>W·05</td>
+        <td>Empathy Maps del Ecosistema</td>
+        <td>Empathy Map por rol (Gerente · Agente · Cliente) · Puntos de quiebre emocional</td>
+        <td>Empathy Maps del ecosistema humano de la agencia</td>
+        <td>Ley de Humanismo · Hablar desde la humanidad antes que desde la estrategia</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:48px;padding:32px 36px;background:var(--negro-card);border:1px solid var(--oro-borde);border-left:3px solid var(--oro);" class="reveal">
+    <div style="font-size:8px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--oro);margin-bottom:16px;">Entregable del P21 · Activo #1 de la Bóveda de Soberanía</div>
+    <div style="font-family:var(--serif);font-size:20px;font-weight:300;color:var(--blanco);margin-bottom:12px;">Blueprint del Director Experience</div>
+    <p style="font-size:13px;font-weight:300;color:var(--gris-claro);line-height:1.85;max-width:680px;">Un tablero Miro que integra los 5 Workshops en un solo mapa: Perfil de Mando + Stakeholders + Ecosistema + Táctica + Empathy Maps. Es la arquitectura visual del Director co-diseñada por él mismo. El Facilitador Metodológico lo usa como referencia en cada sesión posterior. El Director lo lee sin necesitar explicación de nadie.</p>
+    <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
+      <span style="font-size:7.5px;font-weight:600;letter-spacing:3px;text-transform:uppercase;padding:6px 14px;border:1px solid var(--oro-borde);color:var(--oro);">Miro · Tablero permanente</span>
+      <span style="font-size:7.5px;font-weight:600;letter-spacing:3px;text-transform:uppercase;padding:6px 14px;border:1px solid var(--gris-oscuro);color:var(--gris-claro);">Propiedad del Director</span>
+      <span style="font-size:7.5px;font-weight:600;letter-spacing:3px;text-transform:uppercase;padding:6px 14px;border:1px solid var(--gris-oscuro);color:var(--gris-claro);">Condición de acceso al P30</span>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §3 · CICLO DE DESTILACIÓN -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="ciclo" class="suave">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">03 · Ciclo de Destilación · La Fábrica de Tangibilidad</span>
+    <h2>Del caos exitoso<br><em>a la soberanía replicable.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">El Laboratorio de Autoría es un proceso de ingeniería conceptual: la intuición y la experiencia de cada rol se codifican en activos digitales operativos. El ciclo tiene tres momentos inseparables. Sin ENTRADA honesta, el PROCESAMIENTO trabaja sobre supuestos. Sin SALIDA tangible, el Laboratorio no produce soberanía — produce conversación.</p>
+  </div>
+
+  <div class="ciclo-grid reveal">
+
+    <div class="ciclo-col ciclo-entrada">
+      <span class="ciclo-label" style="color:var(--edat);">Entrada · ENTRADA</span>
+      <div class="ciclo-titulo" style="color:var(--blanco);">Voces del<br>Ecosistema</div>
+      <div class="ciclo-items">
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--edat);"></div>
+          <div class="ciclo-item-texto">Voces de roles internos — frustraciones, limitantes, inconformidades reales</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--edat);"></div>
+          <div class="ciclo-item-texto">Voces de asegurados activos — qué valoran, qué los fideliza</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--edat);"></div>
+          <div class="ciclo-item-texto">Voces de no-asegurados — por qué no compraron, qué los detuvo</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--edat);"></div>
+          <div class="ciclo-item-texto">Resultados de encuestas y datos IAD — el diagnóstico cuantitativo</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--edat);"></div>
+          <div class="ciclo-item-texto">Blueprint del Director Experience — el origen que da contexto a todas las voces</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ciclo-flecha">→</div>
+
+    <div class="ciclo-col ciclo-proceso">
+      <span class="ciclo-label" style="color:var(--oro);">Procesamiento · CORTEX ADC</span>
+      <div class="ciclo-titulo" style="color:var(--blanco);">Co-autoría<br>en Workshops</div>
+      <div class="ciclo-items">
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--oro);"></div>
+          <div class="ciclo-item-texto">Las voces se filtran a través de las 10 Leyes ADC y los indicadores por rol</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--oro);"></div>
+          <div class="ciclo-item-texto">El Facilitador Metodológico abre el espacio — el Director y su equipo construyen</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--oro);"></div>
+          <div class="ciclo-item-texto">El Cortex ADC acompaña cada Workshop: lee perfiles, propone preguntas, registra acuerdos. Es un espejo digital único que se calibra con cada usuario — no un chatbot genérico sino la inteligencia del sistema personalizada al Director. Opera como Director Comercial Adjunto los 365 días del año. No se cansa. No improvisa. No olvida el origen.</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--oro);"></div>
+          <div class="ciclo-item-texto">Los lienzos codifican la intuición en estructura operativa sobre Miro</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--oro);"></div>
+          <div class="ciclo-item-texto">Las fracturas de arquitectura emergen y se nombran en tiempo real</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ciclo-flecha">→</div>
+
+    <div class="ciclo-col ciclo-salida">
+      <span class="ciclo-label" style="color:var(--novel);">Salida · BÓVEDA DE SOBERANÍA</span>
+      <div class="ciclo-titulo" style="color:var(--blanco);">Activos<br>Permanentes</div>
+      <div class="ciclo-items">
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--novel);"></div>
+          <div class="ciclo-item-texto">8 Blueprints Miro co-creados por rol — el proceso de destilación visible</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--novel);"></div>
+          <div class="ciclo-item-texto">Documentos Maestros HTML co-creados por Fer U con el Director y cada rol</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--novel);"></div>
+          <div class="ciclo-item-texto">Strategic Blueprint Maestro — síntesis de todos los roles en un mapa único de agencia</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--novel);"></div>
+          <div class="ciclo-item-texto">Los sistemas se quedan si los roles se van — soberanía que no depende de personas</div>
+        </div>
+        <div class="ciclo-item">
+          <div class="ciclo-item-dot" style="background:var(--novel);"></div>
+          <div class="ciclo-item-texto">Cada nuevo perfil personaliza su experiencia — el origen permanece intacto</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §4 · P30 · VOCES DEL ECOSISTEMA -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="voces" class="oscuro">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">04 · P30 · Workshop 00 · Voces del Ecosistema</span>
+    <h2>Antes de construir,<br><em>escuchar.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">El P30 comienza con diagnóstico, no con diseño. Las Voces del Ecosistema son la materia prima viva del Laboratorio. Sin ellas, los Workshops construyen sobre supuestos del Director — no sobre la realidad del sistema. Este Workshop produce insumo para todos los demás. No genera Blueprint propio — genera contexto que hace posible que los Blueprints sean verdaderos.</p>
+  </div>
+
+  <div class="voces-grid reveal">
+
+    <div class="voz-card" style="border-top:2px solid var(--gerente);">
+      <div class="voz-icono">I</div>
+      <span class="voz-tipo" style="color:var(--gerente);">Voz Interna</span>
+      <div class="voz-nombre" style="color:var(--gerente);">Roles del Equipo</div>
+      <p class="voz-desc">Frustraciones, limitantes, inconformidades de Gerentes, EDAT, Noveles, Consolidados y AAD. Lo que no se dice en las juntas — lo que el IAD empieza a mostrar.</p>
+    </div>
+
+    <div class="voz-card" style="border-top:2px solid var(--novel);">
+      <div class="voz-icono">II</div>
+      <span class="voz-tipo" style="color:var(--novel);">Voz del Asegurado</span>
+      <div class="voz-nombre" style="color:var(--novel);">Clientes Activos</div>
+      <p class="voz-desc">Qué valoran, qué los fideliza, qué los hizo quedarse. El Momento de la Verdad desde el lado del asegurado — no desde la narrativa del agente.</p>
+    </div>
+
+    <div class="voz-card" style="border-top:2px solid var(--aad);">
+      <div class="voz-icono">III</div>
+      <span class="voz-tipo" style="color:var(--aad);">Voz del No-Cliente</span>
+      <div class="voz-nombre" style="color:var(--aad);">Los que No Compraron</div>
+      <p class="voz-desc">Por qué no compraron, qué los detuvo, qué necesitarían para comprar. La fractura más invisible del sistema — y la más costosa si no se escucha.</p>
+    </div>
+
+    <div class="voz-card" style="border-top:2px solid var(--edat);">
+      <div class="voz-icono">IV</div>
+      <span class="voz-tipo" style="color:var(--edat);">Voz del Dato</span>
+      <div class="voz-nombre" style="color:var(--edat);">Encuestas + IAD</div>
+      <p class="voz-desc">Resultados de encuestas digitales, formularios de satisfacción y diagnóstico IAD. El dato cuantitativo que confirma o contradice las voces cualitativas.</p>
+    </div>
+
+  </div>
+
+  <div style="margin-top:48px;padding:32px 40px;background:var(--negro-card);border:1px solid var(--gris-oscuro);" class="reveal">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;">
+      <div>
+        <div style="font-size:7.5px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--oro);margin-bottom:12px;">Duración</div>
+        <div style="font-family:var(--serif);font-size:22px;font-weight:300;color:var(--blanco);">2 horas</div>
+        <div style="font-size:11px;color:var(--gris);margin-top:4px;">Día 1 del P30 · Apertura diagnóstica</div>
+      </div>
+      <div>
+        <div style="font-size:7.5px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--oro);margin-bottom:12px;">¿Quién participa?</div>
+        <div style="font-size:12px;font-weight:300;color:var(--gris-claro);line-height:1.7;">Director + Facilitador Metodológico. Las voces se recopilan antes — entrevistas, encuestas, datos IAD — y se procesan juntos.</div>
+      </div>
+      <div>
+        <div style="font-size:7.5px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--oro);margin-bottom:12px;">Output</div>
+        <div style="font-size:12px;font-weight:300;color:var(--gris-claro);line-height:1.7;">Materia prima clasificada por rol. Cada Workshop del P30 hereda los fragmentos que le corresponden. Sin Blueprint propio — los Blueprints de rol llevan estas voces integradas.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §5 · P30 · LOS 6 CO-DESIGN WORKSHOPS + SÍNTESIS -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="p30" class="suave">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">05 · P30 · Los 6 Co-design Workshops por Rol · + Síntesis de Agencia</span>
+    <h2>El Director co-crea<br><em>con cada parte de su equipo.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">Cada Workshop tiene 2 sesiones de 2 horas. Sesión 1: divergir — entender la realidad actual del rol. Sesión 2: converger — diseñar el sistema deseado y co-firmar compromisos. Cada Workshop produce un Blueprint. El último taller — Síntesis de Agencia — integra todos los Blueprints en el Strategic Blueprint Maestro. <strong>Ley de Autoría. Ley del Tiempo.</strong></p>
+  </div>
+
+  <div class="workshops-grid">
+
+    <!-- Workshop P30·01 · Agency Brand · Siembra -->
+    <div class="workshop-card rol-director reveal">
+      <div class="workshop-header">
+        <div class="workshop-num">01</div>
+        <div class="workshop-meta">
+          <span class="workshop-rol-tag">Director + Equipo Completo</span>
+          <div class="workshop-nombre">Agency Brand Experience · Siembra</div>
+          <span class="duracion-badge">2 hrs · Día 2 del P30</span>
+          <span class="estado-badge activo" style="font-size:7px;padding:4px 10px;margin-top:0;">Canon activo</span>
+        </div>
+      </div>
+      <div class="workshop-body">
+        <div class="workshop-cols">
+          <div class="wb-bloque">
+            <div class="wb-label">¿Qué se construye?</div>
+            <div class="wb-valor">La identidad de la agencia como sistema vivo. Propósito colectivo que todos los roles pueden nombrar sin que el Director esté presente. La "Promesa de Agencia" — una frase que cada Workshop hereda.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">¿Por qué primero?</div>
+            <div class="wb-valor">Porque la identidad de agencia es el cimiento que alimenta a todos los demás Workshops. El Gerente acompaña desde esta identidad. El Novel prospecciona desde esta identidad. Si no existe — cada rol opera desde su propia narrativa.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">Indicador que se activa</div>
+            <div class="wb-valor">IHS Grupo — ¿el equipo puede articular la promesa de agencia sin el Director? Si no puede: fractura de identidad activa.</div>
+          </div>
+        </div>
+        <div class="lienzos-section">
+          <div class="lienzos-label">Canvas de co-creación</div>
+          <div class="lienzos-lista">
+            <span class="lienzo-tag">Brand Purpose</span>
+            <span class="lienzo-tag">Brand Heart</span>
+            <span class="lienzo-tag">Ikigai Colectivo</span>
+            <span class="lienzo-tag">Business Canvas Light (Agencia)</span>
+          </div>
+        </div>
+        <div class="wb-bloque wb-entregable" style="margin-top:16px;">
+          <div class="wb-label">Entregable · Semilla del Blueprint Agency Brand</div>
+          <div class="wb-valor">La Promesa de Agencia + Identidad colectiva declarada. Se completa en la Síntesis (Workshop 07).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workshop P30·02 · Recruitment Experience -->
+    <div class="workshop-card rol-edat reveal">
+      <div class="workshop-header">
+        <div class="workshop-num">02</div>
+        <div class="workshop-meta">
+          <span class="workshop-rol-tag">Director + EDAT / Reclutador</span>
+          <div class="workshop-nombre">Recruitment Experience</div>
+          <span class="duracion-badge">4 hrs · 2 sesiones × 2hrs · Días 3–5</span>
+          <span class="estado-badge activo" style="font-size:7px;padding:4px 10px;margin-top:0;">Canon activo</span>
+        </div>
+      </div>
+      <div class="workshop-body">
+        <div class="workshop-cols">
+          <div class="wb-bloque">
+            <div class="wb-label">Sesión 1 · Divergir</div>
+            <div class="wb-valor">El perfil del candidato ideal — quién es, qué lo activa, qué lo retiene. Fractura más común: "cualquiera que quiera vender seguros." El lienzo rompe ese supuesto.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">Sesión 2 · Converger</div>
+            <div class="wb-valor">Journey Map del Novel desde cero — desde que lo contacta el EDAT hasta su primera venta. Service Blueprint del proceso de reclutamiento y certificación. V-Cert ≤25d como norte.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">Indicador que se activa</div>
+            <div class="wb-valor">V-Cert ≤25d · Pipeline de candidatos activos sin depender del Director · IHS del EDAT en acuerdos de proceso</div>
+          </div>
+        </div>
+        <div class="lienzos-section">
+          <div class="lienzos-label">Canvas de co-creación</div>
+          <div class="lienzos-lista">
+            <span class="lienzo-tag">User Persona (Candidato Ideal)</span>
+            <span class="lienzo-tag">Empathy Map (Candidato)</span>
+            <span class="lienzo-tag">Journey Map (Novel desde cero)</span>
+            <span class="lienzo-tag">Service Blueprint (Reclutamiento)</span>
+            <span class="lienzo-tag">Business Canvas (EDAT)</span>
+          </div>
+        </div>
+        <div class="wb-bloque wb-entregable" style="margin-top:16px;">
+          <div class="wb-label">Entregable · Blueprint Recruitment Experience</div>
+          <div class="wb-valor">Sistema de atracción y certificación sin dependencia del Director. Pipeline activo con perfil canónico del candidato y V-Cert como norte operativo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workshop P30·03 · Sales Coach Experience -->
+    <div class="workshop-card rol-gerente reveal">
+      <div class="workshop-header">
+        <div class="workshop-num">03</div>
+        <div class="workshop-meta">
+          <span class="workshop-rol-tag">Director + Gerentes de Desarrollo</span>
+          <div class="workshop-nombre">Sales Coach Experience</div>
+          <span class="duracion-badge">4 hrs · 2 sesiones × 2hrs · Días 6–9</span>
+          <span class="estado-badge activo" style="font-size:7px;padding:4px 10px;margin-top:0;">Canon activo</span>
+        </div>
+      </div>
+      <div class="workshop-body">
+        <div class="workshop-cols">
+          <div class="wb-bloque">
+            <div class="wb-label">Sesión 1 · Divergir</div>
+            <div class="wb-valor">Frustraciones del seguimiento: ¿por qué los Noveles no producen lo que el Gerente espera? Empathy Map del equipo — cómo vive el Novel la presión del Gerente. Voces del Ecosistema aplicadas aquí.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">Sesión 2 · Converger</div>
+            <div class="wb-valor">Framework P120 operativo. Cadencia de sesiones de coaching. Escalera de desarrollo Novel → Consolidado. El Gerente como Coach de Rol — no como supervisor de actividad.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">Indicador que se activa</div>
+            <div class="wb-valor">IHS Grupo ≥86% · TFS Novel ≤22d · SCV Consolidado ≤30d como métricas de coaching del Gerente</div>
+          </div>
+        </div>
+        <div class="lienzos-section">
+          <div class="lienzos-label">Canvas de co-creación</div>
+          <div class="lienzos-lista">
+            <span class="lienzo-tag">Business Canvas (Gerente)</span>
+            <span class="lienzo-tag">Empathy Map (Equipo)</span>
+            <span class="lienzo-tag">Service Blueprint (Acompañamiento)</span>
+            <span class="lienzo-tag">Journey Map (Gerente → Novel)</span>
+            <span class="lienzo-tag">Ikigai del Gerente como Coach</span>
+          </div>
+        </div>
+        <div class="wb-bloque wb-entregable" style="margin-top:16px;">
+          <div class="wb-label">Entregable · Blueprint Sales Coach Experience</div>
+          <div class="wb-valor">Sistema de formación del Gerente como Coach de Rol. Cadencia de sesiones, diagnóstico IAD en campo y escalera de desarrollo Novel → Consolidado operativa.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workshop P30·04 · Novel Experience -->
+    <div class="workshop-card rol-novel reveal">
+      <div class="workshop-header">
+        <div class="workshop-num">04</div>
+        <div class="workshop-meta">
+          <span class="workshop-rol-tag">Director + Gerentes + Agentes Noveles</span>
+          <div class="workshop-nombre">Novel Experience</div>
+          <span class="duracion-badge">4 hrs · 2 sesiones × 2hrs · Días 10–13</span>
+          <span class="estado-badge activo" style="font-size:7px;padding:4px 10px;margin-top:0;">Canon activo</span>
+        </div>
+      </div>
+      <div class="workshop-body">
+        <div class="workshop-cols">
+          <div class="wb-bloque">
+            <div class="wb-label">Sesión 1 · Divergir</div>
+            <div class="wb-valor">El miedo al rechazo y la parálisis inicial — sin eufemismos. El Novel llega con las Voces del Ecosistema ya procesadas. Sabe que no está solo en sus miedos. Eso activa la apertura real.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">Sesión 2 · Converger</div>
+            <div class="wb-valor">Ruta de inicio rápido — Quick Wins operativos. Journey Map del prospecto ideal. TFS ≤22d como ancla. La experiencia del asegurado (CX) diseñada desde el primer contacto.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">Indicador que se activa</div>
+            <div class="wb-valor">TFS ≤22d · IAD 10/11 por producto (GMM · Vida · Auto · Otro) · IHS del Novel en compromisos de actividad</div>
+          </div>
+        </div>
+        <div class="lienzos-section">
+          <div class="lienzos-label">Canvas de co-creación</div>
+          <div class="lienzos-lista">
+            <span class="lienzo-tag">Business Canvas (Novel)</span>
+            <span class="lienzo-tag">Ikigai del Novel</span>
+            <span class="lienzo-tag">User Persona (Prospecto Ideal)</span>
+            <span class="lienzo-tag">Empathy Map (Novel)</span>
+            <span class="lienzo-tag">Journey Map (Ruta de Inicio)</span>
+            <span class="lienzo-tag">Service Blueprint (Prospección)</span>
+          </div>
+        </div>
+        <div class="wb-bloque wb-entregable" style="margin-top:16px;">
+          <div class="wb-label">Entregable · Blueprint Novel BX+CX</div>
+          <div class="wb-valor">Experiencia del Novel como agente (BX) + experiencia del prospecto/asegurado (CX). La ruta de inicio rápido y el sistema de su primera cartera multi-producto.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workshop P30·05 · Consolidado Experience -->
+    <div class="workshop-card rol-consolidado reveal">
+      <div class="workshop-header">
+        <div class="workshop-num">05</div>
+        <div class="workshop-meta">
+          <span class="workshop-rol-tag">Director + Gerentes + Agentes Consolidados</span>
+          <div class="workshop-nombre">Consolidado Experience</div>
+          <span class="duracion-badge">4 hrs · 2 sesiones × 2hrs · Días 14–17</span>
+          <span class="estado-badge activo" style="font-size:7px;padding:4px 10px;margin-top:0;">Canon activo</span>
+        </div>
+      </div>
+      <div class="workshop-body">
+        <div class="workshop-cols">
+          <div class="wb-bloque">
+            <div class="wb-label">Sesión 1 · Divergir</div>
+            <div class="wb-valor">La cartera desatendida y la falta de procesos de fidelización — la fractura del Consolidado que nadie nombra. Mapa de la cartera actual: qué clientes tienen un solo producto, cuáles no han tenido sesión de servicio en más de 12 meses.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">Sesión 2 · Converger</div>
+            <div class="wb-valor">Protocolo de Sesión de Servicio Anual. Sistema de fidelización multi-producto. SCV ≤30d como norte. Elasticidad — cómo el sistema libera tiempo del Consolidado para casos de alto valor. Protocolo del Referido integrado aquí.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">Indicador que se activa</div>
+            <div class="wb-valor">SCV ≤30d · IAD 10/11 por producto · IHS del Consolidado en compromisos de servicio · Biómetro NPS del asegurado</div>
+          </div>
+        </div>
+        <div class="lienzos-section">
+          <div class="lienzos-label">Canvas de co-creación</div>
+          <div class="lienzos-lista">
+            <span class="lienzo-tag">Business Canvas (Consolidado)</span>
+            <span class="lienzo-tag">Stakeholder Map (Cartera)</span>
+            <span class="lienzo-tag">Empathy Map (Asegurado)</span>
+            <span class="lienzo-tag">Journey Map (Sesión de Servicio)</span>
+            <span class="lienzo-tag">Service Blueprint (Fidelización)</span>
+            <span class="lienzo-tag">Brand Purpose (Marca Personal)</span>
+          </div>
+        </div>
+        <div class="wb-bloque wb-entregable" style="margin-top:16px;">
+          <div class="wb-label">Entregable · Blueprint Consolidado BX+CX</div>
+          <div class="wb-valor">Experiencia del Consolidado (BX) + experiencia del asegurado (CX). Protocolo de Sesión Anual, sistema de fidelización multi-producto y Protocolo del Referido integrado.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workshop P30·06 · Digital Attraction Experience -->
+    <div class="workshop-card rol-aad reveal">
+      <div class="workshop-header">
+        <div class="workshop-num">06</div>
+        <div class="workshop-meta">
+          <span class="workshop-rol-tag">Director + Arquitecto de Atracción Digital</span>
+          <div class="workshop-nombre">Digital Attraction Experience</div>
+          <span class="duracion-badge">4 hrs · 2 sesiones × 2hrs · Días 18–21</span>
+          <span class="estado-badge activo" style="font-size:7px;padding:4px 10px;margin-top:0;">Canon activo</span>
+        </div>
+      </div>
+      <div class="workshop-body">
+        <div class="workshop-cols">
+          <div class="wb-bloque">
+            <div class="wb-label">Sesión 1 · Divergir</div>
+            <div class="wb-valor">El pulso del mercado y las fricciones del mensaje digital. ¿El contenido habla a quién realmente necesita escuchar? Fractura más común: contenido que informa pero no activa. Atracción Dual — dos audiencias, dos pipelines, una estrategia.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">Sesión 2 · Converger</div>
+            <div class="wb-valor">Sistema de Atracción Dual operativo: Pipeline Talento (→EDAT) + Pipeline Clientes (→Novel/Consolidado). Estrategia de contenido por canal. Calendario editorial integrado con ciclos de campaña. Marca personal del agente alineada con identidad de agencia.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">Indicador que se activa</div>
+            <div class="wb-valor">TAR Talento ≤7d · TAR Clientes ≤7d · Categorización Cortex: talento / cliente / dual por pieza de contenido</div>
+          </div>
+        </div>
+        <div class="lienzos-section">
+          <div class="lienzos-label">Canvas de co-creación</div>
+          <div class="lienzos-lista">
+            <span class="lienzo-tag">Business Canvas (AAD)</span>
+            <span class="lienzo-tag">Brand Purpose Digital</span>
+            <span class="lienzo-tag">User Persona (Audiencia Dual)</span>
+            <span class="lienzo-tag">Empathy Map (Candidato + Prospecto)</span>
+            <span class="lienzo-tag">Journey Map (Atracción Dual)</span>
+          </div>
+        </div>
+        <div class="wb-bloque wb-entregable" style="margin-top:16px;">
+          <div class="wb-label">Entregable · Blueprint Digital Attraction Experience</div>
+          <div class="wb-valor">Sistema de Atracción Dual con TAR Talento + TAR Clientes medibles. El AAD opera este Blueprint autónomamente. Es su Bóveda de rol.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workshop P30·07 · Agency Brand · Síntesis -->
+    <div class="workshop-card rol-sintesis reveal">
+      <div class="workshop-header">
+        <div class="workshop-num">07</div>
+        <div class="workshop-meta">
+          <span class="workshop-rol-tag">Todo el equipo comercial · Director + Gerentes + EDAT + AAD + Agentes clave</span>
+          <div class="workshop-nombre">Agency Brand · Síntesis · Strategic Blueprint Maestro</div>
+          <span class="duracion-badge">4 hrs · Día 30 · Cierre del Laboratorio</span>
+          <span class="estado-badge activo" style="font-size:7px;padding:4px 10px;margin-top:0;">Canon activo</span>
+        </div>
+      </div>
+      <div class="workshop-body">
+        <div class="workshop-cols">
+          <div class="wb-bloque">
+            <div class="wb-label">¿Qué sucede aquí?</div>
+            <div class="wb-valor">Cada rol presenta su Blueprint en 10 minutos — Lightning Demo. El equipo escucha el sistema completo de la agencia por primera vez. Muchas voces que trabajaron separadas se ven integradas. Ese momento tiene un peso que no tiene ningún otro en el proceso.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">¿Qué se construye?</div>
+            <div class="wb-valor">El Strategic Blueprint Maestro no se diseña desde cero — se sintetiza de los 6 Blueprints de rol. El How Might We resuelve las tensiones entre roles. El Pre-mortem las prueba antes de que cuesten. El Blueprint de Agencia final queda firmado por todos.</div>
+          </div>
+          <div class="wb-bloque">
+            <div class="wb-label">¿Por qué 4 horas?</div>
+            <div class="wb-valor">10–15 personas + 6 Blueprints presentados. Con 2hrs: llegas al How Might We exhausto y el Pre-mortem no existe. El Blueprint Maestro queda a medias — y ese es el activo más valioso del P30. No se abrevia.</div>
+          </div>
+        </div>
+        <div class="lienzos-section">
+          <div class="lienzos-label">Canvas de co-creación · Síntesis</div>
+          <div class="lienzos-lista">
+            <span class="lienzo-tag">Lightning Demo (por rol)</span>
+            <span class="lienzo-tag">How Might We</span>
+            <span class="lienzo-tag">Pre-mortem Canvas</span>
+          </div>
+        </div>
+        <div class="wb-bloque wb-entregable" style="margin-top:16px;">
+          <div class="wb-label">Entregable · Blueprint Agency Brand Experience + Strategic Blueprint Maestro</div>
+          <div class="wb-valor">El mapa completo del sistema de la agencia: quién hace qué, en qué secuencia, con qué métricas, con qué ritmo. Es el único Blueprint que el Director entrega al equipo como carta de arquitectura permanente. Propiedad exclusiva del Director.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /workshops-grid -->
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §6 · LA BÓVEDA DE SOBERANÍA -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="boveda" class="oscuro">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">06 · La Bóveda de Soberanía · Dos Capas · Un Sistema Que Permanece</span>
+    <h2>Lo que se co-crea aquí<br><em>le pertenece al Director. Para siempre.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">Al cierre del P30 la Bóveda de Soberanía v1 tiene dos capas. Los Blueprints son el proceso de destilación visible — 8 tableros Miro co-creados. Los Documentos Maestros son el sistema que sobrevive a las personas — HTML operativos co-creados por el Facilitador Metodológico con el Director y cada rol. Si los roles se van, los sistemas se quedan.</p>
+  </div>
+
+  <div class="boveda-capas reveal">
+
+    <div class="boveda-capa capa-1">
+      <div class="boveda-capa-num">I</div>
+      <span class="boveda-tag">Capa 1 · Blueprints Miro</span>
+      <div class="boveda-nombre">El proceso de destilación visible</div>
+      <p class="boveda-desc">8 tableros Miro co-creados en el Laboratorio. Son la arquitectura visual de la agencia co-diseñada por cada rol. Permanecen en Miro como referencia activa para el Director en cada sesión posterior.</p>
+      <div class="boveda-items">
+        <div class="boveda-item"><div class="boveda-item-dot"></div><div class="boveda-item-texto">Blueprint 01 · Director Experience (P21)</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot"></div><div class="boveda-item-texto">Blueprint 02 · Agency Brand Experience (P30·07)</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot"></div><div class="boveda-item-texto">Blueprint 03 · Recruitment Experience (P30·02)</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot"></div><div class="boveda-item-texto">Blueprint 04 · Sales Coach Experience (P30·03)</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot"></div><div class="boveda-item-texto">Blueprint 05 · Novel BX+CX (P30·04)</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot"></div><div class="boveda-item-texto">Blueprint 06 · Consolidado BX+CX (P30·05)</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot"></div><div class="boveda-item-texto">Blueprint 07 · Digital Attraction Experience (P30·06)</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot" style="background:var(--oro);"></div><div class="boveda-item-texto" style="color:var(--oro);font-weight:500;">Blueprint 08 · Strategic Blueprint Maestro (P30·07 · integrador)</div></div>
+      </div>
+    </div>
+
+    <div class="boveda-capa capa-2">
+      <div class="boveda-capa-num">II</div>
+      <span class="boveda-tag">Capa 2 · Documentos Maestros</span>
+      <div class="boveda-nombre">El sistema que sobrevive a las personas</div>
+      <p class="boveda-desc">Documentos HTML operativos co-creados por el Facilitador Metodológico con el Director y cada rol. Son los instrumentos del día a día — no están en Miro, están en la operación. Similares a los documentos del Corpus ADC, pero pertenecientes a la agencia.</p>
+      <div class="boveda-items">
+        <div class="boveda-item"><div class="boveda-item-dot" style="background:var(--director);"></div><div class="boveda-item-texto">Documento Maestro del Director — cockpit, protocolo, Cruce 4D</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot" style="background:var(--gerente);"></div><div class="boveda-item-texto">Documento Maestro del Gerente — cadencia de coaching, IAD de equipo</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot" style="background:var(--edat);"></div><div class="boveda-item-texto">Documento Maestro del EDAT — perfil candidato, pipeline, V-Cert</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot" style="background:var(--novel);"></div><div class="boveda-item-texto">Documento Maestro del Novel — ruta de inicio, TFS, protocolo prospección</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot" style="background:var(--consolidado);"></div><div class="boveda-item-texto">Documento Maestro del Consolidado — cartera, sesión anual, referido, SCV</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot" style="background:var(--aad);"></div><div class="boveda-item-texto">Documento Maestro del AAD — sistema de atracción dual, TAR, calendario</div></div>
+        <div class="boveda-item"><div class="boveda-item-dot" style="background:var(--oro);"></div><div class="boveda-item-texto" style="color:var(--oro);font-weight:500;">Documento Maestro de Agencia — Strategic Blueprint operativo · el activo más valioso</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cita-bloque reveal" style="margin-top:48px;">
+    <p class="cita-texto">"Cuando un Novel llega nuevo, no empieza desde cero — empieza desde el sistema que su rol anterior ayudó a construir. Solo tiene que personalizarlo desde quién es. Eso es Soberanía Sistémica."</p>
+    <span class="cita-autor">Fer U · Facilitador Metodológico · Ley de Autoría · ADC V8</span>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §7 · MÓDULO REFERIDO -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="referido" class="suave">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">07 · Módulo · Laboratorio de Experiencia del Referido</span>
+    <h2>La confianza<br><em>se transfiere, no se pide.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">El referido no nace en la venta — nace en el Momento de la Verdad de la Sesión de Servicio Anual. El error más común del sistema: tratar el referido como una tarea administrativa — pedir nombres — en lugar de como un evento de diseño. Este módulo es el corazón de la transferencia de confianza. Se construye en el Workshop 05 (Consolidado) y en el Workshop 04 (Novel) como parte de sus Blueprints.</p>
+  </div>
+
+  <div class="referido-grid reveal">
+
+    <div class="ref-card para-agente">
+      <span class="ref-para" style="color:var(--consolidado);">Para el Agente · Novel y Consolidado</span>
+      <div class="ref-titulo" style="color:var(--blanco);">Velocidad<br>sin quemar el mercado</div>
+      <p class="ref-desc">El Novel sin protocolo de referido quema su mercado natural en los primeros 3 meses — pide referidos sin haber generado el Momento de la Verdad. El protocolo le da el cuándo y el cómo. El Consolidado tiene cartera desatendida que puede convertirse en su mejor fuente de crecimiento. La Sesión Anual es el detonador.</p>
+    </div>
+
+    <div class="ref-card para-edat">
+      <span class="ref-para" style="color:var(--edat);">Para el EDAT / Reclutador</span>
+      <div class="ref-titulo" style="color:var(--blanco);">Pipeline cualificado<br>con confianza pre-construida</div>
+      <p class="ref-desc">Cuando un asegurado satisfecho refiere a alguien interesado en vender seguros, ese candidato llega al EDAT con confianza transferida — no como prospectar en frío. El referido de agente tiene una tasa de retención significativamente mayor que el candidato captado por redes o publicaciones. El Laboratorio diseña este flujo de forma explícita.</p>
+    </div>
+
+    <div class="ref-card para-agencia">
+      <span class="ref-para" style="color:var(--director);">Para la Agencia</span>
+      <div class="ref-titulo" style="color:var(--blanco);">Crecimiento predecible<br>sin dependencia del Director</div>
+      <p class="ref-desc">Una agencia con Protocolo del Referido activo en todos sus roles crece desde relaciones existentes — no desde campañas de adquisición que dependen del presupuesto. Es el motor de crecimiento más eficiente del sistema. Y opera sin el Director: el agente lo ejecuta, el sistema lo mide.</p>
+    </div>
+
+  </div>
+
+  <div class="protocolo-referido reveal">
+    <div class="protocolo-titulo">Protocolo del Referido · Secuencia Canónica · Co-creado en Workshop 05 (Consolidado) y Workshop 04 (Novel)</div>
+
+    <div class="protocolo-steps">
+      <div class="protocolo-step">
+        <div class="step-num">1</div>
+        <div class="step-texto"><strong>Sesión de Servicio Anual.</strong> El agente convoca al asegurado a una sesión breve de servicio y satisfacción — encuesta digital + formulario corto en vivo. Se atienden dudas y se presentan los beneficios que el asegurado tiene y tal vez no ha aprovechado.</div>
+      </div>
+      <div class="protocolo-step">
+        <div class="step-num">2</div>
+        <div class="step-texto"><strong>Lectura de satisfacción.</strong> Si el asegurado califica 4 o 5 estrellas — activar el protocolo. Si califica menos: resolver primero, referido después. Nunca pedir referido a un asegurado insatisfecho.</div>
+      </div>
+      <div class="protocolo-step">
+        <div class="step-num">3</div>
+        <div class="step-texto"><strong>La pregunta que abre el referido.</strong> "¿Qué fue lo que más te ayudó de esta cobertura?" No "¿conoces a alguien que necesite seguros?" La primera pregunta hace que el asegurado recuerde el valor recibido antes de pensar en a quién referir.</div>
+      </div>
+      <div class="protocolo-step">
+        <div class="step-num">4</div>
+        <div class="step-texto"><strong>El Arquetipo del Referido Ideal.</strong> "¿Tienes personas en tu círculo que también podrían beneficiarse de esta misma tranquilidad?" Se le explica el arquetipo — no se pide "nombres de conocidos." La diferencia es arquitectónica: el asegurado piensa en personas específicas, no en una lista.</div>
+      </div>
+      <div class="protocolo-step">
+        <div class="step-num">5</div>
+        <div class="step-texto"><strong>Los tres referidos.</strong> Se le pide que piense en tres personas. Se le pide permiso para contactarlas. Las que dicen sí: obtener su contacto y abrir un chat grupal entre los tres — agente, asegurado y referido.</div>
+      </div>
+      <div class="protocolo-step">
+        <div class="step-num">6</div>
+        <div class="step-texto"><strong>Transferencia de confianza.</strong> Agendar reunión con el referido. Si es posible, el asegurado participa los primeros minutos por video. Si no puede estar presente: que en el chat transfiera la confianza al agente con un mensaje propio. La confianza se transfiere — no se construye desde cero.</div>
+      </div>
+      <div class="protocolo-step">
+        <div class="step-num">7</div>
+        <div class="step-texto"><strong>El regalo simbólico.</strong> Cuando el referido se convierte en asegurado, el agente da al asegurado original un detalle simbólico de agradecimiento. No es un incentivo económico — es un reconocimiento de que su confianza cambió la vida de otra persona.</div>
+      </div>
+    </div>
+
+    <div class="rol-timing">
+      <span class="timing-badge timing-cons">Consolidado · Año 1 de la póliza</span>
+      <span class="timing-badge timing-nov">Novel · 3 a 6 meses de la póliza</span>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §8 · MICROECONOMÍA POR ROL -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="roles" class="oscuro">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">08 · Microeconomía por Rol · Secuencia Evolutiva del Laboratorio</span>
+    <h2>Cada rol entrega algo.<br><em>Cada rol recibe algo.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">El Laboratorio opera en una secuencia lógica de construcción. No es arbitraria — cada rol construye sobre lo que el anterior ya co-creó. El Director es el origen. El Arquitecto de Atracción Digital cierra porque opera sobre el sistema ya construido. El Broker ADC Light recibe el beneficio de la infraestructura sin ser parte del proceso interno.</p>
+  </div>
+
+  <div class="microeconomia-grid reveal">
+
+    <div class="micro-row-header">
+      <div class="micro-col-head">Rol</div>
+      <div class="micro-col-head">Lo que entrega al Laboratorio</div>
+      <div class="micro-col-head">Lo que recibe del Laboratorio</div>
+      <div class="micro-col-head">Su foco en el proceso</div>
+    </div>
+
+    <div class="micro-row">
+      <div class="micro-rol">
+        <div class="micro-rol-nombre" style="color:var(--director);">Director</div>
+        <div class="micro-rol-sub">El Origen</div>
+      </div>
+      <div class="micro-col">Su visión, sus fracturas de espejo, la lectura honesta del sistema que tiene vs. el que quiere. Lo que nadie más le dice.</div>
+      <div class="micro-col">Soberanía técnica y libertad de tiempo. El sistema opera sin su presencia constante. El Director dirige — deja de operar.</div>
+      <div class="micro-col">Definir las Leyes de la Bóveda. El Blueprint del Director Experience es su primer activo de autoría.</div>
+    </div>
+
+    <div class="micro-row">
+      <div class="micro-rol">
+        <div class="micro-rol-nombre" style="color:var(--aad);">Arquitecto de Atracción Digital</div>
+        <div class="micro-rol-sub">La Narrativa</div>
+      </div>
+      <div class="micro-col">El pulso real del mercado: qué mensajes generan respuesta y cuáles generan silencio. Las fricciones del mensaje que el Director no ve desde adentro.</div>
+      <div class="micro-col">Coherencia narrativa y autoridad de marca. El sistema de atracción dual mide con TAR — ya no opera por intuición.</div>
+      <div class="micro-col">Digital Attraction Experience. LinkedIn + Instagram con dos pipelines activos y medibles.</div>
+    </div>
+
+    <div class="micro-row">
+      <div class="micro-rol">
+        <div class="micro-rol-nombre" style="color:var(--edat);">EDAT · Reclutador</div>
+        <div class="micro-rol-sub">El Filtro</div>
+      </div>
+      <div class="micro-col">Las fracturas de la prospección de talento: por qué los perfiles que llegan no duran, qué señales identifica tarde, dónde se pierde el candidato en el proceso.</div>
+      <div class="micro-col">Precisión quirúrgica en la selección y scripts de interpelación co-creados. Pipeline activo con perfil canónico y V-Cert ≤25d como norte.</div>
+      <div class="micro-col">Recruitment Experience. De "cualquiera que quiera vender" a un perfil canónico que el EDAT puede defender.</div>
+    </div>
+
+    <div class="micro-row">
+      <div class="micro-rol">
+        <div class="micro-rol-nombre" style="color:var(--gerente);">Gerente de Desarrollo</div>
+        <div class="micro-rol-sub">El Desempeño</div>
+      </div>
+      <div class="micro-col">Las frustraciones reales del seguimiento y la deuda de voluntad del equipo. Lo que ve en campo que no puede escalar al Director sin sentir que "se queja."</div>
+      <div class="micro-col">Cockpit de gestión del equipo y Biómetro NPS. Deja de ser supervisor de actividad — se convierte en Coach de Rol con metodología propia.</div>
+      <div class="micro-col">Sales Coach Experience. Framework P120 y cadencia de sesiones de coaching co-diseñada con el Director.</div>
+    </div>
+
+    <div class="micro-row">
+      <div class="micro-rol">
+        <div class="micro-rol-nombre" style="color:var(--novel);">Agente Novel</div>
+        <div class="micro-rol-sub">La Metamorfosis</div>
+      </div>
+      <div class="micro-col">El miedo al rechazo y la parálisis inicial sin eufemismos. La honestidad del Novel nuevo es la materia prima más valiosa — y la que más rápido se pierde si no se recibe bien.</div>
+      <div class="micro-col">Velocidad operativa y Quick Wins sistematizados. TFS ≤22d como norte alcanzable. Su ruta de inicio es clara — no tiene que inventarla.</div>
+      <div class="micro-col">Novel Experience BX+CX. La ruta desde el primer contacto hasta la primera cartera multi-producto diseñada por él.</div>
+    </div>
+
+    <div class="micro-row">
+      <div class="micro-rol">
+        <div class="micro-rol-nombre" style="color:var(--consolidado);">Agente Consolidado</div>
+        <div class="micro-rol-sub">El Legado</div>
+      </div>
+      <div class="micro-col">La cartera desatendida y la falta de procesos de fidelización. La frustración de tener clientes multi-año que no tienen multi-producto. Lo que el sistema no le ha dado para resolver eso.</div>
+      <div class="micro-col">Elasticidad: tiempo liberado para casos de alto valor. Protocolo de Sesión Anual y sistema de referido activo. SCV ≤30d con cartera sana.</div>
+      <div class="micro-col">Consolidado Experience BX+CX. El sistema de fidelización y el Protocolo del Referido integrado en su operación diaria.</div>
+    </div>
+
+    <div class="micro-row" style="border-bottom:1px solid var(--gris-oscuro);">
+      <div class="micro-rol">
+        <div class="micro-rol-nombre" style="color:var(--gris-claro);">Broker ADC Light</div>
+        <div class="micro-rol-sub">Ecosistema Externo</div>
+      </div>
+      <div class="micro-col">Autonomía y portafolio propio. No es rol interno de la agencia — es cliente externo de alianza que opera con la infraestructura ADC desde afuera.</div>
+      <div class="micro-col">Infraestructura Premium sin perder autonomía. Acceso al sistema ADC Light co-creado para su perfil específico de operación independiente.</div>
+      <div class="micro-col">Interoperabilidad de Soberanía. Su Blueprint es el de la alianza — no el de la agencia interna.</div>
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §9 · REGLAS DEL FACILITADOR METODOLÓGICO -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="reglas" class="suave">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">09 · Reglas del Facilitador Metodológico en el Laboratorio</span>
+    <h2>Lo que el Facilitador<br><em>hace — y lo que no hace.</em></h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="reglas-grid reveal">
+
+    <div class="regla-card">
+      <span class="regla-num">Regla 01 · Ley de Autoría</span>
+      <div class="regla-titulo">El Facilitador abre el espacio. El Director construye el activo.</div>
+      <p class="regla-desc">Fer U no llega con el Blueprint hecho. Llega con el marco, las preguntas y la metodología. El Director y su equipo construyen el contenido. El criterio: ¿puede el Director explicar su Blueprint sin el Facilitador presente? Si no puede — no es su Blueprint.</p>
+    </div>
+
+    <div class="regla-card">
+      <span class="regla-num">Regla 02 · Ley de Cimentación</span>
+      <div class="regla-titulo">P30 no comienza sin Blueprint del Director Experience completado.</div>
+      <p class="regla-desc">El P21 es la condición de acceso al P30. No se trabaja el sistema de la agencia si el origen del Director tiene fractura activa. Un IHS en Zona de Fractura (41–65%) al cierre del P21 activa el Protocolo de Rescate de Voluntad. El Laboratorio Colectivo espera hasta que el cimiento esté sólido.</p>
+    </div>
+
+    <div class="regla-card">
+      <span class="regla-num">Regla 03 · Ley del Tiempo</span>
+      <div class="regla-titulo">Cada Workshop produce un entregable completo. Sin entregable, la sesión no cuenta.</div>
+      <p class="regla-desc">El indicador de avance del Laboratorio es el número de Blueprints completados y registrados en Miro, no las horas de sesión. Si el Workshop terminó pero el tablero está vacío, se programa una sesión de completación antes de continuar.</p>
+    </div>
+
+    <div class="regla-card">
+      <span class="regla-num">Regla 04 · Ley Fundamental</span>
+      <div class="regla-titulo">El orden importa. Los Workshops no son intercambiables.</div>
+      <p class="regla-desc">Agency Brand · Siembra es el primero porque establece la identidad que alimenta a todos. Los Workshops de rol vienen después porque operan sobre esa identidad ya declarada. Agency Brand · Síntesis es el último porque opera sobre todos los sistemas ya construidos. No se abrevia la secuencia.</p>
+    </div>
+
+    <div class="regla-card">
+      <span class="regla-num">Regla 05 · Cortex-first</span>
+      <div class="regla-titulo">El Cortex entra en cada Workshop. No como pantalla — como presencia.</div>
+      <p class="regla-desc">El Cortex ADC acompaña cada Workshop: lee el perfil del Director y del rol presente, propone preguntas de profundización, registra los acuerdos en tiempo real, detecta las Fracturas de Arquitectura que emergen durante la co-creación. El Cortex no dirige el Workshop — es el espejo inteligente que mantiene la coherencia del sistema.</p>
+    </div>
+
+    <div class="regla-card">
+      <span class="regla-num">Regla 06 · Ley de Humanismo</span>
+      <div class="regla-titulo">Cada Workshop empieza con la persona, no con el proceso.</div>
+      <p class="regla-desc">Los primeros 15 minutos de cada Workshop son de presencia y centralidad — no de tarea. El Gerente que llega al Sales Coach Experience cargando una urgencia no puede construir bien. El Facilitador lee el estado del grupo antes de abrir el tablero. Humanismo antes que arquitectura — siempre.</p>
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §10 · CONEXIONES CANON -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="canon" class="oscuro">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">10 · Conexiones Canon · Documentos del Corpus ADC V8</span>
+    <h2>Donde vive este documento<br><em>en el ecosistema.</em></h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="conexiones-grid reveal">
+    <div class="con-card">
+      <span class="con-id">C4·16</span>
+      <div class="con-nombre">Playbook del Facilitador</div>
+      <p class="con-motivo">Guía de ejecución sesión a sesión. Este documento es la especificación conceptual; el Playbook es el operativo. §6.5 del Playbook ya integra la estructura de Workshops del P30.</p>
+    </div>
+    <div class="con-card">
+      <span class="con-id">C4·17</span>
+      <div class="con-nombre">Protocolo de Primera Sesión</div>
+      <p class="con-motivo">La Primera Sesión es la puerta de entrada al P21. Las condiciones de activación del Laboratorio dependen de lo que la Primera Sesión produce. MEJORA-31 pendiente de verificación.</p>
+    </div>
+    <div class="con-card">
+      <span class="con-id">C4·18</span>
+      <div class="con-nombre">Customer Journey del Director</div>
+      <p class="con-motivo">El Journey describe el Laboratorio como Etapas 3A y 3B del Director. Este documento especifica el contenido de esas etapas. Etapa 3B actualizada con estructura W·06–W·10 (MEJORA-35 aplicada).</p>
+    </div>
+    <div class="con-card">
+      <span class="con-id">C1·04</span>
+      <div class="con-nombre">Bloque D · Custodia</div>
+      <p class="con-motivo">Bloque D describe el Laboratorio como Fase 2 del proceso. La Bóveda de Soberanía es el activo central de Bloque D. Pendiente actualizar "4 Co-design Workshops" → "5 Workshops P30 + Síntesis" (MEJORA-35 propagación).</p>
+    </div>
+    <div class="con-card">
+      <span class="con-id">C1·05</span>
+      <div class="con-nombre">Glosario Maestro</div>
+      <p class="con-motivo">El Glosario define Co-design Workshop, Laboratorio de Autoría, Bóveda de Soberanía y P21/P30/P120. Pendiente actualizar "4 Workshops" → estructura expandida (MEJORA-35 propagación).</p>
+    </div>
+    <div class="con-card">
+      <span class="con-id">C9·40</span>
+      <div class="con-nombre">Blueprint Experiencia del Director</div>
+      <p class="con-motivo">Describe la experiencia completa del proceso. El Laboratorio de Autoría es el núcleo de esa experiencia — los Workshops son los momentos de mayor co-creación y propiedad del Director.</p>
+    </div>
+    <div class="con-card">
+      <span class="con-id">C·47</span>
+      <div class="con-nombre">Arquitectura de Experiencia por Rol</div>
+      <p class="con-motivo">C·47 describe la experiencia del sistema por rol. Los Blueprints de Laboratorio son los activos de experiencia que C·47 documenta. Conexión directa con los Documentos Maestros de Capa 2.</p>
+    </div>
+    <div class="con-card">
+      <span class="con-id">C3·10</span>
+      <div class="con-nombre">IAD Formulario Diagnóstico</div>
+      <p class="con-motivo">El IAD informa el P21 y el Workshop 00 (Voces del Ecosistema). Los scores IAD por rol son el punto de partida cuantitativo de cada Workshop del P30. Los sub-indicadores IAD 10/11 por producto son parte de los Blueprints de Novel y Consolidado.</p>
+    </div>
+    <div class="con-card">
+      <span class="con-id">C4·14</span>
+      <div class="con-nombre">IMS · Sistema de Medición</div>
+      <p class="con-motivo">Los Blueprints del Laboratorio definen los compromisos que el IMS mide. TAR Dual (Talento + Clientes) del AAD nace del Blueprint 07. TFS, V-Cert, SCV y IHS Grupo se activan en sus Workshops correspondientes.</p>
+    </div>
+    <div class="con-card" style="border-color:rgba(126,184,201,0.3);">
+      <span class="con-id" style="color:var(--azul);">C.02</span>
+      <div class="con-nombre">Bloque C · Research Lab</div>
+      <p class="con-motivo">El Research Lab (Esencial o Profundo) precede al Laboratorio. Su output alimenta directamente el Workshop 00 (Voces del Ecosistema): percepciones reales del equipo, brecha Director vs. ecosistema, Internal Champions identificados. El Laboratorio no construye sobre supuestos — construye sobre inteligencia del sistema.</p>
+    </div>
+    <div class="con-card" style="border-color:rgba(176,125,176,0.3);">
+      <span class="con-id" style="color:#B07DB0;">V-B · CP</span>
+      <div class="con-nombre">Centralidad Personal · Ley VIII</div>
+      <p class="con-motivo">Cuando la Biopsia detecta fractura de origen, el módulo Centralidad Personal (CP4–CP24) precede al P21. Su output — 6 Espejos mapeados, IAD personal, Ikigai construido, patrones identificados — alimenta directamente el W·01 del P21. El Laboratorio recibe un Director que ya sabe quién es antes de diseñar su sistema.</p>
+    </div>
+  </div>
+
+  <div class="cita-bloque reveal" style="margin-top:64px;">
+    <p class="cita-texto">"El Laboratorio de Autoría es donde el proceso ADC se convierte en patrimonio. No es lo que ADC le da al Director — es lo que el Director construye con ADC. La diferencia no es semántica. Es arquitectónica."</p>
+    <span class="cita-autor">Fer U · ADC V8 · Abril 2026</span>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- §SPRINT · PUENTE BÓVEDA → SPRINT -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="sprint-bridge" class="suave">
+<div class="section-inner">
+
+  <div class="titulo-seccion reveal">
+    <span class="numero">09 · Lo Que Viene Después · Bóveda → Sprint</span>
+    <h2>Los Blueprints<br><em>cobran vida en campo.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">La Bóveda de Soberanía no es el destino — es el punto de partida del Sprint Comercial. Al cierre del P30, el Director no egresa: entra a la fase donde todo lo co-diseñado se valida en campo real, ajusta en tiempo real y produce resultados medibles semana a semana. El sistema adquiere datos vivos. La producción crece continuamente.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin:32px 0">
+
+    <div style="background:var(--oscuro);border:1px solid rgba(74,159,106,0.2);border-top:3px solid var(--verde);padding:24px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:6.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--verde);margin-bottom:10px">Sprint Comercial · P90</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--blanco);margin-bottom:10px;line-height:1.2">El Blueprint como<br>protocolo vivo</div>
+      <p style="font-size:9.5px;color:var(--gris-cl);line-height:1.8;">El equipo ejecuta los Blueprints del P30 como sistema operativo desde el Día 1. Cada campaña, cada sesión de coaching, cada proceso de reclutamiento — validado y ajustado contra lo co-diseñado. El PI Cockpit Semanal mide el output real de cada rol semana a semana.</p>
+    </div>
+
+    <div style="background:var(--oscuro);border:1px solid rgba(201,168,76,0.2);border-top:3px solid var(--oro);padding:24px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:6.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--oro);margin-bottom:10px">Shadow Coaching Dual</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--blanco);margin-bottom:10px;line-height:1.2">Dos dimensiones<br>simultáneas</div>
+      <p style="font-size:9.5px;color:var(--gris-cl);line-height:1.8;"><strong style="color:var(--blanco);">Fer U · Shadow Coach del Director:</strong> IAD · IHS · arquitectura personal · Altar de la Palabra. <strong style="color:var(--blanco);">Roberto · Shadow Coach Comercial:</strong> coaching operativo de Gerentes y EDAT desde experiencia real de campo — ex Gerente GAM. <strong style="color:var(--blanco);">Cortex ADC:</strong> Director Comercial Adjunto los 365 días.</p>
+    </div>
+
+    <div style="background:var(--oscuro);border:1px solid rgba(212,165,116,0.2);border-top:3px solid var(--bronce);padding:24px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:6.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--bronce);margin-bottom:10px">Bóveda Definitiva · Cierre P90</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--blanco);margin-bottom:10px;line-height:1.2">Los planos<br>validados en campo</div>
+      <p style="font-size:9.5px;color:var(--gris-cl);line-height:1.8;">Al cierre del P90, la Bóveda de Soberanía se actualiza con los ajustes de campo. Lo que era diseño ahora es arquitectura probada. IAD S4 — comparativa S1→S4, el delta real de la intervención. Ceremonia del Espejo. El Director egresa: no termina, sale con sistema propio.</p>
+    </div>
+
+  </div>
+
+  <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);padding:16px 24px;text-align:center">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;font-style:italic;color:var(--blanco);line-height:1.5">Lo que nació en el Laboratorio de Autoría se convierte en producción real en el Sprint. <strong style="font-style:normal;color:var(--oro)">La Bóveda es el mapa. El Sprint es el territorio.</strong></div>
+  </div>
+
+</div>
+</section>
+
+<!-- CIERRE -->
+<section class="oscuro" style="display:flex;align-items:center;justify-content:center;min-height:60vh;">
+<div class="cierre-contenido">
+  <span class="cierre-emblema reveal">ADC · Laboratorio de Autoría · Co-design Workshops · C_LAB · V8 · Abril 2026</span>
+  <div class="cierre-frase reveal">
+    "Si los roles se van,<br><em>los sistemas se quedan.</em><br>Eso es soberanía."
+  </div>
+  <div class="cierre-linea reveal"></div>
+  <div class="cierre-sub reveal">Fernando Ugalde · Fer U · Mazatl Ramayari</div>
+  <div class="cierre-autor reveal">Facilitador Metodológico · Arquitectura de Desempeño Comercial · ADC V8</div>
+  <div style="margin-top:28px;font-family:var(--mono);font-size:7.5px;letter-spacing:3px;text-transform:uppercase;color:var(--gris);" class="reveal">
+    "Recuerda… tú eres tiempo." · ADC · Cortex ADC · Director Comercial Adjunto · V8
+  </div>
+</div>
+</section>
+
+<script>
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 55);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+const sections = document.querySelectorAll('section[id]');
+const points   = document.querySelectorAll('.indice-punto');
+const indexObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      points.forEach(p => p.classList.remove('activo'));
+      const active = document.querySelector(`.indice-punto[data-target="${id}"]`);
+      if (active) active.classList.add('activo');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => indexObs.observe(s));
+points.forEach(p => {
+  p.addEventListener('click', () => {
+    const t = document.getElementById(p.dataset.target);
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(link.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>

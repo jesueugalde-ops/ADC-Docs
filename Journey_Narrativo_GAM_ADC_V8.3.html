@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADC · Lo que puedo construir contigo · Journey del Director · Miguel Ángel García Zaldívar · Asesores GAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060606;--bg2:#0A0A0A;--bg3:#111;--bg4:#161616;--bg5:#1c1c1c;
+  --oro:#C9A84C;--oro-l:#E8C97A;--oro-dim:rgba(201,168,76,0.07);--oro-b:rgba(201,168,76,0.18);--oro-g:rgba(201,168,76,0.25);
+  --blanco:#F5F0E8;--gris:#666;--gris-l:#999;--gris-cl:#AAA;--gris-o:#2A2A2A;
+  --rojo:#B44040;--rojo-dim:rgba(180,64,64,0.08);--amber:#C08C40;--verde:#4A9F6A;--verde-dim:rgba(74,159,106,0.08);
+  --azul:#7EB8C9;--azul-dim:rgba(126,184,201,0.07);--purp:#9B6B9B;
+  --p99:#D4A574;--p99-dim:rgba(212,165,116,0.07);--p99-b:rgba(212,165,116,0.25);
+  --fase1:#7EB8C9;--fase1-dim:rgba(126,184,201,0.06);--fase1-b:rgba(126,184,201,0.22);
+  --fase2:#4A9F6A;--fase2-dim:rgba(74,159,106,0.06);--fase2-b:rgba(74,159,106,0.22);
+  --fase3:#D4A574;--fase3-dim:rgba(212,165,116,0.06);--fase3-b:rgba(212,165,116,0.22);
+  --line-w:2px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--blanco);font-family:'Montserrat',sans-serif;font-weight:300;line-height:1.8;overflow-x:hidden}
+
+/* ═══ NAV ═══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(6,6,6,0.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--oro-b);padding:0 48px;height:52px;display:flex;align-items:center;justify-content:space-between}
+.nb{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;color:var(--oro);letter-spacing:4px;text-transform:uppercase}
+.nm{display:flex;align-items:center;gap:24px}
+.nm a{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gris);text-decoration:none;transition:color .2s}
+.nm a:hover{color:var(--oro)}
+.nm-badge{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--oro);border:1px solid var(--oro-b);padding:3px 10px}
+
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 48px 100px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 42%,rgba(201,168,76,0.052) 0%,transparent 70%)}
+.hero-grid{position:absolute;inset:0;opacity:0.016;background-image:repeating-linear-gradient(0deg,var(--oro) 0,var(--oro) 1px,transparent 1px,transparent 80px),repeating-linear-gradient(90deg,var(--oro) 0,var(--oro) 1px,transparent 1px,transparent 80px)}
+.hero-inner{position:relative;z-index:1;max-width:760px}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:var(--oro);display:block;margin-bottom:52px;opacity:.7}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,6.5vw,84px);font-weight:300;line-height:1.0;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--oro)}
+.hero-line{width:56px;height:1px;background:var(--oro);margin:0 auto 28px;opacity:.4}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;font-style:italic;color:var(--gris-l);max-width:540px;margin:0 auto 52px;line-height:1.65}
+.hero-arc{display:flex;align-items:center;gap:0;justify-content:center}
+.arc-phase{padding:11px 22px;font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:1px solid}
+.arc-phase.f1{color:var(--fase1);border-color:var(--fase1-b);background:var(--fase1-dim)}
+.arc-phase.f2{color:var(--fase2);border-color:var(--fase2-b);background:var(--fase2-dim)}
+.arc-phase.f3{color:var(--fase3);border-color:var(--fase3-b);background:var(--fase3-dim)}
+.arc-sep{width:28px;height:1px;background:var(--gris-o);flex-shrink:0}
+.hero-meta{margin-top:44px;font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gris)}
+
+/* ═══ JOURNEY CONTAINER ═══ */
+.journey{position:relative;max-width:900px;margin:0 auto;padding:0 40px 0}
+
+/* THE LINE — continuous, colored by phase */
+.journey-line{
+  position:absolute;left:50%;top:0;bottom:0;
+  width:var(--line-w);transform:translateX(-50%);
+  z-index:0;pointer-events:none;
+}
+.journey-line-seg{
+  position:absolute;left:0;width:var(--line-w);
+}
+.seg-pre{background:linear-gradient(to bottom,transparent,rgba(102,102,102,0.2) 20%,rgba(102,102,102,0.2));top:0;height:120px}
+.seg-f1{background:rgba(126,184,201,0.18);transition:background .5s}
+.seg-f2{background:rgba(74,159,106,0.18);transition:background .5s}
+.seg-f3{background:rgba(212,165,116,0.22);transition:background .5s}
+.seg-post{background:linear-gradient(to bottom,rgba(212,165,116,0.18),transparent);height:200px;bottom:0;top:auto}
+
+/* ═══ STATION ═══ */
+.station{position:relative;padding:88px 0 56px;z-index:1}
+.station-node{
+  position:absolute;left:50%;top:68px;transform:translateX(-50%);
+  z-index:10;
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid var(--gris-o);
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .4s;
+}
+.station-node::after{content:attr(data-num);position:absolute;right:calc(100% + 16px);top:50%;transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;letter-spacing:2px;color:var(--gris);opacity:.4;white-space:nowrap}
+.station-node-dot{width:6px;height:6px;border-radius:50%;background:var(--gris-o);transition:all .4s}
+
+.station.st-pre .station-node{border-color:var(--rojo);background:var(--bg)}
+.station.st-pre .station-node-dot{background:var(--rojo)}
+.station.st-f1 .station-node{border-color:var(--fase1-b);background:var(--bg)}
+.station.st-f1 .station-node-dot{background:var(--fase1)}
+.station.st-f1.is-vis .station-node{box-shadow:0 0 16px rgba(126,184,201,0.3)}
+.station.st-f2 .station-node{border-color:var(--fase2-b);background:var(--bg)}
+.station.st-f2 .station-node-dot{background:var(--fase2)}
+.station.st-f2.is-vis .station-node{box-shadow:0 0 16px rgba(74,159,106,0.3)}
+.station.st-f3 .station-node{border-color:var(--p99-b);background:var(--bg)}
+.station.st-f3 .station-node-dot{background:var(--p99)}
+.station.st-f3.is-vis .station-node{box-shadow:0 0 20px rgba(212,165,116,0.4)}
+.station.st-dest .station-node{border-color:var(--p99);background:var(--p99-dim)}
+.station.st-dest .station-node-dot{background:var(--p99)}
+.station.st-dest.is-vis .station-node{box-shadow:0 0 28px rgba(212,165,116,0.5)}
+
+.s-full{max-width:780px;margin:0 auto;position:relative}
+.s-label{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--oro);display:block;margin-bottom:18px;opacity:.8}
+.s-title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4.8vw,52px);font-weight:300;line-height:1.05;margin-bottom:14px}
+.s-title em{font-style:italic;color:var(--oro)}
+.s-divider{width:44px;height:1px;background:var(--oro);margin-bottom:20px;opacity:.45}
+.s-text{font-size:13px;color:var(--gris-cl);line-height:1.9;max-width:580px}
+.s-text strong{color:var(--blanco);font-weight:500}
+
+/* ═══ NARRATIVE BRIDGE ═══ */
+.bridge{
+  position:relative;z-index:2;
+  padding:0;
+  margin:0;
+}
+.bridge-inner{
+  max-width:900px;margin:0 auto;padding:0 40px;
+  display:flex;flex-direction:column;align-items:center;
+}
+.bridge-line-cap{
+  width:var(--line-w);height:32px;
+  background:linear-gradient(to bottom,rgba(255,255,255,0.06),rgba(255,255,255,0.12));
+  flex-shrink:0;
+}
+.bridge-text{
+  max-width:460px;text-align:center;padding:28px 36px;
+  border-top:1px solid rgba(255,255,255,0.05);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.bridge-text p{
+  font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;font-style:italic;
+  color:var(--gris-l);line-height:1.65;
+}
+.bridge-text p em{font-style:normal;color:var(--blanco)}
+
+/* ═══ PHASE GATE ═══ */
+.phase-gate{position:relative;z-index:2;padding:52px 0;text-align:center}
+.phase-gate::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(42,42,42,0.8),transparent)}
+.phase-gate-inner{display:inline-flex;align-items:center;gap:18px;padding:14px 32px;border:1px solid;position:relative}
+.phase-gate-inner.f1{border-color:var(--fase1-b);background:var(--bg);color:var(--fase1)}
+.phase-gate-inner.f2{border-color:var(--fase2-b);background:var(--bg);color:var(--fase2)}
+.phase-gate-inner.f3{border-color:var(--fase3-b);background:var(--bg);color:var(--fase3)}
+.pg-num{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;text-transform:uppercase}
+.pg-sep{width:1px;height:18px;background:rgba(255,255,255,0.08)}
+.pg-name{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:300;font-style:italic}
+.pg-tag{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--gris)}
+
+/* ═══ CORTEX VOICE ═══ */
+.cortex{margin-top:24px;padding:16px 20px;position:relative;border-left:2px solid var(--oro-b);background:linear-gradient(90deg,rgba(201,168,76,0.035) 0%,transparent 100%)}
+.cortex::before{content:'CORTEX';position:absolute;top:-8px;left:20px;font-family:'JetBrains Mono',monospace;font-size:6px;font-weight:700;letter-spacing:3px;color:var(--oro);background:var(--bg);padding:0 6px}
+.cortex p{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--oro-l);line-height:1.85;font-weight:400}
+.cortex p strong{color:var(--oro);font-weight:700}
+.cortex p + p{margin-top:10px;color:var(--gris-l);font-size:8.5px}
+
+/* ═══ CHECKPOINT ═══ */
+.checkpoint{margin-top:32px;padding:20px 24px;border:1px solid var(--oro-b);background:var(--oro-dim);display:flex;align-items:flex-start;gap:16px}
+.cp-icon{font-size:16px;flex-shrink:0;padding-top:3px;opacity:.6}
+.cp-label{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--oro)}
+.cp-text{font-size:11px;color:var(--gris-cl);margin-top:4px;line-height:1.72}
+.cp-text strong{color:var(--blanco);font-weight:500}
+
+/* ═══ DIAGRAM CARDS ═══ */
+.diagram{margin-top:28px}
+.d-grid{display:grid;gap:2px}
+.d-grid-2{grid-template-columns:1fr 1fr}
+.d-grid-3{grid-template-columns:1fr 1fr 1fr}
+.d-grid-4{grid-template-columns:1fr 1fr 1fr 1fr}
+.d-card{padding:22px 20px;background:var(--bg4);border:1px solid var(--gris-o);position:relative;transition:border-color .3s}
+.d-card:hover{border-color:var(--oro-b)}
+.d-num{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;color:var(--oro);opacity:.5;margin-bottom:7px}
+.d-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;color:var(--blanco);margin-bottom:7px;line-height:1.2}
+.d-desc{font-size:9px;color:var(--gris-l);line-height:1.75}
+
+/* ═══ FLOW PATH ═══ */
+.flow{margin-top:28px}
+.flow-item{display:flex;gap:0;margin-bottom:2px}
+.flow-marker{width:52px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding-top:22px;position:relative}
+.flow-dot{width:9px;height:9px;border-radius:50%;border:2px solid;flex-shrink:0;z-index:1;background:var(--bg)}
+.flow-line{width:1px;flex:1;margin-top:4px}
+.flow-content{flex:1;padding:18px 22px;background:var(--bg4);border:1px solid var(--gris-o);border-left:none}
+.flow-tag{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:5px;color:var(--oro);opacity:.7}
+.flow-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;margin-bottom:5px;line-height:1.2}
+.flow-desc{font-size:10px;color:var(--gris-cl);line-height:1.75}
+.flow-entrega{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--verde);opacity:.85}
+
+/* ═══ COCKPIT ═══ */
+.cockpit{margin-top:28px;background:var(--bg3);border:1px solid var(--gris-o);overflow:hidden}
+.ck-header{padding:12px 20px;background:var(--bg4);border-bottom:1px solid var(--gris-o);display:flex;justify-content:space-between;align-items:center}
+.ck-label{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gris)}
+.ck-status{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px}
+.ck-status.fractura{color:var(--rojo);border:1px solid rgba(180,64,64,0.35);background:rgba(180,64,64,0.06)}
+.ck-status.integridad{color:var(--verde);border:1px solid rgba(74,159,106,0.35);background:rgba(74,159,106,0.06)}
+.ck-status.soberania{color:var(--p99);border:1px solid var(--p99-b);background:var(--p99-dim)}
+.ck-body{padding:20px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.ck-metric{text-align:center;padding:16px 10px;background:var(--bg);border:1px solid var(--gris-o)}
+.ck-metric-label{font-family:'JetBrains Mono',monospace;font-size:6.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--gris)}
+.ck-metric-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1}
+.ck-metric-sub{font-size:7px;color:var(--gris);margin-top:4px;letter-spacing:.5px}
+.ck-bar{height:3px;background:var(--gris-o);margin-top:8px;border-radius:2px;overflow:hidden}
+.ck-fill{height:100%;border-radius:2px}
+
+/* ═══ BÓVEDA ═══ */
+.boveda{margin-top:28px;border:1px solid var(--oro-b);padding:26px;background:linear-gradient(135deg,rgba(201,168,76,0.04) 0%,transparent 50%)}
+.bv-label{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--oro);margin-bottom:10px}
+.bv-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--blanco);margin-bottom:18px}
+.bv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.bv-item{padding:14px 15px;background:var(--bg);border:1px solid var(--gris-o);font-size:10px;color:var(--gris-cl);line-height:1.65}
+.bv-item strong{color:var(--oro);font-weight:600;display:block;margin-bottom:3px;font-size:8px;letter-spacing:1px;text-transform:uppercase}
+
+/* ═══ IHS ARC ═══ */
+.ihs-arc{margin-top:28px;background:var(--bg3);border:1px solid var(--gris-o);padding:22px}
+.ihs-arc-label{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gris);margin-bottom:14px}
+.ihs-track{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+.ihs-node{padding:14px 12px;background:var(--bg4);border:1px solid var(--gris-o);text-align:center}
+.ihs-node.active{border-color:var(--oro-b);background:var(--oro-dim)}
+.ihs-node-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;line-height:1;margin-bottom:3px}
+.ihs-node-label{font-family:'JetBrains Mono',monospace;font-size:6px;letter-spacing:2px;text-transform:uppercase;color:var(--gris);margin-bottom:3px}
+.ihs-node-zone{font-family:'JetBrains Mono',monospace;font-size:6px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.ihs-bar{height:2px;background:var(--gris-o);margin-top:8px;border-radius:1px;overflow:hidden}
+
+/* ═══ P99 BLOCK ═══ */
+.p99-block{margin-top:28px;border:1px solid var(--p99-b);background:linear-gradient(135deg,var(--p99-dim) 0%,transparent 60%);overflow:hidden}
+.p99-header{padding:14px 26px;background:rgba(212,165,116,0.06);border-bottom:1px solid var(--p99-b);display:flex;justify-content:space-between;align-items:center}
+.p99-label{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--p99)}
+.p99-badge{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;background:rgba(212,165,116,0.1);color:var(--p99);border:1px solid var(--p99-b)}
+.p99-body{padding:26px}
+.p99-intro{font-size:13px;color:var(--gris-cl);line-height:1.9;max-width:560px;margin-bottom:18px}
+.p99-intro strong{color:var(--blanco);font-weight:500}
+.p99-components{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-top:14px}
+.p99-comp{padding:18px 20px;background:var(--bg4);border:1px solid var(--gris-o)}
+.p99-comp-num{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;color:var(--p99);opacity:.6;margin-bottom:5px}
+.p99-comp-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;color:var(--blanco);margin-bottom:5px}
+.p99-comp-desc{font-size:9px;color:var(--gris-l);line-height:1.75}
+.p99-entrega{margin-top:14px;padding:14px 20px;background:rgba(212,165,116,0.04);border:1px solid var(--p99-b);display:flex;align-items:flex-start;gap:14px}
+.p99-entrega-icon{font-size:14px;flex-shrink:0;padding-top:3px}
+.p99-entrega-label{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--p99);margin-bottom:4px}
+.p99-entrega-text{font-size:10px;color:var(--gris-cl);line-height:1.72}
+
+/* ═══ PULL QUOTE ═══ */
+.pq{border-left:3px solid var(--oro);padding:22px 32px;margin:28px 0;background:var(--oro-dim)}
+.pq-text{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:300;font-style:italic;line-height:1.6;color:var(--blanco)}
+.pq-text em{color:var(--oro);font-style:normal}
+.pq-attr{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gris)}
+
+/* ═══ ESTADO PREVIO ═══ */
+.estado-previo{margin-top:24px;background:var(--rojo-dim);border:1px solid rgba(180,64,64,0.22);padding:22px}
+.ep-label{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--rojo);margin-bottom:10px}
+.ep-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:12px}
+.ep-item{padding:14px;background:var(--bg);border:1px solid rgba(180,64,64,0.12)}
+.ep-item-label{font-family:'JetBrains Mono',monospace;font-size:6.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--rojo);opacity:.7;margin-bottom:4px}
+.ep-item-val{font-size:10.5px;color:var(--gris-cl);line-height:1.65}
+
+/* ═══ CORTEX DEEP ═══ */
+.cortex-deep{margin-top:28px;background:linear-gradient(135deg,var(--azul-dim) 0%,transparent 80%);border:1px solid rgba(126,184,201,0.22);overflow:hidden}
+.cd-header{padding:13px 24px;background:rgba(126,184,201,0.06);border-bottom:1px solid rgba(126,184,201,0.14);display:flex;justify-content:space-between;align-items:center}
+.cd-label{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--azul)}
+.cd-body{padding:24px}
+.cd-phases{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:16px}
+.cd-phase{padding:18px 20px;background:var(--bg4);border:1px solid var(--gris-o);position:relative;overflow:hidden}
+.cd-phase::before{position:absolute;top:12px;right:14px;font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:rgba(255,255,255,0.04);line-height:1}
+.cd-phase-num{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--azul);opacity:.8;margin-bottom:6px}
+.cd-phase-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--blanco);margin-bottom:7px}
+.cd-phase-desc{font-size:9.5px;color:var(--gris-cl);line-height:1.8}
+.cd-phase-desc strong{color:var(--blanco);font-weight:500}
+.cd-roles{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:16px}
+.cd-role{padding:12px 14px;background:var(--bg);border:1px solid var(--gris-o);text-align:center}
+.cd-role-name{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:400;color:var(--blanco);margin-bottom:3px}
+.cd-role-desc{font-size:8px;color:var(--gris);line-height:1.6}
+
+/* ═══ ESTADO FINAL ═══ */
+.estado-final{margin-top:36px;border:1px solid var(--p99-b);background:linear-gradient(135deg,rgba(212,165,116,0.05) 0%,transparent 60%);padding:34px}
+.ef-eyebrow{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--p99);margin-bottom:12px}
+.ef-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4vw,46px);font-weight:300;line-height:1.05;margin-bottom:12px}
+.ef-title em{font-style:italic;color:var(--p99)}
+.ef-sub{font-size:12px;color:var(--gris-cl);line-height:1.9;max-width:520px;margin-bottom:22px}
+.ef-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.ef-metric{padding:16px 12px;background:var(--bg4);border:1px solid var(--p99-b);text-align:center}
+.ef-n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--p99);line-height:1;display:block}
+.ef-l{font-family:'JetBrains Mono',monospace;font-size:6.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gris);display:block;margin-top:5px}
+
+/* ═══ CIERRE INVITACIÓN ═══ */
+.cierre{max-width:900px;margin:0 auto;padding:80px 40px 100px}
+.cierre-inner{border:1px solid var(--oro-b);background:linear-gradient(135deg,var(--oro-dim) 0%,transparent 60%);padding:52px 48px;text-align:center;position:relative;overflow:hidden}
+.cierre-inner::before{content:'ADC';position:absolute;bottom:-20px;right:20px;font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:600;color:rgba(201,168,76,0.03);letter-spacing:10px;line-height:1}
+.cierre-eyebrow{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--oro);margin-bottom:28px;display:block;opacity:.8}
+.cierre-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5vw,60px);font-weight:300;line-height:1.05;margin-bottom:16px}
+.cierre-title em{font-style:italic;color:var(--oro)}
+.cierre-sub{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;font-style:italic;color:var(--gris-l);max-width:480px;margin:0 auto 40px;line-height:1.65}
+.cierre-line{width:44px;height:1px;background:var(--oro);margin:0 auto 40px;opacity:.35}
+.opciones{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:36px;text-align:left}
+.opcion{padding:22px 20px;background:var(--bg);border:1px solid var(--gris-o);position:relative;transition:border-color .3s}
+.opcion:hover{border-color:var(--oro-b)}
+.opcion-tag{font-family:'JetBrains Mono',monospace;font-size:6.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--oro);opacity:.7;margin-bottom:8px}
+.opcion-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--blanco);margin-bottom:7px}
+.opcion-desc{font-size:9px;color:var(--gris-l);line-height:1.75}
+.cierre-firma{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:3px;text-transform:uppercase;color:var(--gris)}
+.cierre-nombre{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:var(--blanco);margin-top:6px}
+
+/* ═══ FOOTER ═══ */
+.doc-footer{padding:44px 52px;border-top:1px solid var(--oro-b);display:flex;justify-content:space-between;align-items:center;max-width:900px;margin:0 auto}
+.f-brand{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;color:var(--oro);letter-spacing:3px}
+.f-meta{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--gris);margin-top:5px}
+
+/* ═══ REVEAL ═══ */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .75s ease,transform .75s ease}
+.reveal.v{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.07s}.rd2{transition-delay:.15s}.rd3{transition-delay:.25s}.rd4{transition-delay:.36s}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .nm .nm-badge{display:none}
+  .journey{padding:0 20px}
+  .journey-line{left:20px;transform:none}
+  .station-node{left:20px;transform:none}
+  .station-node::after{display:none}
+  .ck-body{grid-template-columns:1fr 1fr}
+  .d-grid-4,.d-grid-3{grid-template-columns:1fr 1fr}
+  .d-grid-2{grid-template-columns:1fr}
+  .ef-metrics{grid-template-columns:1fr 1fr}
+  .bv-grid{grid-template-columns:1fr}
+  .p99-components{grid-template-columns:1fr}
+  .ihs-track{grid-template-columns:1fr 1fr}
+  .ep-grid{grid-template-columns:1fr}
+  .cd-phases,.cd-roles{grid-template-columns:1fr}
+  .cierre-inner{padding:36px 24px}
+  .doc-footer{flex-direction:column;gap:14px;text-align:center;padding:36px 20px}
+  .iad-radar-wrap{flex-direction:column;gap:24px}
+}
+
+/* ═══ IAD RADAR ═══ */
+.iad-radar-block{margin-top:28px;padding:24px;background:var(--bg3);border:1px solid var(--gris-o)}
+.iad-radar-label{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--oro);margin-bottom:6px}
+.iad-radar-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:var(--blanco);margin-bottom:20px}
+.iad-radar-wrap{display:flex;align-items:center;justify-content:center;gap:32px}
+.iad-radar-svg-wrap{position:relative;flex-shrink:0}
+.iad-hemisferio{position:absolute;font-family:'JetBrains Mono',monospace;font-size:6px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.iad-h-suelo{top:8px;left:50%;transform:translateX(-50%);color:rgba(201,168,76,0.7)}
+.iad-h-ruta{bottom:8px;left:50%;transform:translateX(-50%);color:rgba(201,168,76,0.4)}
+.iad-radar-legend{display:flex;flex-direction:column;gap:10px}
+.iad-leg-item{display:flex;align-items:center;gap:8px;font-size:9.5px;color:var(--gris-cl)}
+.iad-leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.iad-radar-path-antes{fill:rgba(180,64,64,0.18);stroke:#CC4444;stroke-width:1.5;stroke-linejoin:round;opacity:0;animation:iad-draw 1.4s ease 0.5s forwards}
+.iad-radar-path-despues{fill:rgba(201,168,76,0.07);stroke:url(#iad-oro-stroke);stroke-width:2;stroke-linejoin:round;opacity:0;animation:iad-draw 1.8s ease 1s forwards}
+@keyframes iad-draw{from{opacity:0;transform:scale(0.85);transform-origin:160px 160px}to{opacity:1;transform:scale(1)}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nb">ADC · Del Origen a la Soberanía</span>
+  <div class="nm">
+    <a href="#fase-origen">Fase 01</a>
+    <a href="#fase-arquitectura">Fase 02</a>
+    <a href="#fase-soberania">Fase 03</a>
+    <span class="nm-badge">Confidencial</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <span class="hero-eyebrow reveal">ADC · Arquitectura de Desempeño Comercial · Preparado para Miguel Ángel García Zaldívar · Asesores GAM · Abril 2026</span>
+    <h1 class="reveal rd1">Lo que puedo<br><em>construir contigo</em></h1>
+    <div class="hero-line reveal rd2"></div>
+    <p class="hero-sub reveal rd2">Este documento no es una presentación del sistema. Es una conversación sobre lo que es posible para tu agencia, desde el primer diagnóstico hasta la Soberanía Tecnológica. Tú eliges qué y cómo empezar. Juntos construimos el cómo.</p>
+    <div class="hero-arc reveal rd3">
+      <div class="arc-phase f1">Fase 01 · Origen</div>
+      <div class="arc-sep"></div>
+      <div class="arc-phase f2">Fase 02 · Arquitectura</div>
+      <div class="arc-sep"></div>
+      <div class="arc-phase f3">Fase 03 · Soberanía</div>
+    </div>
+    <p class="hero-meta reveal rd4">Fernando Ugalde · Asesor · Consultor · Co-Diseñador · Dirección Comercial 10.0</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     JOURNEY — La línea narrativa continua
+══════════════════════════════════════════ -->
+<div class="journey" id="journey-start">
+
+  <!-- Segmentos de la línea — coloreados por fase -->
+  <div class="journey-line" aria-hidden="true">
+    <div class="journey-line-seg seg-pre"></div>
+    <div class="journey-line-seg seg-f1" id="line-f1" style="top:120px;height:calc(var(--f1-end) - 120px)"></div>
+    <div class="journey-line-seg seg-f2" id="line-f2" style="top:var(--f1-end);height:calc(var(--f2-end) - var(--f1-end))"></div>
+    <div class="journey-line-seg seg-f3" id="line-f3" style="top:var(--f2-end);bottom:0"></div>
+  </div>
+
+  <!-- ══ ESTACIÓN 00 · ESTADO PREVIO ══ -->
+  <div class="station st-pre reveal" id="estado-previo">
+    <div class="station-node" data-num="00"><div class="station-node-dot"></div></div>
+    <div class="s-full">
+      <span class="s-label">Punto de Partida · El Director que llega</span>
+      <h2 class="s-title">El sistema que<br>depende de tu <em>presencia</em></h2>
+      <div class="s-divider"></div>
+      <p class="s-text">Llegas aquí porque algo en tu sistema no funciona sin ti. Has construido algo real — pero depende de tu presencia constante. Eso no es compromiso. Es el síntoma más honesto de una <strong>Fractura de Arquitectura.</strong></p>
+
+      <div class="estado-previo">
+        <div class="ep-label">Lo que se ve antes de ADC</div>
+        <div class="ep-grid" style="margin-top:12px">
+          <div class="ep-item">
+            <div class="ep-item-label">Estado emocional</div>
+            <div class="ep-item-val">Saturación · Urgencia crónica · Soledad de mando</div>
+          </div>
+          <div class="ep-item">
+            <div class="ep-item-label">Fractura típica</div>
+            <div class="ep-item-val">Fractura de Origen o de Continuidad activa</div>
+          </div>
+          <div class="ep-item">
+            <div class="ep-item-label">IHS estimado</div>
+            <div class="ep-item-val">41–65% · Zona Fractura</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cockpit" style="margin-top:22px">
+        <div class="ck-header">
+          <span class="ck-label">Lectura inicial · Antes de ADC</span>
+          <span class="ck-status fractura">IHS · Zona Fractura</span>
+        </div>
+        <div class="ck-body">
+          <div class="ck-metric">
+            <div class="ck-metric-label">IHS</div>
+            <div class="ck-metric-val" style="color:var(--rojo)">48%</div>
+            <div class="ck-metric-sub">Zona Fractura</div>
+            <div class="ck-bar"><div class="ck-fill" style="width:48%;background:var(--rojo)"></div></div>
+          </div>
+          <div class="ck-metric">
+            <div class="ck-metric-label">IAD Global</div>
+            <div class="ck-metric-val" style="color:var(--gris-cl)">54</div>
+            <div class="ck-metric-sub">/ 120 · Zona Desarrollo</div>
+            <div class="ck-bar"><div class="ck-fill" style="width:45%;background:var(--amber)"></div></div>
+          </div>
+          <div class="ck-metric">
+            <div class="ck-metric-label">TFS Novel</div>
+            <div class="ck-metric-val" style="color:var(--rojo)">52d</div>
+            <div class="ck-metric-sub">Meta: ≤22d · Crítico</div>
+            <div class="ck-bar"><div class="ck-fill" style="width:80%;background:var(--rojo)"></div></div>
+          </div>
+          <div class="ck-metric">
+            <div class="ck-metric-label">PI Cockpit</div>
+            <div class="ck-metric-val" style="color:var(--gris)">—</div>
+            <div class="ck-metric-sub">Sin activar</div>
+            <div class="ck-bar"><div class="ck-fill" style="width:0%;background:var(--gris)"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cortex">
+        <p>"Si mañana tu agencia funcionara sin que estuvieras, ¿cuánto tiempo recuperarías? <strong>Esa no es una pregunta teórica — es el diagnóstico más honesto de tu arquitectura.</strong>"</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIDGE 00→01 -->
+  <div class="bridge reveal">
+    <div class="bridge-inner">
+      <div class="bridge-text">
+        <p>Antes de intervenir el sistema, nombramos lo que produce el sistema que tienes. <em>ADC no interviene el resultado. Interviene el origen que lo produce.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FASE 01 GATE ══ -->
+  <div class="phase-gate reveal" id="fase-origen">
+    <div class="phase-gate-inner f1">
+      <span class="pg-num">Fase 01</span>
+      <div class="pg-sep"></div>
+      <span class="pg-name">Origen</span>
+      <div class="pg-sep"></div>
+      <span class="pg-tag">Biopsia · P21 · El sistema se ve a sí mismo por primera vez</span>
+    </div>
+  </div>
+
+  <!-- ══ ESTACIÓN 01 · PRIMERA RESONANCIA ══ -->
+  <div class="station st-f1 reveal" id="station-1">
+    <div class="station-node" data-num="01"><div class="station-node-dot"></div></div>
+    <div class="s-full">
+      <span class="s-label">Estación 01 · El primer contacto</span>
+      <h2 class="s-title">El Director se encuentra<br>con <em>ADC</em></h2>
+      <div class="s-divider"></div>
+      <p class="s-text">El primer contacto no es una presentación — es un momento de reconocimiento. Llegas a través de LinkedIn, una recomendación, o una conversación directa. <strong>Regla invariable: nunca muestro el sistema completo en la primera reunión.</strong> Solo muestro lo que resuelve el dolor más inmediato que traes hoy.</p>
+
+      <div class="diagram" style="margin-top:26px">
+        <div class="d-grid d-grid-3">
+          <div class="d-card">
+            <div class="d-num">Canal</div>
+            <div class="d-name">LinkedIn · Red de confianza</div>
+            <div class="d-desc">Te ves reflejado antes de que exista una propuesta.</div>
+          </div>
+          <div class="d-card">
+            <div class="d-num">Demo en vivo</div>
+            <div class="d-name">Pre-intervención del Cortex</div>
+            <div class="d-desc">Lee tu perfil y el del prospecto. Te prepara para la cita en 90 segundos. Ningún Power BI lo hace.</div>
+          </div>
+          <div class="d-card">
+            <div class="d-num">Interfaz</div>
+            <div class="d-name">Cortex-first · Conversacional</div>
+            <div class="d-desc">El Cortex conversa. El sistema completo existe — pero no se impone en la primera pantalla.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cortex">
+        <p>"Antes de ir a una cita, el Cortex te prepara. <strong>Lee tu perfil y el del prospecto. Te da instrucciones para la cita, un mensaje de WhatsApp y una presentación según tu marca personal.</strong> Eso no lo hace ningún Power BI. Ninguna IA de Meta lo hace."</p>
+      </div>
+
+      <div class="checkpoint">
+        <span class="cp-icon">◈</span>
+        <div>
+          <div class="cp-label">Checkpoint · Resonancia Activada</div>
+          <div class="cp-text">Pre-intervención demostrada en vivo · <strong>Pregunta interna generada:</strong> "¿Qué pasaría si todos mis agentes llegaran así preparados a cada cita?"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIDGE 01→02 -->
+  <div class="bridge reveal">
+    <div class="bridge-inner">
+      <div class="bridge-text">
+        <p>Ves lo que el sistema puede hacer. Ahora viene la pregunta más importante: <em>¿desde dónde estás operando hoy?</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ESTACIÓN 02 · BIOPSIA ══ -->
+  <div class="station st-f1 reveal" id="station-2">
+    <div class="station-node" data-num="02"><div class="station-node-dot"></div></div>
+    <div class="s-full">
+      <span class="s-label">Estación 02 · Biopsia de Arquitectura · 90 minutos</span>
+      <h2 class="s-title">El sistema visible<br>por <em>primera vez</em></h2>
+      <div class="s-divider"></div>
+      <p class="s-text">90 minutos. El Cortex ADC opera como Director Comercial Adjunto y realiza la primera lectura completa de tu sistema. No mide si vendes bien o mal — <strong>mide el suelo desde el cual produces.</strong> Al cierre: la Fractura de Arquitectura tiene nombre. Sin Biopsia no hay prescripción.</p>
+
+      <div class="diagram" style="margin-top:26px">
+        <div class="d-grid d-grid-3">
+          <div class="d-card">
+            <div class="d-num">IAD · 12 Indicadores</div>
+            <div class="d-name">El Ser + La Ruta</div>
+            <div class="d-desc">IAD 01–06 (El Ser): quién eres como Director. IAD 07–12 (La Ruta): cómo construyes, a quién atraes, qué produces.</div>
+          </div>
+          <div class="d-card">
+            <div class="d-num">IHS · Métrica Maestra</div>
+            <div class="d-name">Índice de Honorabilidad Sistémica</div>
+            <div class="d-desc">Acuerdos cumplidos vs. totales. No evalúa intención — audita coherencia sistémica.</div>
+          </div>
+          <div class="d-card">
+            <div class="d-num">Biómetro NPS</div>
+            <div class="d-name">5 Dimensiones del Cimiento</div>
+            <div class="d-desc">NPS &lt;8 → activa Protocolo de Rescate de Voluntad antes de cualquier fase técnica.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="iad-radar-block">
+        <div class="iad-radar-label">IAD · 12 Indicadores · Lo que el sistema lee</div>
+        <div class="iad-radar-title">El diagnóstico que nadie más hace</div>
+        <div class="iad-radar-wrap">
+          <div class="iad-radar-svg-wrap">
+            <span class="iad-hemisferio iad-h-suelo">◆ El Ser · Origen</span>
+            <span class="iad-hemisferio iad-h-ruta">◆ La Ruta · Resultados</span>
+            <svg viewBox="0 0 320 320" width="290" height="290" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="iad-bg-grd" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="rgba(201,168,76,0.04)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+                <linearGradient id="iad-oro-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#F0D878"/>
+                  <stop offset="50%" stop-color="#C9A84C"/>
+                  <stop offset="100%" stop-color="#A07830"/>
+                </linearGradient>
+              </defs>
+              <circle cx="160" cy="160" r="155" fill="url(#iad-bg-grd)"/>
+              <circle cx="160" cy="160" r="31"  stroke="rgba(201,168,76,0.1)" stroke-width="0.6" fill="none" stroke-dasharray="2,3"/>
+              <circle cx="160" cy="160" r="62"  stroke="rgba(201,168,76,0.1)" stroke-width="0.6" fill="none" stroke-dasharray="2,3"/>
+              <circle cx="160" cy="160" r="93"  stroke="rgba(201,168,76,0.1)" stroke-width="0.6" fill="none" stroke-dasharray="2,3"/>
+              <circle cx="160" cy="160" r="124" stroke="rgba(201,168,76,0.1)" stroke-width="0.6" fill="none" stroke-dasharray="2,3"/>
+              <circle cx="160" cy="160" r="155" stroke="rgba(201,168,76,0.15)" stroke-width="0.8" fill="none"/>
+              <g stroke="rgba(201,168,76,0.12)" stroke-width="0.6">
+                <line x1="160" y1="5"   x2="160" y2="315"/>
+                <line x1="237.5" y1="21.5" x2="82.5" y2="298.5"/>
+                <line x1="296.5" y1="82.5" x2="23.5" y2="237.5"/>
+                <line x1="315" y1="160"  x2="5" y2="160"/>
+                <line x1="296.5" y1="237.5" x2="23.5" y2="82.5"/>
+                <line x1="237.5" y1="298.5" x2="82.5" y2="21.5"/>
+              </g>
+              <line x1="5" y1="160" x2="315" y2="160" stroke="rgba(201,168,76,0.28)" stroke-width="0.9" stroke-dasharray="4,3"/>
+              <polygon class="iad-radar-path-antes"
+                points="160,108 186,120 209,145 195,175 185,200 165,208 138,198 120,178 118,150 130,125 148,110 158,108"/>
+              <polygon class="iad-radar-path-despues"
+                points="160,36 224,55 264,113 264,180 224,238 160,256 96,238 56,180 56,113 96,55 138,37 160,36"/>
+              <circle cx="160" cy="160" r="4" fill="#C9A84C"/>
+              <circle cx="160" cy="160" r="8" stroke="rgba(201,168,76,0.4)" stroke-width="1" fill="none"/>
+              <text x="160" y="24" text-anchor="middle" font-family="Montserrat" font-weight="600" font-size="7" fill="rgba(201,168,76,0.8)" letter-spacing="0.5">CONCIENCIA</text>
+              <text x="247" y="44" text-anchor="start" font-family="Montserrat" font-weight="500" font-size="6.5" fill="rgba(201,168,76,0.55)">DIRECCIÓN</text>
+              <text x="293" y="98" text-anchor="start" font-family="Montserrat" font-weight="500" font-size="6.5" fill="rgba(201,168,76,0.55)">DISEÑO</text>
+              <text x="305" y="165" text-anchor="start" font-family="Montserrat" font-weight="500" font-size="6.5" fill="rgba(201,168,76,0.55)">RECLUT.</text>
+              <text x="288" y="228" text-anchor="start" font-family="Montserrat" font-weight="500" font-size="6.5" fill="rgba(201,168,76,0.45)">GERENTES</text>
+              <text x="242" y="282" text-anchor="start" font-family="Montserrat" font-weight="500" font-size="6.5" fill="rgba(201,168,76,0.45)">CULTURA</text>
+              <text x="160" y="310" text-anchor="middle" font-family="Montserrat" font-weight="600" font-size="7" fill="rgba(201,168,76,0.7)" letter-spacing="0.5">RESULTADOS</text>
+              <text x="75" y="282" text-anchor="end" font-family="Montserrat" font-weight="500" font-size="6.5" fill="rgba(201,168,76,0.45)">DISCIPLINA</text>
+              <text x="28" y="228" text-anchor="end" font-family="Montserrat" font-weight="500" font-size="6.5" fill="rgba(201,168,76,0.45)">AGENTES</text>
+              <text x="12" y="165" text-anchor="end" font-family="Montserrat" font-weight="500" font-size="6.5" fill="rgba(201,168,76,0.55)">EXPERIENCIA</text>
+              <text x="25" y="98" text-anchor="end" font-family="Montserrat" font-weight="500" font-size="6.5" fill="rgba(201,168,76,0.55)">RITMO</text>
+              <text x="72" y="44" text-anchor="end" font-family="Montserrat" font-weight="500" font-size="6.5" fill="rgba(201,168,76,0.55)">LIDERAZGO</text>
+              <text x="193" y="145" font-family="Montserrat" font-weight="700" font-size="9" fill="#CC4444">ANTES</text>
+              <text x="200" y="78" font-family="Montserrat" font-weight="700" font-size="9" fill="#C9A84C">DESPUÉS</text>
+            </svg>
+          </div>
+          <div class="iad-radar-legend">
+            <div style="margin-bottom:14px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--oro);margin-bottom:8px">Lo que mide</div>
+              <div style="font-size:9.5px;color:var(--gris-cl);line-height:1.8;max-width:200px">IAD 01–06 · El Ser: quién es el Director, su origen, su carácter.<br><br>IAD 07–12 · La Ruta: cómo construye, a quién atrae, qué produce.</div>
+            </div>
+            <div class="iad-leg-item">
+              <div class="iad-leg-dot" style="background:#CC4444"></div>
+              <span>Sin arquitectura</span>
+            </div>
+            <div class="iad-leg-item">
+              <div class="iad-leg-dot" style="background:#C9A84C"></div>
+              <span>Con sistema ADC</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pq">
+        <p class="pq-text">"Fractura de Continuidad detectada. IHS 48%. El reclutamiento existe como urgencia, no como proceso. <em>4 acuerdos rotos en las últimas 3 semanas</em> — 3 relacionados con incorporación. El sistema lento es consecuencia de la Deuda de Voluntad."</p>
+        <div class="pq-attr">Cortex ADC · Lectura post-Biopsia · Ejemplo real</div>
+      </div>
+
+      <div class="checkpoint">
+        <span class="cp-icon">◆</span>
+        <div>
+          <div class="cp-label">Checkpoint · Biopsia Completada</div>
+          <div class="cp-text"><strong>Recibes:</strong> Nombre exacto de tu Fractura de Arquitectura · Radar del IAD (12 indicadores) · IHS base confirmado · <strong>Protocolo prescrito por el Cortex.</strong> El PI Cockpit se activa desde hoy.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIDGE 02→03 -->
+  <div class="bridge reveal">
+    <div class="bridge-inner">
+      <div class="bridge-text">
+        <p>La fractura tiene nombre. Ahora viene la intervención más importante del Journey — y es solo contigo. <em>Antes de intervenir el sistema, intervenimos el origen que lo produce.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ESTACIÓN 03 · P21 ══ -->
+  <div class="station st-f1 reveal" id="station-3">
+    <div class="station-node" data-num="03"><div class="station-node-dot"></div></div>
+    <div class="s-full">
+      <span class="s-label">Estación 03 · P21 · Soberanía VIP · 21 días</span>
+      <h2 class="s-title">Primero el <em>origen</em>.<br>Siempre el Director.</h2>
+      <div class="s-divider"></div>
+      <p class="s-text">Los 21 días más importantes del Journey. <strong>Solo tú.</strong> Cinco Co-design Workshops individuales en Miro conmigo. Cirugía del origen — no del sistema. Sin este paso, todo lo que sigue construye sobre fractura. No empezamos con el equipo. Empezamos contigo — porque la agencia es espejo del Director.</p>
+
+      <div class="flow">
+        <div class="flow-item">
+          <div class="flow-marker">
+            <div class="flow-dot" style="border-color:var(--fase1)"></div>
+            <div class="flow-line" style="background:var(--gris-o)"></div>
+          </div>
+          <div class="flow-content">
+            <div class="flow-tag">Workshop 01</div>
+            <div class="flow-title">Diagnóstico de Personalidad como Director</div>
+            <div class="flow-desc">User Persona · Business Canvas del rol · Ikigai personal.</div>
+            <div class="flow-entrega">→ Perfil de Mando del Director</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-marker">
+            <div class="flow-dot" style="border-color:var(--fase1)"></div>
+            <div class="flow-line" style="background:var(--gris-o)"></div>
+          </div>
+          <div class="flow-content">
+            <div class="flow-tag">Workshop 02</div>
+            <div class="flow-title">Stakeholder Map</div>
+            <div class="flow-desc">Mapa de actores clave · Empathy Map · Mapa de dependencias.</div>
+            <div class="flow-entrega">→ Mapa de Stakeholders de la Agencia</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-marker">
+            <div class="flow-dot" style="border-color:var(--fase1)"></div>
+            <div class="flow-line" style="background:var(--gris-o)"></div>
+          </div>
+          <div class="flow-content">
+            <div class="flow-tag">Workshop 03</div>
+            <div class="flow-title">Ecosystem Architecture</div>
+            <div class="flow-desc">Business Canvas de la agencia · Journey Map · Pre-mortem del sistema actual.</div>
+            <div class="flow-entrega">→ Arquitectura del Ecosistema Actual</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-marker">
+            <div class="flow-dot" style="border-color:var(--fase1)"></div>
+            <div class="flow-line" style="background:var(--gris-o)"></div>
+          </div>
+          <div class="flow-content">
+            <div class="flow-tag">Workshop 04</div>
+            <div class="flow-title">Deuda de Voluntad · Altar de la Palabra</div>
+            <div class="flow-desc">Liquidación de acuerdos rotos · Activación del Altar como instrumento de integridad diaria.</div>
+            <div class="flow-entrega">→ Altar activado · Protocolo de Rescate de Voluntad</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-marker">
+            <div class="flow-dot" style="border-color:var(--oro);background:var(--oro)"></div>
+          </div>
+          <div class="flow-content" style="border-color:var(--oro-b)">
+            <div class="flow-tag" style="color:var(--oro);opacity:1">Workshop 05 · Cierre P21</div>
+            <div class="flow-title">Manifiesto del Director</div>
+            <div class="flow-desc">Síntesis de los 4 workshops. La visión de tu agencia bajo tu liderazgo — documentada y replicable.</div>
+            <div class="flow-entrega">→ Blueprint del Director Experience — Primer activo de la Bóveda</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ihs-arc" style="margin-top:28px">
+        <div class="ihs-arc-label">Arco IHS · Progresión proyectada · Del Origen a la Soberanía</div>
+        <div class="ihs-track">
+          <div class="ihs-node">
+            <div class="ihs-node-val" style="color:var(--rojo)">48%</div>
+            <div class="ihs-node-label">Entrada</div>
+            <div class="ihs-node-zone" style="color:var(--rojo)">Fractura</div>
+            <div class="ihs-bar"><div class="ck-fill" style="width:48%;background:var(--rojo)"></div></div>
+          </div>
+          <div class="ihs-node active">
+            <div class="ihs-node-val" style="color:var(--amber)">58%</div>
+            <div class="ihs-node-label">P21 · Día 21</div>
+            <div class="ihs-node-zone" style="color:var(--amber)">Fractura Alta</div>
+            <div class="ihs-bar"><div class="ck-fill" style="width:58%;background:var(--amber)"></div></div>
+          </div>
+          <div class="ihs-node">
+            <div class="ihs-node-val" style="color:var(--verde)">68%</div>
+            <div class="ihs-node-label">P30 · Día 30</div>
+            <div class="ihs-node-zone" style="color:var(--verde)">Integridad</div>
+            <div class="ihs-bar"><div class="ck-fill" style="width:68%;background:var(--verde)"></div></div>
+          </div>
+          <div class="ihs-node">
+            <div class="ihs-node-val" style="color:var(--verde)">76%</div>
+            <div class="ihs-node-label">P90 Sprint · Día 90</div>
+            <div class="ihs-node-zone" style="color:var(--verde)">Integridad</div>
+            <div class="ihs-bar"><div class="ck-fill" style="width:76%;background:var(--verde)"></div></div>
+          </div>
+          <div class="ihs-node">
+            <div class="ihs-node-val" style="color:var(--p99)">86%+</div>
+            <div class="ihs-node-label">P99 · Destino</div>
+            <div class="ihs-node-zone" style="color:var(--p99)">Soberanía</div>
+            <div class="ihs-bar"><div class="ck-fill" style="width:86%;background:var(--p99)"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <span class="cp-icon">◆</span>
+        <div>
+          <div class="cp-label">Checkpoint · P21 Completado · Puerta de Entrada al P30</div>
+          <div class="cp-text"><strong>Tienes:</strong> Manifiesto del Director + Protocolo de Rescate + Altar activado + Blueprint Director Experience. <strong>IHS en movimiento ascendente.</strong> Sin este Blueprint, no tengo referencia para leer las Voces del Ecosistema. El P21 es la condición de posibilidad de todo lo que sigue.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIDGE F1→F2 -->
+  <div class="bridge reveal">
+    <div class="bridge-inner">
+      <div class="bridge-text">
+        <p>Tu sistema ya tiene nombre. Tu origen ya fue intervenido. <em>Ahora construimos el sistema que le pertenece a tu agencia — no a mí.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FASE 02 GATE ══ -->
+  <div class="phase-gate reveal" id="fase-arquitectura">
+    <div class="phase-gate-inner f2">
+      <span class="pg-num">Fase 02</span>
+      <div class="pg-sep"></div>
+      <span class="pg-name">Arquitectura</span>
+      <div class="pg-sep"></div>
+      <span class="pg-tag">P30 · P90 · El sistema co-crea su propia lógica</span>
+    </div>
+  </div>
+
+  <!-- ══ ESTACIÓN 04 · P30 ══ -->
+  <div class="station st-f2 reveal" id="station-4">
+    <div class="station-node" data-num="04"><div class="station-node-dot"></div></div>
+    <div class="s-full">
+      <span class="s-label">Estación 04 · P30 · Laboratorio de Autoría · 30 días</span>
+      <h2 class="s-title">El sistema que<br>le pertenece al <em>Director</em></h2>
+      <div class="s-divider"></div>
+      <p class="s-text">El P30 no construye un sistema genérico — construye el sistema de tu agencia. <strong>Tú y tu equipo piloto.</strong> Comenzamos con las Voces del Ecosistema — diagnóstico de todos los actores antes de diseñar. Cerramos con la Síntesis de Agencia — el Blueprint integrador que es tuyo. <em>Si los roles se van, los sistemas se quedan.</em></p>
+
+      <div class="diagram" style="margin-top:26px">
+        <div class="d-grid d-grid-4">
+          <div class="d-card">
+            <div class="d-num">Semana 1</div>
+            <div class="d-name">Voces del Ecosistema</div>
+            <div class="d-desc">Diagnóstico de todos los actores antes de construir. El sistema escucha antes de prescribir.</div>
+          </div>
+          <div class="d-card">
+            <div class="d-num">Semanas 2–3</div>
+            <div class="d-name">6 Workshops por Rol</div>
+            <div class="d-desc">4 hrs c/u. Cada rol co-diseña su Blueprint propio: Novel · Consolidado · EDAT · Gerente · Director · AAD.</div>
+          </div>
+          <div class="d-card">
+            <div class="d-num">Semana 4</div>
+            <div class="d-name">Síntesis de Agencia</div>
+            <div class="d-desc">Todo el equipo piloto · 4 hrs. Los Blueprints se integran en el Strategic Blueprint Maestro.</div>
+          </div>
+          <div class="d-card">
+            <div class="d-num">Día 1</div>
+            <div class="d-name">Cortex Activo desde el Inicio</div>
+            <div class="d-desc">Opera con datos reales de tu agencia desde el primer día — no desde el Día 30.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="boveda" style="margin-top:26px">
+        <div class="bv-label">Bóveda v1 · Lo que tu agencia tiene al Día 30</div>
+        <div class="bv-title">El sistema co-creado · No entregado</div>
+        <div class="bv-grid">
+          <div class="bv-item"><strong>7 Blueprints de Rol</strong>Quién es, qué hace y cómo crece cada perfil del equipo piloto.</div>
+          <div class="bv-item"><strong>Blueprint Maestro</strong>Tu visión traducida en arquitectura de la agencia.</div>
+          <div class="bv-item"><strong>Cortex Activo</strong>Calibrado con datos reales — no un demo genérico.</div>
+        </div>
+      </div>
+
+      <div class="cortex">
+        <p>"Lo que construyo en el Laboratorio no es mío — es de tu agencia. <strong>Si los roles se van, los sistemas se quedan.</strong> Cada persona nueva llega a un sistema que ya tiene arquitectura — y solo tiene que personalizarlo desde quién es."</p>
+        <p>Fernando Ugalde · Facilitador Metodológico · Ley de Autoría · ADC V8</p>
+      </div>
+
+      <div class="checkpoint">
+        <span class="cp-icon">◆</span>
+        <div>
+          <div class="cp-label">Checkpoint · P30 Completado · Bóveda v1 Lista</div>
+          <div class="cp-text"><strong>Tu equipo sabe exactamente hacia dónde va.</strong> Los agentes llegan preparados a cada cita. Tu dirección, documentada y replicable. Un sistema que no depende de que estés siempre presente. <strong>IHS ~68% · Zona Integridad.</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bridge reveal">
+    <div class="bridge-inner">
+      <div class="bridge-text">
+        <p>El equipo sale del P30 diseñando. Entra al P90 <em>ejecutando</em>. La diferencia entre diseño y producción acelerada es todo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ESTACIÓN 05 · P90 ══ -->
+  <div class="station st-f2 reveal" id="station-5">
+    <div class="station-node" data-num="05"><div class="station-node-dot"></div></div>
+    <div class="s-full">
+      <span class="s-label">Estación 05 · P90 · Sprint Comercial · 90 días</span>
+      <h2 class="s-title">Producción continua.<br>El Sprint que <em>acelera</em></h2>
+      <div class="s-divider"></div>
+      <p class="s-text">El equipo entra al Sprint Comercial <strong>ejecutando</strong> los protocolos co-creados en el P30 — no testándolos. Desde el Día 1, el sistema opera en campo real y <strong>adquiere data continuamente</strong>: cada interacción con prospectos, cada campaña GMM o Vida, cada indicador del IAD que se mueve. El Cortex lee esa data, la cruza con las estrategias del P30 y ajusta en tiempo real lo que necesita afinarse. La producción crece de forma continua porque el equipo opera más eficiente y más asertivo — ya sabe exactamente qué hacer y por qué. <strong>Los KPIs dicen qué — ADC dice por qué y cómo cambiarlo. Pasas de ser el motor del sistema a ser su arquitecto consciente.</strong></p>
+
+      <div class="cortex">
+        <p>"El P90 no es el momento en que el sistema descansa sobre lo que construiste en el P30. <strong>Es el Sprint donde el sistema aprende más rápido que en cualquier otro protocolo — porque aprende de tu equipo, en tu campo, con tus prospectos reales.</strong> Cada campaña que ejecutas produce data que el sistema usa para ajustar las estrategias del P30. No es arquitectura que se prueba — es arquitectura que se valida con evidencia de campo y que acelera la producción en cada ciclo."</p>
+        <p>Fernando Ugalde · Facilitador Metodológico · P90 Sprint Comercial · ADC V8</p>
+      </div>
+
+      <div class="diagram" style="margin-top:26px">
+        <div class="d-grid d-grid-2">
+          <div class="d-card">
+            <div class="d-num">El sistema mide en tiempo real</div>
+            <div class="d-name">IAD · IHS · PI · Cruce 4D</div>
+            <div class="d-desc" style="margin-top:10px">
+              <strong style="color:var(--blanco)">IAD:</strong> Quién es cada persona — su perfil, su potencial, su momento.<br><br>
+              <strong style="color:var(--blanco)">IHS:</strong> La salud interna del sistema — no solo la suma de individuos.<br><br>
+              <strong style="color:var(--blanco)">PI:</strong> Los resultados reales en contexto — GMM · Vida · Auto · Otro.<br><br>
+              <strong style="color:var(--blanco)">Cruce 4D (IAD × IHS × PI × %CV):</strong> La lectura completa. Un agente que produce $X con IHS bajo está en riesgo. Uno que produce $X con IAD alto está listo para crecer. El número solo no lo dice.
+            </div>
+          </div>
+          <div class="d-card">
+            <div class="d-num">Lo que cambia en ti como Director</div>
+            <div class="d-name">De motor a arquitecto</div>
+            <div class="d-desc" style="margin-top:10px">
+              <strong style="color:var(--blanco)">Antes:</strong> El equipo consulta todo. Las campañas producen picos sin ritmo. Llegas primero y te vas último.<br><br>
+              <strong style="color:var(--blanco)">Día 90:</strong> Los KPIs dicen qué — ADC dice por qué y cómo cambiarlo. El Cortex lee al agente antes de que el número lo confirme. Un equipo que opera con criterio — no solo con instrucción.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cockpit" style="margin-top:22px">
+        <div class="ck-header">
+          <span class="ck-label">Cockpit · Día 90 · Lectura del Sistema</span>
+          <span class="ck-status integridad">IHS · Zona Integridad</span>
+        </div>
+        <div class="ck-body">
+          <div class="ck-metric">
+            <div class="ck-metric-label">IHS</div>
+            <div class="ck-metric-val" style="color:var(--verde)">76%</div>
+            <div class="ck-metric-sub">Zona Integridad · Sostenido</div>
+            <div class="ck-bar"><div class="ck-fill" style="width:76%;background:var(--verde)"></div></div>
+          </div>
+          <div class="ck-metric">
+            <div class="ck-metric-label">IAD Global</div>
+            <div class="ck-metric-val" style="color:var(--oro)">84</div>
+            <div class="ck-metric-sub">/ 120 · Zona Integridad</div>
+            <div class="ck-bar"><div class="ck-fill" style="width:70%;background:var(--oro)"></div></div>
+          </div>
+          <div class="ck-metric">
+            <div class="ck-metric-label">TFS Novel</div>
+            <div class="ck-metric-val" style="color:var(--verde)">28d</div>
+            <div class="ck-metric-sub">Meta: ≤22d · En ruta</div>
+            <div class="ck-bar"><div class="ck-fill" style="width:55%;background:var(--verde)"></div></div>
+          </div>
+          <div class="ck-metric">
+            <div class="ck-metric-label">PI Cockpit</div>
+            <div class="ck-metric-val" style="color:var(--verde)">↑</div>
+            <div class="ck-metric-sub">Crecimiento sostenido</div>
+            <div class="ck-bar"><div class="ck-fill" style="width:68%;background:var(--verde)"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="boveda" style="margin-top:22px">
+        <div class="bv-label">Bóveda Definitiva · Entregables al Día 90</div>
+        <div class="bv-title">El sistema validado en campo</div>
+        <div class="bv-grid">
+          <div class="bv-item"><strong>90 días de resultados medibles</strong>Datos reales de tu agencia — no benchmarks externos. El sistema aprendió tu ADN.</div>
+          <div class="bv-item"><strong>Bóveda Definitiva</strong>Los Blueprints ajustados con evidencia de campo real — no de workshop. La diferencia entre diseño y certeza.</div>
+          <div class="bv-item"><strong>Equipo Piloto Graduado</strong>Cada perfil con su ruta de crecimiento propia. El equipo sabe hacia dónde va — y sabe que tú también lo sabes.</div>
+          <div class="bv-item"><strong>Cortex Calibrado</strong>90 días de interacciones reales. El sistema ya habla el idioma de tu agencia. El onboarding de cualquier perfil nuevo dura la fracción de lo que duraba.</div>
+          <div class="bv-item"><strong>Indicadores ajustados</strong>IAD e IHS calibrados con datos de 90 días. Tu benchmark eres tú mismo — no el mercado.</div>
+          <div class="bv-item"><strong>Certeza para el siguiente paso</strong>No fe — información. Tienes los datos reales para decidir el P99 con la certeza que solo da el campo.</div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <span class="cp-icon">◆</span>
+        <div>
+          <div class="cp-label">Checkpoint · P90 Completado · Decisión P99</div>
+          <div class="cp-text"><strong>Tienes la certeza para decidir el siguiente paso.</strong> No con fe — con información. 90 días de resultados reales. IHS 76%+ en Zona Integridad sostenida. El sistema listo para convertirse en infraestructura permanente de tu agencia.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIDGE F2→F3 -->
+  <div class="bridge reveal">
+    <div class="bridge-inner">
+      <div class="bridge-text">
+        <p>120 días de datos reales. Un sistema que funciona sin que estés. <em>Ahora la metodología se convierte en infraestructura que pertenece a tu agencia — para siempre.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FASE 03 GATE ══ -->
+  <div class="phase-gate reveal" id="fase-soberania">
+    <div class="phase-gate-inner f3">
+      <span class="pg-num">Fase 03</span>
+      <div class="pg-sep"></div>
+      <span class="pg-name">Soberanía Tecnológica</span>
+      <div class="pg-sep"></div>
+      <span class="pg-tag">P99 · La inteligencia que no puede replicarse en otra agencia</span>
+    </div>
+  </div>
+
+  <!-- ══ ESTACIÓN 06 · P99 ══ -->
+  <div class="station st-f3 reveal" id="station-6">
+    <div class="station-node" data-num="06"><div class="station-node-dot"></div></div>
+    <div class="s-full">
+      <span class="s-label">Estación 06 · P99 · Soberanía Tecnológica · 99 días</span>
+      <h2 class="s-title">La infraestructura que<br>le pertenece a <em>tu agencia</em></h2>
+      <div class="s-divider" style="background:var(--p99)"></div>
+      <p class="s-text">ADC se convierte en infraestructura viva de tu agencia. El Cortex se construye con los datos reales de los 120 días anteriores — la inteligencia de cada perfil, calibrada para esta agencia y para ninguna otra. <strong>El sistema opera con tu lógica — sin que tengas que estar.</strong></p>
+
+      <div class="p99-block">
+        <div class="p99-header">
+          <span class="p99-label">P99 · Soberanía Tecnológica · 99 días</span>
+          <span class="p99-badge">Capital Arquitectónico Permanente</span>
+        </div>
+        <div class="p99-body">
+          <p class="p99-intro">No es un dashboard más. No es una herramienta genérica de IA. Es el <strong>Cortex Propio de tu agencia</strong> — construido con los datos reales de tus perfiles, calibrado con tu personalidad como Director, diseñado para que nunca pueda replicarse en otra agencia. Cuatro componentes que trabajan como uno.</p>
+          <div class="p99-components">
+            <div class="p99-comp">
+              <div class="p99-comp-num">Componente 01</div>
+              <div class="p99-comp-name">PWA Personalizada con tu Marca</div>
+              <div class="p99-comp-desc">Aplicación web progresiva con la identidad visual de tu agencia. El equipo accede desde cualquier dispositivo. Tu presencia en el sistema — sin que estés presente.</div>
+            </div>
+            <div class="p99-comp">
+              <div class="p99-comp-num">Componente 02</div>
+              <div class="p99-comp-name">Cortex Propio · Calibrado con 120 días</div>
+              <div class="p99-comp-desc">El Cortex aprendió de cada agente de tu agencia, no de un modelo genérico. 120 días de interacciones reales = el sistema más preciso que existe para tu agencia específica.</div>
+            </div>
+            <div class="p99-comp">
+              <div class="p99-comp-num">Componente 03</div>
+              <div class="p99-comp-name">60 Roles Premium Personalizados</div>
+              <div class="p99-comp-desc">Un rol especializado para cada función del ecosistema. Reclutar, capacitar, preparar citas, gestionar objeciones, reportar — cada función tiene su inteligencia específica.</div>
+            </div>
+            <div class="p99-comp">
+              <div class="p99-comp-num">Componente 04</div>
+              <div class="p99-comp-name">Licencia Institucional Vitalicia</div>
+              <div class="p99-comp-desc">Sin renovaciones. Sin dependencia de un proveedor externo de contenido. El Capital Arquitectónico Permanente — activo que pertenece a tu agencia para siempre.</div>
+            </div>
+          </div>
+          <div class="p99-entrega">
+            <span class="p99-entrega-icon">◆</span>
+            <div>
+              <div class="p99-entrega-label">Entregable P99 · Al día 99</div>
+              <div class="p99-entrega-text">El Cortex Propio de tu agencia activo · PWA con tu marca publicada · 60 Roles Premium funcionando · Licencia institucional vitalicia entregada · <strong style="color:var(--p99)">El sistema que no puede replicarse en ninguna otra agencia.</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cortex">
+        <p>"Un Director Comercial externo cuesta <strong>$525,000–$975,000 MXN/año.</strong> Se va con el conocimiento. <strong>El sistema ADC se queda en tu agencia para siempre.</strong> Capital Arquitectónico Permanente vs Capital Humano Depreciable."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIDGE 06→Cortex Deep -->
+  <div class="bridge reveal">
+    <div class="bridge-inner">
+      <div class="bridge-text">
+        <p>El Cortex no es una herramienta que usas. <em>Es el equipo invisible que opera con tu lógica — antes, durante y después de cada interacción de tu sistema.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ESTACIÓN 07 · EL CORTEX QUE TE CONOCE ══ -->
+  <div class="station st-f3 reveal" id="station-7">
+    <div class="station-node" data-num="07"><div class="station-node-dot"></div></div>
+    <div class="s-full">
+      <span class="s-label">Estación 07 · La Inteligencia del Sistema</span>
+      <h2 class="s-title">El Cortex que<br><em>te conoce</em></h2>
+      <div class="s-divider" style="background:var(--azul)"></div>
+      <p class="s-text">El Cortex no habla igual a todos. Lee la personalidad del usuario, su comportamiento histórico, sus resultados acumulados y su progreso en el protocolo — y calibra su voz, profundidad y tono en consecuencia. <strong>No es un chatbot genérico. Es el espejo digital más preciso que tu equipo tendrá de sí mismo.</strong></p>
+
+      <div class="cortex-deep">
+        <div class="cd-header">
+          <span class="cd-label">Las 4 Fases de Inteligencia · Antes · Durante · Después · Entre</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--azul);opacity:.6">Ley VI · Resonancia Aumentada</span>
+        </div>
+        <div class="cd-body">
+          <p style="font-size:12px;color:var(--gris-cl);line-height:1.85;max-width:600px;margin-bottom:18px">La Ley VI es el fundamento de por qué el Cortex existe: <em style="color:var(--blanco)">"La autoridad real emerge cuando la profundidad humana y la precisión tecnológica hablan con una sola voz."</em> El Cortex es la encarnación operativa de esta ley.</p>
+          <div class="cd-phases">
+            <div class="cd-phase">
+              <div class="cd-phase-num">Fase 1 · Pre-Sesión</div>
+              <div class="cd-phase-name">Briefing Automático</div>
+              <div class="cd-phase-desc">Antes de cada interacción, el Cortex revisa PI, IHS actual, historial y fracturas activas del usuario. Genera 3 recomendaciones concretas. <strong>Abres la app 5 minutos antes y ya sabes exactamente dónde empezar.</strong></div>
+            </div>
+            <div class="cd-phase">
+              <div class="cd-phase-num">Fase 2 · Tiempo Real</div>
+              <div class="cd-phase-name">Análisis Durante la Sesión</div>
+              <div class="cd-phase-desc">Fireflies transcribe. El Cortex lee señales y susurra sugerencias sin interrumpir. <strong>El facilitador humano sigue siendo humano. El Cortex ve lo que los datos dicen — el humano actúa.</strong></div>
+            </div>
+            <div class="cd-phase">
+              <div class="cd-phase-num">Fase 3 · Post-Sesión</div>
+              <div class="cd-phase-name">Análisis y Prescripción</div>
+              <div class="cd-phase-desc">En 10 minutos: resumen estructurado + actualización del Altar + prescripción para la siguiente sesión. <strong>El Gerente abre su Cockpit y ve el reporte. Sin tomar notas. El sistema recuerda por él.</strong></div>
+            </div>
+            <div class="cd-phase">
+              <div class="cd-phase-num">Fase 4 · Entre Sesiones</div>
+              <div class="cd-phase-name">Cortex como Acompañante Directo</div>
+              <div class="cd-phase-desc">El usuario habla con su Cortex entre sesiones. Pide ayuda con una objeción, prepara una cita difícil, procesa su semana. <strong>El Consejo Inteligente activa el modo correcto para cada momento.</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diagram" style="margin-top:22px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gris);margin-bottom:10px">Los 60 Roles Premium · El Equipo Invisible de tu Agencia</div>
+        <div class="d-grid d-grid-3">
+          <div class="d-card" style="border-top:2px solid var(--oro)">
+            <div class="d-num">Universales · Para todos</div>
+            <div class="d-name">Los 3 Inamovibles</div>
+            <div class="d-desc"><strong style="color:var(--blanco)">Arquitecto de Ideas —</strong> Estructura el pensamiento. Colapsa nubes en modelos.<br><br><strong style="color:var(--blanco)">Coach del Rol —</strong> Acompaña el desarrollo específico de cada función.<br><br><strong style="color:var(--blanco)">Psicoterapeuta Sistémico —</strong> Identifica patrones que limitan el desempeño y produce acciones concretas.</div>
+          </div>
+          <div class="d-card" style="border-top:2px solid var(--p99)">
+            <div class="d-num">Director · Roles de Función</div>
+            <div class="d-name">Tu Consejo Ejecutivo</div>
+            <div class="d-desc"><strong style="color:var(--blanco)">Coach Directivo —</strong> Liderazgo como arquitecto del sistema.<br><br><strong style="color:var(--blanco)">Estratega Comercial —</strong> Lectura del Cruce 4D y decisiones de intervención.<br><br><strong style="color:var(--blanco)">Shadow Auditor Personal —</strong> Coherencia entre tus decisiones y los resultados del sistema.<br><br><strong style="color:var(--blanco)">Consejero de Decisión —</strong> Fricción estratégica para decisiones de alto impacto.</div>
+          </div>
+          <div class="d-card" style="border-top:2px solid var(--azul)">
+            <div class="d-num">P99 · Acceso Completo</div>
+            <div class="d-name">60 Roles · Todo el Ecosistema</div>
+            <div class="d-desc">En el P99 el Director accede al ecosistema completo — incluyendo los roles especializados de todos los otros perfiles. Te permite diagnosticar y prescribir a cualquier nivel de tu agencia con la misma precisión que el Facilitador Metodológico.<br><br>Novel · EDAT · Gerente · AAD · Consolidado · Director.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkpoint" style="border-color:rgba(126,184,201,0.25);background:rgba(126,184,201,0.04)">
+        <span class="cp-icon" style="color:var(--azul)">◈</span>
+        <div>
+          <div class="cp-label" style="color:var(--azul)">El Cortex que monitorea 16 pares de interacción</div>
+          <div class="cp-text">Director ↔ Gerente · Director ↔ EDAT · Director ↔ AAD · Gerente ↔ Novel · EDAT ↔ Candidato · Novel ↔ Prospecto — y más. <strong>Cada interacción entre roles produce prescripciones que ningún humano puede generar solo.</strong> El sistema lee al agente antes de que el número lo confirme.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIDGE 07→Destino -->
+  <div class="bridge reveal">
+    <div class="bridge-inner">
+      <div class="bridge-text">
+        <p>Este no es el final del Journey. <em>Es el estado desde el cual diriges de ahora en adelante.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ESTACIÓN 08 · DESTINO · SOBERANÍA SISTÉMICA ══ -->
+  <div class="station st-dest reveal" id="station-8">
+    <div class="station-node" data-num="08"><div class="station-node-dot"></div></div>
+    <div class="s-full">
+      <span class="s-label" style="color:var(--p99)">Destino · Autonomía Operativa · El Director que Dirige</span>
+      <h2 class="s-title" style="font-size:clamp(38px,5vw,60px)">Ya no empuja —<br><em>dirige con inteligencia aumentada</em></h2>
+      <div class="s-divider" style="background:var(--p99)"></div>
+      <p class="s-text">El sistema produce desde propósito. Los acuerdos se cumplen como arquitectura de carácter. <strong>Diriges desde decisiones estratégicas — no desde urgencias operativas.</strong> El Cortex opera con tu lógica. El equipo opera con criterio. Recuperaste el activo más valioso del sistema: tu tiempo.</p>
+
+      <div class="estado-final">
+        <div class="ef-eyebrow">Estado Final · Soberanía Sistémica Activa</div>
+        <h3 class="ef-title">La agencia que<br>se conoce a sí <em>misma</em></h3>
+        <p class="ef-sub">Cada perfil nuevo se incorpora al estándar de la agencia desde el Día 1. El equipo opera con criterio — no solo con instrucción. El Cortex opera con tu lógica — sin que tengas que estar. El sistema que construiste tiene nombre, tiene arquitectura, y ya no depende de tu presencia constante.</p>
+        <div class="ef-metrics">
+          <div class="ef-metric">
+            <span class="ef-n" style="color:var(--p99)">86%+</span>
+            <span class="ef-l">IHS · Soberanía</span>
+          </div>
+          <div class="ef-metric">
+            <span class="ef-n" style="color:var(--p99)">≤22d</span>
+            <span class="ef-l">TFS Novel · Meta</span>
+          </div>
+          <div class="ef-metric">
+            <span class="ef-n" style="color:var(--p99)">40–55%</span>
+            <span class="ef-l">↑ Eficiencia vs. Fractura</span>
+          </div>
+          <div class="ef-metric">
+            <span class="ef-n" style="color:var(--p99)">365d</span>
+            <span class="ef-l">Cortex Activo · Siempre</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="boveda" style="margin-top:26px;border-color:var(--p99-b);background:linear-gradient(135deg,var(--p99-dim) 0%,transparent 50%)">
+        <div class="bv-label" style="color:var(--p99)">Bóveda de Soberanía · Capital Arquitectónico Permanente</div>
+        <div class="bv-title">Lo que tu agencia tiene — y no puede perder</div>
+        <div class="bv-grid">
+          <div class="bv-item"><strong>Blueprint del Director</strong>Tu identidad de liderazgo documentada. Se replica en cada decisión del equipo — con o sin tu presencia.</div>
+          <div class="bv-item"><strong>7 Blueprints de Rol</strong>Quien ocupe el rol, llega a un sistema que ya sabe cómo acompañarlo.</div>
+          <div class="bv-item"><strong>Cortex Propio de tu Agencia</strong>60 Roles Premium. PWA con tu marca. La inteligencia que habla el idioma de tu agencia — y solo de la tuya.</div>
+          <div class="bv-item"><strong>IHS en Soberanía</strong>El equipo cumple sus acuerdos como arquitectura de carácter — no como cumplimiento de reglas.</div>
+          <div class="bv-item"><strong>Bóveda Definitiva</strong>120+ días de datos reales. No puede comprarse. Fue co-creada.</div>
+          <div class="bv-item"><strong>Licencia Vitalicia</strong>Sin renovaciones. El Capital Arquitectónico pertenece a tu agencia — no se va cuando me voy yo.</div>
+        </div>
+      </div>
+
+      <div class="pq" style="border-color:var(--p99);background:var(--p99-dim)">
+        <p class="pq-text" style="color:var(--blanco)">"ADC no interviene el resultado. <em>Interviene el origen que lo produce.</em> Un Director que dirige desde arquitectura — no desde urgencia — construye una agencia que lo sobrevive."</p>
+        <div class="pq-attr">Fernando Ugalde · Facilitador Metodológico · ADC V8 · Dirección Comercial 10.0</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /journey -->
+
+<div class="cierre">
+  <div class="cierre-inner">
+    <span class="cierre-eyebrow">Miguel Ángel · Este documento es tuyo</span>
+    <h2 class="cierre-title">Una conversación.<br><em>Tu agencia. Tu momento.</em></h2>
+    <div class="cierre-line"></div>
+    <p class="cierre-sub">Lo que está en estas páginas es el mapa. El territorio eres tú — GAM, tu equipo, tu origen, tu ahora. Y desde el ahora, entendemos juntos qué podría seguir.</p>
+
+    <div style="max-width:540px;margin:0 auto 44px;text-align:left">
+      <div style="background:var(--bg4);border:1px solid var(--oro-b);padding:32px 36px;position:relative">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--oro);margin-bottom:16px">La invitación · Una sesión de 90 minutos</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:var(--blanco);line-height:1.55;margin-bottom:18px">Entender el estado real de GAM — en lo humano, lo comercial y lo tecnológico.</p>
+        <div style="font-size:10.5px;color:var(--gris-cl);line-height:1.85">Quién eres como Director en este momento. Lo que tu sistema produce hoy. Lo que es posible para una agencia de tu tamaño con el sistema correcto. <strong style="color:var(--blanco)">Viendo el origen y el ahora, entendemos qué podría seguir — y cómo puedo acompañarte desde ese lugar.</strong></div>
+      </div>
+
+      <div style="margin-top:3px;background:var(--bg3);border:1px solid var(--gris-o);padding:24px 36px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--blanco);margin-bottom:4px">Fernando Ugalde</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--gris)">Asesor · Consultor · Co-Diseñador</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--gris);margin-top:3px">Facilitador Metodológico · ADC V8</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1px;color:var(--oro)">Fer</div>
+          <div style="font-size:9px;color:var(--gris-cl);margin-top:4px;line-height:1.6">Asesores GAM<br>Dirección Comercial 10.0</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--gris-o);padding-top:32px">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;font-style:italic;color:var(--gris-l);max-width:480px;margin:0 auto;line-height:1.65">"El origen siempre determina el resultado. Y el resultado de lo que construyamos juntos lo determina la claridad con la que veamos tu origen hoy."</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gris);margin-top:16px">ADC · Ley I · Fernando Ugalde · Para GAM</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="doc-footer">
+  <div>
+    <div class="f-brand">ADC</div>
+    <div class="f-meta">Lo que puedo construir contigo · Journey del Director · V8 · Abril 2026</div>
+  </div>
+  <div style="text-align:right">
+    <div class="f-meta">Fernando Ugalde · Facilitador Metodológico</div>
+    <div class="f-meta" style="margin-top:4px">Arquitectura de Desempeño Comercial · Asesores GAM</div>
+    <div class="f-meta" style="margin-top:4px;color:var(--oro)">Documento Confidencial</div>
+  </div>
+</footer>
+
+<script>
+// ── Reveal on scroll ──
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('v');
+      e.target.classList.add('is-vis');
+    }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ── Dynamic line segments ──
+// The line segments fill in dynamically based on section heights
+function updateLineSegments(){
+  const journey = document.getElementById('journey-start');
+  if(!journey) return;
+  const jRect = journey.getBoundingClientRect();
+  const jTop = journey.offsetTop;
+
+  const f1End = document.getElementById('fase-arquitectura');
+  const f2End = document.getElementById('fase-soberania');
+
+  if(f1End && f2End){
+    const f1EndTop = f1End.offsetTop - jTop;
+    const f2EndTop = f2End.offsetTop - jTop;
+
+    const lineF1 = document.getElementById('line-f1');
+    const lineF2 = document.getElementById('line-f2');
+    const lineF3 = document.getElementById('line-f3');
+
+    if(lineF1){
+      lineF1.style.top = '120px';
+      lineF1.style.height = (f1EndTop - 120) + 'px';
+    }
+    if(lineF2){
+      lineF2.style.top = f1EndTop + 'px';
+      lineF2.style.height = (f2EndTop - f1EndTop) + 'px';
+    }
+    if(lineF3){
+      lineF3.style.top = f2EndTop + 'px';
+      lineF3.style.bottom = '0';
+      lineF3.style.height = 'auto';
+    }
+  }
+}
+
+window.addEventListener('load', updateLineSegments);
+window.addEventListener('resize', updateLineSegments);
+</script>
+</body>
+</html>
