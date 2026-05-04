@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADC · Bitácora del Caso · Roberto Rodríguez · v3 · Post-S1</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --abismo: #030304; --negro-deep: #060608; --negro: #0A0A0C;
+  --negro-suave: #111114; --negro-card: #17171B; --negro-elevado: #1E1E23;
+  --oro-genesis: #3D2E0A; --oro-latente: #6B4E1A; --oro: #C9A84C;
+  --oro-vivo: #E8C97A; --oro-palido: #F5E8C0; --oro-puro: #FFE08A;
+  --oro-dim: rgba(201,168,76,0.06); --oro-borde: rgba(201,168,76,0.20);
+  --oro-borde-med: rgba(201,168,76,0.40); --oro-glow: rgba(201,168,76,0.12);
+  --blanco: #F2F2EE; --gris-claro: #AAAAAA; --gris: #666666; --gris-oscuro: #2A2A2E;
+  --consolidado: #C08C40; --azul: #7EB8C9; --verde: #4A9F6A;
+  --amber: #C08C40; --rojo: #B44040;
+  --rojo-dim: rgba(180,50,50,0.10); --verde-dim: rgba(74,159,106,0.10);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Montserrat', sans-serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+  --t-fast: 0.2s ease; --t-med: 0.4s ease;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--negro); color: var(--blanco);
+  font-family: var(--sans); font-weight: 300;
+  line-height: 1.8; overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: radial-gradient(circle, rgba(201,168,76,0.04) 1px, transparent 1px);
+  background-size: 40px 40px; pointer-events: none; z-index: 0; opacity: 0.5;
+}
+
+/* ── NAV STICKY ── */
+.nav-sticky {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,6,8,0.92); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--oro-borde); padding: 14px 32px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+  gap: 12px;
+}
+.nav-titulo {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--oro);
+}
+.nav-titulo strong { color: var(--blanco); font-weight: 700; }
+.nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.nav-links a {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gris-claro);
+  text-decoration: none; transition: color var(--t-fast);
+  padding: 4px 0;
+}
+.nav-links a:hover { color: var(--oro); }
+
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── PORTADA ── */
+#portada {
+  min-height: 90vh; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 32px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.08) 0%, transparent 70%);
+}
+.portada-contenido { text-align: center; max-width: 980px; position: relative; z-index: 1; }
+.portada-eyebrow {
+  font-size: 11px; font-weight: 500; letter-spacing: 6px;
+  text-transform: uppercase; color: var(--gris); display: block;
+  margin-bottom: 48px; font-family: var(--mono);
+}
+.portada-titulo {
+  font-family: var(--serif); font-size: clamp(48px, 7vw, 92px);
+  font-weight: 300; color: var(--oro); letter-spacing: 4px;
+  line-height: 1.05; margin-bottom: 16px;
+}
+.portada-titulo em { font-style: italic; color: var(--blanco); }
+.portada-subtitulo {
+  font-size: 12px; font-weight: 300; letter-spacing: 6px;
+  text-transform: uppercase; color: var(--gris-claro);
+  margin-bottom: 32px; font-family: var(--mono);
+}
+.linea-oro { width: 80px; height: 1px; background: var(--oro); margin: 0 auto 32px; }
+.portada-frase {
+  font-family: var(--serif); font-size: 22px; font-weight: 300; font-style: italic;
+  color: var(--gris-claro); line-height: 1.6; max-width: 700px;
+  margin: 0 auto 40px;
+}
+.portada-meta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.portada-meta-tag {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--oro);
+  border: 1px solid var(--oro-borde); padding: 7px 16px;
+  background: var(--oro-dim);
+}
+
+/* ── SECCIÓN ── */
+section { padding: 96px 96px 72px; position: relative; z-index: 1; scroll-margin-top: 70px; }
+section.suave { background: var(--negro-suave); }
+section.deep { background: var(--negro-deep); }
+.section-inner { max-width: 1140px; margin: 0 auto; }
+
+.titulo-seccion { margin-bottom: 48px; }
+.titulo-seccion .numero {
+  font-size: 12px; font-weight: 700; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--oro);
+  display: flex; align-items: center; gap: 12px; margin-bottom: 22px;
+  font-family: var(--mono);
+}
+.titulo-seccion .numero::before { content: ''; width: 32px; height: 1px; background: var(--oro); }
+.titulo-seccion h2 {
+  font-family: var(--serif); font-size: clamp(36px, 4.5vw, 50px);
+  font-weight: 300; line-height: 1.05; color: var(--blanco); margin-bottom: 20px;
+}
+.titulo-seccion h2 em { font-style: italic; color: var(--oro); }
+.divider { width: 60px; height: 1px; background: var(--oro); margin: 22px 0; }
+.titulo-seccion .descripcion {
+  font-size: 14px; font-weight: 300; color: var(--gris-claro);
+  max-width: 760px; line-height: 1.85;
+}
+
+/* ── COMPONENTES ── */
+.card-adc {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  padding: 32px 36px; transition: border-color var(--t-med);
+}
+.card-adc:hover { border-color: var(--oro-borde-med); }
+
+.label-oro {
+  font-size: 11px; font-weight: 700; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--oro);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+  font-family: var(--mono);
+}
+.label-oro::before { content: ''; width: 20px; height: 1px; background: var(--oro); }
+
+.cita-bloque {
+  border-left: 3px solid var(--oro); padding: 24px 32px;
+  background: var(--negro-suave); margin: 24px 0;
+}
+.cita-texto {
+  font-family: var(--serif); font-size: 20px; font-weight: 300; font-style: italic;
+  color: var(--blanco); line-height: 1.55; margin-bottom: 10px;
+}
+.cita-autor {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gris); display: block;
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  section { padding: 56px 24px 40px; }
+  .nav-sticky { padding: 10px 16px; }
+  .nav-links { gap: 10px; }
+}
+
+/* ── TABLAS ── */
+.tabla-adc { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.tabla-adc th {
+  font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--oro); padding: 12px 16px;
+  border-bottom: 1px solid var(--oro-borde); text-align: left;
+  background: var(--negro-deep); font-family: var(--mono); vertical-align: top;
+}
+.tabla-adc td {
+  font-size: 13px; font-weight: 300; color: var(--gris-claro);
+  padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  line-height: 1.65; vertical-align: top;
+}
+.tabla-adc tr:hover td { background: var(--oro-dim); }
+.tabla-adc td:first-child {
+  font-weight: 500; color: var(--blanco);
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.5px;
+}
+
+/* ── IAD score badge ── */
+.score-badge {
+  display: inline-block; padding: 3px 9px; font-family: var(--mono);
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; min-width: 32px; text-align: center;
+}
+.score-riesgo { background: rgba(180,64,64,0.15); color: var(--rojo); border: 1px solid rgba(180,64,64,0.3); }
+.score-desarrollo { background: rgba(201,168,76,0.10); color: var(--oro); border: 1px solid rgba(201,168,76,0.3); }
+.score-solidez { background: rgba(126,184,201,0.10); color: var(--azul); border: 1px solid rgba(126,184,201,0.3); }
+
+/* ── ALERTAS / NOTAS ── */
+.nota {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  border-left: 3px solid var(--oro); padding: 22px 30px; margin: 22px 0;
+}
+.nota-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--oro); margin-bottom: 9px;
+}
+.nota-texto { font-size: 13.5px; font-weight: 300; color: var(--gris-claro); line-height: 1.85; }
+.nota-texto strong { color: var(--blanco); font-weight: 500; }
+
+.alerta {
+  border-left: 3px solid var(--rojo); background: var(--rojo-dim);
+  padding: 22px 30px; margin: 22px 0;
+}
+.alerta-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--rojo); margin-bottom: 9px;
+}
+.alerta-texto { font-size: 13.5px; font-weight: 300; color: var(--gris-claro); line-height: 1.85; }
+.alerta-texto strong { color: var(--blanco); font-weight: 500; }
+
+.exito {
+  border-left: 3px solid var(--verde); background: var(--verde-dim);
+  padding: 22px 30px; margin: 22px 0;
+}
+.exito-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--verde); margin-bottom: 9px;
+}
+.exito-texto { font-size: 13.5px; font-weight: 300; color: var(--gris-claro); line-height: 1.85; }
+
+/* ── MÉTRICA CARD ── */
+.metrica-card {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  padding: 28px 24px; text-align: center; transition: border-color var(--t-med);
+}
+.metrica-card:hover { border-color: var(--oro-borde-med); }
+.metrica-valor {
+  font-family: var(--serif); font-size: 50px; font-weight: 400;
+  color: var(--oro); line-height: 1; margin-bottom: 6px;
+}
+.metrica-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gris-claro);
+}
+.metrica-detalle {
+  font-size: 11px; color: var(--gris); margin-top: 6px; font-style: italic;
+}
+
+/* ── LISTA ── */
+.lista-adc { list-style: none; padding: 0; margin: 14px 0; }
+.lista-adc li {
+  position: relative; padding-left: 22px; margin-bottom: 11px;
+  font-size: 13.5px; font-weight: 300; color: var(--gris-claro); line-height: 1.7;
+}
+.lista-adc li::before {
+  content: '◆'; position: absolute; left: 0; top: 2px;
+  color: var(--oro); font-size: 9px;
+}
+.lista-adc li strong { color: var(--blanco); font-weight: 500; }
+
+/* ── TIMELINE DE SESIONES ── */
+.sesion-bloque {
+  background: var(--negro-card); border-left: 3px solid var(--gris-oscuro);
+  padding: 28px 36px; margin-bottom: 16px; transition: border-color var(--t-med);
+  position: relative;
+}
+.sesion-bloque.cerrada { border-left-color: var(--verde); }
+.sesion-bloque.activa { border-left-color: var(--oro); }
+.sesion-bloque.futura { border-left-color: var(--gris-oscuro); opacity: 0.85; }
+.sesion-eyebrow {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
+}
+.sesion-num {
+  font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--oro);
+}
+.sesion-estado {
+  font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; padding: 3px 10px;
+}
+.sesion-estado.cerrada { background: var(--verde-dim); color: var(--verde); border: 1px solid rgba(74,159,106,0.3); }
+.sesion-estado.activa { background: var(--oro-dim); color: var(--oro); border: 1px solid var(--oro-borde-med); }
+.sesion-estado.futura { background: rgba(102,102,102,0.1); color: var(--gris); border: 1px solid var(--gris-oscuro); }
+.sesion-titulo {
+  font-family: var(--serif); font-size: 24px; font-weight: 400; font-style: italic;
+  color: var(--blanco); margin-bottom: 16px; line-height: 1.3;
+}
+.sesion-titulo em { color: var(--oro); }
+.sesion-cuerpo { font-size: 13.5px; color: var(--gris-claro); line-height: 1.8; }
+.sesion-cuerpo p { margin-bottom: 12px; }
+.sesion-cuerpo strong { color: var(--blanco); }
+.sesion-tags {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;
+  padding-top: 16px; border-top: 1px solid rgba(201,168,76,0.08);
+}
+.sesion-tag {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--gris-claro);
+  background: var(--negro-suave); border: 1px solid var(--gris-oscuro);
+  padding: 4px 10px;
+}
+
+/* ── ALTAR ── */
+.altar-bloque {
+  background: linear-gradient(180deg, var(--negro-card) 0%, var(--negro-suave) 100%);
+  border: 1px solid var(--oro-borde-med);
+  border-top: 3px solid var(--oro);
+  padding: 40px 48px; margin: 32px 0; position: relative;
+}
+.altar-eyebrow {
+  font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--oro); margin-bottom: 12px;
+}
+.altar-titulo {
+  font-family: var(--serif); font-size: 26px; font-weight: 400;
+  color: var(--blanco); margin-bottom: 20px; line-height: 1.25;
+}
+.altar-titulo em { font-style: italic; color: var(--oro); }
+.altar-acuerdo {
+  font-family: var(--serif); font-size: 19px; font-weight: 300; font-style: italic;
+  color: var(--oro-palido); line-height: 1.5; padding: 22px 28px;
+  border-left: 2px solid var(--oro); background: var(--oro-dim);
+  margin: 18px 0;
+}
+.altar-meta {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 2px;
+  color: var(--gris); margin-top: 18px;
+}
+
+/* ── PROTOCOLO STEP ── */
+.protocolo-step {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  padding: 26px 32px; transition: border-color var(--t-med);
+}
+.protocolo-step:hover { border-color: var(--oro-borde-med); }
+.protocolo-num {
+  font-family: var(--serif); font-size: 36px; font-weight: 300; font-style: italic;
+  color: var(--oro); line-height: 1; margin-bottom: 8px;
+}
+.protocolo-tiempo {
+  font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--oro-vivo); margin-bottom: 14px;
+}
+.protocolo-titulo {
+  font-family: var(--serif); font-size: 18px; font-weight: 400; font-style: italic;
+  color: var(--blanco); margin-bottom: 14px; line-height: 1.3;
+}
+.protocolo-cuerpo {
+  font-size: 13px; color: var(--gris-claro); line-height: 1.75;
+}
+.protocolo-cuerpo strong { color: var(--blanco); }
+
+/* ── GUIA DUAL ── */
+.guia-card {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  padding: 32px 36px; transition: border-color var(--t-med);
+}
+.guia-card.fer { border-top: 3px solid var(--azul); }
+.guia-card.roberto { border-top: 3px solid var(--consolidado); }
+.guia-eyebrow {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 4px;
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.guia-card.fer .guia-eyebrow { color: var(--azul); }
+.guia-card.roberto .guia-eyebrow { color: var(--consolidado); }
+.guia-titulo {
+  font-family: var(--serif); font-size: 22px; font-weight: 400; font-style: italic;
+  color: var(--blanco); margin-bottom: 20px; line-height: 1.3;
+}
+
+/* ── CIERRE ── */
+.cierre-section {
+  min-height: 70vh; display: flex; align-items: center; justify-content: center;
+  background: var(--abismo); padding: 80px 32px;
+}
+.cierre-contenido { max-width: 800px; text-align: center; }
+.cierre-frase {
+  font-family: var(--serif); font-size: clamp(26px, 4vw, 40px);
+  font-weight: 300; color: var(--oro); line-height: 1.4; font-style: italic;
+}
+.cierre-frase em { color: var(--blanco); font-style: normal; }
+.cierre-linea { width: 60px; height: 1px; background: var(--oro); margin: 36px auto; opacity: 0.4; }
+.cierre-meta {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gris); line-height: 1.8;
+}
+
+footer {
+  background: var(--abismo); padding: 28px 32px; text-align: center;
+  border-top: 1px solid var(--gris-oscuro);
+}
+.footer-meta {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
+  color: var(--gris); line-height: 1.8;
+}
+
+/* ── ÍNDICE ── */
+.indice-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2px; margin-top: 32px;
+}
+.indice-link {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  padding: 22px 26px; text-decoration: none; color: var(--blanco);
+  transition: border-color var(--t-med), background var(--t-med);
+  display: block;
+}
+.indice-link:hover { border-color: var(--oro); background: var(--oro-dim); }
+.indice-num {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  color: var(--oro); margin-bottom: 8px;
+}
+.indice-titulo {
+  font-family: var(--serif); font-size: 17px; font-style: italic;
+  font-weight: 400; color: var(--blanco); line-height: 1.3;
+}
+.indice-desc {
+  font-family: var(--sans); font-size: 11.5px; color: var(--gris-claro);
+  margin-top: 8px; line-height: 1.6;
+}
+
+/* ── FRACTURA TAG ── */
+.fractura-row {
+  display: grid; grid-template-columns: 130px 1fr; gap: 16px;
+  padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  align-items: start;
+}
+.fractura-tag {
+  font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 4px 10px; text-align: center;
+}
+.fractura-tag.alta { background: rgba(180,64,64,0.15); color: var(--rojo); border: 1px solid rgba(180,64,64,0.3); }
+.fractura-tag.media { background: var(--oro-dim); color: var(--oro); border: 1px solid var(--oro-borde-med); }
+.fractura-tag.baja { background: rgba(126,184,201,0.10); color: var(--azul); border: 1px solid rgba(126,184,201,0.3); }
+.fractura-texto { font-size: 13px; color: var(--gris-claro); line-height: 1.7; }
+.fractura-texto strong { color: var(--blanco); font-weight: 500; }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════ NAV STICKY ══ -->
+<nav class="nav-sticky">
+  <div class="nav-titulo"><strong>Bitácora del Caso</strong> · Roberto Rodríguez · v3 · post-S1</div>
+  <div class="nav-links">
+    <a href="#contexto">§1 Contexto</a>
+    <a href="#estado">§2 Estado</a>
+    <a href="#iad">§3 IAD</a>
+    <a href="#voz">§4 Voz</a>
+    <a href="#cartera">§5 Cartera</a>
+    <a href="#diagnostico">§6 Diagnóstico</a>
+    <a href="#sesiones">§7 Sesiones</a>
+    <a href="#altar">§8 Altar</a>
+    <a href="#protocolo">§9 Protocolo</a>
+    <a href="#riesgos">§10 Riesgos</a>
+    <a href="#exito">§11 Éxito</a>
+    <a href="#guia">§12 Guía</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════ PORTADA ══ -->
+<section id="portada">
+  <div class="portada-contenido">
+    <span class="portada-eyebrow reveal">ADC · Caso Vivo · Bitácora del Facilitador + Operador</span>
+    <h1 class="portada-titulo reveal">El Caso<br><em>Roberto.</em></h1>
+    <div class="portada-subtitulo reveal">Versión 3 · post-S1 · Mayo 2026 · 4 sesiones · 1 cartera por descubrir</div>
+    <div class="linea-oro reveal"></div>
+    <p class="portada-frase reveal">
+      Este documento es el sistema operativo del caso. Vive entre sesiones. Lo lee Fer para guiar — lo lee Roberto para
+      avanzar. Si los roles se van, esta bitácora se queda.
+    </p>
+    <div class="portada-meta reveal">
+      <span class="portada-meta-tag">S1 cerrada</span>
+      <span class="portada-meta-tag">IAD aplicado</span>
+      <span class="portada-meta-tag">Cartera analizada</span>
+      <span class="portada-meta-tag">Altar firmado</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ ÍNDICE ══ -->
+<section class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">Índice · Cómo navegar este documento</span>
+    <h2>Doce secciones <em>vivas.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Las primeras 6 secciones son el caso ya construido — lo que sabemos. Las siguientes 6 son el sistema operativo
+      del caso — cómo se avanza. Cada sección es navegable individualmente desde la barra superior.
+    </p>
+  </div>
+
+  <div class="indice-grid reveal">
+    <a class="indice-link" href="#contexto">
+      <div class="indice-num">§1</div>
+      <div class="indice-titulo">Contexto del caso</div>
+      <div class="indice-desc">Quién es Roberto · de dónde viene · por qué aceptó este taller</div>
+    </a>
+    <a class="indice-link" href="#estado">
+      <div class="indice-num">§2</div>
+      <div class="indice-titulo">Estado actual del caso</div>
+      <div class="indice-desc">Dashboard de progreso · post-S1 · qué se cerró · qué sigue abierto</div>
+    </a>
+    <a class="indice-link" href="#iad">
+      <div class="indice-num">§3</div>
+      <div class="indice-titulo">IAD · Línea base</div>
+      <div class="indice-desc">Los 12 indicadores del rol Consolidado · scores · zonas · espejos</div>
+    </a>
+    <a class="indice-link" href="#voz">
+      <div class="indice-num">§4</div>
+      <div class="indice-titulo">La voz de Roberto</div>
+      <div class="indice-desc">Las 10 preguntas + respuestas · las revelaciones · sus palabras exactas</div>
+    </a>
+    <a class="indice-link" href="#cartera">
+      <div class="indice-num">§5</div>
+      <div class="indice-titulo">Cartera · realidad descubierta</div>
+      <div class="indice-desc">Datos reales del Excel · multi-producto · renovaciones próximas</div>
+    </a>
+    <a class="indice-link" href="#diagnostico">
+      <div class="indice-num">§6</div>
+      <div class="indice-titulo">Diagnóstico clínico</div>
+      <div class="indice-desc">Fracturas nombradas · jerarquizadas · la fractura raíz</div>
+    </a>
+    <a class="indice-link" href="#sesiones">
+      <div class="indice-num">§7</div>
+      <div class="indice-titulo">Las 4 sesiones del taller</div>
+      <div class="indice-desc">S1 cerrada · S2/S3/S4 ajustadas a lo que ya sabemos</div>
+    </a>
+    <a class="indice-link" href="#altar">
+      <div class="indice-num">§8</div>
+      <div class="indice-titulo">Altar de la Palabra</div>
+      <div class="indice-desc">Acuerdos vivos · firmados · medibles · con fecha</div>
+    </a>
+    <a class="indice-link" href="#protocolo">
+      <div class="indice-num">§9</div>
+      <div class="indice-titulo">Llamada de Reconocimiento</div>
+      <div class="indice-desc">Protocolo operativo · 15 minutos · estructura · 3 preguntas</div>
+    </a>
+    <a class="indice-link" href="#riesgos">
+      <div class="indice-num">§10</div>
+      <div class="indice-titulo">Riesgos y mitigaciones</div>
+      <div class="indice-desc">Qué puede romper el caso · cómo lo prevenimos</div>
+    </a>
+    <a class="indice-link" href="#exito">
+      <div class="indice-num">§11</div>
+      <div class="indice-titulo">Criterios de éxito</div>
+      <div class="indice-desc">Qué cuenta como taller cumplido · qué cuenta como falla</div>
+    </a>
+    <a class="indice-link" href="#guia">
+      <div class="indice-num">§12</div>
+      <div class="indice-titulo">Guía dual de uso</div>
+      <div class="indice-desc">Cómo lo usa Fer · cómo lo usa Roberto · entre sesiones</div>
+    </a>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §1 · CONTEXTO ══ -->
+<section id="contexto">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§1 · Contexto del caso</span>
+    <h2>Quién es Roberto<br><em>y por qué este taller.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Roberto Rodríguez Arzate. Agente Consolidado independiente · operación enfocada en Autos GNP · cartera diversificada
+      con 7 aseguradoras adicionales. Ex Gerente de Desarrollo de la agencia GAM. Actor del Sprint ADC original que
+      construyó el sistema. Hoy regresa al método como operador de su propia cartera.
+    </p>
+  </div>
+
+  <div class="card-adc reveal">
+    <div class="label-oro">Trayectoria · cómo llega Roberto a S1</div>
+    <p style="font-size: 14px; color: var(--gris-claro); line-height: 1.85; margin-bottom: 16px;">
+      Durante los años en que Roberto fue Gerente de Desarrollo en GAM, su socio Ernesto administró el 95% de su cartera
+      de seguros. Roberto no hacía las renovaciones. La relación con sus clientes era nominal — él era el agente
+      registrado, pero la operación día-a-día estaba delegada. Cuando Roberto regresó a operar como Consolidado
+      independiente hace más de un año, heredó una cartera que <strong style="color: var(--blanco);">no había construido relacionalmente</strong>.
+    </p>
+    <p style="font-size: 14px; color: var(--gris-claro); line-height: 1.85;">
+      Esa es la fractura estructural que explica todo lo demás del IAD. Sus scores en Bloque B no son falla de capacidad
+      — son consecuencia de una historia operativa que nunca incluyó la conversación consultiva con sus clientes.
+      El taller no parte de cero · parte de descubrir lo que ya está construido pero nunca fue activado.
+    </p>
+  </div>
+
+  <div class="grid-2 reveal" style="margin-top: 32px; gap: 2px;">
+    <div class="card-adc">
+      <div class="label-oro">Por qué aceptó · su intención declarada</div>
+      <ul class="lista-adc">
+        <li>Reconoce que su cartera <strong>es su mejor activo</strong> y la ha descuidado</li>
+        <li>Sabe que opera por inercia · no por sistema</li>
+        <li>Quiere reconstruir su confianza interna · "la gente confía en mí pero yo no en mí"</li>
+        <li>Está dispuesto a ser visto · sin escudos · sin justificaciones</li>
+      </ul>
+    </div>
+    <div class="card-adc">
+      <div class="label-oro">Por qué este caso es ADC · lo que se prueba aquí</div>
+      <ul class="lista-adc">
+        <li><strong>Re-entrada al método</strong> de un actor que ya conoce el sistema desde el lado del Gerente</li>
+        <li>Aplicación del Rol Consolidado <strong>en escala individual</strong> · no en taller grupal</li>
+        <li>Validación del IAD del Consolidado <strong>en cartera real</strong> · no simulada</li>
+        <li>Caso de referencia para futuros Consolidados que vienen del rol Gerente</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §2 · ESTADO ══ -->
+<section id="estado" class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§2 · Estado actual del caso · post-S1</span>
+    <h2>Dashboard del<br><em>caso vivo.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Lectura rápida del momento exacto en que está el caso. Esta sección se actualiza después de cada sesión para que
+      Fer y Roberto puedan abrir la bitácora y saber al instante dónde están parados.
+    </p>
+  </div>
+
+  <div class="grid-4 reveal">
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--verde);">1/4</div>
+      <div class="metrica-label">Sesiones completadas</div>
+      <div class="metrica-detalle">S1 cerrada · S2 próxima</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor">5.0</div>
+      <div class="metrica-label">SCV línea base</div>
+      <div class="metrica-detalle">Mayo 2026</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--oro);">6</div>
+      <div class="metrica-label">IHS de Roberto</div>
+      <div class="metrica-detalle">Hace 1 año: 7.5 · caída de 1.5</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor">1</div>
+      <div class="metrica-label">Acuerdo del Altar activo</div>
+      <div class="metrica-detalle">Llamadas de Reconocimiento</div>
+    </div>
+  </div>
+
+  <div class="grid-2 reveal" style="margin-top: 32px;">
+    <div class="exito">
+      <div class="exito-label">Lo que ya quedó cerrado · post-S1</div>
+      <div class="exito-texto">
+        ◆ IAD aplicado · 12 scores · línea base registrada<br>
+        ◆ Análisis de cartera real · ~291 pólizas vigentes mapeadas<br>
+        ◆ Fractura raíz nombrada por Roberto: "no estoy activando oportunidades"<br>
+        ◆ Frase de oro capturada: "la gente confía en mí pero yo no confío en mí"<br>
+        ◆ 36 renovaciones próximos 90d identificadas<br>
+        ◆ Acuerdo del Altar firmado: Llamadas de Reconocimiento 3+/día
+      </div>
+    </div>
+    <div class="alerta">
+      <div class="alerta-label">Lo que sigue abierto · agenda S2</div>
+      <div class="alerta-texto">
+        ◆ Identidad y Marca Personal del agente Consolidado (W·09 · capa 1)<br>
+        ◆ Validación o reescritura de las 3 hipótesis de segmentación A/B/C<br>
+        ◆ Brand Heart construido con datos reales de las llamadas<br>
+        ◆ Plan de las 14 renovaciones de mayo · trabajadas con anticipación<br>
+        ◆ Diseño de la <strong>Sesión Anual</strong> de Roberto · su versión propia del protocolo W·09<br>
+        ◆ Construcción del primer 1 protocolo de Referido · solo borrador
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §3 · IAD ══ -->
+<section id="iad">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§3 · IAD · Línea base · 12 indicadores del rol Consolidado</span>
+    <h2>El radar.<br><em>Los espejos.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Diagnóstico autoevaluado por Roberto en S1 · escala 1–10. El Bloque A (01–06) opera la identidad / Ser. El Bloque B
+      (07–12) opera el sistema / Hacer. Cada indicador del A tiene su espejo en el B.
+    </p>
+  </div>
+
+  <table class="tabla-adc reveal">
+    <thead>
+      <tr>
+        <th style="width: 50px;">#</th>
+        <th>Indicador</th>
+        <th style="width: 90px;">Score</th>
+        <th>Bloque</th>
+        <th>Espejo</th>
+        <th>Lectura</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>01</td><td>Estabilidad Emocional</td><td><span class="score-badge score-desarrollo">4</span></td><td>A</td><td>↔ 12</td><td>Falta de confianza interna nombrada por él</td></tr>
+      <tr><td>02</td><td>Seguridad y Confianza</td><td><span class="score-badge score-desarrollo">6</span></td><td>A</td><td>↔ 11</td><td>Confianza externa alta · interna baja</td></tr>
+      <tr><td>03</td><td>Disposición y Entrega</td><td><span class="score-badge score-solidez">7</span></td><td>A</td><td>↔ 10</td><td>Compromiso de servicio presente</td></tr>
+      <tr><td>04</td><td>Responsabilidad</td><td><span class="score-badge score-solidez">7</span></td><td>A</td><td>↔ 09</td><td>Asume el resultado · sin escudos</td></tr>
+      <tr><td>05</td><td>Estrategia de Cartera y Expansión</td><td><span class="score-badge score-desarrollo">5</span></td><td>A</td><td>↔ 08</td><td>Sin plan claro · modo mantenimiento</td></tr>
+      <tr><td>06</td><td>Dominio Técnico Multi-dimensional</td><td><span class="score-badge score-solidez">7</span></td><td>A</td><td>↔ 07</td><td>Capacidad técnica intacta del Sprint previo</td></tr>
+      <tr><td>07</td><td>Auditoría de Cartera y Mapa de Expansión</td><td><span class="score-badge score-riesgo">3</span></td><td>B</td><td>↔ 06</td><td>No conoce su cartera en números</td></tr>
+      <tr><td>08</td><td>Contacto Proactivo y Expansión Activa</td><td><span class="score-badge score-riesgo">3</span></td><td>B</td><td>↔ 05</td><td>2 contactos esta semana · pipeline en cero sin él</td></tr>
+      <tr><td>09</td><td>Diagnóstico Financiero Integral del Cliente</td><td><span class="score-badge score-desarrollo">4</span></td><td>B</td><td>↔ 04</td><td>Solo el 3% de las renovaciones · auto-reportado</td></tr>
+      <tr><td>10</td><td>Propuesta Multi-Solución</td><td><span class="score-badge score-desarrollo">6</span></td><td>B</td><td>↔ 03</td><td>Capacidad presente · uso esporádico</td></tr>
+      <tr><td>11</td><td>Cierre Consultivo Complejo</td><td><span class="score-badge score-desarrollo">4</span></td><td>B</td><td>↔ 02</td><td>Cerró el mes pasado · frecuencia baja</td></tr>
+      <tr><td>12</td><td>Estrategia de Referidos</td><td><span class="score-badge score-desarrollo">4</span></td><td>B</td><td>↔ 01</td><td>Llegan solos · sin protocolo</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid-3 reveal" style="margin-top: 40px;">
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--azul);">6.0</div>
+      <div class="metrica-label">Promedio Bloque A</div>
+      <div class="metrica-detalle">Identidad / Ser · Desarrollo alto</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--oro);">4.0</div>
+      <div class="metrica-label">Promedio Bloque B</div>
+      <div class="metrica-detalle">Sistema / Hacer · Desarrollo bajo</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor">2.0</div>
+      <div class="metrica-label">Gap entre Bloques</div>
+      <div class="metrica-detalle">Sabe ser · no está haciendo</div>
+    </div>
+  </div>
+
+  <div class="card-adc reveal" style="margin-top: 40px;">
+    <div class="label-oro">Los 4 espejos del caso · gap A↔B</div>
+    <table class="tabla-adc" style="margin-top: 0;">
+      <thead><tr><th>Espejo</th><th>Capacidad (A)</th><th>Ejecución (B)</th><th>Gap</th><th>Lectura</th></tr></thead>
+      <tbody>
+        <tr><td>06↔07</td><td>Dominio Técnico · 7</td><td>Auditoría · 3</td><td><strong style="color: var(--rojo);">4</strong></td><td>Sabe usar las herramientas · no mira su cartera</td></tr>
+        <tr><td>04↔09</td><td>Responsabilidad · 7</td><td>Diagnóstico · 4</td><td><strong style="color: var(--oro);">3</strong></td><td>Dueño del resultado · no pregunta lo suficiente</td></tr>
+        <tr><td>02↔11</td><td>Confianza · 6</td><td>Cierre Consultivo · 4</td><td><strong style="color: var(--oro);">2</strong></td><td>Autoridad · sin frecuencia de cierre</td></tr>
+        <tr><td>01↔12</td><td>Estabilidad · 4</td><td>Referidos · 4</td><td><strong style="color: var(--gris);">0</strong></td><td>Ambos bajos · ciclo cerrado pero débil</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §4 · VOZ ══ -->
+<section id="voz" class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§4 · La voz de Roberto · S1</span>
+    <h2>Sus palabras<br><em>preservadas.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Esta sección preserva el archivo clínico de la sesión: las 10 preguntas con sus respuestas literales, y las
+      revelaciones espontáneas que Roberto nombró en el flujo de la conversación. Estas frases son la materia prima
+      de S2 y de todas las sesiones posteriores.
+    </p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 26px; font-weight: 400; color: var(--blanco); margin-bottom: 24px; font-style: italic;" class="reveal">Las 10 preguntas + respuestas</h3>
+
+  <table class="tabla-adc reveal">
+    <thead>
+      <tr><th style="width: 60px;">#</th><th>Pregunta</th><th>Respuesta de Roberto</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>01</td>
+        <td>IHS hoy vs hace un año</td>
+        <td><strong style="color: var(--blanco);">"Hoy en 6. Hace un año estaba en 7.5."</strong></td>
+      </tr>
+      <tr>
+        <td>02</td>
+        <td>Lectura del negocio sin filtros</td>
+        <td>"Estable mas no redituable como yo quisiera, no productivo. Me da paz porque confío en este negocio pero me quita el sueño porque siento que no estoy avanzando."</td>
+      </tr>
+      <tr>
+        <td>03</td>
+        <td>Valor anual de la cartera</td>
+        <td><strong style="color: var(--blanco);">"Lo tengo que buscar."</strong></td>
+      </tr>
+      <tr>
+        <td>04</td>
+        <td>Mono-producto vs multi-producto</td>
+        <td>"No tengo el número claro. 80% mono · 20% multi." (realidad del Excel: ~99% mono)</td>
+      </tr>
+      <tr>
+        <td>05</td>
+        <td>Mix renovación / venta nueva / ampliación</td>
+        <td>"70% renovación · 10% venta nueva · 20% ampliación. Es percepción, no datos exactos."</td>
+      </tr>
+      <tr>
+        <td>06</td>
+        <td>Pipeline si se toma un mes sin prospectar</td>
+        <td><strong style="color: var(--rojo);">"Cero."</strong></td>
+      </tr>
+      <tr>
+        <td>07</td>
+        <td>Contactos proactivos esta semana</td>
+        <td><strong style="color: var(--blanco);">"Dos."</strong></td>
+      </tr>
+      <tr>
+        <td>08</td>
+        <td>Diagnóstico financiero en renovaciones</td>
+        <td>"No, no hago esa labor. Solo en un 3% de los casos · cuando siento que sé y puedo."</td>
+      </tr>
+      <tr>
+        <td>09</td>
+        <td>Último cierre de mayor valor</td>
+        <td><strong style="color: var(--verde);">"El mes pasado."</strong></td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>Sistema de referidos · pedidos vs solos</td>
+        <td><strong style="color: var(--blanco);">"Llegan solos."</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family: var(--serif); font-size: 26px; font-weight: 400; color: var(--blanco); margin: 56px 0 24px; font-style: italic;" class="reveal">Las 6 frases de oro · revelaciones espontáneas</h3>
+
+  <div class="reveal">
+    <div class="cita-bloque">
+      <p class="cita-texto">"La mayoría de la gente confía en mí pero yo no confío en mí."</p>
+      <span class="cita-autor">Frase raíz · reescribe la lectura del IAD 01 y del IAD 08</span>
+    </div>
+    <div class="cita-bloque">
+      <p class="cita-texto">"No estoy activando oportunidades nuevas de negocio en mi cartera, estoy operando con lo que ellos mismos me piden."</p>
+      <span class="cita-autor">Auto-diagnóstico · Fractura de Continuidad nombrada por él</span>
+    </div>
+    <div class="cita-bloque">
+      <p class="cita-texto">"Mi cartera es mi mejor activo y la he descuidado."</p>
+      <span class="cita-autor">Consciencia desarrollada en sesión · punto de apertura</span>
+    </div>
+    <div class="cita-bloque">
+      <p class="cita-texto">"El 95% de mi cartera la administraba Ernesto, mi socio, mientras yo trabajaba de gerente. Yo realmente no hacía la renovación."</p>
+      <span class="cita-autor">Dato estructural · explica el patrón completo</span>
+    </div>
+    <div class="cita-bloque">
+      <p class="cita-texto">"Mejores procesos de renovación, hago cosas diferentes, me enfoco en las ventas, me descuido, brinco de un lado a otro."</p>
+      <span class="cita-autor">Patrón de dispersión auto-observado · candidato a próximo Acuerdo del Altar</span>
+    </div>
+    <div class="cita-bloque">
+      <p class="cita-texto">"Ayer me pidió un cliente de autos que le renovara su póliza y que también le cotizara GMM porque quería cambiarse conmigo."</p>
+      <span class="cita-autor">Prueba viva de capacidad · cuando la oportunidad llega, cierra · el problema es esperar</span>
+    </div>
+  </div>
+
+  <div class="alerta reveal" style="margin-top: 32px;">
+    <div class="alerta-label">⚠ Material descartado · no es marca</div>
+    <div class="alerta-texto">
+      Roberto compartió referencias personales (paternidad · conexión con mamás profesionistas con exparejas ausentes).
+      <strong>Estas frases son anécdota · no posicionamiento de marca.</strong> No se usan como insumo de Brand Heart.
+      La marca real se construye en S2 con datos de las llamadas — no con interpretaciones tempranas.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §5 · CARTERA ══ -->
+<section id="cartera">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§5 · Cartera · realidad descubierta</span>
+    <h2>Lo que la cartera<br><em>le dijo al sistema.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Roberto entregó su Excel completo al cierre de S1. El análisis revela tres realidades: cartera más grande de lo
+      que él recuerda · mono-producto más extremo de lo que percibe · ventana concreta de 36 oportunidades de conversación
+      consultiva en los próximos 90 días.
+    </p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--blanco); margin-bottom: 18px; font-style: italic;" class="reveal">Composición por ramo · pólizas vigentes</h3>
+
+  <table class="tabla-adc reveal">
+    <thead>
+      <tr><th>Ramo · Aseguradora</th><th style="text-align: center;">Pólizas</th><th>Lectura</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Autos GNP</td><td style="text-align: center;"><strong style="color: var(--blanco);">97</strong></td><td>Núcleo principal · cartera histórica</td></tr>
+      <tr><td>GMM GNP</td><td style="text-align: center;"><strong style="color: var(--blanco);">72</strong></td><td>Segundo ramo · poco contacto consultivo</td></tr>
+      <tr><td>Daños GNP</td><td style="text-align: center;"><strong style="color: var(--blanco);">32</strong></td><td>Cartera empresarial · oportunidad protección integral</td></tr>
+      <tr><td>Vida GNP</td><td style="text-align: center;"><strong style="color: var(--blanco);">23</strong></td><td>Ramo más bajo · espacio máximo de cross-sell</td></tr>
+      <tr><td>Autos Flotillas GNP</td><td style="text-align: center;"><strong style="color: var(--blanco);">12</strong></td><td>Clientes corporativos</td></tr>
+      <tr><td>Otras (MAPFRE · METLIFE · QUALITAS · ANA · AXA · ZURICH)</td><td style="text-align: center;"><strong style="color: var(--blanco);">~55</strong></td><td>Cartera diversificada · 7 aseguradoras secundarias</td></tr>
+      <tr style="background: var(--oro-dim);"><td><strong style="color: var(--oro);">TOTAL ESTIMADO</strong></td><td style="text-align: center;"><strong style="color: var(--oro);">~291</strong></td><td><strong style="color: var(--oro);">pólizas vigentes activas</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid-3 reveal" style="margin-top: 40px;">
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--rojo);">2</div>
+      <div class="metrica-label">Clientes multi-producto</div>
+      <div class="metrica-detalle">~99% mono-producto vs 80% percibido</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor">36</div>
+      <div class="metrica-label">Renovaciones próximos 90d</div>
+      <div class="metrica-detalle">28 Autos · 8 GMM · ninguna en lista</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor">~150</div>
+      <div class="metrica-label">Clientes únicos estimados</div>
+      <div class="metrica-detalle">Por descubrir · no por activar</div>
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--blanco); margin: 48px 0 18px; font-style: italic;" class="reveal">Top 5 clientes · nombrados por Roberto en S1</h3>
+
+  <div class="card-adc reveal">
+    <ul class="lista-adc">
+      <li><strong>Noemí</strong> (Consultores Asociados J. Rdz Turcato) · familia + empresa con múltiples entradas</li>
+      <li><strong>Humberto</strong> · cliente clave nombrado en relación de confianza</li>
+      <li><strong>Edwin</strong> · cliente clave</li>
+      <li><strong>Juan Raúl</strong> (Rodríguez · familia) · red familiar identificada</li>
+      <li><strong>Juan Carlos</strong> (Rodríguez Turcato) · vinculado al cluster Consultores Asociados</li>
+    </ul>
+    <p style="font-size: 12.5px; color: var(--gris); margin-top: 16px; font-style: italic;">
+      Estos 5 son sus referencias de confianza · son el primer círculo natural para iniciar las Llamadas de Reconocimiento.
+    </p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--blanco); margin: 48px 0 18px; font-style: italic;" class="reveal">3 hipótesis de segmentación · a validar con las llamadas</h3>
+
+  <div class="grid-3 reveal">
+    <div class="card-adc">
+      <div class="label-oro">Hipótesis A · Familias multi-vehículo</div>
+      <p style="font-size: 13.5px; color: var(--gris-claro); line-height: 1.75;">
+        Clientes con 3+ autos · familia con hijos en edad de manejar · esposa con auto propio.
+        <strong style="color: var(--blanco);">Posible necesidad: Vida + GMM familiar + revisión de cobertura para conductores jóvenes.</strong>
+        Ejemplos en el Excel: Herreramoro Monroy, Perea Tamariz.
+      </p>
+    </div>
+    <div class="card-adc">
+      <div class="label-oro">Hipótesis B · Empresarios doble frente</div>
+      <p style="font-size: 13.5px; color: var(--gris-claro); line-height: 1.75;">
+        Clientes con empresa + familia · típicamente con Daños empresariales pero sin GMM colectivo o Vida del dueño.
+        <strong style="color: var(--blanco);">Riesgo no integrado entre los dos universos.</strong>
+        Ejemplos: H2O Arquitectos, Consultores Asociados, Electro Spider, Nueva Alianza.
+      </p>
+    </div>
+    <div class="card-adc">
+      <div class="label-oro">Hipótesis C · Individuales de larga relación</div>
+      <p style="font-size: 13.5px; color: var(--gris-claro); line-height: 1.75;">
+        La mayor parte de la cartera. Relación transaccional sobre Autos. Sin diagnóstico integral instalado.
+        <strong style="color: var(--blanco);">Mayor volumen · mayor reto: requiere construir relación consultiva desde cero.</strong>
+        Es donde más necesita la Llamada de Reconocimiento.
+      </p>
+    </div>
+  </div>
+
+  <div class="alerta reveal" style="margin-top: 32px;">
+    <div class="alerta-label">⚠ Distinción crítica</div>
+    <div class="alerta-texto">
+      <strong>Roberto no tiene cartera dormida — tiene cartera desconocida.</strong>
+      Durante años la administró su socio mientras él era Gerente. La relación con la mayoría de sus clientes
+      ha sido transaccional sobre el ramo de autos. <strong style="color: var(--oro);">El primer paso no es vender más.
+      Es conocer a quién ya tiene.</strong> Por eso la herramienta operativa de S1→S2 es la Llamada de Reconocimiento,
+      no un protocolo de cross-sell.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §6 · DIAGNÓSTICO ══ -->
+<section id="diagnostico" class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§6 · Diagnóstico clínico · fracturas nombradas</span>
+    <h2>Lo que está roto<br><em>jerarquizado.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Síntesis clínica de la S1: tres fracturas detectadas, jerarquizadas por impacto. La fractura raíz es la que
+      al sanar arrastra a las otras dos. Cualquier intervención que no toque la raíz produce mejora superficial.
+    </p>
+  </div>
+
+  <div class="card-adc reveal">
+    <div class="label-oro">Fractura raíz · prioridad alta · F1</div>
+    <h3 style="font-family: var(--serif); font-size: 22px; color: var(--blanco); margin-bottom: 14px; font-style: italic;">
+      Confianza interna desconectada de la confianza externa.
+    </h3>
+    <p style="font-size: 14px; color: var(--gris-claro); line-height: 1.85;">
+      "La gente confía en mí pero yo no confío en mí." Esta frase, nombrada por el propio Roberto, es la raíz que
+      explica por qué no llama proactivamente · por qué no hace el diagnóstico financiero · por qué no pide referidos.
+      No espera la oportunidad porque no se cree autorizado a generarla. La autoridad existe en los demás · no en él.
+      <strong style="color: var(--blanco);">Esta fractura no se resuelve con técnica · se resuelve con evidencia
+      acumulada de confianza ejecutada.</strong> Por eso el Acuerdo del Altar prioriza acción ligera y reiterada
+      (llamadas de reconocimiento) sobre una intervención de venta de alto impacto.
+    </p>
+  </div>
+
+  <div style="margin-top: 32px;" class="reveal">
+    <div class="fractura-row">
+      <span class="fractura-tag alta">F1 · Alta · raíz</span>
+      <div class="fractura-texto"><strong>Confianza interna desconectada de la externa</strong> · explica IAD 01 (4) · IAD 08 (3) · IAD 11 (4) · IAD 12 (4). Se ataca con evidencia operativa, no con argumentos.</div>
+    </div>
+    <div class="fractura-row">
+      <span class="fractura-tag alta">F2 · Alta</span>
+      <div class="fractura-texto"><strong>Cartera desconocida · no dormida</strong> · explica IAD 07 (3) · IAD 09 (4) · 99% mono-producto. Roberto heredó la cartera operativamente · no la construyó relacionalmente. Solo se resuelve con conversaciones reales con sus clientes.</div>
+    </div>
+    <div class="fractura-row">
+      <span class="fractura-tag media">F3 · Media</span>
+      <div class="fractura-texto"><strong>Sistema sin pipeline propio</strong> · pipeline en cero sin él · explica el "0" de la pregunta 6. La operación depende 100% de Roberto. Esto no se ataca en S1-S2 · se atiende en S3 cuando ya hay marca y protocolo de relación instalados.</div>
+    </div>
+    <div class="fractura-row">
+      <span class="fractura-tag media">F4 · Media</span>
+      <div class="fractura-texto"><strong>Patrón de dispersión auto-observado</strong> · "brinco de un lado a otro · me descuido". Riesgo del taller mismo: que Roberto disperse esfuerzo entre múltiples frentes en lugar de profundizar en uno. Atendido por la disciplina de Acuerdos del Altar acotados.</div>
+    </div>
+    <div class="fractura-row">
+      <span class="fractura-tag baja">F5 · Baja</span>
+      <div class="fractura-texto"><strong>Caída del IHS</strong> · de 7.5 a 6 en 12 meses. Síntoma · no causa. Se reconstruye automáticamente cuando F1 y F2 sanan. No requiere intervención directa.</div>
+    </div>
+  </div>
+
+  <div class="nota reveal" style="margin-top: 32px;">
+    <div class="nota-label">Hipótesis pre-taller que se confirmaron</div>
+    <div class="nota-texto">
+      ◆ La cartera estaba sub-activada (confirmado · 99% mono-producto)<br>
+      ◆ La relación con clientes era transaccional (confirmado · Roberto lo nombró)<br>
+      ◆ El sistema operaba por inercia (confirmado · 70% renovación · 0 pipeline)<br>
+      ◆ El IHS estaba en zona de Desarrollo bajo (confirmado · 6/10)<br><br>
+      <strong>Lo que no se anticipó:</strong> el ángulo "cartera desconocida vs cartera dormida" · este matiz reorienta
+      toda la estrategia operativa del taller hacia descubrimiento antes que activación.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §7 · LAS 4 SESIONES ══ -->
+<section id="sesiones">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§7 · Las 4 sesiones del taller · estructura ajustada post-S1</span>
+    <h2>El camino<br><em>de Roberto.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      El taller original mantenía la arquitectura de 4 sesiones. La S1 ya cerrada reescribe parcialmente S2/S3/S4
+      a partir de los datos reales · no de los supuestos pre-taller. Este es el plan vivo.
+    </p>
+  </div>
+
+  <div class="reveal">
+
+    <!-- S1 -->
+    <div class="sesion-bloque cerrada">
+      <div class="sesion-eyebrow">
+        <span class="sesion-num">Sesión 01 · Mayo 2026</span>
+        <span class="sesion-estado cerrada">✓ Cerrada</span>
+      </div>
+      <h3 class="sesion-titulo">Diagnóstico y <em>punto de partida.</em></h3>
+      <div class="sesion-cuerpo">
+        <p><strong>Lo que pasó:</strong> IAD aplicado · 12 indicadores. Línea base SCV = 5.0. Cartera analizada
+        (~291 pólizas vigentes). Fractura raíz nombrada por Roberto. Acuerdo del Altar firmado: Llamadas de
+        Reconocimiento 3+/día. Fer recibió Excel completo de cartera · análisis post-sesión generó hipótesis A/B/C.</p>
+        <p><strong>Entregables generados:</strong> Memoria de Sesión S1 · Bitácora del Caso v3 (este documento).</p>
+      </div>
+      <div class="sesion-tags">
+        <span class="sesion-tag">IAD aplicado</span>
+        <span class="sesion-tag">Cartera mapeada</span>
+        <span class="sesion-tag">Altar firmado</span>
+        <span class="sesion-tag">SCV 5.0 línea base</span>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="sesion-bloque activa">
+      <div class="sesion-eyebrow">
+        <span class="sesion-num">Sesión 02 · próxima</span>
+        <span class="sesion-estado activa">⟶ Activa · próxima</span>
+      </div>
+      <h3 class="sesion-titulo">Identidad y <em>marca personal.</em></h3>
+      <div class="sesion-cuerpo">
+        <p><strong>Insumo de entrada:</strong> notas de las llamadas de reconocimiento que Roberto haga entre S1 y S2.
+        El Brand Heart se construye sobre lo que sus clientes dijeron · no sobre supuestos.</p>
+        <p><strong>Objetivos:</strong></p>
+        <p>◆ Construir Brand Heart de Roberto con datos reales · no anécdotas<br>
+        ◆ Validar o reescribir hipótesis A/B/C de segmentación · con base en las llamadas<br>
+        ◆ Diseñar Sesión Anual propia · su versión del W·09 protocolo<br>
+        ◆ Dejar las 14 renovaciones de mayo organizadas en lista accionable<br>
+        ◆ Borrador del Protocolo de Referido (no final · solo siembra)</p>
+        <p><strong>Pregunta clave de S2:</strong> "¿Qué patrones se repitieron en tus llamadas?" — la marca emerge
+        de lo que Roberto escuchó, no de lo que él imagina.</p>
+      </div>
+      <div class="sesion-tags">
+        <span class="sesion-tag">Brand Heart</span>
+        <span class="sesion-tag">Segmentación validada</span>
+        <span class="sesion-tag">Sesión Anual diseñada</span>
+        <span class="sesion-tag">Renovaciones organizadas</span>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div class="sesion-bloque futura">
+      <div class="sesion-eyebrow">
+        <span class="sesion-num">Sesión 03 · futura</span>
+        <span class="sesion-estado futura">○ Futura</span>
+      </div>
+      <h3 class="sesion-titulo">Sistema operativo y <em>protocolo del referido.</em></h3>
+      <div class="sesion-cuerpo">
+        <p><strong>Insumo de entrada:</strong> las primeras Sesiones Anuales aplicadas (3-5 reales · no más).</p>
+        <p><strong>Objetivos:</strong></p>
+        <p>◆ Refinar el protocolo de Sesión Anual con los aprendizajes reales<br>
+        ◆ Construir el Protocolo de Referido · 7 pasos canónicos del módulo W·09 ADC<br>
+        ◆ Diseñar el Cockpit personal de Roberto · sus 5-6 métricas de seguimiento semanal<br>
+        ◆ Cadencia operativa: día/semana/mes</p>
+      </div>
+      <div class="sesion-tags">
+        <span class="sesion-tag">Protocolo Referido</span>
+        <span class="sesion-tag">Cockpit personal</span>
+        <span class="sesion-tag">Cadencia operativa</span>
+      </div>
+    </div>
+
+    <!-- S4 -->
+    <div class="sesion-bloque futura">
+      <div class="sesion-eyebrow">
+        <span class="sesion-num">Sesión 04 · futura</span>
+        <span class="sesion-estado futura">○ Futura</span>
+      </div>
+      <h3 class="sesion-titulo">Cierre y <em>arquitectura de continuidad.</em></h3>
+      <div class="sesion-cuerpo">
+        <p><strong>Insumo de entrada:</strong> 60-90 días de operación con sistema instalado.</p>
+        <p><strong>Objetivos:</strong></p>
+        <p>◆ IAD comparativo · línea base S1 vs cierre S4 · medir Delta Propio<br>
+        ◆ Documento Maestro del Consolidado (DM-Roberto) · su Bóveda personal<br>
+        ◆ Acuerdos de continuidad · siguientes 90 días<br>
+        ◆ Decisión: ¿continuidad de acompañamiento o autonomía total?</p>
+      </div>
+      <div class="sesion-tags">
+        <span class="sesion-tag">IAD comparativo</span>
+        <span class="sesion-tag">Bóveda personal</span>
+        <span class="sesion-tag">Delta Propio</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §8 · ALTAR ══ -->
+<section id="altar" class="deep">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§8 · Altar de la Palabra · Acuerdos vivos</span>
+    <h2>Lo que se hace<br><em>entre sesiones.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      El Altar es el espacio donde Roberto se compromete consigo mismo, no con Fer. Cada acuerdo es específico, medible
+      y tiene fecha. El cumplimiento del Altar es lo que reconstruye su IHS. La acumulación de Altares cumplidos es la
+      evidencia de confianza interna que la fractura raíz necesita.
+    </p>
+  </div>
+
+  <div class="altar-bloque reveal">
+    <div class="altar-eyebrow">Altar S1 → S2 · Activo · Mayo 2026</div>
+    <h3 class="altar-titulo">"Solo conozco tu auto.<br><em>Quiero conocerte a ti."</em></h3>
+    <div class="altar-acuerdo">
+      "Esta semana voy a llamar a más de 3 clientes al día — no para vender. Para conocerlos. Para preguntar qué
+      cambió en su vida, qué les quita el sueño en términos de seguridad, qué huecos intuyen. Voy a admitir que solo
+      conozco su auto y que quiero conocerlos a ellos. Lo que escuche · lo anoto · lo traigo a S2."
+    </div>
+    <div class="altar-meta">
+      Firmado en S1 · Mayo 2026 · Roberto Rodríguez<br>
+      Frecuencia mínima: 3 llamadas/día · Frecuencia comprometida por Roberto: "más de 3 al día"<br>
+      Periodo: hasta S2 · Material entregable: notas escritas de cada llamada
+    </div>
+  </div>
+
+  <div class="card-adc reveal" style="margin-top: 32px;">
+    <div class="label-oro">Métricas de cumplimiento del Altar S1→S2</div>
+    <ul class="lista-adc">
+      <li><strong>Cuantitativa:</strong> número total de llamadas realizadas · meta mínima 21 (7 días × 3)</li>
+      <li><strong>Cualitativa:</strong> Roberto puede nombrar 3 patrones que se repitieron en sus llamadas</li>
+      <li><strong>De honorabilidad:</strong> ¿cumplió con lo que dijo · o ajustó la meta a la baja sin nombrarlo?</li>
+      <li><strong>De confianza:</strong> ¿cómo se siente Roberto al llegar a S2 vs al salir de S1?</li>
+    </ul>
+  </div>
+
+  <div class="nota reveal" style="margin-top: 32px;">
+    <div class="nota-label">Próximos altares · candidatos para S2 → S3</div>
+    <div class="nota-texto">
+      Estos NO se firman aún. Solo se preregistran como hipótesis de trabajo:<br><br>
+      ◆ <strong>Altar de las 14 renovaciones de mayo</strong> · todas trabajadas con anticipación de 30+ días, con conversación de Sesión Anual previa<br>
+      ◆ <strong>Altar del Brand Heart vivido</strong> · Roberto nombra su marca a 3 personas distintas en su semana<br>
+      ◆ <strong>Altar del primer Referido pedido</strong> · 1 cliente satisfecho · 1 referido pedido con protocolo
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §9 · PROTOCOLO ══ -->
+<section id="protocolo">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§9 · Protocolo Llamada de Reconocimiento</span>
+    <h2>La herramienta<br><em>operativa de S1→S2.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Esta es la única acción que Roberto ejecuta entre S1 y S2. Es el instrumento que descubre la cartera real,
+      construye relación consultiva desde cero y genera el material crudo para el Brand Heart de S2. No es venta.
+      No es cross-sell. Es siembra honesta.
+    </p>
+  </div>
+
+  <div class="grid-3 reveal">
+    <div class="protocolo-step">
+      <div class="protocolo-num">01</div>
+      <div class="protocolo-tiempo">Apertura · 2 min</div>
+      <h4 class="protocolo-titulo">Honestidad operativa.</h4>
+      <p class="protocolo-cuerpo">
+        "Hola [nombre]. No te hablo por la renovación — esa la trabajamos cuando toque. Te hablo porque llevamos
+        [X] años trabajando juntos · sé qué auto manejas, pero me di cuenta que no te conozco lo suficiente como
+        agente. Quiero cambiar eso. ¿Tienes 15 minutos esta semana?"<br><br>
+        <strong>Esta apertura ES la marca de Roberto:</strong> honestidad sin escudos.
+      </p>
+    </div>
+    <div class="protocolo-step">
+      <div class="protocolo-num">02</div>
+      <div class="protocolo-tiempo">Conversación · 10 min</div>
+      <h4 class="protocolo-titulo">Tres preguntas. Solo tres.</h4>
+      <p class="protocolo-cuerpo">
+        <strong>1.</strong> "¿Qué cambió en tu vida desde que somos cliente y agente? Familia, trabajo, lo que sea."<br><br>
+        <strong>2.</strong> "Hoy · ¿qué es lo que más te quita el sueño del lado de tu seguridad o tu familia?"<br><br>
+        <strong>3.</strong> "¿Hay algo que asumes que ya tienes cubierto pero que cuando lo piensas — no estás
+        completamente seguro?"<br><br>
+        <strong>Roberto solo escucha · no propone · no vende. Anota.</strong>
+      </p>
+    </div>
+    <div class="protocolo-step">
+      <div class="protocolo-num">03</div>
+      <div class="protocolo-tiempo">Cierre · 3 min</div>
+      <h4 class="protocolo-titulo">Siembra · no cosecha.</h4>
+      <p class="protocolo-cuerpo">
+        "Te agradezco. Esto me ayuda a hacer mejor mi trabajo. Cuando renovemos vamos a tener esta conversación
+        más viva. Si entre tanto piensas en algo, búscame."<br><br>
+        <strong>No hay propuesta. No hay cierre comercial.</strong> Si el cliente espontáneamente abre una necesidad
+        explícita · Roberto agenda otra reunión específica para esa conversación · no la atiende ahí.
+      </p>
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--blanco); margin: 48px 0 18px; font-style: italic;" class="reveal">Lo que cada llamada produce · 3 datos vitales</h3>
+
+  <div class="grid-3 reveal">
+    <div class="card-adc">
+      <div class="label-oro">Dato 1 · Lo que cambió</div>
+      <p style="font-size: 13px; color: var(--gris-claro); line-height: 1.75;">
+        Familia, trabajo, contexto del cliente. Es la apertura para diagnóstico real en futuras conversaciones.
+        <strong style="color: var(--blanco);">Si cambió algo · hay nuevos riesgos posibles.</strong>
+      </p>
+    </div>
+    <div class="card-adc">
+      <div class="label-oro">Dato 2 · Lo que le preocupa</div>
+      <p style="font-size: 13px; color: var(--gris-claro); line-height: 1.75;">
+        La preocupación viva en términos de seguridad/familia. Señal directa de qué producto puente puede tener
+        sentido cuando llegue el momento. <strong style="color: var(--blanco);">Lo que le quita el sueño es el mapa.</strong>
+      </p>
+    </div>
+    <div class="card-adc">
+      <div class="label-oro">Dato 3 · El hueco que intuye</div>
+      <p style="font-size: 13px; color: var(--gris-claro); line-height: 1.75;">
+        Lo que el cliente mismo intuye que no está cubierto. <strong style="color: var(--blanco);">Es consentimiento
+        implícito a una conversación futura.</strong> Roberto no tiene que crear la apertura · ya está dada por el cliente.
+      </p>
+    </div>
+  </div>
+
+  <div class="card-adc reveal" style="margin-top: 32px;">
+    <div class="label-oro">Formato sugerido de notas · una hoja por cliente</div>
+    <pre style="font-family: var(--mono); font-size: 12px; color: var(--gris-claro); line-height: 1.75; white-space: pre-wrap; margin-top: 8px;">
+CLIENTE:        ____________________
+FECHA LLAMADA:  ____________________
+DURACIÓN:       ____________________
+
+P1 · LO QUE CAMBIÓ:
+___________________________________
+___________________________________
+
+P2 · LO QUE LE QUITA EL SUEÑO:
+___________________________________
+___________________________________
+
+P3 · EL HUECO QUE INTUYE:
+___________________________________
+___________________________________
+
+OBSERVACIÓN PERSONAL DE ROBERTO:
+___________________________________
+
+PRÓXIMA ACCIÓN ACORDADA:
+___________________________________
+    </pre>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §10 · RIESGOS ══ -->
+<section id="riesgos" class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§10 · Riesgos del caso · y mitigaciones</span>
+    <h2>Qué puede romper<br><em>el taller.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Pre-mortem actualizado post-S1. Estos son los modos de falla más probables del caso. Cada uno tiene una
+      mitigación nombrada. Si Fer o Roberto detectan alguno de estos patrones · activan la mitigación sin esperar.
+    </p>
+  </div>
+
+  <table class="tabla-adc reveal">
+    <thead>
+      <tr><th style="width: 30%;">Riesgo</th><th>Síntoma temprano</th><th>Mitigación</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Dispersión auto-observada</strong> · "brinco de un lado a otro"</td>
+        <td>Roberto empieza más de 2 frentes nuevos al mismo tiempo · abandona Llamadas de Reconocimiento por algo "más urgente"</td>
+        <td>Cortex nombra el patrón sin juicio · Fer recuerda el Acuerdo del Altar · Roberto vuelve al frente único</td>
+      </tr>
+      <tr>
+        <td><strong>Sobrevender en las llamadas</strong></td>
+        <td>Roberto reporta que terminó cotizando algo · que el cliente le pidió producto · que vendió en lugar de escuchar</td>
+        <td>Cortex re-ancla el principio: la llamada es siembra · no cosecha. Si hubo apertura comercial · agenda otra cita específica</td>
+      </tr>
+      <tr>
+        <td><strong>Postergación disfrazada de perfeccionismo</strong></td>
+        <td>"Voy a empezar la próxima semana cuando tenga las notas mejor organizadas" · "primero quiero hacer una lista"</td>
+        <td>Fer nombra la postergación sin juicio · Roberto hace 1 llamada hoy · imperfecta. La perfección viene después de la acción</td>
+      </tr>
+      <tr>
+        <td><strong>Reducción silenciosa del Altar</strong></td>
+        <td>Llega a S2 con menos llamadas de las acordadas · sin nombrar el ajuste</td>
+        <td>S2 abre con revisión honesta del Altar antes de cualquier otro tema · honorabilidad antes que progreso</td>
+      </tr>
+      <tr>
+        <td><strong>Construcción de marca sobre supuestos</strong></td>
+        <td>En S2 Roberto o Fer caen en interpretar la marca desde anécdotas · no desde llamadas reales</td>
+        <td>Bitácora explícita en §4: "padre presente / mamás profesionistas" NO es marca. Solo entran datos de las llamadas</td>
+      </tr>
+      <tr>
+        <td><strong>Fatiga de la cartera dura</strong> (Hipótesis C)</td>
+        <td>Las llamadas a clientes individuales de larga relación son las más difíciles · Roberto las evita y solo llama a familias y empresarios</td>
+        <td>Roberto llama proporcionalmente: 1 de cada hipótesis por día · no concentra en su zona cómoda</td>
+      </tr>
+      <tr>
+        <td><strong>Fractura del IHS por incumplimiento</strong></td>
+        <td>Roberto promete 3 llamadas/día · cumple solo 1 · entra en círculo de auto-juicio que confirma su frase raíz</td>
+        <td>Acuerdo se ajusta hacia abajo (1/día) · no se rompe. Cumplir 1 acuerdo bajo es mejor que romper uno alto. Es la lógica del IHS</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</section>
+
+<!-- ════════════════════════════ §11 · ÉXITO ══ -->
+<section id="exito">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§11 · Criterios de éxito · qué cuenta como taller cumplido</span>
+    <h2>La medida<br><em>del logro.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Estos criterios definen el éxito del taller completo · no de S1 individualmente. Se evalúan al cierre de S4
+      con IAD comparativo. Lo que importa es el Delta Propio: Roberto vs Roberto · no Roberto vs benchmark externo.
+    </p>
+  </div>
+
+  <div class="grid-2 reveal">
+    <div class="card-adc">
+      <div class="label-oro">El taller CUMPLE si</div>
+      <ul class="lista-adc">
+        <li>Roberto opera distinto en su día a día · aunque los activos visuales sean modestos</li>
+        <li>El IAD comparativo S1→S4 muestra mejora en al menos 4 indicadores del Bloque B</li>
+        <li>El IHS sube · aunque sea 1 punto · de 6 hacia 7+</li>
+        <li>Roberto puede nombrar su Brand Heart sin notas · usándolo en 3+ conversaciones reales</li>
+        <li>Hay al menos 1 cierre consultivo nuevo · multi-producto · resultado de la Sesión Anual aplicada</li>
+        <li>Hay al menos 1 referido pedido con protocolo · independiente de los que llegan solos</li>
+        <li>Roberto tiene su Documento Maestro del Consolidado · su Bóveda personal portátil</li>
+      </ul>
+    </div>
+    <div class="card-adc">
+      <div class="label-oro">El taller FALLA si</div>
+      <ul class="lista-adc">
+        <li>Los activos son hermosos pero el operador no se mueve</li>
+        <li>Roberto sale más confundido o sobrecargado de lo que entró</li>
+        <li>Los Acuerdos del Altar se incumplen sistemáticamente sin nombrarlo</li>
+        <li>La marca queda en supuestos · no en evidencia de llamadas reales</li>
+        <li>El IHS baja durante el taller · no al final · sino en cualquier punto sostenidamente</li>
+        <li>Roberto necesita a Fer para operar su sistema · no es soberano</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cita-bloque reveal" style="margin-top: 40px;">
+    <p class="cita-texto">"El taller cumple si Roberto opera distinto en su día a día — incluso si los activos son
+    modestos. El taller fracasa si los activos son hermosos pero el operador no se mueve."</p>
+    <span class="cita-autor">Criterio rector · Bitácora del Facilitador · v2 · preservado</span>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §12 · GUIA DUAL ══ -->
+<section id="guia" class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§12 · Guía dual de uso · Fer + Roberto</span>
+    <h2>Cómo se usa<br><em>esta bitácora.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Esta bitácora vive entre sesiones. Tiene dos lectores con dos modos de uso distintos. Fer la usa para guiar y
+      mantener el caso disciplinado. Roberto la usa para avanzar y mantener su palabra. Cada uno la abre antes de
+      cada interacción y al final de cada acción importante.
+    </p>
+  </div>
+
+  <div class="grid-2 reveal">
+    <div class="guia-card fer">
+      <div class="guia-eyebrow">◆ GUÍA · FER · Facilitador</div>
+      <h3 class="guia-titulo">Cómo Fer usa la Bitácora <em>entre sesiones.</em></h3>
+      <p style="font-size: 13.5px; color: var(--gris-claro); line-height: 1.85; margin-bottom: 18px;">
+        Fer la usa como mapa estratégico del caso · sistema de control de fracturas · ancla para no caer en
+        improvisación de sesión.
+      </p>
+      <ul class="lista-adc">
+        <li><strong>Antes de cada sesión:</strong> revisar §2 Estado · §6 Diagnóstico · §10 Riesgos. Identificar qué pregunta de S2 ataca la fractura raíz</li>
+        <li><strong>Durante la sesión:</strong> tener §4 Voz abierta para preservar palabra exacta de Roberto · agregar nuevas frases de oro</li>
+        <li><strong>Después de la sesión:</strong> regenerar la Bitácora vN+1 con: nuevo SCV · nuevo IAD si aplica · nuevo Acuerdo del Altar · revisión de §10</li>
+        <li><strong>Si Roberto reporta dispersión:</strong> revisar §10 fila 1 · activar mitigación nombrada</li>
+        <li><strong>Si Roberto cae en sobreventa:</strong> revisar §10 fila 2 · reanclar siembra vs cosecha</li>
+        <li><strong>Si Roberto reduce el Altar:</strong> revisar §8 · honorabilidad antes que progreso</li>
+        <li><strong>Pre-S2:</strong> análisis post-llamadas · genera borrador de Brand Heart · revisa hipótesis A/B/C</li>
+      </ul>
+      <p style="font-size: 12.5px; color: var(--gris); margin-top: 18px; font-style: italic; line-height: 1.7;">
+        La bitácora no se lee en vivo durante la sesión · se lee antes y después. En vivo · Fer escucha.
+      </p>
+    </div>
+
+    <div class="guia-card roberto">
+      <div class="guia-eyebrow">◆ GUÍA · ROBERTO · Operador</div>
+      <h3 class="guia-titulo">Cómo Roberto usa la Bitácora <em>en su semana.</em></h3>
+      <p style="font-size: 13.5px; color: var(--gris-claro); line-height: 1.85; margin-bottom: 18px;">
+        Roberto la usa como espejo personal · plan operativo · sistema de auto-rendición de cuentas. No la lee
+        de un tirón · la consulta por secciones según el momento.
+      </p>
+      <ul class="lista-adc">
+        <li><strong>Lunes en la mañana:</strong> abrir §8 Altar · recordar el acuerdo. ¿Qué se prometió esta semana?</li>
+        <li><strong>Antes de cada llamada:</strong> abrir §9 Protocolo · revisar las 3 preguntas. No improvisar</li>
+        <li><strong>Después de cada llamada:</strong> usar el formato de notas de §9 · una hoja por cliente</li>
+        <li><strong>Cuando algo se complique en la cartera:</strong> abrir §5 · ver hipótesis A/B/C · reubicar el cliente</li>
+        <li><strong>Cuando dude de su valor:</strong> releer §4 · sus propias palabras del oro · "la gente confía en mí"</li>
+        <li><strong>Viernes por la tarde:</strong> contar llamadas hechas vs llamadas comprometidas · honorabilidad del IHS</li>
+        <li><strong>Antes de S2:</strong> abrir §7 · revisar qué insumos tiene que llevar · no llegar con manos vacías</li>
+      </ul>
+      <p style="font-size: 12.5px; color: var(--gris); margin-top: 18px; font-style: italic; line-height: 1.7;">
+        Esta bitácora es propiedad de Roberto. Si los roles se van · este sistema se queda. Si Roberto se queda
+        · el sistema crece con él.
+      </p>
+    </div>
+  </div>
+
+  <div class="nota reveal" style="margin-top: 32px;">
+    <div class="nota-label">Versionado · esta es v3 · qué cambia en v4</div>
+    <div class="nota-texto">
+      Esta bitácora <strong>v3</strong> integra todo lo de S1. La <strong>v4</strong> se generará al cierre de S2 e incluirá:
+      notas reales de las llamadas · Brand Heart construido · hipótesis A/B/C validadas o reescritas · nuevo Acuerdo del Altar S2→S3 ·
+      Sesión Anual diseñada. La bitácora siempre vive con la última versión activa · las anteriores se archivan
+      pero no se borran (linaje del caso).
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ CIERRE ══ -->
+<section class="cierre-section">
+  <div class="cierre-contenido">
+    <div class="cierre-frase reveal">
+      "Si los roles se van,<br>
+      <em>los sistemas se quedan.</em>"
+    </div>
+    <div class="cierre-linea reveal"></div>
+    <div class="cierre-meta reveal">
+      Bitácora del Caso · Roberto Rodríguez · v3<br>
+      Mayo 2026 · post-S1<br>
+      ADC · Arquitectura de Desempeño Comercial<br>
+      Cortex Fer U Vivo · Facilitador Metodológico
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-meta">
+    Documento operativo · vive entre sesiones · regenerado post-S1<br>
+    Cortex ADC · próxima versión: v4 al cierre de S2<br>
+    "El origen siempre determina el resultado."
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 25);
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

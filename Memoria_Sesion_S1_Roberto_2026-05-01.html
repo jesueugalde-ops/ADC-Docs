@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADC · Memoria de Sesión S1 · Roberto Rodríguez · Mayo 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --abismo: #030304; --negro-deep: #060608; --negro: #0A0A0C;
+  --negro-suave: #111114; --negro-card: #17171B; --negro-elevado: #1E1E23;
+  --oro-genesis: #3D2E0A; --oro-latente: #6B4E1A; --oro: #C9A84C;
+  --oro-vivo: #E8C97A; --oro-palido: #F5E8C0; --oro-puro: #FFE08A;
+  --oro-dim: rgba(201,168,76,0.06); --oro-borde: rgba(201,168,76,0.20);
+  --oro-borde-med: rgba(201,168,76,0.40); --oro-glow: rgba(201,168,76,0.12);
+  --blanco: #F2F2EE; --gris-claro: #AAAAAA; --gris: #666666; --gris-oscuro: #2A2A2E;
+  --consolidado: #C08C40; --azul: #7EB8C9; --verde: #4A9F6A;
+  --amber: #C08C40; --rojo: #B44040;
+  --rojo-dim: rgba(180,50,50,0.10); --verde-dim: rgba(74,159,106,0.10);
+  --consolidado-dim: rgba(192,140,64,0.06);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Montserrat', sans-serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+  --t-fast: 0.2s ease; --t-med: 0.4s ease;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--negro); color: var(--blanco);
+  font-family: var(--sans); font-weight: 300;
+  line-height: 1.8; overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: radial-gradient(circle, rgba(201,168,76,0.04) 1px, transparent 1px);
+  background-size: 40px 40px; pointer-events: none; z-index: 0; opacity: 0.5;
+}
+
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── PORTADA ── */
+#portada {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.08) 0%, transparent 70%);
+}
+.portada-contenido { text-align: center; padding: 80px 48px; max-width: 920px; position: relative; z-index: 1; }
+.portada-eyebrow {
+  font-size: 11px; font-weight: 500; letter-spacing: 6px;
+  text-transform: uppercase; color: var(--gris); display: block;
+  margin-bottom: 56px; font-family: var(--mono);
+}
+.portada-titulo {
+  font-family: var(--serif); font-size: clamp(56px, 8vw, 110px);
+  font-weight: 300; color: var(--oro); letter-spacing: 6px;
+  line-height: 1; margin-bottom: 20px;
+}
+.portada-titulo em { font-style: italic; color: var(--blanco); }
+.portada-subtitulo {
+  font-size: 12px; font-weight: 300; letter-spacing: 7px;
+  text-transform: uppercase; color: var(--gris-claro);
+  margin-bottom: 36px; font-family: var(--mono);
+}
+.linea-oro { width: 80px; height: 1px; background: var(--oro); margin: 0 auto 40px; }
+.portada-frase {
+  font-family: var(--serif); font-size: 24px; font-weight: 300; font-style: italic;
+  color: var(--gris-claro); line-height: 1.6; max-width: 660px;
+  margin: 0 auto 48px;
+}
+.portada-meta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.portada-meta-tag {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--oro);
+  border: 1px solid var(--oro-borde); padding: 8px 18px;
+  background: var(--oro-dim);
+}
+
+/* ── SECCIÓN ── */
+section { padding: 100px 96px 80px; position: relative; z-index: 1; }
+section.suave { background: var(--negro-suave); }
+section.deep { background: var(--negro-deep); }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+.titulo-seccion { margin-bottom: 56px; }
+.titulo-seccion .numero {
+  font-size: 12px; font-weight: 700; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--oro);
+  display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+  font-family: var(--mono);
+}
+.titulo-seccion .numero::before { content: ''; width: 32px; height: 1px; background: var(--oro); }
+.titulo-seccion h2 {
+  font-family: var(--serif); font-size: clamp(40px, 5vw, 56px);
+  font-weight: 300; line-height: 1.05; color: var(--blanco); margin-bottom: 24px;
+}
+.titulo-seccion h2 em { font-style: italic; color: var(--oro); }
+.divider { width: 60px; height: 1px; background: var(--oro); margin: 24px 0; }
+.titulo-seccion .descripcion {
+  font-size: 14.5px; font-weight: 300; color: var(--gris-claro);
+  max-width: 720px; line-height: 1.9;
+}
+
+/* ── COMPONENTES ── */
+.card-adc {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  padding: 36px 40px; transition: border-color var(--t-med);
+}
+.card-adc:hover { border-color: var(--oro-borde-med); }
+
+.label-oro {
+  font-size: 11px; font-weight: 700; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--oro);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+  font-family: var(--mono);
+}
+.label-oro::before { content: ''; width: 20px; height: 1px; background: var(--oro); }
+
+.cita-bloque {
+  border-left: 3px solid var(--oro); padding: 28px 36px;
+  background: var(--negro-suave); margin: 32px 0;
+}
+.cita-texto {
+  font-family: var(--serif); font-size: 22px; font-weight: 300; font-style: italic;
+  color: var(--blanco); line-height: 1.55; margin-bottom: 12px;
+}
+.cita-autor {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gris); display: block;
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  section { padding: 64px 24px 48px; }
+}
+
+/* ── TABLAS ── */
+.tabla-adc { width: 100%; border-collapse: collapse; margin-top: 24px; }
+.tabla-adc th {
+  font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--oro); padding: 14px 18px;
+  border-bottom: 1px solid var(--oro-borde); text-align: left;
+  background: var(--negro-deep); font-family: var(--mono); vertical-align: top;
+}
+.tabla-adc td {
+  font-size: 13px; font-weight: 300; color: var(--gris-claro);
+  padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  line-height: 1.7; vertical-align: top;
+}
+.tabla-adc tr:hover td { background: var(--oro-dim); }
+.tabla-adc td:first-child {
+  font-weight: 500; color: var(--blanco);
+  font-family: var(--mono); font-size: 12px; letter-spacing: 1px;
+}
+
+/* ── IAD score badge ── */
+.score-badge {
+  display: inline-block; padding: 4px 10px; font-family: var(--mono);
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; min-width: 36px; text-align: center;
+}
+.score-riesgo { background: rgba(180,64,64,0.15); color: var(--rojo); border: 1px solid rgba(180,64,64,0.3); }
+.score-desarrollo { background: rgba(201,168,76,0.10); color: var(--oro); border: 1px solid rgba(201,168,76,0.3); }
+.score-solidez { background: rgba(126,184,201,0.10); color: var(--azul); border: 1px solid rgba(126,184,201,0.3); }
+.score-referencia { background: rgba(74,159,106,0.10); color: var(--verde); border: 1px solid rgba(74,159,106,0.3); }
+
+/* ── PREGUNTA-RESPUESTA ── */
+.qa-bloque {
+  background: var(--negro-card); border-left: 3px solid var(--oro);
+  padding: 28px 36px; margin-bottom: 16px;
+}
+.qa-num {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  color: var(--oro); margin-bottom: 6px;
+}
+.qa-pregunta {
+  font-family: var(--serif); font-size: 17px; font-style: italic;
+  color: var(--blanco); line-height: 1.5; margin-bottom: 14px;
+}
+.qa-respuesta {
+  font-size: 14px; font-weight: 400; color: var(--oro-palido);
+  line-height: 1.7; padding-left: 18px; border-left: 1px solid var(--oro-borde-med);
+  margin-bottom: 12px;
+}
+.qa-lectura {
+  font-size: 12px; font-weight: 300; color: var(--gris-claro);
+  font-family: var(--mono); letter-spacing: 0.5px;
+  padding-top: 8px; border-top: 1px solid rgba(201,168,76,0.08);
+}
+.qa-lectura strong { color: var(--oro); font-weight: 600; }
+
+/* ── ALERTA / NOTA ── */
+.nota {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  border-left: 3px solid var(--oro); padding: 24px 32px; margin: 24px 0;
+}
+.nota-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--oro); margin-bottom: 10px;
+}
+.nota-texto { font-size: 13.5px; font-weight: 300; color: var(--gris-claro); line-height: 1.85; }
+.nota-texto strong { color: var(--blanco); font-weight: 500; }
+
+.alerta {
+  border-left: 3px solid var(--rojo); background: var(--rojo-dim);
+  padding: 24px 32px; margin: 24px 0;
+}
+.alerta-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--rojo); margin-bottom: 10px;
+}
+.alerta-texto { font-size: 13.5px; font-weight: 300; color: var(--gris-claro); line-height: 1.85; }
+
+/* ── MÉTRICA CARD ── */
+.metrica-card {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  padding: 32px 28px; text-align: center; transition: border-color var(--t-med);
+}
+.metrica-card:hover { border-color: var(--oro-borde-med); }
+.metrica-valor {
+  font-family: var(--serif); font-size: 56px; font-weight: 400;
+  color: var(--oro); line-height: 1; margin-bottom: 8px;
+}
+.metrica-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gris-claro);
+}
+.metrica-detalle {
+  font-size: 11px; color: var(--gris); margin-top: 8px; font-style: italic;
+}
+
+/* ── LISTA ── */
+.lista-adc { list-style: none; padding: 0; margin: 16px 0; }
+.lista-adc li {
+  position: relative; padding-left: 24px; margin-bottom: 12px;
+  font-size: 14px; font-weight: 300; color: var(--gris-claro); line-height: 1.7;
+}
+.lista-adc li::before {
+  content: '◆'; position: absolute; left: 0; top: 2px;
+  color: var(--oro); font-size: 9px;
+}
+.lista-adc li strong { color: var(--blanco); font-weight: 500; }
+
+/* ── ALTAR DE LA PALABRA ── */
+.altar-bloque {
+  background: linear-gradient(180deg, var(--negro-card) 0%, var(--negro-suave) 100%);
+  border: 1px solid var(--oro-borde-med);
+  border-top: 3px solid var(--oro);
+  padding: 48px 56px; margin: 40px 0; position: relative;
+}
+.altar-eyebrow {
+  font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--oro); margin-bottom: 14px;
+}
+.altar-titulo {
+  font-family: var(--serif); font-size: 30px; font-weight: 400;
+  color: var(--blanco); margin-bottom: 24px; line-height: 1.2;
+}
+.altar-titulo em { font-style: italic; color: var(--oro); }
+.altar-acuerdo {
+  font-family: var(--serif); font-size: 21px; font-weight: 300; font-style: italic;
+  color: var(--oro-palido); line-height: 1.5; padding: 24px 32px;
+  border-left: 2px solid var(--oro); background: var(--oro-dim);
+  margin: 20px 0;
+}
+.altar-meta {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  color: var(--gris); margin-top: 20px;
+}
+
+/* ── CIERRE ── */
+.cierre-section {
+  min-height: 80vh; display: flex; align-items: center; justify-content: center;
+  background: var(--abismo); padding: 80px 48px;
+}
+.cierre-contenido { max-width: 800px; text-align: center; }
+.cierre-frase {
+  font-family: var(--serif); font-size: clamp(28px, 4vw, 44px);
+  font-weight: 300; color: var(--oro); line-height: 1.4; font-style: italic;
+}
+.cierre-frase em { color: var(--blanco); font-style: normal; }
+.cierre-linea { width: 60px; height: 1px; background: var(--oro); margin: 40px auto; opacity: 0.4; }
+.cierre-meta {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gris); line-height: 1.8;
+}
+
+footer {
+  background: var(--abismo); padding: 32px 48px; text-align: center;
+  border-top: 1px solid var(--gris-oscuro);
+}
+.footer-meta {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
+  color: var(--gris); line-height: 1.8;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════ PORTADA ══ -->
+<section id="portada">
+  <div class="portada-contenido">
+    <span class="portada-eyebrow reveal">ADC · Memoria de Sesión · Documento Operativo</span>
+    <h1 class="portada-titulo reveal">Sesión 01<br><em>Punto de partida.</em></h1>
+    <div class="portada-subtitulo reveal">Roberto Rodríguez · Agente Consolidado · Mayo 2026</div>
+    <div class="linea-oro reveal"></div>
+    <p class="portada-frase reveal">
+      "La mayoría de la gente confía en mí pero yo no confío en mí. Mi cartera es mi mejor activo y la he descuidado."
+    </p>
+    <div class="portada-meta reveal">
+      <span class="portada-meta-tag">Sesión 01 · Diagnóstico</span>
+      <span class="portada-meta-tag">IAD aplicado</span>
+      <span class="portada-meta-tag">Acuerdo del Altar firmado</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ §1 · CONTEXTO ══ -->
+<section class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§1 · Contexto · Por qué esta sesión existe</span>
+    <h2>El punto desde<br><em>donde arrancamos.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Roberto Rodríguez es ex Gerente de Desarrollo de GAM. Hace más de un año dejó la gerencia para volver a operar
+      como Agente Consolidado independiente. Su Sprint ADC previo le dejó arquitectura de soberanía. Hoy regresa al
+      sistema desde el otro lado del espejo — ya no como Gerente que enseña, sino como Consolidado que vive
+      lo que ADC propone para su rol.
+    </p>
+  </div>
+
+  <div class="card-adc reveal">
+    <div class="label-oro">Estado al iniciar S1 · hipótesis pre-taller confirmada</div>
+    <p style="font-size: 14.5px; color: var(--gris-claro); line-height: 1.85; margin-bottom: 18px;">
+      El Sprint previo construyó el sistema, pero a 1+ año de distancia el sistema opera por inercia más que por activación
+      consciente. La cartera produce — pero no está siendo apalancada como motor de crecimiento. Está siendo sostenida como
+      activo cómodo. La pregunta diagnóstica del Rol 05 quedó nombrada en S1 y el propio Roberto la respondió con honestidad:
+    </p>
+    <div class="cita-bloque" style="margin: 0;">
+      <p class="cita-texto">"Estable mas no redituable como yo quisiera, no productivo. Me da paz porque confío en este negocio
+      pero me quita el sueño porque siento que no estoy avanzando."</p>
+      <span class="cita-autor">Roberto · S1 · Lectura del estado actual</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §2 · IAD ══ -->
+<section>
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§2 · IAD aplicado · Línea base del rol Consolidado</span>
+    <h2>El radar de los<br><em>12 indicadores.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Diagnóstico autoevaluado por Roberto · escala 1–10 · Bloque A (01–06) Identidad / Ser · Bloque B (07–12) Sistema / Hacer.
+      Línea base que se compara contra el cierre de S4 y los puntos post-30d, post-60d, post-90d.
+    </p>
+  </div>
+
+  <table class="tabla-adc reveal">
+    <thead>
+      <tr>
+        <th style="width: 50px;">#</th>
+        <th>Indicador</th>
+        <th style="width: 100px;">Score</th>
+        <th>Lectura</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>01</td><td>Estabilidad Emocional</td><td><span class="score-badge score-desarrollo">4</span></td><td>Falta de confianza interna nombrada por él mismo</td></tr>
+      <tr><td>02</td><td>Seguridad y Confianza</td><td><span class="score-badge score-desarrollo">6</span></td><td>Confianza externa alta · interna baja — están separadas</td></tr>
+      <tr><td>03</td><td>Disposición y Entrega</td><td><span class="score-badge score-solidez">7</span></td><td>Compromiso con servicio presente</td></tr>
+      <tr><td>04</td><td>Responsabilidad</td><td><span class="score-badge score-solidez">7</span></td><td>Asume el resultado · sin escudos externos</td></tr>
+      <tr><td>05</td><td>Estrategia de Cartera y Expansión</td><td><span class="score-badge score-desarrollo">5</span></td><td>Sin plan claro de crecimiento — modo mantenimiento</td></tr>
+      <tr><td>06</td><td>Dominio Técnico Multi-dimensional</td><td><span class="score-badge score-solidez">7</span></td><td>Capacidad técnica intacta del Sprint previo</td></tr>
+      <tr><td>07</td><td>Auditoría de Cartera y Mapa de Expansión</td><td><span class="score-badge score-riesgo">3</span></td><td>No conoce su cartera en números — la tiene que buscar</td></tr>
+      <tr><td>08</td><td>Contacto Proactivo y Expansión Activa</td><td><span class="score-badge score-riesgo">3</span></td><td>2 contactos proactivos esta semana · pipeline en cero sin él</td></tr>
+      <tr><td>09</td><td>Diagnóstico Financiero Integral del Cliente</td><td><span class="score-badge score-desarrollo">4</span></td><td>Lo aplica solo en el 3% de las renovaciones — autorreporte</td></tr>
+      <tr><td>10</td><td>Propuesta Multi-Solución</td><td><span class="score-badge score-desarrollo">6</span></td><td>Capacidad presente · uso esporádico</td></tr>
+      <tr><td>11</td><td>Cierre Consultivo Complejo</td><td><span class="score-badge score-desarrollo">4</span></td><td>Capacidad existe · cerró el mes pasado · frecuencia baja</td></tr>
+      <tr><td>12</td><td>Estrategia de Referidos</td><td><span class="score-badge score-desarrollo">4</span></td><td>Llegan solos · sin protocolo · espejo del 01 roto</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid-3 reveal" style="margin-top: 48px;">
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--azul);">6.0</div>
+      <div class="metrica-label">Bloque A · Identidad / Ser</div>
+      <div class="metrica-detalle">Zona de Desarrollo alto</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--oro);">4.0</div>
+      <div class="metrica-label">Bloque B · Sistema / Hacer</div>
+      <div class="metrica-detalle">Zona de Desarrollo bajo</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor">5.0</div>
+      <div class="metrica-label">SCV · Score Composite Value</div>
+      <div class="metrica-detalle">Línea base · Mayo 2026</div>
+    </div>
+  </div>
+
+  <div class="nota reveal" style="margin-top: 40px;">
+    <div class="nota-label">Lectura sistémica · gap entre Bloques</div>
+    <div class="nota-texto">
+      <strong>Roberto sabe ser. Roberto no está haciendo.</strong>
+      El gap de 2 puntos entre Bloque A (6.0) y Bloque B (4.0) revela un patrón claro: la identidad como Consolidado opera —
+      sabe asesorar, tiene dominio, asume responsabilidad. Lo que no opera es el sistema que activa esa identidad sobre la
+      cartera. Sin Auditoría (07=3) y sin Contacto Proactivo (08=3), los demás indicadores del Bloque B no tienen dónde aterrizar.
+      La cartera produce, pero él no la mueve. Ella lo mueve a él.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §3 · ESPEJOS ══ -->
+<section class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§3 · Lectura de Espejos · 3 gaps que hablan</span>
+    <h2>Los espejos rotos<br><em>del rol Consolidado.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Cada indicador del Bloque A tiene su espejo en el Bloque B. Cuando el espejo está roto, la capacidad existe pero
+      el sistema no la activa. Estos son los 3 espejos más reveladores del IAD de Roberto.
+    </p>
+  </div>
+
+  <table class="tabla-adc reveal">
+    <thead>
+      <tr>
+        <th>Espejo</th>
+        <th>Bloque A · Capacidad</th>
+        <th>Bloque B · Ejecución</th>
+        <th>Gap</th>
+        <th>Lectura</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>06 ↔ 07</td>
+        <td>Dominio Técnico · <span class="score-badge score-solidez">7</span></td>
+        <td>Auditoría de Cartera · <span class="score-badge score-riesgo">3</span></td>
+        <td><strong style="color: var(--rojo);">4 pts</strong></td>
+        <td>Sabe usar las herramientas. No está mirando su cartera.</td>
+      </tr>
+      <tr>
+        <td>04 ↔ 09</td>
+        <td>Responsabilidad · <span class="score-badge score-solidez">7</span></td>
+        <td>Diagnóstico Financiero · <span class="score-badge score-desarrollo">4</span></td>
+        <td><strong style="color: var(--oro);">3 pts</strong></td>
+        <td>Se siente dueño del resultado · pero no pregunta lo suficiente.</td>
+      </tr>
+      <tr>
+        <td>02 ↔ 11</td>
+        <td>Seguridad y Confianza · <span class="score-badge score-desarrollo">6</span></td>
+        <td>Cierre Consultivo · <span class="score-badge score-desarrollo">4</span></td>
+        <td><strong style="color: var(--oro);">2 pts</strong></td>
+        <td>Autoridad disponible · cierres de mayor valor sin frecuencia.</td>
+      </tr>
+      <tr>
+        <td>01 ↔ 12</td>
+        <td>Estabilidad Emocional · <span class="score-badge score-desarrollo">4</span></td>
+        <td>Estrategia de Referidos · <span class="score-badge score-desarrollo">4</span></td>
+        <td><strong style="color: var(--gris);">0 pts</strong></td>
+        <td>Espejo equilibrado · ambos bajos · ciclo cerrado pero débil.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</section>
+
+<!-- ════════════════════════════ §4 · 10 PREGUNTAS ══ -->
+<section>
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§4 · Las 10 preguntas de apertura · S1</span>
+    <h2>Sus respuestas<br><em>en sus palabras.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Cada pregunta abre una dimensión del rol. Las respuestas de Roberto son el material clínico de S1.
+      Esta sección preserva su voz exacta — no interpretada, no editada.
+    </p>
+  </div>
+
+  <div class="reveal">
+
+    <div class="qa-bloque">
+      <div class="qa-num">01 · IHS · Estado del operador</div>
+      <div class="qa-pregunta">¿Cómo está tu IHS hoy — tu cumplimiento de palabra contigo mismo? ¿Y hace un año?</div>
+      <div class="qa-respuesta">"Hoy en 6. Hace un año estaba en 7.5."</div>
+      <div class="qa-lectura"><strong>Lectura:</strong> Caída de 1.5 puntos en 12 meses · señal de Deuda de Voluntad acumulada · prioridad 1 del taller</div>
+    </div>
+
+    <div class="qa-bloque">
+      <div class="qa-num">02 · Lectura del negocio sin filtros</div>
+      <div class="qa-pregunta">Sin filtros — ¿cómo está tu negocio hoy? ¿Te da paz, te quita el sueño, o ambas?</div>
+      <div class="qa-respuesta">"Estable mas no redituable como yo quisiera, no productivo como yo quisiera. Ambas cosas: me da paz porque estoy en este negocio y confío plenamente, pero me quita el sueño porque siento que no estoy avanzando."</div>
+      <div class="qa-lectura"><strong>Lectura:</strong> Auto-percepción clara · alta apertura diagnóstica · sin resistencia · esto es la frase de apertura del taller</div>
+    </div>
+
+    <div class="qa-bloque">
+      <div class="qa-num">03 · Cartera · ¿la conoces en números?</div>
+      <div class="qa-pregunta">Si te pregunto el valor anual total de tu cartera ahora mismo — ¿lo sabes de memoria o lo tienes que buscar?</div>
+      <div class="qa-respuesta">"Lo tengo que buscar."</div>
+      <div class="qa-lectura"><strong>Lectura:</strong> IAD 07 confirmado en Riesgo · auditoría no existe</div>
+    </div>
+
+    <div class="qa-bloque">
+      <div class="qa-num">04 · Cartera · clientes mono-producto</div>
+      <div class="qa-pregunta">¿Cuántos clientes tienen un solo producto contigo y cuántos tienen dos o más?</div>
+      <div class="qa-respuesta">"No tengo el número claro. 80% tienen uno solo, el otro 20% tiene más de uno."</div>
+      <div class="qa-lectura"><strong>Lectura:</strong> Percepción optimista · análisis del Excel revela cifra real cercana a 99% mono-producto · solo 2 clientes con multi-producto en cartera vigente</div>
+    </div>
+
+    <div class="qa-bloque">
+      <div class="qa-num">05 · Producción · mix renovación / venta nueva / ampliación</div>
+      <div class="qa-pregunta">De tu producción últimos 12 meses · ¿qué % renovación · qué % venta nueva · qué % ampliación a clientes existentes?</div>
+      <div class="qa-respuesta">"70% renovación · 10% venta nueva · 20% ampliación. No son datos exactos · es mi percepción."</div>
+      <div class="qa-lectura"><strong>Lectura:</strong> Fractura de Continuidad confirmada · sistema vive de inercia (>70% renovación) · cross-sell débil</div>
+    </div>
+
+    <div class="qa-bloque">
+      <div class="qa-num">06 · Pipeline · qué tan vivo está</div>
+      <div class="qa-pregunta">Si te tomas un mes sin prospectar — ¿cuántos prospectos quedarían en tu pipeline al siguiente mes?</div>
+      <div class="qa-respuesta">"Cero."</div>
+      <div class="qa-lectura"><strong>Lectura:</strong> Sistema no independiente del operador · él es el único motor</div>
+    </div>
+
+    <div class="qa-bloque">
+      <div class="qa-num">07 · Contacto proactivo · esta semana</div>
+      <div class="qa-pregunta">¿A cuántos clientes los llamaste tú antes de que ellos te llamaran a ti esta semana?</div>
+      <div class="qa-respuesta">"Dos."</div>
+      <div class="qa-lectura"><strong>Lectura:</strong> IAD 08 confirmado en Riesgo · operación reactiva</div>
+    </div>
+
+    <div class="qa-bloque">
+      <div class="qa-num">08 · Diagnóstico financiero integral</div>
+      <div class="qa-pregunta">Cuando te reúnes con un cliente para renovar · ¿vas más allá de la póliza? ¿Le preguntas cómo está su vida, qué huecos de protección tiene?</div>
+      <div class="qa-respuesta">"No, no hago esa introspección o labor. Solo son muy escasos · un 3% lo hago porque siento que sé algo y puedo."</div>
+      <div class="qa-lectura"><strong>Lectura:</strong> IAD 09 sub-estimado · score real más cercano a 2-3 que a 4 · gap 04↔09 más profundo de lo registrado</div>
+    </div>
+
+    <div class="qa-bloque">
+      <div class="qa-num">09 · Cierre de mayor valor · capacidad presente</div>
+      <div class="qa-pregunta">¿Cuándo fue tu último cierre de mayor valor — ampliación, póliza nueva sobre cartera existente, algo que el cliente no sabía que necesitaba?</div>
+      <div class="qa-respuesta">"El mes pasado."</div>
+      <div class="qa-lectura"><strong>Lectura:</strong> Capacidad de cierre presente · problema es frecuencia · no habilidad</div>
+    </div>
+
+    <div class="qa-bloque">
+      <div class="qa-num">10 · Sistema de referidos</div>
+      <div class="qa-pregunta">¿Tus referidos llegan porque los pediste o porque llegan solos? ¿Tienes un protocolo o es espontáneo?</div>
+      <div class="qa-respuesta">"Llegan solos."</div>
+      <div class="qa-lectura"><strong>Lectura:</strong> Palanca 02 inactiva · sin sistema de petición · espejo 01↔12 cerrado por debajo</div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §5 · LA VOZ DE ROBERTO ══ -->
+<section class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§5 · Las revelaciones · Lo que él nombró sin que se le pidiera</span>
+    <h2>Lo más importante<br><em>de la sesión.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Estas frases no salieron del cuestionario. Salieron en el flujo de la conversación. Cuando un cliente
+      nombra su propia fractura no hay resistencia posible. Solo hay movimiento. Estas son las frases de oro de S1.
+    </p>
+  </div>
+
+  <div class="reveal">
+
+    <div class="cita-bloque">
+      <p class="cita-texto">"La mayoría de la gente confía en mí pero yo no confío en mí."</p>
+      <span class="cita-autor">Frase raíz · reescribe la lectura del IAD 01 y del IAD 08</span>
+    </div>
+
+    <div class="cita-bloque">
+      <p class="cita-texto">"No estoy activando oportunidades nuevas de negocio en mi cartera, estoy operando con lo que ellos mismos me piden."</p>
+      <span class="cita-autor">Auto-diagnóstico del sistema · Fractura de Continuidad nombrada por él</span>
+    </div>
+
+    <div class="cita-bloque">
+      <p class="cita-texto">"Mi cartera es mi mejor activo y la he descuidado."</p>
+      <span class="cita-autor">Consciencia desarrollada en sesión · punto de apertura del cambio</span>
+    </div>
+
+    <div class="cita-bloque">
+      <p class="cita-texto">"El 95% de mi cartera la administraba Ernesto, mi socio, mientras yo trabajaba de gerente. Yo realmente no hacía la renovación."</p>
+      <span class="cita-autor">Dato estructural crítico · explica el patrón</span>
+    </div>
+
+    <div class="cita-bloque">
+      <p class="cita-texto">"Mejores procesos de renovación, hago cosas diferentes, me enfoco en las ventas, me descuido, brinco de un lado a otro."</p>
+      <span class="cita-autor">Patrón de dispersión auto-observado · candidato a Acuerdo del Altar</span>
+    </div>
+
+    <div class="cita-bloque">
+      <p class="cita-texto">"Ayer me pidió un cliente de autos que le renovara su póliza y que también le cotizara GMM porque quería cambiarse conmigo."</p>
+      <span class="cita-autor">Prueba viva de capacidad · cuando la oportunidad llega · cierra. El problema es esperar.</span>
+    </div>
+
+  </div>
+
+  <div class="nota reveal" style="margin-top: 40px;">
+    <div class="nota-label">Lo que NO es la marca de Roberto</div>
+    <div class="nota-texto">
+      Durante la sesión Roberto compartió referencias personales (paternidad · conexión con mamás profesionistas).
+      <strong>Estas frases son anécdota · no posicionamiento de marca.</strong> La marca de Roberto se construye en S2 con datos reales
+      de sus llamadas a clientes — no con interpretaciones tempranas. Esta nota se preserva para evitar que en S2 se
+      arrastre el sesgo de extrapolar marca desde comentarios casuales.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §6 · LECTURA DE CARTERA ══ -->
+<section>
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§6 · Lectura de la cartera · Datos reales del Excel</span>
+    <h2>Lo que la cartera<br><em>le dijo al sistema.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Roberto entregó su base de datos completa al cierre de S1. El análisis revela tres realidades:
+      una cartera más grande de lo que él recuerda, un mono-producto más extremo de lo que percibe,
+      y una ventana de oportunidad concreta en los próximos 90 días.
+    </p>
+  </div>
+
+  <table class="tabla-adc reveal">
+    <thead>
+      <tr><th>Ramo · Aseguradora</th><th>Pólizas Vigentes</th><th>Lectura</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Autos GNP</td><td><strong style="color: var(--blanco);">97</strong></td><td>Núcleo principal de la cartera</td></tr>
+      <tr><td>GMM GNP</td><td><strong style="color: var(--blanco);">72</strong></td><td>Segundo ramo en volumen · poco contacto consultivo</td></tr>
+      <tr><td>Daños GNP</td><td><strong style="color: var(--blanco);">32</strong></td><td>Cartera empresarial · oportunidad protección integral</td></tr>
+      <tr><td>Vida GNP</td><td><strong style="color: var(--blanco);">23</strong></td><td>Ramo más bajo · espacio máximo de cross-sell</td></tr>
+      <tr><td>Autos Flotillas GNP</td><td><strong style="color: var(--blanco);">12</strong></td><td>Clientes corporativos</td></tr>
+      <tr><td>Otras (MAPFRE · METLIFE · QUALITAS · ANA · AXA · ZURICH)</td><td><strong style="color: var(--blanco);">~55</strong></td><td>Cartera diversificada en múltiples aseguradoras</td></tr>
+      <tr><td><strong>TOTAL ESTIMADO</strong></td><td><strong style="color: var(--oro);">~291</strong></td><td><strong style="color: var(--oro);">pólizas vigentes</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid-3 reveal" style="margin-top: 48px;">
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--rojo);">2</div>
+      <div class="metrica-label">Clientes con multi-producto</div>
+      <div class="metrica-detalle">~99% mono-producto · vs 80% percibido</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor">36</div>
+      <div class="metrica-label">Renovaciones próximos 90d</div>
+      <div class="metrica-detalle">28 Autos · 8 GMM · ninguna en lista</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor">~150</div>
+      <div class="metrica-label">Clientes únicos estimados</div>
+      <div class="metrica-detalle">Cartera por descubrir, no por activar</div>
+    </div>
+  </div>
+
+  <div class="alerta reveal" style="margin-top: 40px;">
+    <div class="alerta-label">⚠ Distinción crítica del diagnóstico</div>
+    <div class="alerta-texto">
+      <strong style="color: var(--blanco);">Roberto no tiene cartera dormida — tiene cartera desconocida.</strong>
+      Durante años la administró su socio Ernesto mientras él era Gerente. La relación con la mayoría de sus clientes
+      ha sido transaccional sobre el ramo de autos. No tiene relación consultiva instalada. Por eso el IAD 09 está bajo:
+      no es que no aplique el diagnóstico financiero — es que no tiene la relación que permitiría aplicarlo.
+      <strong style="color: var(--oro);">El primer paso no es vender más. Es conocer a quién ya tiene.</strong>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §7 · ALTAR DE LA PALABRA ══ -->
+<section class="deep">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§7 · Altar de la Palabra · Acuerdo de S1</span>
+    <h2>Lo que se hace<br><em>antes de S2.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      El Altar registra el primer acuerdo concreto entre Roberto y su sistema. No es promesa general — es acción medible
+      con fecha. Define el estado del IHS al cierre de S1 y el material que Roberto trae a S2.
+    </p>
+  </div>
+
+  <div class="altar-bloque reveal">
+    <div class="altar-eyebrow">Protocolo · Llamada de Reconocimiento · 15 minutos</div>
+    <h3 class="altar-titulo">"Solo conozco tu auto.<br><em>Quiero conocerte a ti."</em></h3>
+
+    <p style="font-size: 14.5px; color: var(--gris-claro); line-height: 1.85; margin-bottom: 20px;">
+      Llamada honesta de un agente que admite que solo conoce el auto del cliente — y quiere conocer al cliente.
+      No vende. No propone. <strong style="color: var(--blanco);">Escucha y anota.</strong> Cada llamada genera
+      tres datos que Roberto no tiene hoy: cómo cambió la vida del cliente · qué le quita el sueño en términos de
+      seguridad · qué hueco intuye sin estar seguro. Esto construye el suelo conversacional sobre el cual cualquier
+      cross-sell, propuesta multi-solución o referido podrá apoyarse después.
+    </p>
+
+    <div class="altar-acuerdo">
+      "Esta semana voy a llamar a más de 3 clientes al día — no para vender. Para conocerlos. Para preguntar qué
+      cambió en su vida, qué les quita el sueño en términos de seguridad, qué huecos intuyen. Voy a admitir que solo
+      conozco su auto y que quiero conocerlos a ellos. Lo que escuche · lo anoto · lo traigo a S2."
+    </div>
+
+    <div class="altar-meta">
+      Acuerdo firmado en S1 · Mayo 2026 · Roberto Rodríguez · Frecuencia: 3+ llamadas/día · Periodo: hasta S2
+    </div>
+  </div>
+
+  <div class="grid-3 reveal" style="gap: 2px; margin-top: 32px;">
+    <div class="card-adc">
+      <div class="label-oro">Estructura · Apertura · 2 min</div>
+      <p style="font-size: 13.5px; color: var(--gris-claro); line-height: 1.75;">
+        "Hola. No te hablo por la renovación — esa la trabajamos cuando toque. Te hablo porque llevamos años trabajando
+        juntos, sé qué auto manejas, pero me di cuenta de que no te conozco lo suficiente como agente. Quiero cambiar
+        eso. ¿Tienes 15 minutos esta semana?"
+      </p>
+    </div>
+    <div class="card-adc">
+      <div class="label-oro">Estructura · Conversación · 10 min</div>
+      <p style="font-size: 13.5px; color: var(--gris-claro); line-height: 1.75;">
+        Solo 3 preguntas:<br>
+        1. ¿Qué cambió en tu vida desde que somos cliente y agente?<br>
+        2. Hoy · ¿qué es lo que más te quita el sueño del lado de tu seguridad o tu familia?<br>
+        3. ¿Hay algo que asumes que ya tienes cubierto pero que cuando lo piensas no estás completamente seguro?
+      </p>
+    </div>
+    <div class="card-adc">
+      <div class="label-oro">Estructura · Cierre · 3 min</div>
+      <p style="font-size: 13.5px; color: var(--gris-claro); line-height: 1.75;">
+        "Te agradezco. Esto me ayuda a hacer mejor mi trabajo. Cuando renovemos vamos a tener esta conversación más
+        viva. Si entre tanto piensas en algo, búscame."<br><br>
+        Sin propuesta. Sin cierre comercial. <strong style="color: var(--oro);">Siembra pura.</strong>
+      </p>
+    </div>
+  </div>
+
+  <div class="nota reveal" style="margin-top: 40px;">
+    <div class="nota-label">3 hipótesis de segmentación · para guiar el orden de llamadas</div>
+    <div class="nota-texto">
+      Roberto no conoce a sus clientes individualmente todavía — pero los grupos en su Excel sí dejan ver patrones.
+      Las llamadas son el instrumento de descubrimiento que valida o revisa estas hipótesis:<br><br>
+      <strong>Hipótesis A · Familias multi-vehículo</strong> — clientes con 3+ autos · familia creciendo · conducen
+      hijos jóvenes · alta probabilidad de necesitar Vida + GMM familiar.<br>
+      <strong>Hipótesis B · Empresarios doble frente</strong> — empresa + familia · típicamente con Daños empresariales
+      pero sin GMM colectivo ni Vida del dueño · riesgo no integrado.<br>
+      <strong>Hipótesis C · Clientes individuales de larga relación</strong> — la mayor parte de la cartera · relación
+      transaccional sobre Autos · sin diagnóstico integral.<br><br>
+      <strong>Roberto elige a quién llama primero</strong> — no se le impone orden. Las llamadas dan los datos que
+      validan o reescriben estos perfiles para S2.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ §8 · LO QUE SIGUE ══ -->
+<section>
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§8 · Lo que sigue · Camino a S2</span>
+    <h2>Lo que Roberto trae<br><em>a la siguiente sesión.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      S2 trabaja Identidad y Marca Personal · Capa 1 de la Bóveda. La marca real no se construye sobre supuestos —
+      se construye sobre lo que escuchó en sus llamadas. La S2 hereda los datos de S1.
+    </p>
+  </div>
+
+  <div class="grid-2 reveal">
+    <div class="card-adc">
+      <div class="label-oro">Roberto trae a S2</div>
+      <ul class="lista-adc">
+        <li><strong>Notas de las llamadas de reconocimiento</strong> — qué cambió en la vida de los clientes, qué les quita el sueño, qué huecos intuyen</li>
+        <li><strong>Lista de los 5 clientes más recurrentes</strong> en su Excel · revisada con su lectura propia</li>
+        <li><strong>Identificación de las 14 renovaciones de mayo</strong> · ya organizadas en una lista, no improvisadas</li>
+        <li><strong>3 patrones</strong> que él detectó en sus llamadas · cosas que se repitieron entre clientes distintos</li>
+        <li><strong>Una frase</strong> que él mismo escribió sobre cómo se siente al hacer este trabajo</li>
+      </ul>
+    </div>
+    <div class="card-adc">
+      <div class="label-oro">Fer trae a S2</div>
+      <ul class="lista-adc">
+        <li><strong>Lectura post-llamadas</strong> · qué patrones emergieron de la cartera real</li>
+        <li><strong>Bitácora del Caso v3</strong> con S1 integrado · adjunta al chat de S2</li>
+        <li><strong>Borrador de Brand Heart</strong> usando insumos reales · no anécdotas</li>
+        <li><strong>Hipótesis de segmentación A/B/C revisadas</strong> con datos de las llamadas</li>
+        <li><strong>Pre-mortem corto</strong> · qué puede romper el sistema antes de S3</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cita-bloque reveal" style="margin-top: 48px;">
+    <p class="cita-texto">"El taller cumple si Roberto opera distinto en su día a día — incluso si los activos son
+    modestos. El taller fracasa si los activos son hermosos pero el operador no se mueve."</p>
+    <span class="cita-autor">Criterio de éxito · Bitácora del Facilitador · v2</span>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════ CIERRE ══ -->
+<section class="cierre-section">
+  <div class="cierre-contenido">
+    <div class="cierre-frase reveal">
+      "La gente confía en mí.<br>
+      <em>Hoy empecé a confiar en mí.</em>"
+    </div>
+    <div class="cierre-linea reveal"></div>
+    <div class="cierre-meta reveal">
+      Memoria de Sesión 01 · Roberto Rodríguez<br>
+      Mayo 2026 · ADC<br>
+      "Si los roles se van, los sistemas se quedan."
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-meta">
+    Cortex ADC · Memoria de Sesión · Documento operativo<br>
+    Vive en chat · Se entrega como artefacto post-S1<br>
+    Fer U · Mazatl Ramayari · Facilitador Metodológico ADC V8
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 30);
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
