@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADC · Roberto · Tu Sistema · v5</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --abismo:        #030304;
+  --negro-deep:    #060608;
+  --negro:         #0A0A0C;
+  --negro-suave:   #111114;
+  --negro-card:    #17171B;
+  --negro-elevado: #1E1E23;
+  --oro-genesis:   #3D2E0A;
+  --oro-latente:   #6B4E1A;
+  --oro:           #C9A84C;
+  --oro-vivo:      #E8C97A;
+  --oro-palido:    #F5E8C0;
+  --oro-puro:      #FFE08A;
+  --oro-dim:       rgba(201,168,76,0.06);
+  --oro-borde:     rgba(201,168,76,0.20);
+  --oro-borde-med: rgba(201,168,76,0.40);
+  --oro-glow:      rgba(201,168,76,0.12);
+  --blanco:        #F2F2EE;
+  --gris-claro:    #AAAAAA;
+  --gris:          #666666;
+  --gris-oscuro:   #2A2A2E;
+  --consolidado:   #C08C40;
+  --azul:          #7EB8C9;
+  --verde:         #4A9F6A;
+  --amber:         #C08C40;
+  --rojo:          #B44040;
+  --rojo-dim:      rgba(180,50,50,0.10);
+  --verde-dim:     rgba(74,159,106,0.10);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Montserrat', sans-serif;
+  --mono:  'JetBrains Mono', 'Courier New', monospace;
+  --t-fast: 0.2s ease; --t-med: 0.4s ease;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--negro); color: var(--blanco);
+  font-family: var(--sans); font-weight: 300;
+  line-height: 1.8; overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: radial-gradient(circle, rgba(201,168,76,0.03) 1px, transparent 1px);
+  background-size: 40px 40px; pointer-events: none; z-index: 0; opacity: 0.5;
+}
+
+/* ── NAV ── */
+.nav-sticky {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,6,8,0.94); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--oro-borde); padding: 14px 32px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.nav-titulo {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--oro);
+}
+.nav-titulo strong { color: var(--blanco); font-weight: 700; }
+.nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.nav-links a {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gris-claro);
+  text-decoration: none; transition: color var(--t-fast); padding: 4px 0;
+}
+.nav-links a:hover { color: var(--oro); }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── PORTADA ── */
+#portada {
+  min-height: 88vh; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 32px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.07) 0%, transparent 65%);
+}
+.portada-contenido { text-align: center; max-width: 860px; position: relative; z-index: 1; }
+.portada-eyebrow {
+  font-size: 10px; font-weight: 500; letter-spacing: 6px;
+  text-transform: uppercase; color: var(--gris); display: block;
+  margin-bottom: 40px; font-family: var(--mono);
+}
+.portada-titulo {
+  font-family: var(--serif); font-size: clamp(56px, 8vw, 108px);
+  font-weight: 300; color: var(--oro); letter-spacing: 4px;
+  line-height: 1.0; margin-bottom: 14px;
+}
+.portada-titulo em { font-style: italic; color: var(--blanco); }
+.portada-subtitulo {
+  font-size: 11px; font-weight: 300; letter-spacing: 6px;
+  text-transform: uppercase; color: var(--gris-claro);
+  margin-bottom: 36px; font-family: var(--mono);
+}
+.linea-oro { width: 80px; height: 1px; background: var(--oro); margin: 0 auto 32px; }
+.portada-frase {
+  font-family: var(--serif); font-size: 23px; font-weight: 300; font-style: italic;
+  color: var(--gris-claro); line-height: 1.65; max-width: 660px; margin: 0 auto 40px;
+}
+.portada-meta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.portada-meta-tag {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--oro);
+  border: 1px solid var(--oro-borde); padding: 7px 16px; background: var(--oro-dim);
+}
+
+/* ── SECCIONES ── */
+section { padding: 88px 96px 64px; position: relative; z-index: 1; scroll-margin-top: 70px; }
+section.suave { background: var(--negro-suave); }
+section.deep { background: var(--negro-deep); }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+.titulo-seccion { margin-bottom: 44px; }
+.titulo-seccion .numero {
+  font-size: 11px; font-weight: 700; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--oro);
+  display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  font-family: var(--mono);
+}
+.titulo-seccion .numero::before { content: ''; width: 28px; height: 1px; background: var(--oro); }
+.titulo-seccion h2 {
+  font-family: var(--serif); font-size: clamp(34px, 4.5vw, 52px);
+  font-weight: 300; line-height: 1.05; color: var(--blanco); margin-bottom: 18px;
+}
+.titulo-seccion h2 em { font-style: italic; color: var(--oro); }
+.divider { width: 56px; height: 1px; background: var(--oro); margin: 20px 0; }
+.titulo-seccion .descripcion {
+  font-size: 14px; font-weight: 300; color: var(--gris-claro);
+  max-width: 740px; line-height: 1.85;
+}
+
+/* ── CARDS ── */
+.card-adc {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  padding: 30px 34px; transition: border-color var(--t-med);
+}
+.card-adc:hover { border-color: var(--oro-borde-med); }
+
+.label-oro {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--oro);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+  font-family: var(--mono);
+}
+.label-oro::before { content: ''; width: 18px; height: 1px; background: var(--oro); }
+
+/* ── CITAS ── */
+.cita-bloque {
+  border-left: 3px solid var(--oro); padding: 22px 30px;
+  background: var(--negro-suave); margin: 22px 0;
+}
+.cita-texto {
+  font-family: var(--serif); font-size: 21px; font-weight: 300; font-style: italic;
+  color: var(--blanco); line-height: 1.55; margin-bottom: 10px;
+}
+.cita-autor {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gris); display: block;
+}
+
+/* ── GRIDS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  section { padding: 56px 24px 40px; }
+  .nav-sticky { padding: 10px 16px; }
+}
+
+/* ── TABLA ── */
+.tabla-adc { width: 100%; border-collapse: collapse; margin-top: 18px; }
+.tabla-adc th {
+  font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--oro); padding: 12px 16px;
+  border-bottom: 1px solid var(--oro-borde); text-align: left;
+  background: var(--negro-deep); font-family: var(--mono); vertical-align: top;
+}
+.tabla-adc td {
+  font-size: 13px; font-weight: 300; color: var(--gris-claro);
+  padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  line-height: 1.65; vertical-align: top;
+}
+.tabla-adc tr:hover td { background: var(--oro-dim); }
+.tabla-adc td:first-child { font-weight: 500; color: var(--blanco); font-family: var(--mono); font-size: 11.5px; }
+
+/* ── SCORE BADGES ── */
+.score-badge {
+  display: inline-block; padding: 3px 9px; font-family: var(--mono);
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; min-width: 32px; text-align: center;
+}
+.score-riesgo { background: rgba(180,64,64,0.15); color: var(--rojo); border: 1px solid rgba(180,64,64,0.3); }
+.score-desarrollo { background: rgba(201,168,76,0.10); color: var(--oro); border: 1px solid rgba(201,168,76,0.3); }
+.score-solidez { background: rgba(126,184,201,0.10); color: var(--azul); border: 1px solid rgba(126,184,201,0.3); }
+
+/* ── ALERTAS ── */
+.nota {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  border-left: 3px solid var(--oro); padding: 20px 28px; margin: 20px 0;
+}
+.nota-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--oro); margin-bottom: 8px;
+}
+.nota-texto { font-size: 13.5px; font-weight: 300; color: var(--gris-claro); line-height: 1.85; }
+.nota-texto strong { color: var(--blanco); font-weight: 500; }
+
+.exito {
+  border-left: 3px solid var(--verde); background: var(--verde-dim);
+  padding: 20px 28px; margin: 20px 0;
+}
+.exito-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--verde); margin-bottom: 8px;
+}
+.exito-texto { font-size: 13.5px; font-weight: 300; color: var(--gris-claro); line-height: 1.85; }
+
+/* ── MÉTRICA CARD ── */
+.metrica-card {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  padding: 28px 22px; text-align: center; transition: border-color var(--t-med);
+}
+.metrica-card:hover { border-color: var(--oro-borde-med); }
+.metrica-valor {
+  font-family: var(--serif); font-size: 52px; font-weight: 400;
+  color: var(--oro); line-height: 1; margin-bottom: 6px;
+}
+.metrica-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gris-claro);
+}
+.metrica-detalle { font-size: 11px; color: var(--gris); margin-top: 6px; font-style: italic; }
+
+/* ── LISTAS ── */
+.lista-adc { list-style: none; padding: 0; margin: 12px 0; }
+.lista-adc li {
+  position: relative; padding-left: 20px; margin-bottom: 10px;
+  font-size: 13.5px; font-weight: 300; color: var(--gris-claro); line-height: 1.7;
+}
+.lista-adc li::before { content: '◆'; position: absolute; left: 0; top: 2px; color: var(--oro); font-size: 9px; }
+.lista-adc li strong { color: var(--blanco); font-weight: 500; }
+
+/* ── ALTAR ── */
+.altar-bloque {
+  background: linear-gradient(180deg, var(--negro-card) 0%, var(--negro-suave) 100%);
+  border: 1px solid var(--oro-borde-med); border-top: 3px solid var(--oro);
+  padding: 38px 46px; margin: 28px 0; position: relative;
+}
+.altar-eyebrow {
+  font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--oro); margin-bottom: 10px;
+}
+.altar-titulo {
+  font-family: var(--serif); font-size: 26px; font-weight: 400;
+  color: var(--blanco); margin-bottom: 18px; line-height: 1.25;
+}
+.altar-titulo em { font-style: italic; color: var(--oro); }
+.altar-acuerdo {
+  font-family: var(--serif); font-size: 19px; font-weight: 300; font-style: italic;
+  color: var(--oro-palido); line-height: 1.5; padding: 20px 26px;
+  border-left: 2px solid var(--oro); background: var(--oro-dim); margin: 16px 0;
+}
+.altar-meta { font-family: var(--mono); font-size: 10.5px; letter-spacing: 2px; color: var(--gris); margin-top: 16px; }
+
+/* ── SESIÓN TIMELINE ── */
+.sesion-bloque {
+  background: var(--negro-card); border-left: 3px solid var(--gris-oscuro);
+  padding: 26px 34px; margin-bottom: 14px; transition: border-color var(--t-med);
+}
+.sesion-bloque.cerrada { border-left-color: var(--verde); }
+.sesion-bloque.activa { border-left-color: var(--oro); }
+.sesion-bloque.futura { border-left-color: var(--gris-oscuro); opacity: 0.8; }
+.sesion-eyebrow { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+.sesion-num { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--oro); }
+.sesion-estado { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px; }
+.sesion-estado.cerrada { background: var(--verde-dim); color: var(--verde); border: 1px solid rgba(74,159,106,0.3); }
+.sesion-estado.activa { background: var(--oro-dim); color: var(--oro); border: 1px solid var(--oro-borde-med); }
+.sesion-estado.futura { background: rgba(102,102,102,0.1); color: var(--gris); border: 1px solid var(--gris-oscuro); }
+.sesion-titulo { font-family: var(--serif); font-size: 24px; font-weight: 400; font-style: italic; color: var(--blanco); margin-bottom: 14px; line-height: 1.3; }
+.sesion-titulo em { color: var(--oro); }
+.sesion-cuerpo { font-size: 13.5px; color: var(--gris-claro); line-height: 1.8; }
+.sesion-cuerpo p { margin-bottom: 10px; }
+.sesion-cuerpo strong { color: var(--blanco); }
+.sesion-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(201,168,76,0.08); }
+.sesion-tag { font-family: var(--mono); font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gris-claro); background: var(--negro-suave); border: 1px solid var(--gris-oscuro); padding: 4px 10px; }
+
+/* ── PROTOCOLO STEPS ── */
+.protocolo-step { background: var(--negro-card); border: 1px solid var(--oro-borde); padding: 24px 30px; transition: border-color var(--t-med); }
+.protocolo-step:hover { border-color: var(--oro-borde-med); }
+.protocolo-num { font-family: var(--serif); font-size: 34px; font-weight: 300; font-style: italic; color: var(--oro); line-height: 1; margin-bottom: 8px; }
+.protocolo-tiempo { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--oro-vivo); margin-bottom: 12px; }
+.protocolo-titulo { font-family: var(--serif); font-size: 18px; font-weight: 400; font-style: italic; color: var(--blanco); margin-bottom: 12px; line-height: 1.3; }
+.protocolo-cuerpo { font-size: 13px; color: var(--gris-claro); line-height: 1.75; }
+.protocolo-cuerpo strong { color: var(--blanco); }
+
+/* ── CIERRE ── */
+.cierre-section { min-height: 65vh; display: flex; align-items: center; justify-content: center; background: var(--abismo); padding: 80px 32px; }
+.cierre-contenido { max-width: 760px; text-align: center; }
+.cierre-frase { font-family: var(--serif); font-size: clamp(26px, 4vw, 42px); font-weight: 300; color: var(--oro); line-height: 1.4; font-style: italic; }
+.cierre-frase em { color: var(--blanco); font-style: normal; }
+.cierre-linea { width: 60px; height: 1px; background: var(--oro); margin: 32px auto; opacity: 0.4; }
+.cierre-meta { font-family: var(--mono); font-size: 10.5px; letter-spacing: 3px; text-transform: uppercase; color: var(--gris); line-height: 1.8; }
+
+footer { background: var(--abismo); padding: 24px 32px; text-align: center; border-top: 1px solid var(--gris-oscuro); }
+.footer-meta { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--gris); line-height: 1.8; }
+
+/* ═══ INTERACTIVOS ═══ */
+
+/* ── INPUTS ADC ── */
+.input-adc {
+  width: 100%; background: var(--negro-elevado); border: 1px solid var(--gris-oscuro);
+  color: var(--blanco); font-family: var(--sans); font-size: 13.5px; font-weight: 300;
+  padding: 12px 16px; outline: none; transition: border-color var(--t-fast);
+  line-height: 1.6;
+}
+.input-adc:focus { border-color: var(--oro-borde-med); background: var(--negro-card); }
+.input-adc::placeholder { color: var(--gris); }
+
+textarea.input-adc { resize: vertical; min-height: 80px; }
+
+.select-adc {
+  background: var(--negro-elevado); border: 1px solid var(--gris-oscuro);
+  color: var(--blanco); font-family: var(--mono); font-size: 11px; letter-spacing: 1px;
+  padding: 10px 14px; outline: none; cursor: pointer; transition: border-color var(--t-fast);
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+  padding-right: 36px;
+}
+.select-adc:focus { border-color: var(--oro-borde-med); }
+
+.btn-oro {
+  background: var(--oro-dim); border: 1px solid var(--oro-borde-med);
+  color: var(--oro); font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase; padding: 12px 28px;
+  cursor: pointer; transition: all var(--t-fast); width: 100%;
+}
+.btn-oro:hover { background: var(--oro); color: var(--negro); }
+
+.btn-ghost {
+  background: transparent; border: 1px solid var(--gris-oscuro);
+  color: var(--gris-claro); font-family: var(--mono); font-size: 10px; font-weight: 600;
+  letter-spacing: 2.5px; text-transform: uppercase; padding: 9px 20px;
+  cursor: pointer; transition: all var(--t-fast);
+}
+.btn-ghost:hover { border-color: var(--rojo); color: var(--rojo); }
+
+.campo-grupo { margin-bottom: 16px; }
+.campo-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gris); display: block; margin-bottom: 7px;
+}
+
+/* ── IHS TRACKER ── */
+.ihs-tracker {
+  background: linear-gradient(180deg, var(--negro-card) 0%, var(--negro-deep) 100%);
+  border: 1px solid var(--oro-borde); border-top: 3px solid var(--oro);
+  padding: 36px 42px;
+}
+.ihs-numero {
+  font-family: var(--serif); font-size: 88px; font-weight: 300;
+  line-height: 1; text-align: center; transition: color 0.4s ease;
+}
+.ihs-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gris-claro); text-align: center;
+  margin-top: 8px; margin-bottom: 28px;
+}
+.ihs-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 3px; background: var(--gris-oscuro);
+  outline: none; margin-bottom: 8px; cursor: pointer;
+}
+.ihs-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; background: var(--oro);
+  cursor: pointer; border: 2px solid var(--negro);
+}
+.ihs-slider::-moz-range-thumb {
+  width: 20px; height: 20px; background: var(--oro);
+  cursor: pointer; border: 2px solid var(--negro); border-radius: 0;
+}
+.ihs-zonas { display: flex; justify-content: space-between; margin-top: 6px; }
+.ihs-zona { font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; }
+.ihs-historial { margin-top: 24px; }
+.ihs-historial-titulo { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gris); margin-bottom: 12px; }
+.ihs-semana-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.ihs-semana-label { font-family: var(--mono); font-size: 11px; color: var(--gris); }
+.ihs-semana-valor { font-family: var(--mono); font-size: 13px; font-weight: 700; }
+
+/* ── ALTAR INTERACTIVO ── */
+.altar-check-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.altar-check-item:last-child { border-bottom: none; }
+.check-custom {
+  width: 20px; height: 20px; min-width: 20px; border: 1px solid var(--oro-borde-med);
+  background: var(--negro-elevado); cursor: pointer; display: flex;
+  align-items: center; justify-content: center; transition: all var(--t-fast); margin-top: 2px;
+}
+.check-custom.checked { background: var(--oro-dim); border-color: var(--oro); }
+.check-custom.checked::after { content: '◆'; color: var(--oro); font-size: 10px; }
+.check-texto { font-size: 13.5px; color: var(--gris-claro); line-height: 1.7; flex: 1; }
+.check-texto.checked-text { color: var(--gris); text-decoration: line-through; text-decoration-color: rgba(201,168,76,0.4); }
+
+/* ── FORMULARIO LLAMADA ── */
+.form-llamada {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  border-top: 3px solid var(--consolidado); padding: 32px 36px; margin-bottom: 32px;
+}
+.form-llamada-titulo {
+  font-family: var(--serif); font-size: 22px; font-weight: 400; font-style: italic;
+  color: var(--blanco); margin-bottom: 24px;
+}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+@media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+/* ── REGISTRO DE LLAMADAS ── */
+.llamada-entry {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  border-left: 3px solid var(--consolidado); padding: 24px 30px;
+  margin-bottom: 12px; transition: border-color var(--t-med);
+}
+.llamada-entry:hover { border-color: var(--oro-borde-med); }
+.llamada-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+.llamada-cliente { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--blanco); font-style: italic; }
+.llamada-fecha { font-family: var(--mono); font-size: 10.5px; letter-spacing: 2px; color: var(--gris); }
+.llamada-proceso {
+  display: inline-block; font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px;
+  background: rgba(192,140,64,0.12); color: var(--consolidado); border: 1px solid rgba(192,140,64,0.3);
+  margin-bottom: 12px;
+}
+.llamada-campo { font-size: 13px; color: var(--gris-claro); line-height: 1.7; margin-bottom: 8px; }
+.llamada-campo strong { color: var(--blanco); font-weight: 500; font-family: var(--mono); font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 3px; }
+.llamada-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.04); }
+.llamada-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gris); background: var(--negro-suave); border: 1px solid var(--gris-oscuro); padding: 3px 9px; }
+.llamada-delete { font-family: var(--mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gris); background: none; border: 1px solid var(--gris-oscuro); padding: 3px 9px; cursor: pointer; transition: all var(--t-fast); }
+.llamada-delete:hover { color: var(--rojo); border-color: var(--rojo); }
+
+.empty-state {
+  text-align: center; padding: 56px 32px;
+  border: 1px dashed var(--gris-oscuro); background: var(--negro-card);
+}
+.empty-icon { font-size: 32px; margin-bottom: 16px; opacity: 0.4; }
+.empty-texto { font-size: 13px; color: var(--gris); font-style: italic; }
+
+/* ── REFLEXIÓN SEMANAL ── */
+.reflexion-block {
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+  border-top: 3px solid var(--oro); padding: 30px 34px;
+}
+.reflexion-fecha { font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gris); margin-bottom: 12px; }
+.reflexion-texto { font-size: 13.5px; color: var(--blanco); line-height: 1.85; font-weight: 300; white-space: pre-wrap; }
+.reflexion-vacia { font-size: 13px; color: var(--gris); font-style: italic; }
+.reflexiones-historial { margin-top: 24px; }
+
+/* ── FRACTURA CAMBIO ── */
+.cambio-row {
+  display: grid; grid-template-columns: 140px 1fr;
+  gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: start;
+}
+.cambio-tag {
+  font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 4px 10px; text-align: center;
+}
+.cambio-tag.primaria { background: rgba(192,140,64,0.12); color: var(--consolidado); border: 1px solid rgba(192,140,64,0.3); }
+.cambio-tag.secundaria { background: var(--oro-dim); color: var(--oro); border: 1px solid var(--oro-borde-med); }
+.cambio-texto { font-size: 13px; color: var(--gris-claro); line-height: 1.7; }
+.cambio-texto strong { color: var(--blanco); font-weight: 500; }
+
+/* ── SEÑALES (antes: riesgos) ── */
+.senal-row {
+  padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start;
+}
+.senal-titulo { font-size: 13.5px; font-weight: 500; color: var(--blanco); margin-bottom: 6px; }
+.senal-desc { font-size: 12.5px; color: var(--gris-claro); line-height: 1.7; }
+.senal-accion { font-size: 12px; color: var(--oro-vivo); margin-top: 6px; font-style: italic; }
+.senal-check-wrapper { padding-top: 2px; }
+
+/* ── NÚMERO DECORATIVO ── */
+.num-deco {
+  font-family: var(--serif); font-size: 80px; font-weight: 300; font-style: italic;
+  color: var(--oro-genesis); line-height: 1; position: absolute;
+  top: 20px; right: 30px; pointer-events: none; user-select: none;
+}
+
+/* ── ACCESO RÁPIDO ── */
+.acceso-rapido {
+  background: linear-gradient(135deg, var(--negro-card) 0%, var(--negro-suave) 100%);
+  border: 1px solid var(--oro-borde); padding: 24px 28px;
+  transition: all var(--t-med); cursor: pointer; text-decoration: none; display: block;
+}
+.acceso-rapido:hover { border-color: var(--oro); background: var(--oro-dim); }
+.acceso-eyebrow { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 3.5px; text-transform: uppercase; color: var(--oro); margin-bottom: 10px; }
+.acceso-titulo { font-family: var(--serif); font-size: 19px; font-style: italic; font-weight: 400; color: var(--blanco); line-height: 1.3; margin-bottom: 8px; }
+.acceso-desc { font-size: 11.5px; color: var(--gris-claro); line-height: 1.6; }
+
+</style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav class="nav-sticky">
+  <div class="nav-titulo"><strong>Roberto</strong> · Tu sistema · v5 · post-S2</div>
+  <div class="nav-links">
+    <a href="#hoy">Esta semana</a>
+    <a href="#llamadas">Tus llamadas</a>
+    <a href="#altar">Tu palabra</a>
+    <a href="#ihs">Tu IHS</a>
+    <a href="#protocolo">Cómo lo haces</a>
+    <a href="#radar">Tu radar</a>
+    <a href="#frases">Lo que dijiste</a>
+    <a href="#cartera">Tu cartera</a>
+    <a href="#camino">Tu camino</a>
+    <a href="#medida">Lo que mides</a>
+  </div>
+</nav>
+
+<!-- ════ PORTADA ════ -->
+<section id="portada">
+  <div class="portada-contenido">
+    <span class="portada-eyebrow reveal">ADC · Tu sistema personal · Agente Consolidado</span>
+    <h1 class="portada-titulo reveal">Tu<br><em>cartera.</em></h1>
+    <div class="portada-subtitulo reveal">Roberto Rodríguez · Mayo 2026 · 4 sesiones · post-S2</div>
+    <div class="linea-oro reveal"></div>
+    <p class="portada-frase reveal">
+      La gente confía en ti. Ya lo saben. Esta bitácora existe para que tú también lo empieces a saber — con evidencia, no con fe.
+    </p>
+    <div class="portada-meta reveal">
+      <span class="portada-meta-tag">S1 · S2 cerradas</span>
+      <span class="portada-meta-tag">Tu protocolo emergió en S2</span>
+      <span class="portada-meta-tag">S3 próxima</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════ §0 · ESTA SEMANA — acceso rápido ════ -->
+<section id="hoy" class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">Esta semana · cómo usar este documento</span>
+    <h2>Qué haces <em>cuándo.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Cuatro momentos, cuatro secciones. No leas todo de un tirón — ve directo a lo que necesitas según el momento del día.
+    </p>
+  </div>
+
+  <div class="grid-4 reveal">
+    <a class="acceso-rapido" href="#altar">
+      <div class="acceso-eyebrow">◆ Lunes AM</div>
+      <div class="acceso-titulo">Tu Altar · tus compromisos de la semana</div>
+      <div class="acceso-desc">¿Qué prometiste? ¿Qué vas a cumplir?</div>
+    </a>
+    <a class="acceso-rapido" href="#protocolo">
+      <div class="acceso-eyebrow">◆ Antes de llamar</div>
+      <div class="acceso-titulo">Tu protocolo · los 8 pasos en tu voz</div>
+      <div class="acceso-desc">Repásalo rápido. Adapta el contexto del cliente.</div>
+    </a>
+    <a class="acceso-rapido" href="#llamadas">
+      <div class="acceso-eyebrow">◆ Después de llamar</div>
+      <div class="acceso-titulo">Bitácora de llamadas · anota lo que pasó</div>
+      <div class="acceso-desc">5 minutos máximo. Inmediato, no después.</div>
+    </a>
+    <a class="acceso-rapido" href="#ihs">
+      <div class="acceso-eyebrow">◆ Viernes PM</div>
+      <div class="acceso-titulo">Tu IHS · ¿cuántos acuerdos cumpliste?</div>
+      <div class="acceso-desc">Actualiza el número. Sin juicio, con honestidad.</div>
+    </a>
+  </div>
+</div>
+</section>
+
+<!-- ════ §1 · BITÁCORA DE LLAMADAS ════ -->
+<section id="llamadas">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§1 · Tu bitácora de llamadas</span>
+    <h2>Lo que <em>está pasando.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Anota después de cada llamada — 5 minutos máximos. No tienes que escribir bien ni con frases completas. Solo lo que pasó, lo que detectaste, y qué sigue. Con el tiempo, estos registros se vuelven tu propia base de datos de clientes.
+    </p>
+  </div>
+
+  <!-- Formulario nueva llamada -->
+  <div class="form-llamada reveal">
+    <div class="form-llamada-titulo">◆ Registrar una llamada nueva</div>
+    <div class="form-grid">
+      <div class="campo-grupo">
+        <label class="campo-label">Cliente</label>
+        <input type="text" class="input-adc" id="ll-cliente" placeholder="Nombre del cliente" />
+      </div>
+      <div class="campo-grupo">
+        <label class="campo-label">Fecha</label>
+        <input type="date" class="input-adc" id="ll-fecha" />
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="campo-grupo">
+        <label class="campo-label">¿Qué cambió en su vida?</label>
+        <input type="text" class="input-adc" id="ll-vida" placeholder="Negocio, familia, situación..." />
+      </div>
+      <div class="campo-grupo">
+        <label class="campo-label">Señal de necesidad detectada</label>
+        <input type="text" class="input-adc" id="ll-senal" placeholder="Moto, mudanza, hijos, empresa..." />
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="campo-grupo">
+        <label class="campo-label">Perfil que tiene sentido ahora</label>
+        <select class="select-adc" id="ll-perfil">
+          <option value="">Selecciona...</option>
+          <option value="GMM">GMM</option>
+          <option value="Vida">Vida</option>
+          <option value="Autos">Autos</option>
+          <option value="Daños">Daños</option>
+          <option value="GMM + Vida">GMM + Vida</option>
+          <option value="Sin necesidad detectada aún">Sin necesidad detectada aún</option>
+        </select>
+      </div>
+      <div class="campo-grupo">
+        <label class="campo-label">Proceso elegido</label>
+        <select class="select-adc" id="ll-proceso">
+          <option value="">Selecciona...</option>
+          <option value="Detección en esa misma llamada">Detección en esa misma llamada</option>
+          <option value="Cita agendada para reunión">Cita agendada para reunión</option>
+          <option value="Sin oportunidad aún · seguir en contacto">Sin oportunidad aún · seguir en contacto</option>
+          <option value="Referido pedido">Referido pedido</option>
+        </select>
+      </div>
+    </div>
+    <div class="campo-grupo">
+      <label class="campo-label">Siguiente acción concreta</label>
+      <input type="text" class="input-adc" id="ll-siguiente" placeholder="¿Qué haces tú ahora? ¿Cuándo?" />
+    </div>
+    <div class="campo-grupo">
+      <label class="campo-label">Notas adicionales (opcional)</label>
+      <textarea class="input-adc" id="ll-notas" placeholder="Lo que quieras recordar de esta conversación..."></textarea>
+    </div>
+    <button class="btn-oro" onclick="guardarLlamada()">◆ Guardar esta llamada</button>
+  </div>
+
+  <!-- Lista de llamadas -->
+  <div id="lista-llamadas" class="reveal">
+    <!-- Se llena con JavaScript -->
+  </div>
+</div>
+</section>
+
+<!-- ════ §2 · ALTAR ════ -->
+<section id="altar" class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§2 · Tu Altar · tu palabra</span>
+    <h2>Lo que <em>prometiste.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      El Altar no es una lista de tareas. Es el registro de tu palabra frente a ti mismo. Cada tache aquí no es productividad — es confianza interna acumulada. Exactamente lo que tu fractura raíz necesita.
+    </p>
+  </div>
+
+  <!-- Altar cerrado: S1→S2 -->
+  <div class="altar-bloque reveal" style="border-top-color: var(--gris); opacity: 0.7; margin-bottom: 32px;">
+    <div class="altar-eyebrow" style="color: var(--gris-claro);">Altar S1 → S2 · Cerrado · Mayo 2026</div>
+    <h3 class="altar-titulo" style="color: var(--gris-claro);">«Solo conozco tu auto.<br><em style="color: var(--gris);">Quiero conocerte a ti.»</em></h3>
+    <div class="altar-acuerdo" style="border-left-color: var(--gris); background: rgba(102,102,102,0.05); color: var(--gris-claro);">
+      «Esta semana voy a llamar a más de 3 clientes al día — no para vender. Para conocerlos.»
+    </div>
+    <div class="altar-meta">
+      Resultado: <strong style="color: var(--rojo);">0 llamadas realizadas.</strong> Lo nombraste con honestidad en S2. El Altar fracturado no invalida el compromiso — lo recalibra.<br>
+      Aprendizaje: las preguntas del protocolo anterior no eran tuyas. La estructura sí. La siguiente versión emerge en tu voz.
+    </div>
+  </div>
+
+  <!-- Altar activo: S2→S3 -->
+  <div class="altar-bloque reveal">
+    <div class="altar-eyebrow">Altar S2 → S3 · Activo · Mayo 2026</div>
+    <h3 class="altar-titulo">«Esta semana uso<br><em>mi propio protocolo.»</em></h3>
+    <div class="altar-acuerdo">
+      «Voy a llamar a mis clientes de renovación de GMM y Autos — con mis palabras, con mi forma de hacerlo. No el libreto. Mi versión. Lo que hice con María Espinoza pero con los que tienen renovación próxima. Llevo notas reales a S3.»
+    </div>
+
+    <div style="margin-top: 28px;" id="altar-compromisos">
+      <div style="font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gris); margin-bottom: 16px;">
+        Compromisos de la semana · marca los que cumpliste
+      </div>
+      <!-- checkboxes se generan por JS -->
+    </div>
+
+    <div class="altar-meta" id="ihs-altar-meta" style="margin-top: 20px;">
+      Acuerdo firmado en S2 · Mayo 2026 · Roberto Rodríguez
+    </div>
+  </div>
+
+  <!-- Próximos altares -->
+  <div class="nota reveal" style="margin-top: 32px;">
+    <div class="nota-label">Próximos altares · candidatos para S3 → S4</div>
+    <div class="nota-texto">
+      Estos no están activos todavía. Los firmas cuando llegues a S3 con evidencia de las llamadas.<br><br>
+      ◆ <strong>Altar del Brand Heart Vivido</strong> · nombras tu marca en tus propias palabras a 3 personas distintas · sin notas<br>
+      ◆ <strong>Altar del Primer Referido Pedido con Tu Protocolo</strong> · 1 cliente con alta satisfacción · referido pedido siguiendo tu versión del protocolo<br>
+      ◆ <strong>Altar de la Sesión Anual</strong> · 3 renovaciones trabajadas con el protocolo completo · con notas de lo que respondió el cliente
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════ §3 · IHS ════ -->
+<section id="ihs" class="deep">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§3 · Tu IHS · índice de honorabilidad</span>
+    <h2>Cuánto vale <em>tu palabra.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      El IHS no mide cuánto vendes. Mide cuánto cumples lo que te prometes. Cada viernes actualiza el número con honestidad — sin dramatismo, sin justificación. Solo el número y lo que aprendiste.
+    </p>
+  </div>
+
+  <div class="grid-2 reveal">
+    <div class="ihs-tracker">
+      <div class="ihs-numero" id="ihs-numero" style="color: var(--oro);">5</div>
+      <div class="ihs-label">IHS · autoevaluado · S2</div>
+      <input type="range" class="ihs-slider" id="ihs-slider" min="0" max="10" value="5" step="1" oninput="actualizarIHS(this.value)" />
+      <div class="ihs-zonas">
+        <span class="ihs-zona" style="color: var(--rojo);">Riesgo 0–4</span>
+        <span class="ihs-zona" style="color: var(--oro);">Fractura 5–6</span>
+        <span class="ihs-zona" style="color: var(--azul);">Integridad 7–8</span>
+        <span class="ihs-zona" style="color: var(--verde);">Soberanía 9–10</span>
+      </div>
+      <div style="margin-top: 24px;">
+        <div class="campo-grupo">
+          <label class="campo-label">¿Qué aprendiste esta semana de tu palabra?</label>
+          <textarea class="input-adc" id="ihs-reflexion" placeholder="No tiene que ser perfecto. Solo honesto." style="min-height: 64px;"></textarea>
+        </div>
+        <button class="btn-oro" onclick="guardarIHS()">◆ Guardar corte semanal</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="ihs-historial">
+        <div class="ihs-historial-titulo">Historial de IHS · semana a semana</div>
+        <div id="ihs-historial-lista">
+          <!-- Datos fijos de S1 y S2 -->
+          <div class="ihs-semana-row">
+            <span class="ihs-semana-label">S1 · Mayo 2026 · declarado</span>
+            <span class="ihs-semana-valor" style="color: var(--oro);">6 / 10</span>
+          </div>
+          <div class="ihs-semana-row">
+            <span class="ihs-semana-label">S2 · Mayo 2026 · autoevaluado</span>
+            <span class="ihs-semana-valor" style="color: var(--oro);">5 / 10</span>
+          </div>
+          <!-- Registros guardados por JS aquí -->
+        </div>
+      </div>
+
+      <div class="card-adc" style="margin-top: 24px;">
+        <div class="label-oro">Lo que el IHS le dice al sistema</div>
+        <ul class="lista-adc" style="margin-top: 8px;">
+          <li>Tu IHS en S1 era <strong>6 / 10</strong> — un punto abajo de donde estabas hace un año.</li>
+          <li>En S2 bajó a <strong>5 / 10</strong> — porque las llamadas del Altar no se hicieron y lo nombraste.</li>
+          <li>La caída no es falla: es honestidad. El IHS que baja y se nombra tiene más integridad que el que se maquilla.</li>
+          <li>El próximo movimiento es hacia arriba — con evidencia de acuerdos cumplidos, no con voluntad sola.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════ §4 · PROTOCOLO ════ -->
+<section id="protocolo">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§4 · Tu protocolo · en tu voz</span>
+    <h2>Cómo lo <em>haces tú.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      En S2 demostraste espontáneamente — con el ejemplo de María Espinoza — que ya tienes un protocolo natural. No aprendiste esto del taller. Ya lo tenías. El taller solo lo nombró para que puedas repetirlo con intención. Este es tu protocolo. En tus palabras.
+    </p>
+  </div>
+
+  <div class="nota reveal" style="border-left-color: var(--consolidado);">
+    <div class="nota-label" style="color: var(--consolidado);">Antes de cada llamada</div>
+    <div class="nota-texto">
+      Piensa 30 segundos en este cliente antes de marcar: <strong>¿Qué sé de él/ella que me llegó sin preguntar?</strong> Eso es tu ventaja. Úsala.
+    </div>
+  </div>
+
+  <div class="grid-3 reveal" style="margin-top: 28px;">
+    <div class="protocolo-step">
+      <div class="protocolo-num">01</div>
+      <div class="protocolo-tiempo">Pre-contacto · WhatsApp</div>
+      <h4 class="protocolo-titulo">Pide permiso antes de llamar.</h4>
+      <p class="protocolo-cuerpo">
+        «Hola Mariana, ¿cómo estás? ¿Estás disponible para que te llame?»<br><br>
+        <strong>Por qué funciona:</strong> no irrumpes. Le das control a tu cliente. La respuesta ya es información.
+      </p>
+    </div>
+    <div class="protocolo-step">
+      <div class="protocolo-num">02</div>
+      <div class="protocolo-tiempo">Apertura · 2–3 min</div>
+      <h4 class="protocolo-titulo">La persona primero, el negocio después.</h4>
+      <p class="protocolo-cuerpo">
+        «Hola, ¿cómo estás, cómo te encuentras?» — y esperas. Escuchas.<br><br>
+        <strong>Eso que hace la mayoría de agentes primero te lo reservas para después.</strong>
+      </p>
+    </div>
+    <div class="protocolo-step">
+      <div class="protocolo-num">03</div>
+      <div class="protocolo-tiempo">Conversación de vida · 5–8 min</div>
+      <h4 class="protocolo-titulo">Tres ángulos. Los que se abran.</h4>
+      <p class="protocolo-cuerpo">
+        <strong>Negocio:</strong> ¿Cómo va tu trabajo/consultorio?<br>
+        <strong>Emocional:</strong> ¿Cómo estás tú? (con contexto)<br>
+        <strong>Seguro:</strong> ¿Has tenido que usarlo?<br><br>
+        No fuerces los tres. Sigue el flujo.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid-3 reveal" style="margin-top: 2px;">
+    <div class="protocolo-step">
+      <div class="protocolo-num">04</div>
+      <div class="protocolo-tiempo">Detección · 3–5 min</div>
+      <h4 class="protocolo-titulo">Lo que cambió sin que lo dijeran.</h4>
+      <p class="protocolo-cuerpo">
+        Activa lo que ya sabes: ¿sigue con su auto? ¿Su negocio creció? ¿Tiene familia nueva?<br><br>
+        <strong>Preguntas que vienen del contexto — no del catálogo.</strong>
+      </p>
+    </div>
+    <div class="protocolo-step">
+      <div class="protocolo-num">05</div>
+      <div class="protocolo-tiempo">Evaluación · interna · silenciosa</div>
+      <h4 class="protocolo-titulo">¿Qué tiene sentido para esta persona ahora?</h4>
+      <p class="protocolo-cuerpo">
+        No impones un producto. Evalúas qué tiene sentido para este perfil específico en este momento.<br><br>
+        <strong>GMM o Vida. Autos o Daños. Solo uno para empezar.</strong>
+      </p>
+    </div>
+    <div class="protocolo-step">
+      <div class="protocolo-num">06</div>
+      <div class="protocolo-tiempo">Decisión · en tiempo real</div>
+      <h4 class="protocolo-titulo">¿Sigo en esta llamada o agendo?</h4>
+      <p class="protocolo-cuerpo">
+        «Si se presta la llamada, hago las preguntas en esa misma conversación. Si veo que no hay tiempo pero sí hay oportunidad, le pido que agendemos.»<br><br>
+        <strong>Eso lo dijiste tú. Ese juicio ya lo tienes.</strong>
+      </p>
+    </div>
+  </div>
+
+  <div class="grid-2 reveal" style="margin-top: 2px;">
+    <div class="protocolo-step">
+      <div class="protocolo-num">07</div>
+      <div class="protocolo-tiempo">Cierre · 2 min</div>
+      <h4 class="protocolo-titulo">Siempre un siguiente paso. Siempre.</h4>
+      <p class="protocolo-cuerpo">
+        Si hay propuesta → dices cuándo la envías.<br>
+        Si hay cita → confirmas día y hora.<br>
+        Si no hay nada comercial → «Me dio mucho gusto saber de ti. Te llamo pronto.»<br><br>
+        <strong>Ninguna llamada termina sin un movimiento definido, aunque sea pequeño.</strong>
+      </p>
+    </div>
+    <div class="protocolo-step">
+      <div class="protocolo-num">08</div>
+      <div class="protocolo-tiempo">Referido · solo si hay alta satisfacción</div>
+      <h4 class="protocolo-titulo">La pregunta que multiplica tu cartera.</h4>
+      <p class="protocolo-cuerpo">
+        <strong>Si hay apertura:</strong> «Así como tú estás contento con tu protección, me gustaría saber si tienes alguien cercano a quien yo pueda ayudar de la misma forma.»<br><br>
+        <strong>Si no hay tiempo:</strong> «Me gustaría invitarte un café. Te visito para que me puedas referir con quien tú consideres.»
+      </p>
+    </div>
+  </div>
+
+  <div class="card-adc reveal" style="margin-top: 28px;">
+    <div class="label-oro">Formato de notas · una hoja por cliente · tu versión</div>
+    <pre style="font-family: var(--mono); font-size: 11.5px; color: var(--gris-claro); line-height: 1.85; white-space: pre-wrap; margin-top: 10px;">
+CLIENTE:          ____________________
+CONTEXTO PREVIO:  ____________________  (lo que ya sé antes de llamar)
+FECHA LLAMADA:    ____________________
+
+¿QUÉ CAMBIÓ EN SU VIDA?         ___________________________
+
+¿CÓMO ESTÁ SU NEGOCIO / TRABAJO? ___________________________
+
+¿HA TENIDO QUE USAR EL SEGURO?  ___________________________
+
+SEÑAL DE NECESIDAD DETECTADA:   ___________________________
+
+PERFIL QUE TIENE SENTIDO AHORA: ___________________________
+
+PROCESO ELEGIDO:
+  □ Detección en esta llamada   □ Cita agendada   □ Sin oportunidad aún
+
+SIGUIENTE ACCIÓN:               ___________________________
+
+REFERIDO PEDIDO:  □ Sí — quién: ___________   □ No aplica aún</pre>
+  </div>
+
+  <!-- Reflexión semanal -->
+  <div style="margin-top: 40px;" class="reveal">
+    <div class="titulo-seccion">
+      <span class="numero" style="margin-bottom: 14px;">Reflexión semanal · qué aprendiste de tus llamadas</span>
+    </div>
+    <div class="reflexion-block">
+      <label class="campo-label" style="margin-bottom: 10px;">¿Qué patrón te sorprendió esta semana?</label>
+      <textarea class="input-adc" id="reflexion-texto" placeholder="Sin formato, sin estructura. Solo lo que observaste en las llamadas que hiciste." style="min-height: 100px;"></textarea>
+      <button class="btn-oro" style="margin-top: 14px;" onclick="guardarReflexion()">◆ Guardar reflexión</button>
+    </div>
+
+    <div class="reflexiones-historial" id="reflexiones-historial">
+      <!-- reflexiones guardadas por JS -->
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════ §5 · RADAR ════ -->
+<section id="radar" class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§5 · Tu radar · los 12 indicadores</span>
+    <h2>Dónde estás <em>hoy.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Estos son los scores del IAD de S1 — tu punto de partida. No son un juicio sobre lo que eres. Son la distancia que ya recorriste y la que falta. En S4 los comparamos con quien seas entonces.
+    </p>
+  </div>
+
+  <table class="tabla-adc reveal">
+    <thead>
+      <tr>
+        <th style="width: 44px;">#</th>
+        <th>Indicador</th>
+        <th style="width: 80px;">S1</th>
+        <th>Lo que dice de ti ahora</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>01</td><td>Estabilidad Emocional</td><td><span class="score-badge score-desarrollo">4</span></td><td>Cuando no tienes resultados, eso se siente. Todavía. El protocolo acumula evidencia que cambia eso.</td></tr>
+      <tr><td>02</td><td>Seguridad y Confianza</td><td><span class="score-badge score-desarrollo">6</span></td><td>Afuera, alta. Adentro, aún construyéndose. Cada llamada que se convierte en algo es un ladrillo de confianza interna.</td></tr>
+      <tr><td>03</td><td>Disposición y Entrega</td><td><span class="score-badge score-solidez">7</span></td><td>Estás comprometido. Se nota. No falta voluntad — falta sistema para canalizar la voluntad.</td></tr>
+      <tr><td>04</td><td>Responsabilidad</td><td><span class="score-badge score-solidez">7</span></td><td>Asumir los resultados como propios, sin excusas. Eso ya lo haces. Es una fortaleza real.</td></tr>
+      <tr><td>05</td><td>Estrategia de Cartera</td><td><span class="score-badge score-desarrollo">5</span></td><td>Hasta S1, modo mantenimiento. Ahora tienes hipótesis A/B/C. Eso ya es estrategia.</td></tr>
+      <tr><td>06</td><td>Dominio Técnico</td><td><span class="score-badge score-solidez">7</span></td><td>El conocimiento está. Lo que falta es la frecuencia de usarlo con intención.</td></tr>
+      <tr><td>07</td><td>Auditoría de Cartera</td><td><span class="score-badge score-riesgo">3</span></td><td>El Excel entregado en S1 fue el primer mapa real. Cada llamada que haces agrega detalle a ese mapa.</td></tr>
+      <tr><td>08</td><td>Contacto Proactivo</td><td><span class="score-badge score-riesgo">3</span></td><td>2 contactos a la semana en S1. Las llamadas de esta semana cambian ese número directamente.</td></tr>
+      <tr><td>09</td><td>Diagnóstico Financiero</td><td><span class="score-badge score-desarrollo">4</span></td><td>Solo en el 3% de renovaciones. El protocolo del §4 instala esto en cada llamada — sin que sienta forzado.</td></tr>
+      <tr><td>10</td><td>Propuesta Multi-Solución</td><td><span class="score-badge score-desarrollo">6</span></td><td>La capacidad está. El caso María Espinoza demostró que puedes pensar en GMM o Vida según el perfil. Solo falta ejercitarlo.</td></tr>
+      <tr><td>11</td><td>Cierre Consultivo</td><td><span class="score-badge score-desarrollo">4</span></td><td>Cerraste el mes pasado. No es frecuencia — es sistema. Con el protocolo instalado, la frecuencia llega.</td></tr>
+      <tr><td>12</td><td>Estrategia de Referidos</td><td><span class="score-badge score-desarrollo">4</span></td><td>Llegan solos. Cuando el paso 08 de tu protocolo se vuelve hábito, dejan de llegar solos — los vas a buscar.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid-3 reveal" style="margin-top: 36px;">
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--azul);">6.0</div>
+      <div class="metrica-label">Bloque A · S1</div>
+      <div class="metrica-detalle">Quien eres · identidad · fortaleza real</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--consolidado);">4.0</div>
+      <div class="metrica-label">Bloque B · S1</div>
+      <div class="metrica-detalle">Lo que produces · donde está el movimiento</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor">2.0</div>
+      <div class="metrica-label">Gap A↔B · S1</div>
+      <div class="metrica-detalle">Sabes ser · estás empezando a hacer</div>
+    </div>
+  </div>
+
+  <div class="nota reveal" style="margin-top: 32px;">
+    <div class="nota-label">La lectura más importante del radar</div>
+    <div class="nota-texto">
+      <strong>Tu Bloque A está 2 puntos arriba de tu Bloque B.</strong> Eso no es un problema — es un punto de partida. Significa que la persona ya está lista para producir más de lo que el sistema le permite hoy. El trabajo de las próximas semanas cierra esa brecha desde el Bloque B. No desde el Bloque A — ese ya es sólido.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════ §6 · LO QUE DIJISTE ════ -->
+<section id="frases">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§6 · Lo que dijiste · tus frases preservadas</span>
+    <h2>Lo que <em>ya sabes.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Estas son tus palabras exactas de S1 y S2. Las guardamos porque dicen más de ti que cualquier análisis externo. Cuando no sepas por qué estás haciendo esto, vuelve aquí.
+    </p>
+  </div>
+
+  <div class="reveal">
+    <div class="cita-bloque">
+      <p class="cita-texto">«La mayoría de la gente confía en mí pero yo no confío en mí.»</p>
+      <span class="cita-autor">Tu diagnóstico más honesto · S1. Esta bitácora existe para acortar esa distancia con evidencia.</span>
+    </div>
+    <div class="cita-bloque">
+      <p class="cita-texto">«Mi cartera es mi mejor activo y la he descuidado.»</p>
+      <span class="cita-autor">El punto de apertura · S1. Lo primero que nombraste cuando bajaste la guardia.</span>
+    </div>
+    <div class="cita-bloque">
+      <p class="cita-texto">«No estoy activando oportunidades nuevas de negocio en mi cartera. Estoy operando con lo que ellos mismos me piden.»</p>
+      <span class="cita-autor">Tu auto-diagnóstico más preciso · S1. Eso se cambia con el protocolo del §4.</span>
+    </div>
+    <div class="cita-bloque">
+      <p class="cita-texto">«No me gustaron las preguntas, no las sentí mías — pero la estructura sí.»</p>
+      <span class="cita-autor">Tu insight más importante de S2. Por eso el protocolo ahora está en tu voz, no en la del sistema.</span>
+    </div>
+    <div class="cita-bloque">
+      <p class="cita-texto">«Tengo que aprovechar mis clientes, saber el por qué confían y por qué continúan conmigo — y poder aprovechar esa información para tener más referidos y avanzar con más personas.»</p>
+      <span class="cita-autor">Tu aprendizaje clave · S2. Ya sabes adónde vas. Este documento te da la estructura para ejecutarlo.</span>
+    </div>
+    <div class="cita-bloque">
+      <p class="cita-texto">«Si se presta la llamada, puedo hacer las preguntas en esa misma llamada. Si veo que no hay tiempo pero sí hay oportunidad, le pido que agendemos.»</p>
+      <span class="cita-autor">Tu protocolo natural emergiendo · S2 · caso María Espinoza. Eso que describiste ahí es el §4 de este documento.</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════ §7 · TU CARTERA ════ -->
+<section id="cartera" class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§7 · Tu cartera · lo que ya tienes</span>
+    <h2>El activo <em>que es tuyo.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Lo que el Excel reveló en S1: tienes más de lo que recordabas, menos multi-producto de lo que percibías, y 36 conversaciones con fecha en los próximos 90 días. Eso no es un problema — es una agenda.
+    </p>
+  </div>
+
+  <div class="grid-4 reveal">
+    <div class="metrica-card">
+      <div class="metrica-valor">~291</div>
+      <div class="metrica-label">Pólizas vigentes</div>
+      <div class="metrica-detalle">Más de lo que recordabas</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--rojo);">2</div>
+      <div class="metrica-label">Clientes multi-producto</div>
+      <div class="metrica-detalle">99% mono-producto vs 80% percibido</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor" style="color: var(--oro);">36</div>
+      <div class="metrica-label">Renovaciones próximas 90d</div>
+      <div class="metrica-detalle">28 Autos · 8 GMM · con fecha</div>
+    </div>
+    <div class="metrica-card">
+      <div class="metrica-valor">~150</div>
+      <div class="metrica-label">Clientes únicos estimados</div>
+      <div class="metrica-detalle">Por descubrir — no por activar</div>
+    </div>
+  </div>
+
+  <div class="nota reveal" style="margin-top: 32px;">
+    <div class="nota-label">La distinción que cambia todo</div>
+    <div class="nota-texto">
+      <strong>No tienes cartera dormida — tienes cartera desconocida.</strong><br>
+      Durante años tu socio la administraba mientras tú eras Gerente. La relación con la mayoría de tus clientes ha sido transaccional sobre el ramo de autos. <strong>El primer paso no es vender más. Es conocer a quién ya tienes.</strong> Por eso el §1 de esta bitácora es el registro de llamadas, no un tracker de ventas.
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--blanco); margin: 40px 0 16px; font-style: italic;" class="reveal">Tres tipos de cliente en tu cartera · hipótesis a validar con las llamadas</h3>
+
+  <div class="grid-3 reveal">
+    <div class="card-adc" style="border-top: 2px solid var(--azul);">
+      <div class="label-oro" style="color: var(--azul);">Hipótesis A · Familias multi-vehículo</div>
+      <p style="font-size: 13.5px; color: var(--gris-claro); line-height: 1.8;">
+        Clientes con 3+ autos · hijos en edad de manejar · esposa con auto propio.<br><br>
+        <strong style="color: var(--blanco);">Posible conversación: Vida + GMM familiar + revisión de cobertura para conductores jóvenes.</strong>
+      </p>
+    </div>
+    <div class="card-adc" style="border-top: 2px solid var(--oro);">
+      <div class="label-oro">Hipótesis B · Empresarios doble frente</div>
+      <p style="font-size: 13.5px; color: var(--gris-claro); line-height: 1.8;">
+        Con empresa + familia · Daños empresariales pero sin GMM colectivo o Vida del dueño.<br><br>
+        <strong style="color: var(--blanco);">Riesgo no integrado entre los dos universos. Alta oportunidad.</strong>
+      </p>
+    </div>
+    <div class="card-adc" style="border-top: 2px solid var(--gris-oscuro);">
+      <div class="label-oro" style="color: var(--gris-claro);">Hipótesis C · Individuales de larga relación</div>
+      <p style="font-size: 13.5px; color: var(--gris-claro); line-height: 1.8;">
+        Mayor volumen de tu cartera. Relación transaccional sobre Autos. Sin diagnóstico integral.<br><br>
+        <strong style="color: var(--blanco);">Mayor reto — y donde el Protocolo Natural tiene más impacto.</strong>
+      </p>
+    </div>
+  </div>
+
+  <div class="card-adc reveal" style="margin-top: 32px;">
+    <div class="label-oro">Tus 5 clientes clave · nombrados por ti en S1</div>
+    <ul class="lista-adc" style="margin-top: 8px;">
+      <li><strong>Noemí</strong> (Consultores Asociados J. Rdz Turcato) · familia + empresa con múltiples entradas</li>
+      <li><strong>Humberto</strong> · cliente clave de confianza nombrado</li>
+      <li><strong>Edwin</strong> · cliente clave</li>
+      <li><strong>Juan Raúl</strong> (Rodríguez · familia) · red familiar identificada</li>
+      <li><strong>Juan Carlos</strong> (Rodríguez Turcato) · vinculado al cluster Consultores Asociados</li>
+    </ul>
+    <p style="font-size: 12px; color: var(--gris); margin-top: 14px; font-style: italic;">
+      Estos 5 son tu primer círculo natural para iniciar las Llamadas de Reconocimiento. Los conoces. Ya confían en ti.
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- ════ §8 · TU CAMINO ════ -->
+<section id="camino">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§8 · Tu camino · las 4 sesiones</span>
+    <h2>Dónde estás <em>en el proceso.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      Cuatro sesiones. Cada una parte de donde terminó la anterior. No hay plan que se cumpla exactamente — hay dirección que se sostiene.
+    </p>
+  </div>
+
+  <div class="reveal">
+    <div class="sesion-bloque cerrada">
+      <div class="sesion-eyebrow">
+        <span class="sesion-num">Sesión 01 · Mayo 2026</span>
+        <span class="sesion-estado cerrada">✓ Cerrada</span>
+      </div>
+      <h3 class="sesion-titulo">Tu punto de partida <em>nombrado.</em></h3>
+      <div class="sesion-cuerpo">
+        <p>IAD aplicado. 12 indicadores. Cartera mapeada (~291 pólizas). Fractura raíz que nombraste tú: <em>«la gente confía en mí pero yo no confío en mí»</em>. Altar firmado. Excel entregado — el primer mapa real de tu cartera.</p>
+      </div>
+      <div class="sesion-tags">
+        <span class="sesion-tag">IAD S1 línea base</span>
+        <span class="sesion-tag">Cartera mapeada</span>
+        <span class="sesion-tag">Altar firmado</span>
+      </div>
+    </div>
+
+    <div class="sesion-bloque cerrada">
+      <div class="sesion-eyebrow">
+        <span class="sesion-num">Sesión 02 · Mayo 2026</span>
+        <span class="sesion-estado cerrada">✓ Cerrada</span>
+      </div>
+      <h3 class="sesion-titulo">Tu protocolo <em>emergió desde adentro.</em></h3>
+      <div class="sesion-cuerpo">
+        <p>Llegaste sin haber hecho las llamadas. Lo nombraste con honestidad. La sesión viró hacia lo que <em>sí</em> sabes hacer. A través del ejemplo de María Espinoza, describiste espontáneamente 8 pasos de conversación consultiva que ya viven en ti. El protocolo no te lo enseñamos — te lo nombramos.</p>
+      </div>
+      <div class="sesion-tags">
+        <span class="sesion-tag">Altar S1→S2 fracturado · honrado</span>
+        <span class="sesion-tag">Protocolo Natural emergió</span>
+        <span class="sesion-tag">Brand Heart → S3</span>
+      </div>
+    </div>
+
+    <div class="sesion-bloque activa">
+      <div class="sesion-eyebrow">
+        <span class="sesion-num">Sesión 03 · próxima</span>
+        <span class="sesion-estado activa">⟶ La próxima</span>
+      </div>
+      <h3 class="sesion-titulo">Tu marca desde <em>las llamadas reales.</em></h3>
+      <div class="sesion-cuerpo">
+        <p><strong>Lo que necesitas llevar a S3:</strong> notas de al menos 3–5 llamadas hechas con tu propio protocolo esta semana. Sin ese insumo, la sesión trabaja sobre supuestos — no sobre evidencia real. El Brand Heart no se construye desde la teoría.</p>
+        <p><strong>En S3 vamos a construir:</strong> tu Brand Heart (por qué tus clientes confían en ti, en tus propias palabras) · validación de las hipótesis A/B/C con datos reales · protocolo de referido refinado · tu Cockpit personal de métricas.</p>
+      </div>
+      <div class="sesion-tags">
+        <span class="sesion-tag">Brand Heart</span>
+        <span class="sesion-tag">Hipótesis A/B/C validadas</span>
+        <span class="sesion-tag">Protocolo de Referido</span>
+        <span class="sesion-tag">Cockpit personal</span>
+      </div>
+    </div>
+
+    <div class="sesion-bloque futura">
+      <div class="sesion-eyebrow">
+        <span class="sesion-num">Sesión 04 · futura</span>
+        <span class="sesion-estado futura">○ Futura</span>
+      </div>
+      <h3 class="sesion-titulo">Tu sistema que <em>camina solo.</em></h3>
+      <div class="sesion-cuerpo">
+        <p>IAD comparativo: quién eras en S1 vs quién eres en S4. Tu Documento Maestro personal — tu Bóveda. Los acuerdos de los próximos 90 días. La decisión: ¿sigues con acompañamiento o ya tienes soberanía total?</p>
+      </div>
+      <div class="sesion-tags">
+        <span class="sesion-tag">IAD comparativo</span>
+        <span class="sesion-tag">Bóveda personal</span>
+        <span class="sesion-tag">Delta propio</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════ §9 · LO QUE VIGILAS ════ -->
+<section id="vigilas" class="suave">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§9 · Lo que vigilas en ti mismo</span>
+    <h2>Las señales <em>que tú conoces.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      No son riesgos de que el taller falle. Son patrones tuyos que ya nombraste — y que te puedes vigilar tú mismo antes de que alguien te los señale.
+    </p>
+  </div>
+
+  <div class="reveal" style="margin-top: 8px;">
+    <div class="senal-row">
+      <div>
+        <div class="senal-titulo">Dispersión · «brinco de un lado a otro»</div>
+        <div class="senal-desc">Empiezas 2+ frentes nuevos simultáneos y abandonas las llamadas de renovación por «algo más urgente».</div>
+        <div class="senal-accion">→ Vuelve a un solo frente. Las llamadas primero. Todo lo demás después.</div>
+      </div>
+    </div>
+    <div class="senal-row">
+      <div>
+        <div class="senal-titulo">Postergación disfrazada de perfeccionismo</div>
+        <div class="senal-desc">«Voy a empezar la próxima semana cuando tenga las notas mejor organizadas.»</div>
+        <div class="senal-accion">→ Haz 1 llamada hoy. Imperfecta. La perfección viene después de la acción, no antes.</div>
+      </div>
+    </div>
+    <div class="senal-row">
+      <div>
+        <div class="senal-titulo">Sobrevender en lugar de escuchar</div>
+        <div class="senal-desc">Terminas cotizando algo en una llamada que era de reconocimiento.</div>
+        <div class="senal-accion">→ Esa llamada era siembra, no cosecha. Si hay apertura comercial, agenda otra cita específica para eso.</div>
+      </div>
+    </div>
+    <div class="senal-row">
+      <div>
+        <div class="senal-titulo">Reducción silenciosa del Altar</div>
+        <div class="senal-desc">Llegas a la siguiente sesión con menos de lo que acordaste, sin nombrarlo.</div>
+        <div class="senal-accion">→ Nómbralo tú primero. La fractura honrada tiene más integridad que el silencio.</div>
+      </div>
+    </div>
+    <div class="senal-row">
+      <div>
+        <div class="senal-titulo">Resistencia al protocolo ajeno</div>
+        <div class="senal-desc">Recibes una herramienta nueva, no resuena, la abandonas sin decirlo, no ejecutas el Altar.</div>
+        <div class="senal-accion">→ Di que no resuena. Cualquier herramienta del proceso se puede adaptar a tu voz. Lo que no se adapta, no funciona para ti.</div>
+      </div>
+    </div>
+    <div class="senal-row">
+      <div>
+        <div class="senal-titulo">El círculo de auto-juicio</div>
+        <div class="senal-desc">Prometes 3 llamadas/día, cumples 1, entras en modo de auto-juicio que confirma la frase raíz.</div>
+        <div class="senal-accion">→ El Altar se ajusta hacia abajo, nunca se rompe. Cumplir 1 acuerdo bajo construye más IHS que romper uno alto.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════ §10 · TU MEDIDA ════ -->
+<section id="medida">
+<div class="section-inner">
+  <div class="titulo-seccion reveal">
+    <span class="numero">§10 · Lo que quieres demostrar</span>
+    <h2>La medida <em>es tuya.</em></h2>
+    <div class="divider"></div>
+    <p class="descripcion">
+      No te comparamos con nadie más. Solo con quien eras cuando empezaste. Al final de S4, revisamos estos puntos juntos — no para calificarte, sino para que veas la distancia recorrida.
+    </p>
+  </div>
+
+  <div class="grid-2 reveal">
+    <div class="card-adc">
+      <div class="label-oro">Lo que quieres demostrar al final</div>
+      <ul class="lista-adc" style="margin-top: 8px;">
+        <li>Que tu día a día opera distinto — aunque los activos visuales sean modestos</li>
+        <li>Que tu radar S4 muestra mejora en al menos 4 indicadores del Bloque B</li>
+        <li>Que tu IHS subió — aunque sea 1 punto · de 5 hacia 6+</li>
+        <li>Que puedes nombrar tu Brand Heart sin notas y que lo usaste en al menos 3 conversaciones reales</li>
+        <li>Que tienes al menos 1 cierre consultivo nuevo resultado de aplicar tu protocolo</li>
+        <li>Que pediste al menos 1 referido con tu protocolo — no que llegó solo</li>
+        <li>Que tienes tu Documento Maestro: tu bóveda personal portátil</li>
+      </ul>
+    </div>
+    <div class="card-adc">
+      <div class="label-oro">Lo que no cuenta como logro</div>
+      <ul class="lista-adc" style="margin-top: 8px;">
+        <li>Documentos hermosos, operador que no se mueve</li>
+        <li>Salir más confundido o sobrecargado que al entrar</li>
+        <li>Altares incumplidos sistemáticamente sin nombrarlos</li>
+        <li>Marca construida sobre supuestos — no sobre evidencia de llamadas reales</li>
+        <li>IHS que baje y se quede abajo de forma sostenida durante el proceso</li>
+        <li>Necesitar a Fer para operar tu sistema — ese día, la soberanía no llegó todavía</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cita-bloque reveal" style="margin-top: 36px;">
+    <p class="cita-texto">«El taller cumple si Roberto opera distinto en su día a día — aunque los activos sean modestos. El taller fracasa si los activos son hermosos pero el operador no se mueve.»</p>
+    <span class="cita-autor">El criterio rector · no es de producción — es de movimiento</span>
+  </div>
+</div>
+</section>
+
+<!-- ════ CIERRE ════ -->
+<section class="cierre-section">
+  <div class="cierre-contenido">
+    <div class="cierre-frase reveal">
+      «Tu cartera no está dormida.<br>
+      <em>Está esperando que tú la llames.»</em>
+    </div>
+    <div class="cierre-linea reveal"></div>
+    <div class="cierre-meta reveal">
+      Roberto Rodríguez · Tu sistema · v5 · post-S2 · Mayo 2026<br>
+      ADC · Arquitectura de Desempeño Comercial<br>
+      «El origen siempre determina el resultado.»
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-meta">
+    Documento vivo · tú lo alimentas entre sesiones · v6 al cierre de S3<br>
+    ADC · Cortex Fer U · Facilitador Metodológico
+  </div>
+</footer>
+
+<!-- ════ JAVASCRIPT ════ -->
+<script>
+
+// ─── REVEAL ON SCROLL ───
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 20);
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ─── IHS ───
+function actualizarIHS(val) {
+  const num = document.getElementById('ihs-numero');
+  num.textContent = val;
+  const v = parseInt(val);
+  if (v <= 4) num.style.color = 'var(--rojo)';
+  else if (v <= 6) num.style.color = 'var(--oro)';
+  else if (v <= 8) num.style.color = 'var(--azul)';
+  else num.style.color = 'var(--verde)';
+}
+
+function guardarIHS() {
+  const val = document.getElementById('ihs-slider').value;
+  const reflexion = document.getElementById('ihs-reflexion').value.trim();
+  const hoy = new Date().toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  const historial = JSON.parse(localStorage.getItem('roberto-ihs') || '[]');
+  historial.push({ semana: hoy, valor: val, reflexion });
+  localStorage.setItem('roberto-ihs', JSON.stringify(historial));
+  document.getElementById('ihs-reflexion').value = '';
+  renderIHSHistorial();
+}
+
+function renderIHSHistorial() {
+  const historial = JSON.parse(localStorage.getItem('roberto-ihs') || '[]');
+  const lista = document.getElementById('ihs-historial-lista');
+  // Quitar entradas dinámicas previas
+  lista.querySelectorAll('.ihs-dinamico').forEach(e => e.remove());
+  historial.forEach(entry => {
+    const v = parseInt(entry.valor);
+    let color = v <= 4 ? 'var(--rojo)' : v <= 6 ? 'var(--oro)' : v <= 8 ? 'var(--azul)' : 'var(--verde)';
+    const row = document.createElement('div');
+    row.className = 'ihs-semana-row ihs-dinamico';
+    row.innerHTML = `<span class="ihs-semana-label">${entry.semana}${entry.reflexion ? ' · ' + entry.reflexion.substring(0, 50) + '…' : ''}</span><span class="ihs-semana-valor" style="color:${color}">${entry.valor} / 10</span>`;
+    lista.appendChild(row);
+  });
+}
+
+// ─── ALTAR CHECKBOXES ───
+const compromisosAltar = [
+  'Admin: seguimiento a la póliza de GMM pendiente',
+  'Presentación del día siguiente — preparada',
+  'Nueva póliza Metlife — avanzada',
+  'Fin de semana: actualizar cartera en el Excel',
+  'Llamar a clientes de renovaciones de GMM y Autos con tu propio protocolo — llevar notas a S3'
+];
+
+function initAltar() {
+  const saved = JSON.parse(localStorage.getItem('roberto-altar-s2') || '{}');
+  const container = document.getElementById('altar-compromisos');
+  compromisosAltar.forEach((texto, i) => {
+    const checked = saved[i] || false;
+    const item = document.createElement('div');
+    item.className = 'altar-check-item';
+    item.innerHTML = `
+      <div class="check-custom${checked ? ' checked' : ''}" id="check-${i}" onclick="toggleCheck(${i})"></div>
+      <div class="check-texto${checked ? ' checked-text' : ''}" id="texto-${i}">${texto}</div>
+    `;
+    container.appendChild(item);
+  });
+  actualizarMetaAltar();
+}
+
+function toggleCheck(i) {
+  const saved = JSON.parse(localStorage.getItem('roberto-altar-s2') || '{}');
+  saved[i] = !saved[i];
+  localStorage.setItem('roberto-altar-s2', JSON.stringify(saved));
+  const check = document.getElementById('check-' + i);
+  const texto = document.getElementById('texto-' + i);
+  check.classList.toggle('checked');
+  texto.classList.toggle('checked-text');
+  actualizarMetaAltar();
+}
+
+function actualizarMetaAltar() {
+  const saved = JSON.parse(localStorage.getItem('roberto-altar-s2') || '{}');
+  const cumplidos = Object.values(saved).filter(Boolean).length;
+  const meta = document.getElementById('ihs-altar-meta');
+  if (meta) meta.textContent = `Altar activo · S2→S3 · ${cumplidos}/${compromisosAltar.length} compromisos cumplidos · Mayo 2026`;
+}
+
+// ─── LLAMADAS ───
+function guardarLlamada() {
+  const cliente = document.getElementById('ll-cliente').value.trim();
+  if (!cliente) { alert('Escribe el nombre del cliente para continuar.'); return; }
+
+  const entrada = {
+    id: Date.now(),
+    cliente,
+    fecha: document.getElementById('ll-fecha').value || new Date().toISOString().split('T')[0],
+    vida: document.getElementById('ll-vida').value.trim(),
+    senal: document.getElementById('ll-senal').value.trim(),
+    perfil: document.getElementById('ll-perfil').value,
+    proceso: document.getElementById('ll-proceso').value,
+    siguiente: document.getElementById('ll-siguiente').value.trim(),
+    notas: document.getElementById('ll-notas').value.trim()
+  };
+
+  const lista = JSON.parse(localStorage.getItem('roberto-llamadas') || '[]');
+  lista.unshift(entrada);
+  localStorage.setItem('roberto-llamadas', JSON.stringify(lista));
+
+  // Limpiar form
+  ['ll-cliente','ll-fecha','ll-vida','ll-senal','ll-siguiente','ll-notas'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ll-perfil').value = '';
+  document.getElementById('ll-proceso').value = '';
+
+  renderLlamadas();
+}
+
+function eliminarLlamada(id) {
+  let lista = JSON.parse(localStorage.getItem('roberto-llamadas') || '[]');
+  lista = lista.filter(l => l.id !== id);
+  localStorage.setItem('roberto-llamadas', JSON.stringify(lista));
+  renderLlamadas();
+}
+
+function renderLlamadas() {
+  const lista = JSON.parse(localStorage.getItem('roberto-llamadas') || '[]');
+  const contenedor = document.getElementById('lista-llamadas');
+
+  if (lista.length === 0) {
+    contenedor.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">◈</div>
+        <div class="empty-texto">Todavía no hay llamadas registradas. Haz tu primera llamada con el protocolo del §4 y anótala aquí — 5 minutos máximo.</div>
+      </div>`;
+    return;
+  }
+
+  contenedor.innerHTML = `
+    <div style="font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gris); margin-bottom: 20px; display: flex; justify-content: space-between;">
+      <span>Registro de llamadas · ${lista.length} entrada${lista.length !== 1 ? 's' : ''}</span>
+      <span style="color: var(--consolidado);">◆ Para S3</span>
+    </div>`;
+
+  lista.forEach(l => {
+    const fechaFmt = l.fecha ? new Date(l.fecha + 'T12:00:00').toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }) : '–';
+    const entry = document.createElement('div');
+    entry.className = 'llamada-entry';
+    entry.innerHTML = `
+      <div class="llamada-header">
+        <div class="llamada-cliente">${l.cliente}</div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span class="llamada-fecha">${fechaFmt}</span>
+          <button class="llamada-delete" onclick="eliminarLlamada(${l.id})">✕ eliminar</button>
+        </div>
+      </div>
+      ${l.proceso ? `<div class="llamada-proceso">${l.proceso}</div>` : ''}
+      ${l.vida ? `<div class="llamada-campo"><strong>¿Qué cambió en su vida?</strong>${l.vida}</div>` : ''}
+      ${l.senal ? `<div class="llamada-campo"><strong>Señal detectada</strong>${l.senal}</div>` : ''}
+      ${l.perfil ? `<div class="llamada-campo"><strong>Perfil que tiene sentido</strong>${l.perfil}</div>` : ''}
+      ${l.siguiente ? `<div class="llamada-campo"><strong>Siguiente acción</strong>${l.siguiente}</div>` : ''}
+      ${l.notas ? `<div class="llamada-campo"><strong>Notas</strong>${l.notas}</div>` : ''}
+    `;
+    contenedor.appendChild(entry);
+  });
+}
+
+// ─── REFLEXIONES SEMANALES ───
+function guardarReflexion() {
+  const texto = document.getElementById('reflexion-texto').value.trim();
+  if (!texto) return;
+  const hoy = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: '2-digit', month: 'short' });
+  const lista = JSON.parse(localStorage.getItem('roberto-reflexiones') || '[]');
+  lista.unshift({ fecha: hoy, texto });
+  localStorage.setItem('roberto-reflexiones', JSON.stringify(lista));
+  document.getElementById('reflexion-texto').value = '';
+  renderReflexiones();
+}
+
+function renderReflexiones() {
+  const lista = JSON.parse(localStorage.getItem('roberto-reflexiones') || '[]');
+  const cont = document.getElementById('reflexiones-historial');
+  if (!lista.length) { cont.innerHTML = ''; return; }
+  cont.innerHTML = `<div style="font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gris); margin: 20px 0 14px;">Reflexiones anteriores</div>`;
+  lista.forEach(r => {
+    const bloque = document.createElement('div');
+    bloque.className = 'reflexion-block';
+    bloque.style.marginBottom = '12px';
+    bloque.innerHTML = `<div class="reflexion-fecha">${r.fecha}</div><div class="reflexion-texto">${r.texto}</div>`;
+    cont.appendChild(bloque);
+  });
+}
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded', () => {
+  // Fecha default de hoy en el formulario de llamadas
+  document.getElementById('ll-fecha').value = new Date().toISOString().split('T')[0];
+
+  // Cargar estado guardado
+  renderLlamadas();
+  renderIHSHistorial();
+  renderReflexiones();
+  initAltar();
+});
+
+</script>
+</body>
+</html>
