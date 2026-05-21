@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADC · Diagnóstico de Arquitectura · NoMāD23 · Rebeca González · V8</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --abismo:#030304; --negro-deep:#060608; --negro:#0A0A0C; --bg:#0A0A0C;
+  --negro-suave:#111114; --bg2:#111114; --negro-card:#17171B; --bg3:#17171B;
+  --negro-elevado:#1E1E23;
+
+  --oro-genesis:#3D2E0A; --oro-latente:#6B4E1A; --oro:#C9A84C; --oro-vivo:#E8C97A;
+  --oro-palido:#F5E8C0; --oro-puro:#FFE08A;
+  --oro-dim:rgba(201,168,76,0.06); --oro-borde:rgba(201,168,76,0.20);
+  --oro-borde-med:rgba(201,168,76,0.40); --oro-hover:rgba(201,168,76,0.38);
+  --oro-glow:rgba(201,168,76,0.12); --oro-b:rgba(201,168,76,0.20);
+
+  --blanco:#F2F2EE; --gris-l:#AAAAAA; --gris-claro:#AAAAAA; --gris:#666666;
+  --gris-o:rgba(255,255,255,0.08); --gris-oscuro:#2A2A2E;
+  --rojo:#B44040; --rojo-b:rgba(180,64,64,0.45); --rojo-dim:rgba(180,50,50,0.12);
+  --verde:#4A9F6A; --verde-dim:rgba(50,140,80,0.12);
+  --novel:#4A9F6A; --consolidado:#C08C40; --edat:#9B6B9B; --gerente:#7EB8C9;
+  --azul:#7EB8C9; --amber:#C08C40; --purpura:#9B6B9B;
+
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Montserrat',sans-serif;
+  --mono:'JetBrains Mono','Courier New',monospace;
+
+  --t-fast:0.2s ease; --t-med:0.4s ease; --t-slow:0.8s ease;
+}
+
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--negro); color:var(--blanco);
+  font-family:var(--sans); font-weight:300;
+  line-height:1.8; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased; position:relative;
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.45;
+  background-image:radial-gradient(circle,rgba(201,168,76,0.04) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+
+/* ── Tipografía base ── */
+em{font-style:italic;color:var(--oro)}
+strong{color:var(--blanco);font-weight:500}
+
+/* ── Container ── */
+.wrap{max-width:1200px;margin:0 auto;padding:0 48px;position:relative;z-index:1}
+
+/* ── Section base ── */
+section{padding:120px 0;position:relative;z-index:1;border-top:1px solid var(--gris-o)}
+section.bg2{background:var(--negro-suave)}
+section.bg3{background:var(--negro-deep)}
+section.first{border-top:none}
+
+/* ── Eyebrow + Title pattern ── */
+.eyebrow{
+  font-family:var(--mono); font-size:9px; font-weight:700;
+  letter-spacing:4px; text-transform:uppercase;
+  color:var(--gris-l); margin-bottom:32px;
+}
+.eyebrow em{color:var(--oro);font-style:normal}
+.sec-title{
+  font-family:var(--serif); font-size:clamp(48px,7vw,84px);
+  font-weight:300; line-height:1.05; color:var(--blanco);
+  margin-bottom:32px; letter-spacing:-0.02em;
+}
+.sec-title em{font-style:italic;color:var(--oro);font-weight:400}
+.sec-lead{
+  font-family:var(--sans); font-size:17px; font-weight:300;
+  color:var(--gris-l); line-height:1.85; max-width:780px;
+}
+.sec-lead strong{color:var(--blanco);font-weight:400}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh; padding:120px 48px 100px;
+  background:var(--abismo); display:flex; align-items:center;
+  position:relative; overflow:hidden;
+}
+.hero::before{
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 80% 60% at 80% 30%,rgba(201,168,76,0.06) 0%,transparent 70%);
+}
+.hero-inner{max-width:1200px;width:100%;margin:0 auto;position:relative;z-index:1}
+.hero-eyebrow{
+  display:block; font-family:var(--mono); font-size:10px; font-weight:700;
+  letter-spacing:5px; text-transform:uppercase; color:var(--oro);
+  margin-bottom:48px;
+}
+.hero-name{
+  font-family:var(--serif); font-size:clamp(15px,1.4vw,18px);
+  color:var(--gris-l); font-style:italic; margin-bottom:8px;
+  letter-spacing:0.5px;
+}
+.hero-title{
+  font-family:var(--serif); font-size:clamp(64px,9vw,140px);
+  font-weight:600; line-height:0.95; color:var(--blanco);
+  margin-bottom:48px; letter-spacing:-0.03em;
+}
+.hero-title em{font-style:italic;color:var(--oro);font-weight:500}
+.hero-desc{
+  font-family:var(--sans); font-size:17px; font-weight:300;
+  color:var(--gris-l); line-height:1.85; max-width:680px;
+  margin-bottom:64px;
+}
+.hero-desc strong{color:var(--blanco);font-weight:400}
+
+.hero-meta{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:32px 48px; padding-top:48px; border-top:1px solid var(--gris-o);
+}
+.hero-meta-item .label{
+  font-family:var(--mono); font-size:8.5px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--gris); margin-bottom:14px;
+}
+.hero-meta-item .label em{color:var(--oro);font-style:normal}
+.hero-meta-item .value{
+  font-family:var(--serif); font-size:22px; font-weight:300;
+  color:var(--blanco); line-height:1.25; margin-bottom:4px;
+}
+.hero-meta-item .value em{color:var(--oro);font-style:italic}
+.hero-meta-item .sub{
+  font-family:var(--sans); font-size:11.5px; font-weight:300;
+  color:var(--gris-l); line-height:1.5;
+}
+
+/* ── IAD Section ── */
+.iad-grid{
+  display:grid; grid-template-columns:460px 1fr; gap:64px;
+  align-items:start; margin-top:64px;
+}
+@media(max-width:880px){.iad-grid{grid-template-columns:1fr}}
+
+.iad-radar-box{
+  background:var(--negro-card); border:1px solid var(--oro-borde);
+  padding:36px 28px; text-align:center;
+}
+.iad-radar-box .radar-label{
+  font-family:var(--mono); font-size:8px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--oro); margin-bottom:20px;
+}
+.iad-radar-box svg{width:100%;max-width:308px;height:auto;margin:0 auto;display:block}
+/* ── Bloque promedios 3 columnas ── */
+.iad-bloc-avgs{
+  display:flex;gap:0;width:100%;margin-top:24px;
+  border:1px solid var(--oro-borde);
+}
+.iad-bavg-item{
+  flex:1;padding:12px 8px;text-align:center;
+  border-right:1px solid var(--oro-borde);
+}
+.iad-bavg-item:last-child{border-right:none;}
+.iad-bavg-n{
+  font-family:var(--serif);font-size:28px;font-weight:600;line-height:1;margin-bottom:3px;
+}
+.iad-bavg-l{
+  font-family:var(--mono);font-size:7px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gris);
+}
+
+/* ── Espejo 2 columnas de 6 ── */
+.iad-espejo-wrap{
+  margin-top:20px;border-top:1px solid var(--oro-borde);padding-top:14px;
+}
+.iad-espejo-hdr{
+  font-family:var(--mono);font-size:7px;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--gris);margin-bottom:10px;font-weight:600;
+}
+.iad-espejo-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border:1px solid var(--oro-borde);
+}
+.iad-espejo-col-hdr{
+  padding:6px 10px;font-family:var(--mono);font-size:6.5px;
+  letter-spacing:2px;text-transform:uppercase;font-weight:700;
+  border-bottom:1px solid var(--oro-borde);text-align:center;
+}
+.iad-erow{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:5px 10px;border-bottom:1px solid rgba(201,168,76,0.06);
+  font-family:var(--mono);font-size:10px;
+}
+.iad-erow:last-child{border-bottom:none;}
+.iad-ecol-a{border-right:1px solid var(--oro-borde);}
+.iad-eind-name{color:var(--gris-l);font-size:9px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.iad-escore{
+  width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#0D0D0D;flex-shrink:0;
+}
+.iad-ediff{
+  font-size:8px;font-weight:600;padding:1px 5px;
+  text-align:center;flex-shrink:0;min-width:22px;
+}
+
+/* ── Checklist · Fracturas de Arquitectura ── */
+.iad-checklist-wrap{
+  width:100%;margin-top:20px;
+  border:1px solid rgba(201,168,76,0.15);
+  padding:14px 14px 12px;
+}
+.iad-checklist-hdr{
+  font-family:var(--mono);font-size:7px;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--oro);font-weight:700;margin-bottom:6px;
+}
+.iad-checklist-sub{
+  font-family:var(--sans);font-size:10px;font-weight:300;
+  color:var(--gris);line-height:1.6;margin-bottom:12px;font-style:italic;
+}
+.iad-fcheck{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:9px 10px;border:1px solid #1e1e1e;
+  margin-bottom:5px;transition:border-color 0.2s;
+}
+.iad-fcheck:last-child{margin-bottom:0;}
+.iad-fcheck.activa{border-color:rgba(201,168,76,0.35);background:rgba(201,168,76,0.04);}
+.iad-fcheck-box{
+  width:14px;height:14px;border:1px solid #333;
+  flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;
+}
+.iad-fcheck.activa .iad-fcheck-box{background:var(--oro);border-color:var(--oro);}
+.iad-fcheck.activa .iad-fcheck-box::after{content:'◆';font-size:6px;color:#0A0A0C;font-weight:700;}
+.iad-fcheck-content{}
+.iad-fcheck-name{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--gris-l);margin-bottom:3px;
+}
+.iad-fcheck.activa .iad-fcheck-name{color:var(--blanco);}
+.iad-fcheck-desc{
+  font-family:var(--sans);font-size:10px;font-weight:300;
+  color:var(--gris);line-height:1.55;
+}
+.iad-fcheck.activa .iad-fcheck-desc{color:var(--gris-l);}
+
+.iad-read{padding-top:8px}
+.iad-zonal{
+  display:grid; grid-template-columns:1fr 1fr; gap:20px;
+  margin-bottom:36px;
+}
+.iad-zonal .z{
+  background:var(--negro-card); border:1px solid var(--oro-borde);
+  padding:24px 22px;
+}
+.iad-zonal .z .lbl{
+  font-family:var(--mono); font-size:8px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--gris); margin-bottom:12px;
+}
+.iad-zonal .z .num{
+  font-family:var(--serif); font-size:48px; font-weight:300;
+  color:var(--oro); line-height:1; margin-bottom:8px;
+}
+.iad-zonal .z .num em{font-size:18px;color:var(--gris-l);font-style:normal;margin-left:4px}
+.iad-zonal .z .zone{
+  font-family:var(--sans); font-size:11px; font-weight:500;
+  letter-spacing:2px; text-transform:uppercase; color:var(--oro-vivo);
+}
+
+.iad-fract{margin-top:8px}
+.iad-fract h3{
+  font-family:var(--serif); font-size:28px; font-weight:400;
+  color:var(--blanco); margin-bottom:18px; font-style:italic;
+}
+.iad-fract h3 em{color:var(--oro);font-weight:500}
+.iad-fract p{
+  font-family:var(--sans); font-size:15px; font-weight:300;
+  color:var(--gris-l); line-height:1.85; margin-bottom:16px;
+}
+.iad-fract p strong{color:var(--blanco);font-weight:500}
+.iad-fract .pair{
+  background:var(--negro-card); border-left:3px solid var(--rojo);
+  padding:18px 24px; margin:14px 0;
+  font-family:var(--sans); font-size:14px;
+  color:var(--gris-l); line-height:1.75;
+}
+.iad-fract .pair strong{color:var(--oro-vivo);font-weight:500}
+.iad-fract .pair .mark{
+  font-family:var(--mono); font-size:9px; font-weight:700;
+  letter-spacing:2px; color:var(--rojo); text-transform:uppercase;
+  margin-bottom:8px; display:block;
+}
+.iad-strong{
+  background:var(--negro-card); border-left:3px solid var(--oro);
+  padding:18px 24px; margin:14px 0 0 0;
+  font-family:var(--sans); font-size:14px;
+  color:var(--gris-l); line-height:1.75;
+}
+.iad-strong .mark{
+  font-family:var(--mono); font-size:9px; font-weight:700;
+  letter-spacing:2px; color:var(--oro); text-transform:uppercase;
+  margin-bottom:8px; display:block;
+}
+.iad-strong strong{color:var(--oro-vivo);font-weight:500}
+
+/* ── Por qué ADC ── */
+.why-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:32px;
+  margin-top:64px;
+}
+@media(max-width:980px){.why-grid{grid-template-columns:1fr}}
+.why-card{
+  background:var(--negro-card); border:1px solid var(--oro-borde);
+  padding:36px 32px; min-height:380px;
+  display:flex; flex-direction:column;
+}
+.why-card.adc{border-color:var(--oro);background:linear-gradient(180deg,rgba(201,168,76,0.04) 0%,transparent 80%)}
+.why-card .tag{
+  font-family:var(--mono); font-size:8.5px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--gris); margin-bottom:14px;
+}
+.why-card.adc .tag{color:var(--oro)}
+.why-card h4{
+  font-family:var(--serif); font-size:24px; font-weight:400;
+  color:var(--blanco); margin-bottom:8px; line-height:1.25;
+}
+.why-card h4 em{color:var(--oro);font-style:italic}
+.why-card .model{
+  font-family:var(--sans); font-size:10px; font-weight:500;
+  letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--gris-l); margin-bottom:24px;
+}
+.why-card ul{list-style:none;padding:0;margin:0;flex-grow:1}
+.why-card ul li{
+  font-family:var(--sans); font-size:13.5px; font-weight:300;
+  color:var(--gris-l); line-height:1.7; padding:10px 0 10px 22px;
+  border-bottom:1px solid var(--gris-o); position:relative;
+}
+.why-card ul li:last-child{border-bottom:none}
+.why-card ul li::before{
+  content:'—'; position:absolute; left:0; top:10px;
+  color:var(--gris); font-family:var(--mono);
+}
+.why-card.adc ul li::before{content:'◆';color:var(--oro);font-size:8px;top:13px}
+
+/* ── Brecha · DC Comparison ── */
+.brecha-intro{margin-bottom:64px}
+.brecha-table{
+  width:100%; border-collapse:collapse; margin-top:24px;
+  background:var(--negro-card); border:1px solid var(--oro-borde);
+}
+.brecha-table thead th{
+  font-family:var(--mono); font-size:8.5px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  padding:24px; text-align:left; color:var(--gris-l);
+  border-bottom:1px solid var(--oro-borde);
+  background:var(--negro-deep);
+}
+.brecha-table thead th:nth-child(2){color:var(--rojo);text-align:left}
+.brecha-table thead th:nth-child(3){color:var(--oro);text-align:left}
+.brecha-table tbody td{
+  padding:22px 24px; vertical-align:top;
+  border-bottom:1px solid var(--gris-o);
+  font-family:var(--sans); font-size:13.5px; line-height:1.7;
+  color:var(--gris-l);
+}
+.brecha-table tbody td:first-child{
+  font-family:var(--mono); font-size:9.5px; font-weight:600;
+  letter-spacing:2px; text-transform:uppercase;
+  color:var(--blanco); width:25%;
+}
+.brecha-table tbody td.dc{color:var(--gris-l)}
+.brecha-table tbody td.adc{color:var(--oro-palido)}
+.brecha-table tbody td.adc strong{color:var(--oro-vivo);font-weight:500}
+.brecha-table tbody tr:last-child td{border-bottom:none}
+.brecha-table tbody tr.total td{
+  background:var(--negro-deep); font-weight:500;
+  border-top:2px solid var(--oro-borde);
+}
+.brecha-table tbody tr.total td:first-child{color:var(--oro)}
+
+.dc-comp{margin-top:80px;background:var(--negro-card);border:1px solid var(--oro-borde);padding:48px 56px}
+.dc-comp h3{
+  font-family:var(--serif); font-size:32px; font-weight:300;
+  color:var(--blanco); margin-bottom:8px; font-style:italic;
+}
+.dc-comp h3 em{color:var(--oro);font-weight:500;font-style:italic}
+.dc-comp .sub{
+  font-family:var(--mono); font-size:9px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase; color:var(--gris);
+  margin-bottom:32px;
+}
+.dc-comp ul{list-style:none;padding:0;margin:0}
+.dc-comp ul li{
+  font-family:var(--sans); font-size:14px; font-weight:300;
+  color:var(--gris-l); line-height:1.85; padding:12px 0 12px 28px;
+  border-bottom:1px solid var(--gris-o); position:relative;
+}
+.dc-comp ul li:last-child{border-bottom:none}
+.dc-comp ul li::before{
+  content:'◆'; position:absolute; left:0; top:14px;
+  color:var(--oro); font-size:9px;
+}
+.dc-comp ul li strong{color:var(--oro-vivo);font-weight:500}
+.quote-block{
+  margin:64px 0 0 0; padding:40px 48px;
+  background:var(--negro-deep); border-left:3px solid var(--oro);
+  font-family:var(--serif); font-size:22px; font-style:italic;
+  color:var(--blanco); line-height:1.55;
+}
+.quote-block em{color:var(--oro);font-style:italic;font-weight:500}
+.quote-block .attr{
+  font-family:var(--mono); font-size:9px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--gris); margin-top:18px; font-style:normal;
+}
+
+/* ── Inteligencia que ya construyes ── */
+.capas-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:32px;
+  margin-top:64px;
+}
+@media(max-width:880px){.capas-grid{grid-template-columns:1fr}}
+.capa{
+  background:var(--negro-card); border:1px solid var(--oro-borde);
+  padding:40px 36px;
+}
+.capa .tag{
+  font-family:var(--mono); font-size:8.5px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--oro); margin-bottom:18px;
+}
+.capa h4{
+  font-family:var(--serif); font-size:28px; font-weight:400;
+  color:var(--blanco); margin-bottom:18px; line-height:1.2;
+  font-style:italic;
+}
+.capa h4 em{color:var(--oro);font-style:italic;font-weight:500}
+.capa p{
+  font-family:var(--sans); font-size:14px; font-weight:300;
+  color:var(--gris-l); line-height:1.8; margin-bottom:14px;
+}
+.capa p strong{color:var(--blanco);font-weight:400}
+.capa .scope{
+  margin-top:24px; padding-top:20px; border-top:1px solid var(--gris-o);
+  font-family:var(--mono); font-size:10px; font-weight:500;
+  letter-spacing:1.5px; color:var(--oro-palido); line-height:1.7;
+}
+.capa-meta{
+  margin-top:48px; padding:32px 40px;
+  background:var(--negro-deep); border:1px solid var(--oro-borde-med);
+  text-align:center;
+}
+.capa-meta p{
+  font-family:var(--serif); font-size:21px; font-weight:300;
+  color:var(--blanco); font-style:italic; line-height:1.55;
+}
+.capa-meta p em{color:var(--oro);font-style:italic;font-weight:500}
+
+/* ── Horizontes ── */
+.h-block{
+  margin-bottom:40px;
+  background:var(--negro-card); border:1px solid var(--oro-borde);
+  padding:48px 56px; position:relative;
+  display:grid; grid-template-columns:120px 1fr 220px; gap:48px;
+  align-items:start;
+}
+@media(max-width:980px){.h-block{grid-template-columns:1fr;gap:24px;padding:36px 32px}}
+.h-num{
+  font-family:var(--serif); font-size:96px; font-weight:300;
+  color:var(--oro); line-height:0.9; opacity:0.85;
+}
+.h-num em{font-size:36px;color:var(--gris-l);font-style:normal;display:block;margin-top:4px;font-family:var(--mono);letter-spacing:2px;font-weight:500}
+.h-body{}
+.h-body .tag{
+  font-family:var(--mono); font-size:9px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--oro); margin-bottom:12px;
+}
+.h-body h3{
+  font-family:var(--serif); font-size:36px; font-weight:300;
+  color:var(--blanco); margin-bottom:8px; line-height:1.15;
+}
+.h-body h3 em{color:var(--oro);font-style:italic;font-weight:400}
+.h-body .duration{
+  font-family:var(--mono); font-size:10px; font-weight:500;
+  letter-spacing:2px; text-transform:uppercase;
+  color:var(--gris-l); margin-bottom:24px;
+}
+.h-body p{
+  font-family:var(--sans); font-size:14.5px; font-weight:300;
+  color:var(--gris-l); line-height:1.85; margin-bottom:14px;
+}
+.h-body p strong{color:var(--blanco);font-weight:400}
+.h-body p em{color:var(--oro);font-style:italic}
+.h-body .entrega{
+  margin-top:18px; padding:14px 18px;
+  background:var(--negro-deep); border-left:2px solid var(--oro);
+  font-family:var(--mono); font-size:10.5px; font-weight:500;
+  letter-spacing:1.5px; color:var(--oro-palido); line-height:1.7;
+}
+.h-price{
+  text-align:right; padding-left:24px;
+  border-left:1px solid var(--oro-borde);
+}
+@media(max-width:980px){.h-price{text-align:left;padding-left:0;border-left:none;border-top:1px solid var(--oro-borde);padding-top:24px}}
+.h-price .price{
+  font-family:var(--serif); font-size:42px; font-weight:300;
+  color:var(--oro); line-height:1; margin-bottom:6px;
+}
+.h-price .price em{font-style:normal;color:var(--gris-l);font-size:16px;display:block;margin-top:2px;font-family:var(--mono);letter-spacing:1px}
+.h-price .note{
+  font-family:var(--mono); font-size:9px; font-weight:500;
+  letter-spacing:1.5px; color:var(--gris); line-height:1.7;
+  margin-top:14px; text-transform:uppercase;
+}
+.h-price .note em{color:var(--oro);font-style:normal}
+.h-block.opt{border-style:dashed;border-color:var(--gris-oscuro);background:var(--negro-deep)}
+.h-block.opt .h-num{color:var(--gris-l);opacity:0.5}
+.h-block.opt .h-body .tag{color:var(--gris-l)}
+.h-block.alt{background:var(--negro-deep);border-color:var(--oro-borde-med)}
+.h-block .badge{
+  display:inline-block; padding:4px 10px;
+  background:rgba(201,168,76,0.10); border:1px solid var(--oro-borde);
+  font-family:var(--mono); font-size:8px; font-weight:700;
+  letter-spacing:2px; color:var(--oro); text-transform:uppercase;
+  margin-left:8px; vertical-align:middle;
+}
+
+/* ── Inversión Table ── */
+.inv-table{
+  width:100%; border-collapse:collapse; margin-top:48px;
+  background:var(--negro-card); border:1px solid var(--oro-borde);
+}
+.inv-table th{
+  font-family:var(--mono); font-size:8.5px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  padding:24px 28px; text-align:left; color:var(--gris-l);
+  border-bottom:1px solid var(--oro-borde);
+  background:var(--negro-deep);
+}
+.inv-table th:last-child{text-align:right}
+.inv-table td{
+  padding:22px 28px; vertical-align:top;
+  border-bottom:1px solid var(--gris-o);
+  font-family:var(--sans); font-size:14px; line-height:1.6;
+  color:var(--gris-l);
+}
+.inv-table td.h{
+  font-family:var(--mono); font-size:10px; font-weight:600;
+  letter-spacing:2px; text-transform:uppercase;
+  color:var(--oro); width:14%;
+}
+.inv-table td.desc{color:var(--blanco);font-weight:400}
+.inv-table td.desc span{display:block;font-size:11px;color:var(--gris-l);margin-top:6px;font-weight:300}
+.inv-table td.price{
+  font-family:var(--serif); font-size:26px; font-weight:300;
+  color:var(--oro); text-align:right; white-space:nowrap;
+}
+.inv-table tr.sect-head td{
+  padding:32px 28px 12px;
+  font-family:var(--mono); font-size:8px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--gris); background:transparent; border-bottom:none;
+}
+.inv-table tr.opt td{background:rgba(255,255,255,0.015)}
+.inv-table tr.opt td.h{color:var(--gris-l)}
+.inv-table tr.opt td.desc{color:var(--gris-l);font-style:italic}
+.inv-table tr.subtotal td{
+  background:var(--negro-deep); border-top:1px solid var(--oro-borde);
+  padding-top:24px; padding-bottom:24px;
+}
+.inv-table tr.subtotal td.h{color:var(--gris-l)}
+.inv-table tr.subtotal td.desc{color:var(--blanco);font-weight:500}
+.inv-table tr.subtotal td.price{font-size:22px;color:var(--oro-vivo)}
+.inv-table tr.total td{
+  background:var(--negro-deep); border-top:2px solid var(--oro);
+  padding-top:32px; padding-bottom:32px;
+}
+.inv-table tr.total td.h{color:var(--oro)}
+.inv-table tr.total td.desc{color:var(--blanco);font-weight:500;font-size:15px}
+.inv-table tr.total td.price{font-size:32px;font-weight:400}
+.inv-table tr.credit td{background:rgba(74,159,106,0.04);border-top:1px solid rgba(74,159,106,0.25)}
+.inv-table tr.credit td.desc{color:var(--novel);font-style:italic}
+.inv-table tr.credit td.price{color:var(--novel)}
+
+.inv-note{
+  margin-top:32px; padding:24px 32px;
+  background:var(--negro-card); border-left:3px solid var(--oro);
+  font-family:var(--sans); font-size:13px; font-weight:300;
+  color:var(--gris-l); line-height:1.8;
+}
+.inv-note strong{color:var(--blanco);font-weight:400}
+.inv-note em{color:var(--oro);font-style:italic}
+
+/* ── Boveda · 4 capas ── */
+.boveda-grid{
+  display:grid; grid-template-columns:repeat(2,1fr); gap:24px;
+  margin-top:48px;
+}
+@media(max-width:880px){.boveda-grid{grid-template-columns:1fr}}
+.boveda-card{
+  background:var(--negro-card); border:1px solid var(--oro-borde);
+  padding:36px 32px;
+}
+.boveda-card .num{
+  font-family:var(--mono); font-size:9px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--oro); margin-bottom:14px;
+}
+.boveda-card h4{
+  font-family:var(--serif); font-size:24px; font-weight:400;
+  color:var(--blanco); margin-bottom:6px; line-height:1.2;
+}
+.boveda-card h4 em{color:var(--oro);font-style:italic}
+.boveda-card .stitle{
+  font-family:var(--sans); font-size:10.5px; font-weight:500;
+  letter-spacing:1.5px; color:var(--gris-l); text-transform:uppercase;
+  margin-bottom:24px;
+}
+.boveda-card ul{list-style:none;padding:0;margin:0}
+.boveda-card ul li{
+  font-family:var(--sans); font-size:13.5px; font-weight:300;
+  color:var(--gris-l); line-height:1.75; padding:10px 0 10px 18px;
+  border-bottom:1px solid var(--gris-o); position:relative;
+}
+.boveda-card ul li:last-child{border-bottom:none}
+.boveda-card ul li::before{
+  content:'·'; position:absolute; left:0; top:8px;
+  color:var(--oro); font-size:18px; font-weight:700;
+}
+
+/* ── Acuerdo · Licencia ── */
+.acuerdo{
+  margin-top:48px; padding:28px 36px;
+  background:var(--negro-card); border:1px solid var(--oro-borde);
+  position:relative; overflow:hidden;
+}
+.acuerdo::before{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 100% 50%,rgba(201,168,76,0.04) 0%,transparent 60%);
+}
+.acuerdo > *{position:relative;z-index:1}
+.acuerdo .lead-line{
+  font-family:var(--serif); font-size:24px; font-weight:300;
+  color:var(--blanco); line-height:1.55; margin-bottom:32px;
+  font-style:italic;
+}
+.acuerdo .lead-line em{color:var(--oro);font-style:italic;font-weight:500}
+.acuerdo p{
+  font-family:var(--sans); font-size:14.5px; font-weight:300;
+  color:var(--gris-l); line-height:1.85; margin-bottom:16px;
+}
+.acuerdo p strong{color:var(--blanco);font-weight:400}
+.acuerdo p em{color:var(--oro);font-style:italic}
+
+.acuerdo-list{
+  margin-top:16px; display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:28px;
+}
+.acuerdo-item{padding:14px 0;border-top:1px solid var(--gris-o)}
+.acuerdo-item .sym{
+  font-family:var(--mono); font-size:14px; color:var(--oro);
+  margin-bottom:10px;
+}
+.acuerdo-item h5{
+  font-family:var(--serif); font-size:18px; font-weight:400;
+  color:var(--blanco); margin-bottom:8px; font-style:italic;
+}
+.acuerdo-item p{
+  font-family:var(--sans); font-size:13px; font-weight:300;
+  color:var(--gris-l); line-height:1.75; margin:0;
+}
+
+/* ── Condiciones del Proceso ── */
+.cond-list{margin-top:64px;display:flex;flex-direction:column;gap:32px}
+.cond-item{
+  display:grid; grid-template-columns:80px 1fr; gap:32px;
+  padding:36px 0; border-bottom:1px solid var(--gris-o);
+}
+.cond-item:last-child{border-bottom:none}
+.cond-num{
+  font-family:var(--serif); font-size:64px; font-weight:300;
+  color:var(--oro); line-height:0.9; opacity:0.85;
+}
+.cond-body h4{
+  font-family:var(--serif); font-size:26px; font-weight:300;
+  color:var(--blanco); margin-bottom:14px; line-height:1.25;
+}
+.cond-body h4 em{color:var(--oro);font-style:italic}
+.cond-body p{
+  font-family:var(--sans); font-size:14px; font-weight:300;
+  color:var(--gris-l); line-height:1.85; margin-bottom:14px;
+}
+.cond-body .why{
+  margin-top:14px; padding:14px 20px;
+  background:var(--negro-card); border-left:2px solid var(--oro-borde);
+  font-family:var(--sans); font-size:12.5px; font-weight:300;
+  color:var(--gris-l); line-height:1.75; font-style:italic;
+}
+.cond-body .why::before{
+  content:'Por qué importa  ·  '; color:var(--oro);
+  font-family:var(--mono); font-size:9px; font-weight:700;
+  letter-spacing:2.5px; text-transform:uppercase; font-style:normal;
+}
+
+/* ── Siguiente Paso ── */
+.cierre{
+  background:var(--abismo); padding:160px 48px 120px;
+  border-top:1px solid var(--gris-o); position:relative; overflow:hidden;
+}
+.cierre::before{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 50% 30%,rgba(201,168,76,0.05) 0%,transparent 70%);
+}
+.cierre-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.cierre h2{
+  font-family:var(--serif); font-size:clamp(56px,9vw,116px);
+  font-weight:300; line-height:0.98; color:var(--blanco);
+  margin-bottom:48px; letter-spacing:-0.02em;
+}
+.cierre h2 em{color:var(--oro);font-style:italic;font-weight:400}
+.cierre .lead{
+  font-family:var(--sans); font-size:17px; font-weight:300;
+  color:var(--gris-l); line-height:1.85; max-width:720px;
+  margin-bottom:64px;
+}
+.cierre .lead strong{color:var(--blanco);font-weight:400}
+.cierre .checklist{
+  list-style:none; padding:0; margin:48px 0 64px;
+  max-width:820px;
+}
+.cierre .checklist li{
+  font-family:var(--sans); font-size:15px; font-weight:300;
+  color:var(--gris-l); line-height:1.7; padding:18px 0 18px 32px;
+  border-bottom:1px solid var(--gris-o); position:relative;
+}
+.cierre .checklist li::before{
+  content:'→'; position:absolute; left:0; top:18px;
+  color:var(--oro); font-family:var(--mono); font-size:14px;
+}
+.cierre .checklist li strong{color:var(--oro-vivo);font-weight:500}
+.cierre .sign{
+  display:flex; gap:48px; flex-wrap:wrap; margin-top:64px;
+  padding-top:48px; border-top:1px solid var(--gris-o);
+}
+.cierre .sign-item .lbl{
+  font-family:var(--mono); font-size:8px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase;
+  color:var(--gris); margin-bottom:8px;
+}
+.cierre .sign-item .val{
+  font-family:var(--serif); font-size:18px; color:var(--blanco);
+  font-weight:300; font-style:italic;
+}
+
+/* ── Footer ── */
+.footer{
+  background:var(--negro-deep); padding:48px 48px 64px;
+  border-top:1px solid var(--gris-o); text-align:center;
+}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer .epi{
+  font-family:var(--serif); font-size:20px; font-weight:300;
+  color:var(--oro); font-style:italic; margin-bottom:24px;
+}
+.footer .meta{
+  font-family:var(--mono); font-size:9px; font-weight:500;
+  letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--gris); line-height:1.7;
+}
+.footer .meta strong{color:var(--gris-l);font-weight:500}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .wrap{padding:0 24px}
+  .hero{padding:96px 24px 80px}
+  section{padding:80px 0}
+  .cierre{padding:96px 24px 80px}
+  .footer{padding:32px 24px}
+  .h-block{padding:32px 24px}
+  .acuerdo{padding:40px 32px}
+  .dc-comp{padding:36px 28px}
+}
+
+/* ── Hero image + figure ── */
+.hero-content-row{
+  display:grid; grid-template-columns:1fr 340px;
+  gap:64px; align-items:center;
+}
+.hero-figura-wrap{
+  position:relative; width:280px; flex-shrink:0;
+  margin-left:auto;
+}
+.hero-figura-wrap svg{ width:100%; height:auto; display:block;
+  filter:drop-shadow(0 0 32px rgba(201,168,76,0.18)); }
+.hero-scan-overlay{
+  position:absolute; inset:0;
+  pointer-events:none; overflow:hidden;
+}
+.hero-scan-line{
+  position:absolute; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.25) 20%, rgba(201,168,76,0.60) 50%, rgba(201,168,76,0.25) 80%, transparent 100%);
+  animation:hero-scan-move 4s ease-in-out infinite;
+  box-shadow:0 0 14px rgba(201,168,76,0.45);
+}
+@keyframes hero-scan-move{
+  0%{ top:5%; opacity:0; } 10%{ opacity:1; } 85%{ opacity:0.7; } 100%{ top:95%; opacity:0; }
+}
+@keyframes fragmento-float{
+  0%,100%{ transform:translateY(0px) rotate(0deg); }
+  50%{ transform:translateY(-8px) rotate(3deg); }
+}
+@media(max-width:900px){
+  .hero-content-row{ grid-template-columns:1fr; }
+  .hero-figura-wrap{ display:none; }
+}
+
+/* ── Nierika icon inline ── */
+.nierika-inline{
+  display:inline-flex; align-items:center; vertical-align:middle;
+  margin-left:20px; opacity:0.85;
+}
+.nierika-inline svg{ width:52px; height:52px; }
+@keyframes nk-spin-a{ from{stroke-dashoffset:0} to{stroke-dashoffset:-666} }
+@keyframes nk-spin-b{ from{stroke-dashoffset:0} to{stroke-dashoffset:572} }
+@keyframes nk-spin-c{ from{stroke-dashoffset:0} to{stroke-dashoffset:-400} }
+.nk-a{ animation:nk-spin-a 12s linear infinite; }
+.nk-b{ animation:nk-spin-b 9s linear infinite; }
+.nk-c{ animation:nk-spin-c 6s linear infinite; }
+
+/* ── Rombo decorativo en secciones ── */
+.rombo-decor{
+  position:absolute; right:-24px; top:-24px;
+  pointer-events:none; opacity:0.06;
+}
+.espiral-decor-wrap{
+  display:flex; justify-content:center; align-items:center;
+  padding:40px 0 24px; opacity:0.55;
+}
+
+/* ── WhatsApp CTA Button ── */
+.wa-cta-wrap{
+  margin-top:64px; display:flex; justify-content:flex-start;
+}
+.wa-cta{
+  display:inline-flex; align-items:center; gap:14px;
+  padding:18px 36px; background:rgba(37,211,102,0.07);
+  border:1px solid rgba(37,211,102,0.35);
+  text-decoration:none; transition:all 0.25s;
+  font-family:var(--sans);
+}
+.wa-cta:hover{
+  background:rgba(37,211,102,0.14);
+  border-color:rgba(37,211,102,0.65);
+  transform:translateY(-2px);
+}
+.wa-cta-icon{ flex-shrink:0; }
+.wa-cta-text{ display:flex; flex-direction:column; gap:2px; }
+.wa-cta-label{
+  font-size:8.5px; font-weight:700; letter-spacing:3px;
+  text-transform:uppercase; color:rgba(37,211,102,0.65);
+  font-family:var(--mono);
+}
+.wa-cta-action{
+  font-size:15px; font-weight:400; color:#F2F2EE;
+  font-family:var(--serif); font-style:italic;
+}
+
+
+/* ── Cortex Demo (from Journey) ── */
+.cortex-demo{background:var(--negro-card);border:1px solid var(--oro-borde);margin-top:18px}
+.cd-header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--gris-o)}
+.cd-dot{width:7px;height:7px;border-radius:50%;background:var(--novel);animation:pulse-dot 2.2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+.cd-label{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--oro)}
+.cd-body{padding:20px 18px;display:flex;flex-direction:column;gap:14px;max-height:380px;overflow-y:auto}
+.cd-msg{display:flex;gap:10px;align-items:flex-start}
+.cd-msg.user{flex-direction:row-reverse}
+.cd-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:700;flex-shrink:0}
+.cd-avatar.cortex{background:var(--oro-dim);color:var(--oro);border:1px solid var(--oro-borde)}
+.cd-avatar.user{background:var(--negro-elevado);color:var(--blanco);border:1px solid var(--gris-o)}
+.cd-bubble{padding:10px 14px;max-width:78%;font-size:13px;line-height:1.65}
+.cd-bubble.cortex{background:rgba(201,168,76,0.04);border:1px solid var(--oro-borde);color:var(--gris-l)}
+.cd-bubble.user{background:var(--negro-elevado);border:1px solid var(--gris-o);color:var(--blanco)}
+.cd-bubble strong{color:var(--blanco);font-weight:500}
+.cd-bubble.cortex strong{color:var(--oro-vivo)}
+.cortex-phases{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:18px}
+@media(max-width:980px){.cortex-phases{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.cortex-phases{grid-template-columns:1fr}}
+.cp-phase{padding:18px 16px;background:var(--negro-card);border:1px solid var(--gris-o);border-top:2px solid var(--oro-borde)}
+.cp-when{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--oro);opacity:.85;margin-bottom:6px}
+.cp-title{font-family:var(--serif);font-size:17px;font-weight:400;color:var(--blanco);margin-bottom:8px;line-height:1.25}
+.cp-desc{font-size:11.5px;color:var(--gris-l);line-height:1.7}
+.cp-desc strong{color:var(--blanco);font-weight:500}
+
+/* ── Satisfaction Gate ── */
+.h-gate{
+  margin-top:24px;padding:14px 18px;
+  background:var(--negro-deep);border-top:1px solid var(--gris-o);
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.h-gate-stars{font-size:15px;letter-spacing:2px;color:var(--oro);flex-shrink:0}
+.h-gate-text{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;color:var(--gris-l);line-height:1.6;
+}
+.h-gate-text em{color:var(--oro);font-style:normal}
+
+/* ── Timeline ── */
+.tl-wrap{
+  display:flex;align-items:flex-start;gap:0;margin:64px 0 0;
+  overflow-x:auto;padding-bottom:8px;
+}
+.tl-step{
+  display:flex;flex-direction:column;align-items:center;
+  position:relative;min-width:120px;flex:1;
+}
+.tl-step:not(:last-child)::after{
+  content:'';position:absolute;top:14px;left:calc(50% + 12px);
+  right:calc(-50% + 12px);height:1px;background:var(--oro-borde);
+  z-index:0;
+}
+.tl-dot{
+  width:28px;height:28px;border:1.5px solid var(--oro);
+  display:flex;align-items:center;justify-content:center;
+  background:var(--negro-card);z-index:1;position:relative;
+  font-family:var(--mono);font-size:9px;font-weight:700;color:var(--oro);
+}
+/* tl-h moved to extra block */
+.tl-days{
+  font-family:var(--serif);font-size:22px;font-weight:300;
+  color:var(--blanco);margin-top:4px;text-align:center;line-height:1;
+}
+.tl-days em{font-size:11px;color:var(--gris-l);font-style:normal;display:block;font-family:var(--mono);letter-spacing:1px;margin-top:2px}
+.tl-sep{
+  width:1px;background:linear-gradient(180deg,var(--oro-borde),transparent);
+  margin:0 8px;height:60px;align-self:center;flex-shrink:0;
+}
+.tl-total{
+  margin-top:24px;padding:20px 32px;background:var(--negro-card);
+  border:1px solid var(--oro-borde);display:flex;gap:48px;flex-wrap:wrap;align-items:center;
+}
+.tl-total-item{text-align:center}
+.tl-total-n{font-family:var(--serif);font-size:36px;font-weight:300;color:var(--oro);line-height:1}
+.tl-total-n em{font-size:13px;color:var(--gris-l);font-style:normal;font-family:var(--mono)}
+.tl-total-l{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gris);margin-top:4px}
+
+/* ── Social Proof ── */
+.proof-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:64px;
+}
+@media(max-width:880px){.proof-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.proof-grid{grid-template-columns:1fr}}
+.proof-card{
+  background:var(--negro-card);border:1px solid var(--oro-borde);
+  padding:28px 24px;position:relative;overflow:hidden;
+}
+.proof-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 60% at 0% 0%,rgba(201,168,76,0.05) 0%,transparent 70%);
+}
+.proof-num{
+  font-family:var(--serif);font-size:clamp(40px,5vw,56px);font-weight:300;
+  color:var(--oro);line-height:0.95;margin-bottom:8px;
+}
+.proof-num em{font-size:16px;color:var(--gris-l);font-style:normal;font-family:var(--mono)}
+.proof-ctx{
+  font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gris-l);margin-bottom:6px;
+}
+.proof-tag{
+  display:inline-block;padding:3px 8px;
+  background:rgba(201,168,76,0.08);border:1px solid var(--oro-borde);
+  font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--oro);margin-top:8px;
+}
+
+/* ── IAD source note ── */
+.iad-source-note{
+  margin-top:10px;padding:10px 14px;
+  background:rgba(201,168,76,0.04);border-left:2px solid var(--oro-borde);
+  font-family:var(--mono);font-size:8.5px;font-weight:500;
+  letter-spacing:1.5px;color:var(--gris);line-height:1.6;
+}
+.iad-source-note em{color:var(--oro);font-style:normal}
+
+
+/* ── Línea Central ── */
+body::after{
+  content:''; position:fixed; left:50%; top:0; bottom:0; width:1px;
+  background:linear-gradient(180deg,transparent 0%,rgba(201,168,76,0.05) 8%,rgba(201,168,76,0.09) 50%,rgba(201,168,76,0.05) 92%,transparent 100%);
+  z-index:0; pointer-events:none;
+}
+
+
+/* ── Expand / Collapse buttons (Altar + Bóveda) ── */
+.layer-btn {
+  display:inline-flex; align-items:center; gap:10px; cursor:pointer;
+  padding:11px 20px; background:transparent; transition:all var(--t-med);
+  font-family:var(--mono); font-size:9.5px; font-weight:700;
+  letter-spacing:2.5px; text-transform:uppercase;
+  border:1px solid var(--gris-o); color:var(--gris-l); position:relative;
+  margin-top:16px;
+}
+.layer-btn:hover, .layer-btn.open {
+  border-color: var(--oro-borde-med); color: var(--oro);
+  box-shadow: 0 0 18px rgba(201,168,76,0.20), inset 0 0 12px rgba(201,168,76,0.05);
+  background: rgba(201,168,76,0.03);
+}
+.lbx { width:9px; height:9px; position:relative; flex-shrink:0; }
+.lbx::before, .lbx::after {
+  content:''; position:absolute; background:currentColor;
+  top:50%; left:50%; transform:translate(-50%,-50%); transition:transform var(--t-fast), opacity var(--t-fast);
+}
+.lbx::before { width:9px; height:1px; }
+.lbx::after  { width:1px; height:9px; }
+.layer-btn.open .lbx::after { transform:translate(-50%,-50%) rotate(90deg); opacity:0; }
+.s-panel { overflow:hidden; max-height:0; transition:max-height .7s cubic-bezier(.4,0,.2,1); }
+.s-panel.open { max-height:8000px; }
+.s-panel-inner { padding-top:12px; }
+
+/* ── Bóveda card expandible ── */
+.boveda-card-header { cursor:pointer; }
+.boveda-card.collapsed .boveda-card-body { display:none; }
+.boveda-expand-btn {
+  display:flex; align-items:center; gap:8px; margin-top:16px;
+  padding-top:12px; border-top:1px solid var(--gris-o);
+  cursor:pointer;
+}
+.boveda-expand-lbl {
+  font-family:var(--mono); font-size:8.5px; font-weight:600;
+  letter-spacing:1.8px; text-transform:uppercase; color:var(--gris);
+  transition:color var(--t-fast);
+}
+.boveda-card:hover .boveda-expand-lbl { color:var(--oro); }
+.boveda-expand-ico {
+  width:14px; height:14px; border:1px solid var(--gris); border-top:none; border-right:none;
+  transform:rotate(-45deg); transition:transform var(--t-fast), border-color var(--t-fast);
+  flex-shrink:0; margin-left:auto;
+}
+.boveda-card:hover .boveda-expand-ico { border-color:var(--oro); }
+.boveda-card.open .boveda-expand-ico { transform:rotate(135deg); border-color:var(--oro); }
+
+/* ── Tu arquitectura · capas-grid style ── */
+.arq-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:40px;
+}
+@media(max-width:880px){.arq-grid{grid-template-columns:1fr}}
+.arq-capa {
+  background:var(--negro-card); border:1px solid var(--oro-borde); padding:36px 32px;
+}
+.arq-capa .tag {
+  font-family:var(--mono); font-size:8.5px; font-weight:700;
+  letter-spacing:3px; text-transform:uppercase; color:var(--oro); margin-bottom:14px;
+}
+.arq-capa h4 {
+  font-family:var(--serif); font-size:26px; font-weight:400;
+  color:var(--blanco); margin-bottom:14px; line-height:1.2; font-style:italic;
+}
+.arq-capa h4 em{color:var(--oro);font-style:italic;font-weight:500}
+.arq-capa > p {
+  font-family:var(--sans); font-size:13.5px; font-weight:300;
+  color:var(--gris-l); line-height:1.8; margin-bottom:16px;
+}
+.arq-capa .scope {
+  margin-top:16px; padding-top:16px; border-top:1px solid var(--gris-o);
+  font-family:var(--mono); font-size:10px; font-weight:500;
+  letter-spacing:1.5px; color:var(--oro-palido); line-height:1.7;
+}
+
+/* ── tl-h longer names ── */
+.tl-h{
+  font-family:var(--mono);font-size:7px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;color:var(--oro);
+  margin-top:10px;text-align:center;line-height:1.5;white-space:normal;
+  max-width:90px;
+}
+
+/* ── Altar Sistémico demo ── */
+.altar-demo{border:1px solid var(--oro-borde);background:var(--negro-deep);overflow:hidden;position:relative;margin-top:32px}
+.altar-nav{background:var(--abismo);border-bottom:1px solid var(--oro-borde);padding:10px 18px;display:flex;align-items:center;gap:20px}
+.altar-modules{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gris-oscuro)}
+.altar-mod{background:var(--negro-deep);padding:18px 20px}
+.altar-mod-lbl{font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--oro);margin-bottom:12px}
+.altar-roles{padding:12px 18px;background:var(--abismo);border-top:1px solid var(--gris-oscuro);display:flex;gap:6px;flex-wrap:wrap}
+.altar-role-btn{padding:6px 14px;background:var(--negro-card);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:7px;cursor:default}
+.altar-orb{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.altar-role-lbl{font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+
+/* ── Bóveda type labels ── */
+.bov-type{font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:18px 0 8px;padding:6px 10px;display:flex;align-items:center;gap:8px}
+.bov-type-miro{color:var(--gerente);background:rgba(126,184,201,0.06);border-left:2px solid rgba(126,184,201,0.4)}
+.bov-type-html{color:var(--oro);background:rgba(201,168,76,0.04);border-left:2px solid rgba(201,168,76,0.3)}
+.bov-type-note{font-size:6px;letter-spacing:1px;font-weight:400;color:var(--gris);margin-left:4px;text-transform:none}
+
+/* ── Lo que recuperas ── */
+.h-recupera{margin-top:12px;padding:12px 18px;background:rgba(201,168,76,0.04);border-left:2px solid rgba(201,168,76,0.25)}
+.h-recupera-lbl{font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gris-l);margin-bottom:6px}
+.h-recupera p{font-family:var(--sans);font-size:12.5px;font-weight:300;color:var(--gris-l);line-height:1.75;margin:0}
+
+/* ── Centrado global de secciones ── */
+.sec-lead { text-align: center; margin-left: auto; margin-right: auto; }
+section .eyebrow { text-align: center; }
+section .sec-title { text-align: center; }
+
+/* ── ADC Wordmark oro-brush (canónico Manual Identidad V8) ── */
+.adc-wordmark-animated {
+  font-family: var(--serif);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: repeating-linear-gradient(
+    108deg,
+    #C9A84C 0px, #F0D878 2px, #A07830 4px,
+    #C9A84C 7px, #E2C464 10px, #B89040 13px
+  );
+  background-size: 600% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+          color: transparent;
+  animation: adc-oro-brush 8s ease-in-out infinite alternate;
+  display: inline-block;
+}
+@keyframes adc-oro-brush {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+</style>
+</head>
+<body>
+
+
+<!-- §1 -->
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;padding:6px 48px;background:rgba(3,3,4,0.92);border-bottom:1px solid rgba(201,168,76,0.20);display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(8px)">
+    <span style="font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:rgba(201,168,76,0.55)">ADC · Diagnóstico de Arquitectura · V8</span>
+    <span style="font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--rojo);border:1px solid rgba(180,64,64,0.40);padding:3px 12px">Documento Confidencial</span>
+    <span style="font-family:var(--mono);font-size:7.5px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gris)">NoMāD23 · Rebeca González</span>
+  </div>
+<section class="hero first" id="sec-hero">
+  <div class="hero-inner">
+    <div style="margin-bottom:32px;display:flex;align-items:center;gap:16px">
+    <div style="width:40px;height:40px;flex-shrink:0"><svg width="40" height="40" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="oro-grad-V8" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#C9A84C"></stop>
+                <stop offset="30%" stop-color="#F0D878"></stop>
+                <stop offset="60%" stop-color="#A07830"></stop>
+                <stop offset="100%" stop-color="#C9A84C"></stop>
+              </linearGradient>
+            </defs>
+            <polygon points="110,8 212,110 110,212 8,110" stroke="url(#oro-grad-V8)" stroke-width="1.5" fill="none"></polygon>
+            <polygon points="110,36 184,110 110,184 36,110" stroke="rgba(201,168,76,0.45)" stroke-width="0.8" fill="none"></polygon>
+            <polygon points="110,68 152,110 110,152 68,110" stroke="rgba(201,168,76,0.25)" stroke-width="0.6" fill="none"></polygon>
+            <line x1="8" y1="110" x2="212" y2="110" stroke="rgba(201,168,76,0.12)" stroke-width="0.5" stroke-dasharray="3,4"></line>
+            <line x1="110" y1="8" x2="110" y2="212" stroke="rgba(201,168,76,0.12)" stroke-width="0.5" stroke-dasharray="3,4"></line>
+            <line x1="8" y1="8" x2="212" y2="212" stroke="rgba(201,168,76,0.06)" stroke-width="0.4" stroke-dasharray="2,6"></line>
+            <line x1="212" y1="8" x2="8" y2="212" stroke="rgba(201,168,76,0.06)" stroke-width="0.4" stroke-dasharray="2,6"></line>
+            <circle cx="110" cy="110" r="5" fill="url(#oro-grad-V8)" opacity="0.9"></circle>
+            <circle cx="110" cy="110" r="10" stroke="rgba(201,168,76,0.4)" stroke-width="1" fill="none"></circle>
+            <circle cx="110" cy="110" r="18" stroke="rgba(201,168,76,0.18)" stroke-width="0.6" fill="none"></circle>
+            <circle cx="110" cy="8" r="2.5" fill="rgba(201,168,76,0.7)"></circle>
+            <circle cx="212" cy="110" r="2.5" fill="rgba(201,168,76,0.7)"></circle>
+            <circle cx="110" cy="212" r="2.5" fill="rgba(201,168,76,0.7)"></circle>
+            <circle cx="8" cy="110" r="2.5" fill="rgba(201,168,76,0.7)"></circle>
+          </svg></div>
+    <span class="adc-wordmark-animated" style="font-size:32px;">ADC</span>
+  <span style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gris);opacity:0.7">Arquitectura de Desempeño Comercial</span>
+</div>
+    <span class="hero-eyebrow">ADC · Diagnóstico de Arquitectura · V8</span>
+    <div class="hero-content-row">
+      <!-- Left: text content -->
+      <div>
+        <div class="hero-name">Rebeca González · Directora · NoMāD23</div>
+        <h1 class="hero-title">Esto es lo que<br>el sistema encontró<br><em>en ti.</em></h1>
+        <p class="hero-desc">Este documento no es una propuesta. Es la lectura clínica de lo que el sistema encontró en NoMāD23. <strong>Antes de presentarte la solución, el Cortex necesita que veas el diagnóstico completo — lo sólido, lo fracturado, y la distancia entre lo que produces hoy y lo que tu visión requiere.</strong></p>
+      </div>
+      <!-- Right: human scanning figure -->
+      <div class="hero-figura-wrap">
+        <svg viewBox="0 0 340 440" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="grad-figura-hero" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#E8C97A" stop-opacity="1"/>
+              <stop offset="40%" stop-color="#C9A84C" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#3D2E0A" stop-opacity="0.3"/>
+            </radialGradient>
+            <filter id="glow-hero"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <filter id="soft-glow-hero"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <g opacity="0.15">
+            <line x1="0" y1="80" x2="340" y2="80" stroke="#C9A84C" stroke-width="0.5"/>
+            <line x1="0" y1="160" x2="340" y2="160" stroke="#C9A84C" stroke-width="0.5"/>
+            <line x1="0" y1="240" x2="340" y2="240" stroke="#C9A84C" stroke-width="0.5"/>
+            <line x1="80" y1="0" x2="80" y2="440" stroke="#C9A84C" stroke-width="0.5"/>
+            <line x1="170" y1="0" x2="170" y2="440" stroke="#C9A84C" stroke-width="0.5"/>
+            <line x1="260" y1="0" x2="260" y2="440" stroke="#C9A84C" stroke-width="0.5"/>
+            <circle cx="80" cy="80" r="2" fill="#C9A84C" opacity="0.6"/>
+            <circle cx="170" cy="80" r="2" fill="#C9A84C" opacity="0.6"/>
+            <circle cx="260" cy="80" r="2" fill="#C9A84C" opacity="0.6"/>
+            <circle cx="80" cy="160" r="2" fill="#C9A84C" opacity="0.6"/>
+            <circle cx="260" cy="160" r="2" fill="#C9A84C" opacity="0.6"/>
+            <circle cx="80" cy="240" r="2" fill="#C9A84C" opacity="0.4"/>
+            <circle cx="260" cy="240" r="2" fill="#C9A84C" opacity="0.4"/>
+          </g>
+          <g filter="url(#soft-glow-hero)">
+            <rect x="140" y="20" width="60" height="28" rx="2" fill="#FFE08A" opacity="0.95"/>
+            <rect x="112" y="30" width="25" height="20" rx="1" fill="#E8C97A" opacity="0.85"/>
+            <rect x="203" y="26" width="22" height="18" rx="1" fill="#E8C97A" opacity="0.80"/>
+            <rect x="128" y="50" width="32" height="22" rx="2" fill="#E8C97A" opacity="0.90"/>
+            <rect x="162" y="48" width="28" height="24" rx="2" fill="#F5E8C0" opacity="0.88"/>
+            <rect x="192" y="52" width="20" height="18" rx="1" fill="#C9A84C" opacity="0.75"/>
+            <rect x="108" y="52" width="18" height="16" rx="1" fill="#C9A84C" opacity="0.65"/>
+            <rect x="118" y="74" width="36" height="26" rx="2" fill="#C9A84C" opacity="0.88"/>
+            <rect x="156" y="72" width="38" height="28" rx="2" fill="#E8C97A" opacity="0.82"/>
+            <rect x="196" y="76" width="22" height="22" rx="2" fill="#C9A84C" opacity="0.70"/>
+            <rect x="100" y="76" width="16" height="18" rx="1" fill="#6B4E1A" opacity="0.60"/>
+            <rect x="126" y="102" width="40" height="24" rx="2" fill="#C9A84C" opacity="0.85"/>
+            <rect x="168" y="100" width="32" height="26" rx="2" fill="#C9A84C" opacity="0.78"/>
+            <rect x="200" y="104" width="20" height="20" rx="1" fill="#6B4E1A" opacity="0.55"/>
+            <rect x="108" y="104" width="16" height="18" rx="1" fill="#6B4E1A" opacity="0.50"/>
+          </g>
+          <g filter="url(#glow-hero)">
+            <rect x="148" y="126" width="20" height="28" rx="2" fill="#C9A84C" opacity="0.82"/>
+            <rect x="170" y="128" width="18" height="24" rx="2" fill="#A88534" opacity="0.70"/>
+            <rect x="136" y="130" width="10" height="18" rx="1" fill="#6B4E1A" opacity="0.55"/>
+            <rect x="190" y="132" width="10" height="16" rx="1" fill="#6B4E1A" opacity="0.50"/>
+          </g>
+          <g>
+            <rect x="60" y="148" width="44" height="28" rx="2" fill="#C9A84C" opacity="0.55"/>
+            <rect x="72" y="178" width="36" height="22" rx="2" fill="#A88534" opacity="0.48"/>
+            <rect x="56" y="156" width="14" height="16" rx="1" fill="#6B4E1A" opacity="0.40"/>
+            <rect x="236" y="148" width="44" height="28" rx="2" fill="#C9A84C" opacity="0.55"/>
+            <rect x="232" y="178" width="36" height="22" rx="2" fill="#A88534" opacity="0.48"/>
+            <rect x="270" y="156" width="14" height="16" rx="1" fill="#6B4E1A" opacity="0.40"/>
+          </g>
+          <g>
+            <rect x="112" y="158" width="36" height="28" rx="2" fill="#C9A84C" opacity="0.80"/>
+            <rect x="150" y="156" width="40" height="30" rx="2" fill="#C9A84C" opacity="0.85"/>
+            <rect x="192" y="158" width="36" height="28" rx="2" fill="#A88534" opacity="0.72"/>
+            <rect x="108" y="188" width="30" height="26" rx="2" fill="#A88534" opacity="0.70"/>
+            <rect x="140" y="186" width="34" height="30" rx="2" fill="#C9A84C" opacity="0.78"/>
+            <rect x="176" y="188" width="34" height="26" rx="2" fill="#C9A84C" opacity="0.74"/>
+            <rect x="212" y="188" width="28" height="24" rx="2" fill="#6B4E1A" opacity="0.58"/>
+            <rect x="102" y="216" width="28" height="28" rx="2" fill="#6B4E1A" opacity="0.55"/>
+            <rect x="132" y="214" width="32" height="30" rx="2" fill="#A88534" opacity="0.65"/>
+            <rect x="166" y="216" width="36" height="28" rx="2" fill="#C9A84C" opacity="0.70"/>
+            <rect x="204" y="216" width="30" height="26" rx="2" fill="#6B4E1A" opacity="0.52"/>
+            <rect x="96" y="246" width="26" height="26" rx="2" fill="#3D2E0A" opacity="0.50"/>
+            <rect x="124" y="244" width="34" height="28" rx="2" fill="#6B4E1A" opacity="0.60"/>
+            <rect x="160" y="246" width="38" height="26" rx="2" fill="#A88534" opacity="0.62"/>
+            <rect x="200" y="244" width="32" height="28" rx="2" fill="#6B4E1A" opacity="0.55"/>
+            <rect x="90" y="274" width="28" height="28" rx="2" fill="#3D2E0A" opacity="0.40"/>
+            <rect x="120" y="274" width="36" height="28" rx="2" fill="#6B4E1A" opacity="0.50"/>
+            <rect x="158" y="274" width="40" height="28" rx="2" fill="#A88534" opacity="0.45"/>
+            <rect x="200" y="274" width="36" height="26" rx="2" fill="#3D2E0A" opacity="0.38"/>
+            <rect x="86" y="304" width="24" height="26" rx="2" fill="#3D2E0A" opacity="0.35"/>
+            <rect x="112" y="304" width="38" height="28" rx="2" fill="#3D2E0A" opacity="0.45"/>
+            <rect x="152" y="304" width="44" height="28" rx="2" fill="#6B4E1A" opacity="0.38"/>
+            <rect x="198" y="304" width="38" height="26" rx="2" fill="#3D2E0A" opacity="0.30"/>
+          </g>
+          <rect x="20" y="180" width="18" height="14" rx="1" fill="#C9A84C" opacity="0.15" style="animation:fragmento-float 6s ease-in-out infinite;"/>
+          <rect x="295" y="200" width="22" height="16" rx="1" fill="#C9A84C" opacity="0.12" style="animation:fragmento-float 8s ease-in-out 1s infinite;"/>
+          <rect x="10" y="280" width="14" height="10" rx="1" fill="#6B4E1A" opacity="0.20" style="animation:fragmento-float 7s ease-in-out 2s infinite;"/>
+          <rect x="308" y="300" width="18" height="12" rx="1" fill="#6B4E1A" opacity="0.18" style="animation:fragmento-float 9s ease-in-out 0.5s infinite;"/>
+        </svg>
+        <div class="hero-scan-overlay"><div class="hero-scan-line"></div></div>
+      </div>
+    </div>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="label"><em>//</em> Para quién</div>
+        <div class="value">Rebeca González</div>
+        <div class="sub">Directora · NoMāD23 · Broker Multimarca</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="label"><em>//</em> Lo que leyó el sistema</div>
+        <div class="value"><em>IAD 6.8 · 2 fracturas</em></div>
+        <div class="sub">Lectura clínica real · Biopsia de Arquitectura aplicada · NoMāD23</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- §2 -->
+<section class="bg2" id="sec-iad">
+  <div class="wrap">
+    <div class="eyebrow">01 <em>—</em> Lo que el sistema encontró</div>
+    <h2 class="sec-title">El diagnóstico<br>de tu <em>arquitectura.</em></h2>
+    <p class="sec-lead">Lo que sigue es la lectura clínica de la arquitectura de NoMāD23 — lo sólido, lo fracturado, y lo que el sistema necesita para producir sin depender de tu presencia. <strong>El IAD lee 12 dimensiones. Estos son tus números.</strong></p>
+
+    <div class="iad-grid">
+      <!-- Radar del IAD -->
+      <div class="iad-radar-box">
+        <div class="radar-label">◈ IAD · Radar Inicial · Rebeca González</div>
+        <div class="iad-source-note"><em>◈ Lectura clínica real</em> · Scores obtenidos en la sesión de Biopsia de Arquitectura · Formulario IAD aplicado con Rebeca González · NoMāD23</div>
+        <div style="font-family:var(--mono);font-size:8px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gris);margin:-12px 0 18px;line-height:1.6;text-align:center">◈ Ley del Espejo<br>el sistema produce lo que el origen genera</div>
+        <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+          <!--
+            12-axis radar · center (140,140) · maxR=100
+            angle_i = -90deg + 30deg*i  (i=0 → top, clockwise)
+            PERFECT 12-gon rings · equidistant axes
+          -->
+          <!-- Anillos concéntricos · 12-gon perfecto -->
+          <g fill="none">
+            <!-- R=20 value=2 -->
+            <polygon stroke="rgba(201,168,76,0.10)" stroke-width="0.6"
+              points="140,120 150,122.7 157.3,130 160,140 157.3,150 150,157.3 140,160 130,157.3 122.7,150 120,140 122.7,130 130,122.7"/>
+            <!-- R=40 value=4 -->
+            <polygon stroke="rgba(201,168,76,0.10)" stroke-width="0.6"
+              points="140,100 160,105.4 174.6,120 180,140 174.6,160 160,174.6 140,180 120,174.6 105.4,160 100,140 105.4,120 120,105.4"/>
+            <!-- R=60 value=6 · referencia media -->
+            <polygon stroke="rgba(201,168,76,0.20)" stroke-width="0.9"
+              points="140,80 170,88 192,110 200,140 192,170 170,192 140,200 110,192 88,170 80,140 88,110 110,88"/>
+            <!-- R=80 value=8 -->
+            <polygon stroke="rgba(201,168,76,0.10)" stroke-width="0.6"
+              points="140,60 180,70.7 209.3,100 220,140 209.3,180 180,209.3 140,220 100,209.3 70.7,180 60,140 70.7,100 100,70.7"/>
+            <!-- R=100 value=10 -->
+            <polygon stroke="rgba(201,168,76,0.18)" stroke-width="1"
+              points="140,40 190,53.4 226.6,90 240,140 226.6,190 190,226.6 140,240 90,226.6 53.4,190 40,140 53.4,90 90,53.4"/>
+          </g>
+          <!-- Ejes desde centro a anillo exterior -->
+          <g stroke="rgba(201,168,76,0.14)" stroke-width="0.6">
+            <line x1="140" y1="140" x2="140"   y2="40"/>
+            <line x1="140" y1="140" x2="190"   y2="53.4"/>
+            <line x1="140" y1="140" x2="226.6" y2="90"/>
+            <line x1="140" y1="140" x2="240"   y2="140"/>
+            <line x1="140" y1="140" x2="226.6" y2="190"/>
+            <line x1="140" y1="140" x2="190"   y2="226.6"/>
+            <line x1="140" y1="140" x2="140"   y2="240"/>
+            <line x1="140" y1="140" x2="90"    y2="226.6"/>
+            <line x1="140" y1="140" x2="53.4"  y2="190"/>
+            <line x1="140" y1="140" x2="40"    y2="140"/>
+            <line x1="140" y1="140" x2="53.4"  y2="90"/>
+            <line x1="140" y1="140" x2="90"    y2="53.4"/>
+          </g>
+          <!-- Polígono · scores Rebeca [5,9,5,10,8,8,4,4,6,9,8,6] -->
+          <polygon
+            points="140,90 185,62 183,115 240,140 209,180 180,209 140,180 120,175 88,170 50,140 71,100 110,88"
+            fill="rgba(201,168,76,0.13)"
+            stroke="#C9A84C"
+            stroke-width="1.5"/>
+          <!-- Vértices · color canónico por zona de score -->
+          <circle cx="140"  cy="90"  r="3.5" fill="#C9A84C"/><!-- 01·5 -->
+          <circle cx="185"  cy="62"  r="3.5" fill="#50c882"/><!-- 02·9 -->
+          <circle cx="183"  cy="115" r="3.5" fill="#C9A84C"/><!-- 03·5 -->
+          <circle cx="240"  cy="140" r="4"   fill="#28a898"/><!-- 04·10 -->
+          <circle cx="209"  cy="180" r="3.5" fill="#70c870"/><!-- 05·8 -->
+          <circle cx="180"  cy="209" r="3.5" fill="#70c870"/><!-- 06·8 -->
+          <circle cx="140"  cy="180" r="4"   fill="#B44040"/><!-- 07·4 FRACTURA -->
+          <circle cx="120"  cy="175" r="4"   fill="#B44040"/><!-- 08·4 FRACTURA -->
+          <circle cx="88"   cy="170" r="3"   fill="#b0b44c"/><!-- 09·6 -->
+          <circle cx="50"   cy="140" r="3.5" fill="#50c882"/><!-- 10·9 -->
+          <circle cx="71"   cy="100" r="3.5" fill="#70c870"/><!-- 11·8 -->
+          <circle cx="110"  cy="88"  r="3"   fill="#b0b44c"/><!-- 12·6 -->
+          <!-- Labels · R+18=118 desde centro -->
+          <g font-family="JetBrains Mono, monospace" font-size="8" font-weight="600" text-anchor="middle">
+            <text x="140" y="22"  fill="#C9A84C">01</text>
+            <text x="199" y="38"  fill="#50c882">02</text>
+            <text x="243" y="81"  fill="#C9A84C">03</text>
+            <text x="256" y="143" fill="#28a898">04</text>
+            <text x="243" y="201" fill="#70c870">05</text>
+            <text x="199" y="244" fill="#70c870">06</text>
+            <text x="140" y="258" fill="#B44040">07</text>
+            <text x="81"  y="244" fill="#B44040">08</text>
+            <text x="37"  y="201" fill="#b0b44c">09</text>
+            <text x="22"  y="143" fill="#50c882">10</text>
+            <text x="37"  y="81"  fill="#70c870">11</text>
+            <text x="81"  y="38"  fill="#b0b44c">12</text>
+          </g>
+        </svg>
+
+
+        <!-- ── Promedios por Bloque + IAD Total ── -->
+        <div class="iad-bloc-avgs">
+          <div class="iad-bavg-item">
+            <div class="iad-bavg-n" style="color:var(--oro)">7.5</div>
+            <div class="iad-bavg-l">El Ser · A</div>
+          </div>
+          <div class="iad-bavg-item">
+            <div class="iad-bavg-n" style="color:var(--rojo)">6.2</div>
+            <div class="iad-bavg-l">La Ruta · B</div>
+          </div>
+          <div class="iad-bavg-item">
+            <div class="iad-bavg-n" style="color:var(--blanco)">6.8</div>
+            <div class="iad-bavg-l">IAD Total</div>
+          </div>
+        </div>
+
+        <!-- ── Ley del Espejo · 2 columnas de 6 ── -->
+        <div class="iad-espejo-wrap">
+          <div class="iad-espejo-hdr">◈ Ley del Espejo · Coherencia Interna</div>
+          <div class="iad-espejo-grid">
+
+            <!-- Encabezados de columna -->
+            <div class="iad-espejo-col-hdr" style="color:var(--oro)">El Ser · Bloque A</div>
+            <div class="iad-espejo-col-hdr" style="color:#7EB8C9">La Ruta · Bloque B</div>
+
+            <!-- Fila 1: 01 ↔ 12 · diff=1 · color oro -->
+            <div class="iad-erow iad-ecol-a">
+              <span class="iad-eind-name">01 · Estabilidad</span>
+              <div class="iad-escore" style="background:#c9a84c">5</div>
+              <div class="iad-ediff" style="color:#C9A84C">≈1</div>
+            </div>
+            <div class="iad-erow">
+              <div class="iad-ediff" style="color:#C9A84C">≈1</div>
+              <div class="iad-escore" style="background:#b0b44c">6</div>
+              <span class="iad-eind-name" style="text-align:right">Legado · 12</span>
+            </div>
+
+            <!-- Fila 2: 02 ↔ 11 · diff=1 · color oro -->
+            <div class="iad-erow iad-ecol-a">
+              <span class="iad-eind-name">02 · Confianza</span>
+              <div class="iad-escore" style="background:#50c882">9</div>
+              <div class="iad-ediff" style="color:#C9A84C">≈1</div>
+            </div>
+            <div class="iad-erow">
+              <div class="iad-ediff" style="color:#C9A84C">≈1</div>
+              <div class="iad-escore" style="background:#70c870">8</div>
+              <span class="iad-eind-name" style="text-align:right">Ritmo · 11</span>
+            </div>
+
+            <!-- Fila 3: 03 ↔ 10 · diff=4 · rojo -->
+            <div class="iad-erow iad-ecol-a">
+              <span class="iad-eind-name">03 · Disposición</span>
+              <div class="iad-escore" style="background:#c9a84c">5</div>
+              <div class="iad-ediff" style="color:#c0645a">Δ4</div>
+            </div>
+            <div class="iad-erow">
+              <div class="iad-ediff" style="color:#c0645a">Δ4</div>
+              <div class="iad-escore" style="background:#50c882">9</div>
+              <span class="iad-eind-name" style="text-align:right">Consolidado · 10</span>
+            </div>
+
+            <!-- Fila 4: 04 ↔ 09 · diff=4 · rojo -->
+            <div class="iad-erow iad-ecol-a">
+              <span class="iad-eind-name">04 · Responsabilidad</span>
+              <div class="iad-escore" style="background:#28a898">10</div>
+              <div class="iad-ediff" style="color:#c0645a">Δ4</div>
+            </div>
+            <div class="iad-erow">
+              <div class="iad-ediff" style="color:#c0645a">Δ4</div>
+              <div class="iad-escore" style="background:#b0b44c">6</div>
+              <span class="iad-eind-name" style="text-align:right">Novel · 09</span>
+            </div>
+
+            <!-- Fila 5: 05 ↔ 08 · diff=4 · rojo -->
+            <div class="iad-erow iad-ecol-a">
+              <span class="iad-eind-name">05 · Estrategia</span>
+              <div class="iad-escore" style="background:#70c870">8</div>
+              <div class="iad-ediff" style="color:#c0645a">Δ4</div>
+            </div>
+            <div class="iad-erow">
+              <div class="iad-ediff" style="color:#c0645a">Δ4</div>
+              <div class="iad-escore" style="background:#d4944c">4</div>
+              <span class="iad-eind-name" style="text-align:right">Formación · 08</span>
+            </div>
+
+            <!-- Fila 6: 06 ↔ 07 · diff=4 · rojo -->
+            <div class="iad-erow iad-ecol-a" style="border-bottom:none;">
+              <span class="iad-eind-name">06 · Dominio</span>
+              <div class="iad-escore" style="background:#70c870">8</div>
+              <div class="iad-ediff" style="color:#c0645a">Δ4</div>
+            </div>
+            <div class="iad-erow" style="border-bottom:none;">
+              <div class="iad-ediff" style="color:#c0645a">Δ4</div>
+              <div class="iad-escore" style="background:#d4944c">4</div>
+              <span class="iad-eind-name" style="text-align:right">Reclutamiento · 07</span>
+            </div>
+
+          </div>
+        </div><!-- end espejo-wrap -->
+
+        <!-- ── Checklist · Fracturas de Arquitectura Detectadas ── -->
+        <div class="iad-checklist-wrap">
+          <div class="iad-checklist-hdr">Fracturas de Arquitectura · Lectura Clínica</div>
+
+          <!-- Fractura de Origen: IAD 01(5) + 12(6) — ambos ámbar, no crítica todavía -->
+          <div class="iad-fcheck activa">
+            <div class="iad-fcheck-box"></div>
+            <div class="iad-fcheck-content">
+              <div class="iad-fcheck-name">Fractura de Origen</div>
+              <div class="iad-fcheck-desc">IAD 01 y 12 bajos simultáneamente. Inestabilidad emocional crónica. El Director opera desde reactividad, no desde propósito.</div>
+            </div>
+          </div>
+
+          <!-- Fractura de Continuidad: IAD 07 = 4 — ACTIVA -->
+          <div class="iad-fcheck activa">
+            <div class="iad-fcheck-box"></div>
+            <div class="iad-fcheck-content">
+              <div class="iad-fcheck-name">Fractura de Continuidad</div>
+              <div class="iad-fcheck-desc">IHS bajo + IAD 07 débil. El reclutamiento existe como urgencia, no como proceso. Deuda de Voluntad concentrada en acuerdos de reclutamiento.</div>
+            </div>
+          </div>
+
+          <!-- Fractura de Traducción: Bloque A 7.5 >> Bloque B 6.2 — ACTIVA -->
+          <div class="iad-fcheck activa">
+            <div class="iad-fcheck-box"></div>
+            <div class="iad-fcheck-content">
+              <div class="iad-fcheck-name">Fractura de Traducción</div>
+              <div class="iad-fcheck-desc">Bloque A alto + Bloque B bajo. Director con claridad interna que nunca se convirtió en arquitectura operativa. El sistema depende de su presencia.</div>
+            </div>
+          </div>
+
+          <!-- Fractura de Origen Latente: B > A — no activa para Rebeca -->
+          <div class="iad-fcheck activa">
+            <div class="iad-fcheck-box"></div>
+            <div class="iad-fcheck-content">
+              <div class="iad-fcheck-name">Fractura de Origen Latente</div>
+              <div class="iad-fcheck-desc">Bloque B alto + Bloque A bajo. Sistema productivo hoy, desde un origen frágil. La más peligrosa — invisible a los KPIs hasta que colapsa.</div>
+            </div>
+          </div>
+
+          <!-- Fractura de Espejo: 01↔12 diff=1, no activa; pero otros pares con Δ4 -->
+          <div class="iad-fcheck activa">
+            <div class="iad-fcheck-box"></div>
+            <div class="iad-fcheck-content">
+              <div class="iad-fcheck-name">Fractura de Espejo</div>
+              <div class="iad-fcheck-desc">Brecha ≥3 puntos en pares 01↔12. La arquitectura interna y el legado del sistema divergen. El sistema no sobrevive la ausencia del Director.</div>
+            </div>
+          </div>
+
+        </div><!-- end checklist-wrap -->
+
+      </div><!-- end iad-radar-box -->
+
+      <!-- Lectura del IAD -->
+      <div class="iad-read">
+
+        <div class="iad-zonal">
+          <div class="z">
+            <div class="lbl">El Ser · IAD 01–06</div>
+            <div class="num">7.5<em>/10</em></div>
+            <div class="zone">Zona de Integridad</div>
+          </div>
+          <div class="z" style="border-color:rgba(180,64,64,0.45);background:rgba(180,64,64,0.05)">
+            <div class="lbl" style="color:var(--rojo)">La Ruta · IAD 07–12</div>
+            <div class="num" style="color:var(--rojo)">6.2<em style="color:var(--gris-l)">/10</em></div>
+            <div class="zone" style="color:var(--rojo)">Zona de Transición</div>
+          </div>
+        </div>
+
+        <div class="iad-fract">
+          <h3>Fractura primaria · <em>Fractura de Traducción.</em></h3>
+          <p>El IAD revela el patrón con precisión: <strong>sabes más de lo que tu sistema ejecuta.</strong> Tu El Ser opera con integridad — claridad estratégica, dominio del oficio, responsabilidad máxima. Pero La Ruta — los sistemas operativos que sostienen esa visión — tiene dos fracturas activas que el equipo siente todos los días aunque no las nombre.</p>
+
+          <div class="pair">
+            <span class="mark">◆ Fractura de Reclutamiento activa · brecha +4 pts</span>
+            <strong>IAD 06 · Dominio (8) ↔ IAD 07 · Sistema de Reclutamiento (4)</strong><br>
+            Tienes el dominio sistémico, pero el reclutamiento de noveles vive en la urgencia — no en el proceso. La responsable de finanzas también recluta cuando puede. <strong>El Gerente de Desarrollo es el formador de agentes:</strong> el rol que falta tiene un nombre — lo que aún no existe es <em>el sistema de formación que ese Gerente va a ejecutar.</em>
+          </div>
+
+          <div class="pair">
+            <span class="mark">◆ Fractura de Espejo activa · brecha +4 pts</span>
+            <strong>IAD 05 · Estrategia (8) ↔ IAD 08 · Sistema de Formación (4)</strong><br>
+            Tu estrategia como Directora es clara, pero el sistema de formación no está instalado. El piloto que quieres correr con el <strong>Agente Consolidado Piloto</strong> — un Agente de Seguros 2.0 dentro del equipo — es la señal: <em>antes de escalar el proceso, hay que validarlo en un caso real de confianza.</em> Eso es arquitectura — no improvisación.
+          </div>
+
+          <div class="pair" style="border-left-color:var(--amber);background:rgba(192,140,64,0.06)">
+            <span class="mark" style="color:var(--amber)">◆ Fracturas de Maduración · IAD 01 y IAD 12</span>
+            <strong>IAD 01 · Estabilidad Emocional (5)</strong> y <strong>IAD 12 · Legado (6)</strong><br>
+            La estabilidad emocional en 5 indica ciclos de tensión reactiva — momentos donde la presión del equipo o del mercado activa respuestas desde el estado emocional en lugar de desde la arquitectura. El Legado en 6 señala que la visión de largo plazo de NoMāD23 existe pero aún no está traducida en sistema ejecutable. Ambas dimensiones son las que ADC trabaja en el Horizonte 1, antes que cualquier intervención al equipo — <em>porque el origen determina el resultado.</em>
+          </div>
+          <div class="iad-strong">
+            <span class="mark">◆ Fortalezas estructurales que sostienen el proceso</span>
+            <strong>IAD 04 · Responsabilidad (10)</strong> y <strong>IAD 02 · Confianza (9)</strong>. Esto es lo que ningún protocolo puede instalar — y tú ya lo tienes. Cuando la arquitectura entre, NoMāD23 la va a operar con disciplina natural. No vas a necesitar que te empujen. El sistema te va a seguir el ritmo, no al revés.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <p class="sec-lead" style="margin-top:64px">El Cortex no diagnostica para clasificar. Diagnostica para prescribir. <strong>El siguiente paso natural de NoMāD23 no es contratar al Gerente de Desarrollo — es instalar el sistema que el Gerente va a operar.</strong> Y antes de eso: que tú como Directora tengas el plano de tu propia arquitectura. <em>El origen siempre determina el resultado.</em></p>
+  </div>
+</section>
+
+
+
+<!-- §3 -->
+<section id="sec-why">
+  <div class="wrap">
+    <div class="eyebrow">02 <em>—</em> ADC no es coaching ni consultoría</div>
+    <h2 class="sec-title">Por qué ADC<br>es <em>diferente.</em></h2>
+    <p class="sec-lead">Hay modelos que forman al líder. Hay modelos que diseñan el sistema. ADC hace algo diferente: <strong>co-construye la arquitectura con el Director y con el equipo — y deja el sistema vivo en la Bóveda de NoMāD23, no en los archivos de un consultor.</strong> El Cortex ADC como Director Comercial Agentic AI lo sostiene los 365 días del año.</p>
+
+    <!-- ADC — Full horizontal card -->
+    <div class="why-card adc" style="max-width:100%;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:start;margin-top:48px;">
+      <div style="min-width:220px">
+        <div class="tag">// ADC · Dirección Comercial 2.0</div>
+        <h4 style="font-size:clamp(22px,3vw,34px)">Con IA de última<br>generación · <em>Cortex-first</em></h4>
+        <div class="model">El sistema que se queda</div>
+      </div>
+      <ul style="margin-top:0;padding-top:4px">
+        <li>Interviene el origen humano que produce el sistema — no el síntoma</li>
+        <li>La Directora co-construye con su equipo — la Bóveda de Soberanía es suya, no de ADC</li>
+        <li>Los roles son co-creadores de sus estrategias — se capacitan mientras diseñan</li>
+        <li>Interfaz Cortex-first: el sistema entra por conversación, no por dashboard</li>
+        <li>Honorabilidad + Arquitectura del rol + Productividad + Métricas del tiempo = Cruce 4D como métricas objetivas del avance real</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- §4 -->
+<section class="bg2" id="sec-brecha">
+  <div class="wrap">
+    <div class="eyebrow" style="text-align:center">03 <em>—</em> La brecha · Lo que NoMāD23 necesita hoy</div>
+    <h2 class="sec-title" style="text-align:center">El Director Comercial<br>Agentic AI que <em>nunca cobra<br>comisiones.</em></h2>
+    <p class="sec-lead brecha-intro" style="text-align:center;margin:0 auto;">El Director Comercial es el rol que más impacta la producción de la agencia — y el más costoso, el más volátil, y el que se lleva el conocimiento cuando sale. <strong>ADC tiene una respuesta arquitectónica.</strong></p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px;margin-bottom:48px">
+    <div class="dc-comp" style="margin-bottom:0">
+      <div class="sub">// Contratación tradicional</div>
+      <h3>Director Comercial · <em>Año 1</em></h3>
+      <ul>
+        <li><strong>Sueldo base $40,000–$60,000/mes</strong> — presente solo en horario laboral.</li>
+        <li><strong>Comisiones sobre la producción del equipo</strong> — $25,000–$70,000/mes variables. Cobra más cuando tu equipo produce más.</li>
+        <li>Toma de 6–12 meses antes de generar impacto real.</li>
+        <li>Interpreta la realidad desde su sesgo personal y experiencia previa.</li>
+        <li><strong>Rotación promedio en el sector: 18 meses.</strong> Sale y se lleva el conocimiento de tu agencia.</li>
+        <li>Sin instrumento diagnóstico — gestiona por intuición y observación subjetiva.</li>
+      </ul>
+    </div>
+
+    <div class="dc-comp" style="background:linear-gradient(180deg,rgba(201,168,76,0.04) 0%,transparent 80%);border-color:var(--oro-borde-med)">
+      <div class="sub">// Arquitectura ADC</div>
+      <h3>Cortex ADC · <em>Director Comercial Agentic AI</em></h3>
+      <ul>
+        <li><strong>Disponible los 365 días</strong> — sin ausencias, sin fatiga, sin días malos.</li>
+        <li><strong>$0 en comisiones. Nunca.</strong> Ni sobre la producción del equipo, ni en campañas, ni en los mejores trimestres.</li>
+        <li>Opera con contexto real de NoMāD23 desde el <strong>Día 1</strong> — calibrado con el diagnóstico del sistema.</li>
+        <li>Lee indicadores objetivos — IAD, IHS, PI Cockpit, Cruce 4D. <strong>Sin sesgo. Sin interpretación emocional.</strong></li>
+        <li><strong>El conocimiento nunca sale de NoMāD23.</strong> Vive en la Bóveda de Soberanía — permanente, institucional, transferible.</li>
+        <li>Prescribe la intervención correcta basada en instrumento clínico — no en opinión.</li>
+      </ul>
+    </div>
+    </div><!-- /dc-comp-grid -->
+
+    <table class="brecha-table" style="margin-top:64px">
+      <thead>
+        <tr>
+          <th>Concepto</th>
+          <th>Director Comercial · Año 1</th>
+          <th>Cortex ADC · Año 1 (Ruta completa)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sueldo / Inversión de proyecto</td>
+          <td class="dc">$480,000 – $720,000 MXN</td>
+          <td class="adc">
+            <div style="font-family:var(--serif);font-size:22px;font-weight:300;color:var(--oro);line-height:1.25;margin-bottom:10px;font-style:italic">Tu desempeño aumenta<br>horizonte por horizonte.</div>
+            <div style="font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gris-l);margin-bottom:10px;line-height:1.7">Tú decides cuánto invertir · cuándo avanzar · y cuál es el retorno que quieres producir.</div>
+            <strong>$418,000 MXN</strong> · Ruta completa con Cortex integrado · con descuento compromiso y lealtad
+          </td>
+        </tr>
+        <tr>
+          <td>Comisiones sobre producción del equipo</td>
+          <td class="dc">$300,000 – $840,000 MXN</td>
+          <td class="adc"><strong>$0 · Nunca</strong></td>
+        </tr>
+        <tr>
+          <td>¿Qué queda cuando termina?</td>
+          <td class="dc">Nada · el conocimiento se va con él</td>
+          <td class="adc"><strong>Bóveda + Blueprints + Cortex calibrado</strong></td>
+        </tr>
+        <tr class="total">
+          <td>Total estimado Año 1</td>
+          <td>$780,000 – $1,560,000 MXN</td>
+          <td><strong>$418,000 MXN</strong> · con sistema vivo + Bóveda · con descuento compromiso y lealtad</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="quote-block">
+      "El Cortex no solo diagnostica. Aprende cómo Rebeca lidera, cómo lee a su equipo, cómo prescribe. Con el tiempo, opera como ella operaría — <em>sin que ella tenga que estar.</em>"
+      <div class="attr">Fer U · ADC V8 · Dirección Comercial 2.0</div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- §5-partial -->
+<section id="sec-capas">
+  <div class="wrap">
+    <div class="eyebrow">04 <em>—</em> La inteligencia que ya construyes</div>
+    <h2 class="sec-title">Dos capas de IA<br><em>complementarias</em>, no<br>competidoras.</h2>
+    <p class="sec-lead">NoMāD23 ya está construyendo inteligencia para sus agentes — operación, eficiencia, soporte transaccional. <strong>Esa inversión no se duplica con ADC. Se amplifica.</strong> El Cortex opera en la capa de la dirección. Las dos juntas hacen de NoMāD23 algo que ninguna agencia del sector tiene hoy.</p>
+
+    <div class="capas-grid">
+      <div class="capa">
+        <div class="tag">// Capa transaccional</div>
+        <h4>La IA de <em>NoMāD23.</em></h4>
+        <p>La inteligencia que tu equipo está construyendo para que los agentes operen más rápido, con menos fricción, con respuestas inmediatas a sus trámites. <strong>Es la capa que ayuda al agente a hacer su trabajo.</strong></p>
+        <p>Quién la usa: agentes, gerentes, área operativa. Qué resuelve: tiempo de respuesta, trámites, soporte. Cuándo entra: en cada interacción operativa del día a día.</p>
+        <div class="scope">→ Capa operativa · Agentes ↔ Aseguradoras<br>→ Foco: eficiencia transaccional</div>
+      </div>
+
+      <div class="capa">
+        <div class="tag">// Capa directiva</div>
+        <h4>El Cortex <em>ADC.</em></h4>
+        <p>La inteligencia que lee la arquitectura de NoMāD23 como sistema — IAD, IHS, fracturas, ecosistema completo. <strong>Es la capa que ayuda a Rebeca a dirigir.</strong></p>
+        <p>Quién lo usa: la Directora, el Gerente de Desarrollo. Qué resuelve: lectura del sistema, prescripción estratégica, identificación de fracturas antes de que el resultado las confirme. Cuándo entra: en las decisiones que mueven a la agencia, no en los trámites del día.</p>
+        <div class="scope">→ Capa estratégica · Directora ↔ Sistema<br>→ Foco: arquitectura que produce el desempeño</div>
+      </div>
+    </div>
+
+    <div class="capa-meta">
+      <p><em>Una le dice al agente qué formulario llenar. La otra le dice a Rebeca qué sistema necesita para que sus 60 agentes puedan llenarlo solos.</em> No es automatización de tareas — es amplificación de criterio directivo. La inteligencia de Rebeca, sostenida por un sistema que nunca descansa.</p>
+    </div>
+    <div style="margin-top:20px;padding:18px 24px;background:var(--negro-card);border:1px solid var(--oro-borde);border-left:3px solid var(--oro)">
+      <div style="font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--oro);margin-bottom:10px">// Cortex vs Altar Sistémico · Dos capas · Una inteligencia</div>
+      <p style="font-family:var(--sans);font-size:13px;font-weight:300;color:var(--gris-l);line-height:1.85;margin:0">El Cortex no es un dashboard. Es el <strong style="color:var(--blanco);font-weight:400">Director Comercial que ya conoce tu sistema</strong> — el punto de entrada siempre es la conversación. El <strong style="color:var(--blanco);font-weight:400">Altar Sistémico</strong> existe para cuando Rebeca quiere ver la arquitectura completa en datos: los seis roles, los cuatro indicadores del Cruce 4D, la producción por línea de negocio. <em>El Cortex te habla. El Altar Sistémico te muestra.</em></p>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="bg3" id="sec-resultados">
+  <div class="wrap">
+    <div class="eyebrow">05 <em>—</em> Lo que el sistema ha producido</div>
+    <h2 class="sec-title">Resultados de<br><em>casos reales.</em></h2>
+
+    <!-- BELT: 6 numbers full-width horizontal strip -->
+    <div style="display:flex;flex-wrap:nowrap;gap:0;margin-top:48px;border:1px solid var(--oro-borde);overflow:hidden">
+      <div style="flex:1;padding:28px 20px;text-align:center;border-right:1px solid var(--oro-borde)">
+        <div style="font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:300;color:var(--blanco);line-height:1">+200<em style="font-style:italic;color:var(--oro);font-size:0.6em">%</em></div>
+        <div style="font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gris-l);margin-top:8px;line-height:1.5">Ganadores de bono<br>12 semanas</div>
+        <div style="font-family:var(--mono);font-size:6.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gris);margin-top:6px">Gerente desbloqueado</div>
+      </div>
+      <div style="flex:1;padding:28px 20px;text-align:center;border-right:1px solid var(--oro-borde)">
+        <div style="font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:300;color:var(--blanco);line-height:1">+37<em style="font-style:italic;color:var(--oro);font-size:0.6em">%</em></div>
+        <div style="font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gris-l);margin-top:8px;line-height:1.5">Ventas GMM + Vida<br>agente consolidado</div>
+        <div style="font-family:var(--mono);font-size:6.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gris);margin-top:6px">Consolidado desbloqueado</div>
+      </div>
+      <div style="flex:1;padding:28px 20px;text-align:center;border-right:1px solid var(--oro-borde)">
+        <div style="font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:300;color:var(--blanco);line-height:1">+110<em style="font-style:italic;color:var(--oro);font-size:0.6em">%</em></div>
+        <div style="font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gris-l);margin-top:8px;line-height:1.5">IAD profesional<br>12 semanas</div>
+        <div style="font-family:var(--mono);font-size:6.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gris);margin-top:6px">Director Canal Masivo GNP</div>
+      </div>
+      <div style="flex:1;padding:28px 20px;text-align:center;border-right:1px solid var(--oro-borde)">
+        <div style="font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:300;color:var(--blanco);line-height:1">+200<em style="font-style:italic;color:var(--oro);font-size:0.6em">%</em></div>
+        <div style="font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gris-l);margin-top:8px;line-height:1.5">Ingresos<br>4 meses post-proceso</div>
+        <div style="font-family:var(--mono);font-size:6.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gris);margin-top:6px">Director Novel GNP</div>
+      </div>
+      <div style="flex:1;padding:28px 20px;text-align:center;border-right:1px solid var(--oro-borde)">
+        <div style="font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:300;color:var(--blanco);line-height:1">5→8<em style="font-style:italic;color:var(--oro);font-size:0.45em">/10</em></div>
+        <div style="font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gris-l);margin-top:8px;line-height:1.5">Satisfacción Director<br>Sprint 9 · 16 semanas</div>
+        <div style="font-family:var(--mono);font-size:6.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gris);margin-top:6px">Director en sucursal GNP</div>
+      </div>
+      <div style="flex:1;padding:28px 20px;text-align:center;background:linear-gradient(180deg,rgba(201,168,76,0.06) 0%,transparent 80%)">
+        <div style="font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:300;color:var(--oro-vivo);line-height:1">100<em style="font-style:italic;color:var(--oro);font-size:0.6em">%</em></div>
+        <div style="font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gris-l);margin-top:8px;line-height:1.5">Satisfacción total<br>10+ casos · talento</div>
+        <div style="font-family:var(--mono);font-size:6.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--oro);margin-top:6px">Validación masiva</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     §06 · BRIDGE → DOCUMENTO II
+     ════════════════════════════════════════════════════════════════ -->
+<section class="bg3" id="sec-bridge" style="text-align:center">
+  <div class="wrap">
+    <div class="eyebrow" style="text-align:center">06 <em>—</em> El segundo documento</div>
+    <h2 class="sec-title" style="text-align:center">La propuesta<br>comienza <em>aquí.</em></h2>
+    <p class="sec-lead" style="text-align:center;margin:0 auto 48px">Has visto lo que el sistema encontró. El segundo documento presenta la solución construida desde este diagnóstico: los 8 Horizontes, el Director Comercial Agentic AI, la inversión con claridad y el acuerdo de arquitectura.</p>
+    <div style="margin-top:48px;padding:28px 40px;background:var(--negro-card);border:1px solid var(--oro-borde);border-left:4px solid var(--oro);max-width:640px;margin-left:auto;margin-right:auto;text-align:left">
+      <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--oro);margin-bottom:12px">→ Continúa en el Documento II</div>
+      <p style="font-family:var(--serif);font-size:22px;font-weight:300;color:var(--blanco);line-height:1.4;font-style:italic;margin:0"><em>Propuesta de Inversión en Arquitectura<br>NoMāD23 · Rebeca González</em></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="epi">"Recuerda… tú eres tiempo."</div>
+    <div class="meta">
+      ADC · Cortex ADC · <strong>Diagnóstico de Arquitectura · NoMāD23 · Rebeca González · V8</strong><br>
+      <em style="color:var(--oro);font-style:italic">El origen siempre determina el resultado.</em>
+    </div>
+  </div>
+</footer>
+
+</body>
+
+<script>
+function toggleAltarDemo(btn) {
+  var panel = document.getElementById('altar-panel');
+  if (!panel) return;
+  var isOpen = panel.classList.toggle('open');
+  if (btn) btn.classList.toggle('open', isOpen);
+  // update button text
+  var lbl = btn ? btn.childNodes[1] : null;
+  if (lbl) {
+    // leave as is - the + icon handles it
+  }
+}
+
+function toggleBoveda(btn, panelId) {
+  var panel = document.getElementById(panelId);
+  if (!panel) return;
+  var isOpen = panel.classList.toggle('open');
+  if (btn) btn.classList.toggle('open', isOpen);
+}
+
+function toggleLayer(btn) {
+  var panel = btn && btn.nextElementSibling;
+  if (!panel) return;
+  var isOpen = panel.classList.toggle('open');
+  if (btn) btn.classList.toggle('open', isOpen);
+}
+
+/* ── Espiral iconotipo (cierre) ── */
+(function() {
+  function drawEspiral(canvasId) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var S = canvas.width;
+    var cx = S/2, cy = S/2;
+    ctx.clearRect(0,0,S,S);
+    var turns=3, R_start=S*0.425, R_end=S*0.0107, steps=400;
+    ctx.lineWidth = S*0.004;
+    ctx.beginPath();
+    for(var i=0;i<=steps;i++){
+      var t=i/steps, angle=t*turns*Math.PI*2-Math.PI/2;
+      var r=R_start*Math.pow(R_end/R_start,t);
+      var x=cx+r*Math.cos(angle), y=cy+r*Math.sin(angle);
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle='rgba(201,168,76,0.75)';
+    ctx.stroke();
+    var coreR=S*0.04;
+    var g=ctx.createRadialGradient(cx,cy,0,cx,cy,coreR);
+    g.addColorStop(0,'#F5E490'); g.addColorStop(1,'rgba(201,168,76,0)');
+    ctx.beginPath(); ctx.arc(cx,cy,coreR,0,Math.PI*2);
+    ctx.fillStyle=g; ctx.fill();
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){ drawEspiral('adc-espiral-cierre'); });
+  } else { drawEspiral('adc-espiral-cierre'); }
+  window.addEventListener('load',function(){ drawEspiral('adc-espiral-cierre'); });
+})();
+</script>
+</body></html>
