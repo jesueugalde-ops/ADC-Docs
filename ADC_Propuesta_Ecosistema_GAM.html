@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADC · Ecosistema Comercial GAM · 120 Días</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── Variables Canónicas ADC §2 ── */
+:root {
+  --abismo:        #030304;
+  --negro-deep:    #060608;
+  --negro:         #0A0A0C;
+  --negro-suave:   #111114;
+  --negro-card:    #17171B;
+  --negro-elevado: #1E1E23;
+
+  --oro-genesis:   #3D2E0A;
+  --oro-latente:   #6B4E1A;
+  --oro:           #C9A84C;
+  --oro-vivo:      #E8C97A;
+  --oro-palido:    #F5E8C0;
+  --oro-puro:      #FFE08A;
+
+  --oro-dim:       rgba(201,168,76,0.06);
+  --oro-borde:     rgba(201,168,76,0.20);
+  --oro-borde-med: rgba(201,168,76,0.40);
+  --oro-hover:     rgba(201,168,76,0.38);
+  --oro-glow:      rgba(201,168,76,0.12);
+
+  --blanco:        #F2F2EE;
+  --gris-claro:    #AAAAAA;
+  --gris:          #666666;
+  --gris-oscuro:   #2A2A2E;
+
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Montserrat', sans-serif;
+  --mono:  'JetBrains Mono', 'Courier New', monospace;
+
+  --t-fast: 0.2s ease;
+  --t-med:  0.4s ease;
+  --t-slow: 0.8s ease;
+
+  /* ── Colores de rol ADC ── */
+  --novel:         #4A9F6A;
+  --consolidado:   #C08C40;
+  --edat:          #9B6B9B;
+  --gerente:       #7EB8C9;
+  --rojo:          #B44040;
+  --rojo-dim:      rgba(180,50,50,0.12);
+  --verde-dim:     rgba(74,159,106,0.10);
+
+  /* ── Zonas diagnósticas IAD ── */
+  --zona-riesgo:     #CC5555;
+  --zona-desarrollo: #C8993A;
+  --zona-solidez:    #5588CC;
+  --zona-referencia: #4A9F6A;
+
+  /* ── Elevación de cards ── */
+  --elev-card:
+    0 0 0 1px rgba(201,168,76,0.05) inset,
+    0 24px 60px -24px rgba(0,0,0,0.60),
+    0 0 32px rgba(201,168,76,0.06);
+  --elev-card-hover:
+    0 0 0 1px rgba(201,168,76,0.12) inset,
+    0 28px 64px -24px rgba(0,0,0,0.70),
+    0 0 60px rgba(201,168,76,0.18);
+}
+
+/* ── Base ── */
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--negro);
+  color: var(--blanco);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Malla dorada §5 ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: radial-gradient(circle, rgba(201,168,76,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* ── Keyframes §5 ── */
+@keyframes oro-brush {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes emerge {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(3,3,4,0.97);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--oro-borde);
+  padding: 0 48px; height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-brand {
+  font-family: var(--serif); font-size: 20px; font-weight: 600;
+  color: var(--oro); letter-spacing: 5px;
+}
+.nav-links { display: flex; gap: 32px; }
+.nav-links a {
+  color: var(--gris); text-decoration: none;
+  font-family: var(--sans); font-size: 7.5px; font-weight: 500;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  transition: color var(--t-fast);
+}
+.nav-links a:hover { color: var(--oro); }
+.nav-version {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--gris); letter-spacing: 2px; text-transform: uppercase;
+}
+.nav-confidencial {
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: #E03030;
+  border: 1px solid rgba(224,48,48,0.40);
+  padding: 4px 12px;
+  animation: pulso-conf 3s ease-in-out infinite;
+}
+@keyframes pulso-conf {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: var(--abismo);
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
+  z-index: 1;
+  padding: 140px 96px 96px;
+}
+.hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--oro), transparent);
+}
+.hero-deco {
+  position: absolute; right: 80px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--serif); font-size: 280px; font-weight: 300;
+  color: rgba(201,168,76,0.03); pointer-events: none;
+  letter-spacing: -10px; line-height: 1;
+  user-select: none;
+}
+.hero-inner { max-width: 780px; width: 100%; position: relative; z-index: 1; }
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: 5px; text-transform: uppercase; color: var(--gris);
+  display: flex; align-items: center; gap: 16px; margin-bottom: 48px;
+  animation: emerge 1s ease both;
+}
+.hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--oro); flex-shrink: 0; }
+.hero-titulo {
+  font-family: var(--serif);
+  font-size: clamp(64px, 8vw, 112px);
+  font-weight: 300; line-height: 1.0;
+  color: var(--blanco);
+  margin-bottom: 32px;
+  animation: emerge 1s ease 0.2s both;
+}
+.hero-titulo em {
+  font-style: italic;
+  background: repeating-linear-gradient(
+    108deg,
+    #C9A84C 0px, #F0D878 2px, #A07830 4px,
+    #C9A84C 7px, #E2C464 10px, #B89040 13px
+  );
+  background-size: 600% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: oro-brush 8s ease-in-out infinite alternate;
+}
+.hero-sub {
+  font-size: 14px; font-weight: 300; color: var(--gris-claro);
+  line-height: 1.9; max-width: 560px;
+  border-left: 2px solid var(--oro-borde); padding-left: 24px;
+  margin-bottom: 72px;
+  animation: emerge 1s ease 0.4s both;
+}
+.hero-meta {
+  display: flex; gap: 0; align-items: stretch;
+  animation: emerge 1s ease 0.6s both;
+}
+.hero-meta-item {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 0 32px; border-right: 1px solid var(--oro-borde);
+}
+.hero-meta-item:first-child { padding-left: 0; }
+.hero-meta-item:last-child { border-right: none; }
+.hero-meta-label {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 3px;
+  color: var(--gris); text-transform: uppercase;
+}
+.hero-meta-value { font-size: 13px; font-weight: 500; color: var(--blanco); }
+
+/* ── APERTURA ── */
+.apertura {
+  background: var(--negro-deep);
+  padding: 96px 96px;
+  position: relative; z-index: 1;
+}
+.apertura::after {
+  content: '';
+  position: absolute; bottom: 0; left: 96px; right: 96px; height: 1px;
+  background: var(--oro-borde);
+}
+.apertura-inner { max-width: 800px; margin: 0 auto; }
+.apertura-saludo {
+  font-family: var(--serif); font-size: 40px; font-weight: 300; font-style: italic;
+  color: var(--oro); margin-bottom: 40px; line-height: 1;
+}
+.apertura-p {
+  font-size: 14px; font-weight: 300; color: var(--gris-claro);
+  line-height: 1.9; margin-bottom: 20px;
+}
+.apertura-p strong { color: var(--blanco); font-weight: 500; }
+.apertura-highlight {
+  background: var(--oro-dim);
+  border: 1px solid var(--oro-borde);
+  border-left: 3px solid var(--oro);
+  padding: 32px 40px;
+  margin-top: 40px;
+}
+.apertura-highlight-text {
+  font-size: 15px; font-weight: 300; color: var(--gris-claro);
+  line-height: 1.9;
+}
+.apertura-highlight-text strong { color: var(--blanco); font-weight: 500; }
+
+/* ── SECCIONES ── */
+section { padding: 120px 96px 96px; position: relative; z-index: 1; }
+section.alt { background: var(--negro-suave); }
+.section-full { max-width: 1100px; margin: 0 auto; }
+
+/* ── HEADER ROMBO ── */
+.header-rombo { position: relative; margin-bottom: 72px; }
+.header-rombo-marker {
+  display: flex; align-items: center; gap: 0; margin-bottom: 28px;
+}
+.header-rombo-diamond {
+  width: 12px; height: 12px;
+  background: var(--oro); transform: rotate(45deg); flex-shrink: 0;
+}
+.header-rombo-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(to right, var(--oro), transparent);
+  max-width: 200px;
+}
+.header-rombo-num {
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--oro);
+  margin-left: 16px;
+}
+.header-rombo h2 {
+  font-family: var(--serif); font-size: 60px; font-weight: 300;
+  line-height: 1.05; color: var(--blanco);
+}
+.header-rombo h2 em { color: var(--oro); font-style: italic; }
+.header-rombo-desc {
+  font-size: 14px; font-weight: 300; color: var(--gris-claro);
+  max-width: 580px; line-height: 1.9; margin-top: 24px;
+  border-left: 2px solid var(--oro-borde); padding-left: 20px;
+}
+
+/* ── SEPARADOR ── */
+.separador-adc {
+  display: flex; align-items: center; gap: 24px;
+  padding: 40px 0; margin: 8px 0;
+}
+.sep-linea { flex: 1; height: 1px; background: var(--oro-borde); }
+.sep-simbolo {
+  font-family: var(--serif); font-size: 20px;
+  color: var(--oro); opacity: 0.4;
+}
+
+/* ── CARDS ── */
+.card-adc {
+  background: var(--negro-card);
+  border: 1px solid var(--oro-borde);
+  padding: 40px;
+  box-shadow: var(--elev-card);
+  transition: border-color var(--t-med), transform var(--t-med), box-shadow var(--t-med);
+  position: relative; overflow: hidden;
+}
+.card-adc:hover { border-color: var(--oro-borde-med); transform: translateY(-4px); box-shadow: var(--elev-card-hover); }
+.card-adc::before {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--oro), transparent);
+  transform: scaleX(0); transition: transform var(--t-med);
+}
+.card-adc:hover::before { transform: scaleX(1); }
+.card-num {
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase; color: var(--oro);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+}
+.card-num::before { content: ''; width: 16px; height: 1px; background: var(--oro); }
+.card-titulo {
+  font-family: var(--serif); font-size: 22px; font-weight: 400;
+  color: var(--blanco); margin-bottom: 12px; line-height: 1.2;
+}
+.card-desc {
+  font-size: 13px; font-weight: 300; color: var(--gris-claro); line-height: 1.8;
+}
+.card-desc strong { color: var(--blanco); font-weight: 500; }
+
+/* ── GRILLAS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+
+/* ── SECTION I: EL ORIGEN ── */
+.origen-bottom {
+  background: var(--negro-suave);
+  border: 1px solid var(--oro-borde);
+  border-left: 3px solid var(--oro);
+  padding: 40px 48px;
+  max-width: 820px; margin: 48px auto 0;
+}
+.origen-bottom-label {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 4px;
+  color: var(--oro); text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+}
+.origen-bottom-label::before { content: ''; width: 16px; height: 1px; background: var(--oro); }
+.origen-bottom-text {
+  font-size: 14px; font-weight: 300; color: var(--gris-claro); line-height: 1.9;
+}
+.origen-bottom-text strong { color: var(--blanco); font-weight: 500; }
+
+/* ── SECTION II: VECTORES ── */
+.vector-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 48px; }
+.vector-full { grid-column: 1 / -1; }
+
+/* ── Vector card accents por rol ── */
+.vector-grid .card-adc:nth-child(1)::before { background: linear-gradient(90deg, transparent, var(--novel), transparent); }
+.vector-grid .card-adc:nth-child(2)::before { background: linear-gradient(90deg, transparent, var(--gerente), transparent); }
+.vector-grid .card-adc:nth-child(3)::before { background: linear-gradient(90deg, transparent, var(--consolidado), transparent); }
+.vector-grid .card-adc:nth-child(4)::before { background: linear-gradient(90deg, transparent, var(--edat), transparent); }
+.vector-grid .card-adc:nth-child(5)::before { background: linear-gradient(90deg, transparent, var(--oro), transparent); }
+
+.vector-grid .card-adc:nth-child(1) .card-num { color: var(--novel); }
+.vector-grid .card-adc:nth-child(1) .card-num::before { background: var(--novel); }
+.vector-grid .card-adc:nth-child(2) .card-num { color: var(--gerente); }
+.vector-grid .card-adc:nth-child(2) .card-num::before { background: var(--gerente); }
+.vector-grid .card-adc:nth-child(3) .card-num { color: var(--consolidado); }
+.vector-grid .card-adc:nth-child(3) .card-num::before { background: var(--consolidado); }
+.vector-grid .card-adc:nth-child(4) .card-num { color: var(--edat); }
+.vector-grid .card-adc:nth-child(4) .card-num::before { background: var(--edat); }
+
+/* ── SECTION III: KPIs ── */
+.kpi-grupo {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 5px; text-transform: uppercase; color: var(--gris-claro);
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 24px; margin-top: 56px;
+}
+.kpi-grupo:first-of-type { margin-top: 48px; }
+.kpi-grupo::after {
+  content: ''; flex: 1; height: 1px; background: var(--oro-borde);
+}
+/* .kpi-numero-deco removed — spans eliminated from KPI cards V6 */
+.kpi-tag {
+  display: inline-block;
+  font-family: var(--mono); font-size: 7px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--oro); border: 1px solid var(--oro-borde);
+  padding: 3px 8px; background: var(--oro-dim); margin-bottom: 12px;
+}
+.kpi-tag.tag-verde   { color: var(--novel);       border-color: rgba(74,159,106,0.32);  background: rgba(74,159,106,0.07); }
+.kpi-tag.tag-azul    { color: var(--gerente);      border-color: rgba(126,184,201,0.32); background: rgba(126,184,201,0.07); }
+.kpi-tag.tag-amber   { color: var(--consolidado);  border-color: rgba(192,140,64,0.32);  background: rgba(192,140,64,0.07); }
+.kpi-tag.tag-purpura { color: var(--edat);         border-color: rgba(155,107,155,0.32); background: rgba(155,107,155,0.07); }
+
+/* ── SECTION IV: PLAN DE VUELO ── */
+.plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 48px; }
+.fases-timeline { position: relative; display: flex; flex-direction: column; }
+.fases-timeline::before {
+  content: ''; position: absolute; left: 27px; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom, var(--oro), rgba(201,168,76,0.05));
+}
+.fase-item {
+  display: flex; gap: 32px; padding: 32px 0;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+}
+.fase-item:last-child { border-bottom: none; }
+.fase-num {
+  width: 56px; height: 56px; flex-shrink: 0;
+  background: var(--negro-suave); border: 1px solid var(--oro);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 24px; font-weight: 300; color: var(--oro);
+  position: relative; z-index: 1;
+}
+.fase-fecha {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
+  color: var(--oro); text-transform: uppercase; margin-bottom: 8px;
+}
+.fase-titulo {
+  font-family: var(--serif); font-size: 20px; font-weight: 400;
+  color: var(--blanco); margin-bottom: 8px;
+}
+.fase-desc { font-size: 13px; font-weight: 300; color: var(--gris-claro); line-height: 1.7; }
+.infra-box {
+  background: var(--negro-card);
+  border: 1px solid var(--oro-borde);
+  border-left: 3px solid var(--oro);
+  padding: 40px; align-self: start;
+}
+.infra-label {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 4px;
+  color: var(--oro); text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+}
+.infra-label::before { content: ''; width: 16px; height: 1px; background: var(--oro); }
+.infra-titulo {
+  font-family: var(--serif); font-size: 22px; font-weight: 300; font-style: italic;
+  color: var(--blanco); margin-bottom: 28px; line-height: 1.3;
+}
+.infra-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 16px 0; border-bottom: 1px solid rgba(201,168,76,0.06);
+  font-size: 13px; font-weight: 300; color: var(--gris-claro); line-height: 1.6;
+}
+.infra-item:last-child { border-bottom: none; }
+.infra-item::before { content: '◆'; color: var(--oro); font-size: 8px; margin-top: 6px; flex-shrink: 0; }
+.infra-item strong { color: var(--blanco); font-weight: 500; display: block; margin-bottom: 4px; }
+
+/* ── CRONOGRAMA DE DESPLIEGUE ── */
+.cronograma { margin-bottom: 64px; }
+.cronograma-label {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 4px;
+  color: var(--oro); text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 32px;
+}
+.cronograma-label::before { content: ''; width: 16px; height: 1px; background: var(--oro); }
+.cronograma-item {
+  display: flex; gap: 32px; align-items: flex-start;
+  padding: 28px 0; border-bottom: 1px solid rgba(201,168,76,0.08);
+}
+.cronograma-item:last-child { border-bottom: none; }
+.cronograma-fecha-col { min-width: 200px; flex-shrink: 0; padding-top: 4px; }
+.cronograma-fecha-dia {
+  font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--oro);
+  line-height: 1.1; margin-bottom: 6px;
+}
+.cronograma-fecha-etiqueta {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 3px;
+  color: var(--gris); text-transform: uppercase;
+}
+.cronograma-dot {
+  width: 9px; height: 9px; flex-shrink: 0;
+  background: var(--oro); transform: rotate(45deg); margin-top: 10px;
+}
+.cronograma-contenido { flex: 1; }
+.cronograma-titulo {
+  font-family: var(--serif); font-size: 22px; font-weight: 400;
+  color: var(--blanco); margin-bottom: 8px;
+}
+.cronograma-desc {
+  font-size: 13px; font-weight: 300; color: var(--gris-claro); line-height: 1.75;
+}
+
+/* ── DESCUENTO BADGE ── */
+.descuento-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--negro); background: var(--oro);
+  padding: 4px 12px; margin-top: 6px;
+}
+
+/* ── SECTION V: INVERSIÓN ── */
+.inversion-table { width: 100%; border-collapse: collapse; margin-top: 48px; }
+.inversion-table thead tr { background: var(--negro-deep); }
+.inversion-table th {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--gris);
+  padding: 20px 28px; text-align: left;
+  border-bottom: 1px solid var(--oro-borde);
+}
+.inversion-table td {
+  padding: 24px 28px; font-size: 13px; font-weight: 300;
+  color: var(--gris-claro); line-height: 1.6;
+  border-bottom: 1px solid rgba(201,168,76,0.05);
+  vertical-align: top;
+}
+.inversion-table tbody tr { transition: background var(--t-fast); }
+.inversion-table tbody tr:nth-child(even) td { background: var(--negro-suave); }
+.inversion-table tbody tr:hover td { background: var(--negro-card); }
+.pago-nombre {
+  font-family: var(--serif); font-size: 17px; font-weight: 400;
+  color: var(--blanco); display: block; margin-bottom: 4px;
+}
+.pago-fase {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 2px;
+  color: var(--gris); text-transform: uppercase;
+}
+.monto-regular {
+  font-family: var(--mono); font-size: 12px; color: var(--gris);
+  text-decoration: line-through; display: block; margin-bottom: 4px;
+}
+.monto-especial {
+  font-family: var(--mono); font-size: 20px; font-weight: 500; color: var(--oro);
+}
+.total-row td {
+  background: rgba(201,168,76,0.04) !important;
+  border-top: 1px solid var(--oro-borde);
+  border-bottom: none;
+}
+.total-row .pago-nombre { font-size: 20px; }
+.total-row .monto-especial { font-size: 28px; color: var(--oro-vivo); }
+.total-row .monto-regular { font-size: 14px; }
+.iva-nota {
+  margin-top: 12px; text-align: right;
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 3px; color: var(--gris); text-transform: uppercase;
+}
+
+/* ── DOT-NAV LATERAL ── */
+.dot-nav {
+  position: fixed; right: 20px; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 10px;
+  z-index: 900; pointer-events: all;
+}
+.dot-nav a {
+  display: flex; align-items: center; gap: 8px;
+  justify-content: flex-end; text-decoration: none;
+  padding: 2px 0;
+}
+.dot-nav .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gris-oscuro);
+  border: 1px solid rgba(201,168,76,0.20);
+  transition: all 0.25s ease; flex-shrink: 0;
+}
+.dot-nav a:hover .dot,
+.dot-nav a.dn-active .dot {
+  background: var(--oro); width: 7px; height: 7px;
+  border-color: var(--oro);
+  box-shadow: 0 0 8px rgba(201,168,76,0.40);
+}
+.dot-nav .dn-label {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gris);
+  opacity: 0; transition: opacity 0.2s ease;
+  white-space: nowrap; pointer-events: none;
+}
+.dot-nav a:hover .dn-label { opacity: 1; color: var(--oro); }
+.dot-nav a.dn-active .dn-label { opacity: 0.6; color: var(--oro-vivo); }
+
+/* ── FIRMA ── */
+.firma-section {
+  background: var(--negro-deep);
+  border-top: 1px solid var(--oro-borde);
+  padding: 80px 96px;
+  position: relative; z-index: 1;
+  text-align: center;
+}
+.firma-sep {
+  width: 60px; height: 1px; background: var(--oro); margin: 0 auto 32px;
+}
+.firma-nombre {
+  font-family: var(--serif); font-size: 36px; font-weight: 300;
+  color: var(--blanco); letter-spacing: 2px; margin-bottom: 8px;
+}
+.firma-cargo1 {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--oro); margin-bottom: 6px;
+}
+.firma-cargo2 {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gris-claro);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--abismo);
+  border-top: 1px solid var(--oro-borde);
+  padding: 80px 96px;
+  position: relative; z-index: 1;
+  text-align: center;
+}
+.footer-frase {
+  font-family: var(--serif); font-size: 40px; font-weight: 300; font-style: italic;
+  color: var(--oro); letter-spacing: 2px; margin-bottom: 32px;
+}
+.footer-sep { width: 60px; height: 1px; background: var(--oro-borde); margin: 0 auto 24px; }
+.footer-meta {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 4px;
+  color: var(--gris); text-transform: uppercase;
+}
+
+/* ── KPI CARDS COMPACT ROWS ── */
+.kpi-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-bottom: 4px;
+}
+#kpis .kpi-grid .card-adc {
+  padding: 14px 24px;
+  display: grid;
+  grid-template-columns: 104px 1fr 2fr;
+  align-items: center;
+  gap: 20px;
+}
+#kpis .kpi-grid .card-adc:hover { transform: translateY(-2px); }
+#kpis .kpi-grid .kpi-tag { margin-bottom: 0; }
+.kpi-nombre {
+  font-family: var(--serif); font-size: 16px; font-weight: 400;
+  color: var(--blanco); margin-bottom: 0; line-height: 1.2;
+}
+.kpi-desc {
+  font-size: 12px; font-weight: 300; color: var(--gris-claro); line-height: 1.6;
+  border-left: 1px solid var(--oro-borde);
+  padding-left: 20px;
+}
+
+/* ── STATS CARD ── */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 20px; }
+.stat-bloque { padding: 20px; background: var(--negro-deep); }
+.stat-rango-label { font-family: var(--mono); font-size: 8px; letter-spacing: 3px; color: var(--gris); text-transform: uppercase; margin-bottom: 8px; }
+.stat-numero-grande { font-family: var(--serif); font-size: 52px; font-weight: 300; color: var(--oro); line-height: 0.95; margin-bottom: 6px; }
+.stat-numero-grande em { font-style: italic; color: var(--oro-vivo); }
+.stat-numero-abs { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--oro-palido); letter-spacing: 1px; margin-bottom: 6px; }
+.stat-desc-corta { font-size: 11px; font-weight: 300; color: var(--gris-claro); line-height: 1.5; }
+
+/* ── FASES DECOUPLED ── */
+.fases-decoupled { display: flex; flex-direction: column; gap: 0; margin-top: 48px; }
+.fase-bloque {
+  background: var(--negro-card);
+  border: 1px solid var(--oro-borde);
+  padding: 40px;
+}
+.fase-bloque + .fase-bloque { border-top: none; }
+.fase-bloque-meta { display: flex; align-items: baseline; gap: 24px; margin-bottom: 16px; }
+.fase-bloque-num {
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 5px; color: var(--oro); text-transform: uppercase;
+}
+.fase-bloque-rango {
+  font-family: var(--mono); font-size: 9px; color: var(--gris);
+  letter-spacing: 3px; text-transform: uppercase;
+}
+.fase-bloque-titulo {
+  font-family: var(--serif); font-size: 28px; font-weight: 300; font-style: italic;
+  color: var(--blanco); margin-bottom: 12px; line-height: 1.2;
+}
+.fase-bloque-desc {
+  font-size: 13px; font-weight: 300; color: var(--gris-claro);
+  line-height: 1.8; max-width: 800px;
+  padding-bottom: 28px; margin-bottom: 28px;
+  border-bottom: 1px solid var(--oro-borde);
+}
+.entregables-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.entregable-col-label {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 3px;
+  color: var(--oro); text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+}
+.entregable-col-label::before { content: ''; width: 12px; height: 1px; background: var(--oro); }
+.entregable-item {
+  font-size: 12px; font-weight: 300; color: var(--gris-claro);
+  padding: 7px 0 7px 16px; position: relative;
+  border-bottom: 1px solid rgba(201,168,76,0.04); line-height: 1.4;
+}
+.entregable-item:last-child { border-bottom: none; }
+.entregable-item::before {
+  content: '◆'; position: absolute; left: 0; top: 9px;
+  color: var(--oro-latente); font-size: 5px;
+}
+/* ── SOVEREIGNTY GATE ── */
+.sovereignty-gate {
+  background: var(--abismo);
+  border-left: 1px solid var(--oro-borde-med);
+  border-right: 1px solid var(--oro-borde-med);
+}
+.gate-inner {
+  display: flex; align-items: center; gap: 24px;
+  padding: 20px 40px;
+  border-top: 1px solid var(--oro-borde-med);
+  border-bottom: 1px solid var(--oro-borde-med);
+}
+.gate-diamond {
+  width: 10px; height: 10px; flex-shrink: 0;
+  background: var(--oro); transform: rotate(45deg);
+  animation: pulso-conf 2.8s ease-in-out infinite;
+}
+.gate-content { flex: 1; }
+.gate-label {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 4px;
+  color: var(--oro); text-transform: uppercase; margin-bottom: 4px;
+}
+.gate-text {
+  font-size: 12px; font-weight: 300; color: var(--gris-claro); line-height: 1.6;
+}
+.gate-badge {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 2px;
+  color: var(--negro); background: var(--oro);
+  padding: 5px 14px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+}
+/* ── GOBERNANZA & PROTECCIÓN DE LTV ── */
+.gobernanza-section {
+  background: var(--negro-deep);
+  border-top: 1px solid var(--oro-borde);
+  padding: 80px 96px;
+  position: relative; z-index: 1;
+}
+.gobernanza-eyebrow {
+  font-family: var(--mono); font-size: 8px; font-weight: 700;
+  letter-spacing: 5px; color: var(--oro); text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+.gobernanza-eyebrow::before {
+  content: ''; width: 28px; height: 1px; background: var(--oro-latente); flex-shrink: 0;
+}
+.gobernanza-titulo {
+  font-family: var(--serif); font-size: 36px; font-weight: 300; font-style: italic;
+  color: var(--blanco); margin-bottom: 12px; line-height: 1.25;
+}
+.gobernanza-intro {
+  font-size: 13px; font-weight: 300; color: var(--gris-claro);
+  line-height: 1.9; max-width: 820px;
+  border-bottom: 1px solid var(--oro-borde);
+  padding-bottom: 40px; margin-bottom: 40px;
+}
+.gobernanza-directrices { display: flex; flex-direction: column; gap: 1px; margin-bottom: 40px; }
+.directriz-item {
+  display: grid; grid-template-columns: 56px 1fr;
+  background: var(--negro-card); border: 1px solid var(--oro-borde);
+}
+.directriz-item + .directriz-item { border-top: none; }
+.directriz-num {
+  background: var(--negro-deep);
+  border-right: 1px solid var(--oro-borde);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 24px 0 0;
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  color: var(--oro-latente); letter-spacing: 2px;
+}
+.directriz-body { padding: 24px 32px; }
+.directriz-label {
+  font-family: var(--mono); font-size: 8.5px; font-weight: 700;
+  letter-spacing: 4px; color: var(--oro); text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.directriz-texto {
+  font-size: 12.5px; font-weight: 300; color: var(--gris-claro); line-height: 1.85;
+}
+.aviso-privacidad {
+  border: 1px solid rgba(201,168,76,0.14);
+  background: rgba(3,3,4,0.6);
+  padding: 28px 36px;
+}
+.aviso-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+}
+.aviso-linea { flex: 1; height: 1px; background: var(--oro-borde); }
+.aviso-label {
+  font-family: var(--mono); font-size: 8px; font-weight: 700;
+  letter-spacing: 4px; color: var(--gris); text-transform: uppercase;
+  white-space: nowrap;
+}
+.aviso-texto {
+  font-size: 11.5px; font-weight: 300; color: var(--gris);
+  line-height: 1.85; font-family: var(--sans);
+}
+
+/* ── INVESTMENT TABLE FASE ROWS ── */
+.inversion-table .fase-header-row td {
+  background: var(--negro-deep) !important;
+  padding: 10px 28px; border-bottom: 1px solid var(--oro-borde);
+}
+.fase-header-row td span {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 3px; color: var(--oro); text-transform: uppercase;
+}
+.inversion-table .gate-row td {
+  background: rgba(201,168,76,0.03) !important;
+  padding: 12px 28px; text-align: center;
+  border-top: 1px solid var(--oro-borde);
+  border-bottom: 1px solid var(--oro-borde);
+}
+.gate-row-content {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
+  color: var(--oro); text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 16px;
+}
+.gate-row-content::before, .gate-row-content::after {
+  content: ''; width: 48px; height: 1px; background: var(--oro-borde);
+  display: inline-block;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-brand">ADC</div>
+  <div class="nav-links">
+    <a href="#origen">El Origen</a>
+    <a href="#vectores">Vectores</a>
+    <a href="#plan">Plan de Vuelo</a>
+    <a href="#kpis">Indicadores</a>
+    <a href="#inversion">Inversión</a>
+  </div>
+  <div class="nav-version">GAM · Julio 2026</div>
+  <div class="nav-confidencial">&#9670; Confidencial</div>
+</nav>
+
+<!-- DOT-NAV LATERAL -->
+<aside class="dot-nav" aria-label="Secciones">
+  <a href="#inicio" class="dn-active">
+    <span class="dn-label">Inicio</span>
+    <span class="dot"></span>
+  </a>
+  <a href="#apertura">
+    <span class="dn-label">Apertura</span>
+    <span class="dot"></span>
+  </a>
+  <a href="#origen">
+    <span class="dn-label">I · Origen</span>
+    <span class="dot"></span>
+  </a>
+  <a href="#vectores">
+    <span class="dn-label">II · Vectores</span>
+    <span class="dot"></span>
+  </a>
+  <a href="#kpis">
+    <span class="dn-label">III · KPIs</span>
+    <span class="dot"></span>
+  </a>
+  <a href="#plan">
+    <span class="dn-label">IV · Plan</span>
+    <span class="dot"></span>
+  </a>
+  <a href="#inversion">
+    <span class="dn-label">V · Inversión</span>
+    <span class="dot"></span>
+  </a>
+</aside>
+
+<!-- ── HERO ── -->
+<div class="hero" id="inicio">
+  <div class="hero-deco">GAM</div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Arquitectura de Desempeño Comercial · Ingeniería de Intervención</div>
+    <div class="hero-titulo">
+      Ecosistema<br>
+      Comercial <em>GAM</em>
+    </div>
+    <div class="hero-sub">
+      Planos genéticos para expandir la rentabilidad de GAM por el territorio nacional con un perfil de socio comercial compatible al ADN de GAM, manteniendo el blindaje y control absoluto de tu operación actual.
+    </div>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Director</span>
+        <span class="hero-meta-value">Miguel Ángel García Z.</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Duración</span>
+        <span class="hero-meta-value">120 Días</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Inicio</span>
+        <span class="hero-meta-value">Julio 2026</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── APERTURA ── -->
+<div id="apertura" class="apertura">
+  <div class="apertura-inner">
+    <div class="apertura-saludo">Hola, Mike. Qué gusto saludarte.</div>
+    <p class="apertura-p">Mi prioridad absoluta en esta intervención es actualizarme y sensibilizarme a fondo con los avances reales, adaptaciones operativas y fracturas que GAM experimenta hoy. Operaremos con tus recursos y equipo actuales; el objetivo no es desviar su desempeño, sino <strong>destrabar el potencial existente para consolidar una nueva forma de reclutamiento</strong>.</p>
+    <p class="apertura-p">Buscamos un perfil de adaptación natural, plenamente compatible con la identidad de un agente/emprendedor, responsable con su gestión de tiempo y enfocado en resultados de ventas sostenibles. La Arquitectura de Desempeño Comercial se integrará orgánicamente a tus mejores prácticas, potenciando la infraestructura actual para llevarla al siguiente nivel de escala.</p>
+    <div class="apertura-highlight">
+      <div class="apertura-highlight-text">Esta propuesta representa los <strong>planos genéticos para expandir la rentabilidad de GAM por todo el territorio nacional con un perfil de socio comercial compatible al ADN de GAM, manteniendo el blindaje y control absoluto de tu operación actual</strong>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECCIÓN I: EL ORIGEN ── -->
+<section id="origen">
+  <div class="section-full">
+    <div class="header-rombo">
+      <div class="header-rombo-marker">
+        <div class="header-rombo-diamond"></div>
+        <div class="header-rombo-line"></div>
+        <span class="header-rombo-num">I · El Origen</span>
+      </div>
+      <h2>Co-Creación, Retorno<br>y <em>Nuevos Mercados</em></h2>
+      <p class="header-rombo-desc">GAM es el pionero en atracción masiva dentro de un sector premium, enfrentando un entorno laboral donde el 60% de los profesionistas titulados abandonan su carrera en los primeros 5 años (ENOE-INEGI) por falta de retorno financiero real.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card-adc">
+        <div class="card-num">El Mercado Latente · Datos Duros</div>
+        <div class="card-titulo">La masa crítica que GAM puede convertir</div>
+        <div class="stats-grid">
+          <div class="stat-bloque">
+            <div class="stat-rango-label">Base de mercado</div>
+            <div class="stat-numero-grande">1.4<em>M</em></div>
+            <div class="stat-desc-corta">alumnos inscritos activamente en el sector privado en México</div>
+          </div>
+          <div class="stat-bloque">
+            <div class="stat-rango-label">Patrón de abandono</div>
+            <div class="stat-numero-grande">7 <em>de 10</em></div>
+            <div class="stat-desc-corta">profesionistas ya no viven de su profesión a los 10 años de ejercerla</div>
+          </div>
+          <div class="stat-bloque">
+            <div class="stat-rango-label">A 5 años · 42%</div>
+            <div class="stat-numero-abs">588,000</div>
+            <div class="stat-desc-corta">profesionistas posiblemente decepcionados de su decisión de haber invertido su carrera</div>
+          </div>
+          <div class="stat-bloque">
+            <div class="stat-rango-label">A 10 años · 70%</div>
+            <div class="stat-numero-abs">980,000</div>
+            <div class="stat-desc-corta">profesionistas frustrados y cansados buscando oportunidades rápidas para sostenerse</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-adc">
+        <div class="card-num">El Mercado no Explotado</div>
+        <div class="card-titulo">El emprendedor que aún no sabe que ya lo es</div>
+        <div class="card-desc">El competidor real de GAM no es otra agencia de seguros — son las plataformas de formación profesional continua y las instituciones privadas que siguen vendiendo títulos sin retorno real. Comunidades de universidades como ICEL, UMOV, Utel o ESDEN. <strong>GAM compite en ese territorio con una propuesta superior:</strong><br><br><em style="color:var(--oro-palido); font-family:var(--serif); font-size:15px;">"No pagas por desarrollarte — ganas por construir tu propio negocio y marca personal."</em><br><br>El perfil ideal ya está dispuesto a invertir tiempo y dinero. Tiene mentalidad de soberanía, no de dependencia. Es consciente de su autonomía y responsabilidad. Lo que necesita es un destino que combine formación, libertad y retorno desde el primer año — en vez de volver al ciclo vicioso de la educación que no se convierte en patrimonio.</div>
+      </div>
+    </div>
+
+    <div class="separador-adc">
+      <div class="sep-linea"></div>
+      <span class="sep-simbolo">◆</span>
+      <div class="sep-linea"></div>
+    </div>
+
+    <div class="origen-bottom">
+      <div class="origen-bottom-label">Garantía de Adopción Orgánica</div>
+      <div class="origen-bottom-text">Tú, tus gerentes, reclutadores y especialistas de marketing se capacitarán, se adueñarán y se autoconvencerán de estas estrategias. No implementamos directrices externas; el equipo llegará a estas conclusions en conjunto en el lienzo de co-diseño. Al participar activamente en el modelado, medir el flujo de los procesos y estudiar el feedback real de los usuarios, la <strong>adopción en campo queda blindada</strong>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECCIÓN II: VECTORES DE IMPACTO ── -->
+<section id="vectores" class="alt">
+  <div class="section-full">
+    <div class="header-rombo">
+      <div class="header-rombo-marker">
+        <div class="header-rombo-diamond"></div>
+        <div class="header-rombo-line"></div>
+        <span class="header-rombo-num">II · Vectores de Impacto</span>
+      </div>
+      <h2>Objetivos de <em>Negocio</em></h2>
+      <p class="header-rombo-desc">Cinco vectores que definen el territorio de la intervención y articulan los resultados medibles al término de los 120 días.</p>
+    </div>
+
+    <div class="vector-grid">
+      <div class="card-adc">
+        <div class="card-num">Vector 01</div>
+        <div class="card-titulo">Compatibilidad Cultural</div>
+        <div class="card-desc">Captar perfiles con mentalidad inversora y de negocio, naturales al ecosistema de corretaje patrimonial. El fit cultural no se enseña — se diagnostica y se atrae desde el origen.</div>
+      </div>
+      <div class="card-adc">
+        <div class="card-num">Vector 02</div>
+        <div class="card-titulo">Soberanía Gerencial</div>
+        <div class="card-desc">Transformar al Gerente de Desarrollo en un motor que produce progreso real y soberanía sobre el funnel de ventas y la cartera del agente novel. El Gerente que busca desarrollar al talento de diferentes formas — reproduce el caos en su falta de enfoque.</div>
+      </div>
+      <div class="card-adc">
+        <div class="card-num">Vector 03</div>
+        <div class="card-titulo">Aceleración Temprana</div>
+        <div class="card-desc">Impulsar la productividad comercial del agente novel dentro de su ventana crítica de arranque — los primeros 90 días. La velocidad de activación determina la permanencia.</div>
+      </div>
+      <div class="card-adc">
+        <div class="card-num">Vector 04</div>
+        <div class="card-titulo">Permanencia y Retención</div>
+        <div class="card-desc">Incrementar el porcentaje de retención activa al cierre del año uno, optimizando el costo del semillero y construyendo una base de cartera con permanencia real.</div>
+      </div>
+      <div class="card-adc vector-full">
+        <div class="card-num">Vector 05</div>
+        <div class="card-titulo">Apertura de Canales Digitales</div>
+        <div class="card-desc">Posicionar a GAM como la opción premium y segura para el flujo de talento que también busca las plataformas de formación profesional continua en todo el territorio nacional.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECCIÓN III: PLAN DE VUELO ── -->
+<section id="plan" class="alt">
+  <div class="section-full">
+    <div class="header-rombo">
+      <div class="header-rombo-marker">
+        <div class="header-rombo-diamond"></div>
+        <div class="header-rombo-line"></div>
+        <span class="header-rombo-num">III · Plan de Vuelo</span>
+      </div>
+      <h2>Arquitectura de Despliegue <em>Decoupled</em></h2>
+      <p class="header-rombo-desc">Para garantizar una asimilación cultural limpia y mitigar el riesgo de adopción en campo, la intervención se divide en dos bloques independientes y secuenciales. GAM mantiene la soberanía de decidir la activación de la Fase 2 al concluir el Laboratorio de la Fase 1.</p>
+    </div>
+
+    <!-- CRONOGRAMA DE DESPLIEGUE -->
+    <div class="cronograma">
+      <div class="cronograma-label">Cronograma de Despliegue &middot; 120 D&iacute;as</div>
+      <div class="cronograma-item">
+        <div class="cronograma-fecha-col">
+          <div class="cronograma-fecha-dia">Viernes 26 de Junio</div>
+          <div class="cronograma-fecha-etiqueta">Arranque &middot; Sesi&oacute;n Estratégica</div>
+        </div>
+        <div class="cronograma-dot"></div>
+        <div class="cronograma-contenido">
+          <div class="cronograma-titulo">Alineaci&oacute;n y Calibraci&oacute;n</div>
+          <div class="cronograma-desc">Sesi&oacute;n estratégica inicial contigo para resolver dudas operativas, establecer acuerdos de trabajo y fijar la log&iacute;stica de arranque.</div>
+        </div>
+      </div>
+      <div class="cronograma-item">
+        <div class="cronograma-fecha-col">
+          <div class="cronograma-fecha-dia">Julio</div>
+          <div class="cronograma-fecha-etiqueta">Fase 1 &middot; D&iacute;as 1&ndash;30</div>
+        </div>
+        <div class="cronograma-dot"></div>
+        <div class="cronograma-contenido">
+          <div class="cronograma-titulo">Onboarding y Laboratorio de Autor&iacute;a</div>
+          <div class="cronograma-desc">4 talleres semanales de co-dise&ntilde;o (2 horas c/u) en Miro para estructurar el ecosistema por rol.</div>
+        </div>
+      </div>
+      <div class="cronograma-item">
+        <div class="cronograma-fecha-col">
+          <div class="cronograma-fecha-dia">Ago &middot; Sep &middot; Oct</div>
+          <div class="cronograma-fecha-etiqueta">Fase 2 &middot; D&iacute;as 31&ndash;120</div>
+        </div>
+        <div class="cronograma-dot"></div>
+        <div class="cronograma-contenido">
+          <div class="cronograma-titulo">Validaci&oacute;n y Acompa&ntilde;amiento</div>
+          <div class="cronograma-desc">Implementaci&oacute;n en campo coordinada mediante Workshop Mensual de Alineaci&oacute;n Estrat&eacute;gica (3 sesiones de 2 horas) combinado con intervenciones estrat&eacute;gicas de soporte entre talleres para medir flujos y ajustar desv&iacute;os.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fases-decoupled">
+
+      <!-- FASE 1 -->
+      <div class="fase-bloque">
+        <div class="fase-bloque-meta">
+          <span class="fase-bloque-num">FASE 1</span>
+          <span class="fase-bloque-rango">Días 1 – 30</span>
+        </div>
+        <div class="fase-bloque-titulo">El Laboratorio de Co-Diseño Estructural</div>
+        <div class="fase-bloque-desc">Foco en el peritaje forense de la operación, alineación de la visión directiva y modelado visual del nuevo ecosistema comercial junto a tu equipo.</div>
+        <div class="entregables-cols">
+          <div>
+            <div class="entregable-col-label">Activos a Transferir &middot; Miro &middot; Lienzos Vivos</div>
+            <div class="entregable-item">8 Blueprints de Co-Dise&ntilde;o Estructural <span style="color:var(--gris);font-size:11px;">(Reclutamiento &middot; Gerencia &middot; Novel &middot; Cartera &middot; Canales)</span></div>
+            <div class="entregable-item">Brand Heart Canvas <span style="color:var(--gris);font-size:11px;">(N&uacute;cleo ideol&oacute;gico co-dise&ntilde;ado con el equipo GAM)</span></div>
+            <div class="entregable-item">Empathy Maps Universitarios <span style="color:var(--gris);font-size:11px;">(ICEL &middot; UMOV &middot; Utel &middot; ESDEN)</span></div>
+          </div>
+          <div>
+            <div class="entregable-col-label">Documentaci&oacute;n HTML de Arranque</div>
+            <div class="entregable-item">Protocolo Onboarding Cero <span style="color:var(--gris);font-size:11px;">(Est&aacute;ndar de bienvenida sin fricci&oacute;n)</span></div>
+            <div class="entregable-item">Declaraci&oacute;n de Identidad Institucional + Narrativa del Origen</div>
+            <div class="entregable-item">One Pager de Tracci&oacute;n IAD <span style="color:var(--gris);font-size:11px;">(S&iacute;ntesis de atracci&oacute;n de perfiles inversores)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOVEREIGNTY GATE -->
+      <div class="sovereignty-gate">
+        <div class="gate-inner">
+          <div class="gate-diamond"></div>
+          <div class="gate-content">
+            <div class="gate-label">Hito de Decisión &middot; Soberanía GAM</div>
+            <div class="gate-text">Evaluación de alineación en Miro para autorizar la transición a Fase 2. GAM decide si continúa.</div>
+          </div>
+          <div class="gate-badge">Activación Opcional</div>
+        </div>
+      </div>
+
+      <!-- FASE 2 -->
+      <div class="fase-bloque">
+        <div class="fase-bloque-meta">
+          <span class="fase-bloque-num">FASE 2</span>
+          <span class="fase-bloque-rango">Días 31 – 120</span>
+        </div>
+        <div class="fase-bloque-titulo">El Sprint de Despliegue e Infraestructura Autónoma</div>
+        <div class="fase-bloque-desc">Enfoque en la ejecución y medición del desempeño humano-comercial, la automatización de procesos, la apertura de canales nacionales y el procesamiento de datos en el Consejo K&rsquo;iin.</div>
+        <div class="entregables-cols">
+          <div>
+            <div class="entregable-col-label">Activos a Transferir &middot; HTML &middot; Documentos Maestros</div>
+            <div class="entregable-item">Playbook del Gerente de Desarrollo <span style="color:var(--gris);font-size:11px;">(Ingenier&iacute;a de empuje sobre el semillero)</span></div>
+            <div class="entregable-item">Manual Estrat&eacute;gico por Rol <span style="color:var(--gris);font-size:11px;">(Reclutadores &middot; Marketing &middot; Gerencia)</span></div>
+            <div class="entregable-item">Mapa de Arquetipos e Interpersonalidades <span style="color:var(--gris);font-size:11px;">(Lectura cl&iacute;nica de alianzas internas)</span></div>
+            <div class="entregable-item">Playbook del Especialista de Atracci&oacute;n del Talento EDAT <span style="color:var(--gris);font-size:11px;">(Ingenier&iacute;a de atracci&oacute;n de estrellas)</span></div>
+            <div class="entregable-item">Marco de Compatibilidad del Perfil Premium en GAM <span style="color:var(--gris);font-size:11px;">(Diagn&oacute;stico de fit cultural y operativo)</span></div>
+          </div>
+          <div>
+            <div class="entregable-col-label">Canales y Posicionamiento</div>
+            <div class="entregable-item">Pitch Deck Ejecutivo Universidades <span style="color:var(--gris);font-size:11px;">(Herramienta institucional de convenios masivos)</span></div>
+            <div class="entregable-item">Ruta de Atracci&oacute;n Digital Premium <span style="color:var(--gris);font-size:11px;">(Arquitectura t&eacute;cnica para estabilizaci&oacute;n de CPL-P)</span></div>
+            <div class="entregable-item">Estrategia de Posicionamiento del Director <span style="color:var(--gris);font-size:11px;">(Calendario editorial premium &middot; TikTok &middot; IG &middot; LinkedIn)</span></div>
+            <div class="entregable-item">Manual de Identidad GAM para el Sector Premium <span style="color:var(--gris);font-size:11px;">(Sitio Web &middot; Redes Sociales &middot; Interno)</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="infra-box" style="margin-top: 48px;">
+      <div class="infra-label">Infraestructura de Seguimiento</div>
+      <div class="infra-titulo">La consistencia de los datos y el soporte estratégico están garantizados de forma continua.</div>
+      <div class="infra-item">
+        <strong>K&rsquo;iin &middot; Agentic Director Comercial</strong>
+        El sistema K&rsquo;iin opera como un Director Comercial agéntico continuo, orquestado y potenciado por la Mesa de Consejo Digital de los consultores agénticos de ADC, procesando métricas del Cruce 5D, auditando anomalías estructurales, prediciendo fracturas y prescribiendo soluciones en tiempo real.
+      </div>
+      <div class="infra-item">
+        <strong>Bitácora Interactiva ADC &middot; GPS de 2 Minutos</strong>
+        Registro de campo vía WhatsApp/Miro. Sin fricción operativa para tu equipo — el registro ocurre en el flujo natural de trabajo.
+      </div>
+      <div class="infra-item">
+        <strong>Zero carga operativa adicional</strong>
+        El sistema trabaja sobre datos que tu equipo ya genera. Sin reportes extra, sin reuniones de seguimiento burocráticas.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SECCIÓN IV: MATRIZ DE INDICADORES ── -->
+<section id="kpis">
+  <div class="section-full">
+    <div class="header-rombo">
+      <div class="header-rombo-marker">
+        <div class="header-rombo-diamond"></div>
+        <div class="header-rombo-line"></div>
+        <span class="header-rombo-num">IV · Br&uacute;jula de Navegaci&oacute;n</span>
+      </div>
+      <h2 style="font-size:52px;">Matriz de <em>Indicadores</em></h2>
+      <p class="header-rombo-desc">No podemos garantizar el destino, pero s&iacute; podemos garantizar la satisfacci&oacute;n de los usuarios en el desarrollo de su rol para blindar la inversi&oacute;n de GAM en esta iniciativa. Dos agrupaciones &mdash; el desempe&ntilde;o humano-operativo del ecosistema y la arquitectura de atracci&oacute;n digital continua &mdash; cada indicador con due&ntilde;o y frecuencia de medici&oacute;n.</p>
+    </div>
+
+    <div class="kpi-grupo">Desarrollo Humano y Operativo</div>
+    <div class="kpi-grid">
+      <div class="card-adc">
+        <div class="kpi-tag tag-verde">Humano</div>
+        <div class="kpi-nombre">&Iacute;ndice de Fit Cultural</div>
+        <div class="kpi-desc">Nivel de alineaci&oacute;n del candidato con el modelo de auto-inversi&oacute;n de GAM.</div>
+      </div>
+      <div class="card-adc">
+        <div class="kpi-tag tag-azul">Funnel</div>
+        <div class="kpi-nombre">Velocidad del Funnel de Atracci&oacute;n</div>
+        <div class="kpi-desc">Tiempo de tr&aacute;nsito desde el primer impacto digital hasta el compromiso formal con la agencia.</div>
+      </div>
+      <div class="card-adc">
+        <div class="kpi-tag tag-amber">Certificaci&oacute;n</div>
+        <div class="kpi-nombre">Efectividad de Certificaci&oacute;n Oficial</div>
+        <div class="kpi-desc">Porcentaje de &eacute;xito y velocidad en la obtenci&oacute;n de la c&eacute;dula ante la aseguradora.</div>
+      </div>
+      <div class="card-adc">
+        <div class="kpi-tag tag-verde">Activaci&oacute;n</div>
+        <div class="kpi-nombre">Tasa de Activaci&oacute;n Temprana</div>
+        <div class="kpi-desc">Volumen de primas e ingresos generados en los primeros 3 meses post-certificaci&oacute;n.</div>
+      </div>
+      <div class="card-adc">
+        <div class="kpi-tag tag-azul">Cartera</div>
+        <div class="kpi-nombre">Ratio de Consolidaci&oacute;n de Cartera</div>
+        <div class="kpi-desc">Comportamiento de permanencia y recompra de la cartera del agente novel al a&ntilde;o uno.</div>
+      </div>
+      <div class="card-adc">
+        <div class="kpi-tag tag-amber">ROI</div>
+        <div class="kpi-nombre">Eficiencia de Costo del Semillero</div>
+        <div class="kpi-desc">Retorno de inversi&oacute;n del &aacute;rea de atracci&oacute;n basado en el valor comercial del talento retenido.</div>
+      </div>
+    </div>
+
+    <div class="kpi-grupo">Arquitectura de Atracci&oacute;n Digital Continua</div>
+    <div class="kpi-grid">
+      <div class="card-adc">
+        <div class="kpi-tag tag-purpura">Digital &middot; Costo</div>
+        <div class="kpi-nombre">Costo por Lead Premium (CPL-P)</div>
+        <div class="kpi-desc">Eficiencia de pauta dirigida a comunidades acad&eacute;micas y profesionales activas en entornos digitales.</div>
+      </div>
+      <div class="card-adc">
+        <div class="kpi-tag tag-purpura">Digital &middot; Conversi&oacute;n</div>
+        <div class="kpi-nombre">Tasa de Tracci&oacute;n Digital-An&aacute;loga</div>
+        <div class="kpi-desc">Porcentaje de leads que migran con &eacute;xito del canal digital al Onboarding grupal. Show-up Rate.</div>
+      </div>
+      <div class="card-adc">
+        <div class="kpi-tag tag-purpura">Marca</div>
+        <div class="kpi-nombre">Score de Relevancia de Marca Formativa</div>
+        <div class="kpi-desc">Engagement de contenidos orientados al desarrollo patrimonial, neutralizando el rechazo a vacantes gen&eacute;ricas.</div>
+      </div>
+      <div class="card-adc">
+        <div class="kpi-tag tag-azul">Expansi&oacute;n Nacional</div>
+        <div class="kpi-nombre">&Iacute;ndice de Densidad en Ciudades Emergentes</div>
+        <div class="kpi-desc">Tracci&oacute;n y penetraci&oacute;n de talento en plazas en crecimiento fuera de las grandes capitales nacionales.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECCIÓN V: INVERSIÓN ── -->
+<section id="inversion">
+  <div class="section-full">
+    <div class="header-rombo">
+      <div class="header-rombo-marker">
+        <div class="header-rombo-diamond"></div>
+        <div class="header-rombo-line"></div>
+        <span class="header-rombo-num">V · Arquitectura de Inversión</span>
+      </div>
+      <h2>Arquitectura de <em>Inversión</em> y Flujo</h2>
+      <p class="header-rombo-desc">La estructura financiera se adapta al formato Decoupled, dividiendo la inversi&oacute;n especial de $117,500.00 MXN en parcialidades por fase para dar viabilidad operativa inmediata a ambas partes. Precios m&aacute;s I.V.A. La inversi&oacute;n especial refleja un <strong style="color:var(--oro);">30% de descuento por lealtad</strong> aplicado directamente sobre el valor regular de los servicios.</p>
+    </div>
+
+    <table class="inversion-table">
+      <thead>
+        <tr>
+          <th>Hito · Temporalidad</th>
+          <th>Flujo Operativo e Infraestructura Entregada</th>
+          <th>Inversión Regular</th>
+          <th>
+            Inversi&oacute;n Especial
+            <span class="descuento-badge">&#9670; 30% Lealtad</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- FASE 1 header -->
+        <tr class="fase-header-row">
+          <td colspan="4"><span>FASE 1 &middot; D&iacute;as 1–30</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="pago-nombre">Pago 1 &middot; Arranque</span>
+            <span class="pago-fase">Semana 1 &middot; Activación</span>
+          </td>
+          <td>Activación, Diagnóstico Cero y Modelado de Canales en Miro. Inicio del Laboratorio de Co-Diseño con el equipo GAM.</td>
+          <td><span class="monto-regular">$41,964.29 MXN</span></td>
+          <td><span class="monto-especial">$29,375.00 <small style="font-size:11px; color:var(--gris);">MXN</small></span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="pago-nombre">Pago 2 &middot; Semana 4</span>
+            <span class="pago-fase">Cierre de Laboratorio</span>
+          </td>
+          <td>Cierre del Laboratorio, entrega de los 8 Blueprints en Miro y Auditoría de Identidad Institucional.</td>
+          <td><span class="monto-regular">$41,964.29 MXN</span></td>
+          <td><span class="monto-especial">$29,375.00 <small style="font-size:11px; color:var(--gris);">MXN</small></span></td>
+        </tr>
+        <!-- Sovereignty gate row -->
+        <tr class="gate-row">
+          <td colspan="4">
+            <div class="gate-row-content">Hito de Decisión &middot; Soberanía GAM &middot; Evaluación de alineación para autorizar Fase 2</div>
+          </td>
+        </tr>
+        <!-- FASE 2 header -->
+        <tr class="fase-header-row">
+          <td colspan="4"><span>FASE 2 &middot; D&iacute;as 31–120</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="pago-nombre">Pago 3 &middot; Semana 8</span>
+            <span class="pago-fase">Despliegue Inicial</span>
+          </td>
+          <td>Despliegue de Playbooks HTML, Configuración de Canales y KPIs. Apertura de canales nacionales.</td>
+          <td><span class="monto-regular">$41,964.29 MXN</span></td>
+          <td><span class="monto-especial">$29,375.00 <small style="font-size:11px; color:var(--gris);">MXN</small></span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="pago-nombre">Pago 4 &middot; Semana 12</span>
+            <span class="pago-fase">Cierre de Intervención</span>
+          </td>
+          <td>Integración del Backend, Activación Universitaria y Cierre de Intervención. Lectura de Desempeño de los 120 días.</td>
+          <td><span class="monto-regular">$41,964.29 MXN</span></td>
+          <td><span class="monto-especial">$29,375.00 <small style="font-size:11px; color:var(--gris);">MXN</small></span></td>
+        </tr>
+        <tr class="total-row">
+          <td>
+            <span class="pago-nombre">Total &middot; 120 Días</span>
+            <span class="pago-fase">Intervención completa</span>
+          </td>
+          <td>120 Días de Intervención, Soporte Híbrido y Despliegue Nacional. Cuatro pagos lineales, sin sorpresas.</td>
+          <td><span class="monto-regular" style="font-size:15px;">$167,857.16 MXN</span></td>
+          <td>
+            <span class="monto-especial">$117,500.00</span>
+            <small style="display:block; font-family:var(--mono); font-size:10px; color:var(--gris); letter-spacing:2px; margin-top:4px;">MXN &middot; MÁS I.V.A.</small>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── FIRMA ── -->
+<section class="firma-section">
+  <div class="firma-sep"></div>
+  <div class="firma-nombre">Fernando Ugalde</div>
+  <div class="firma-cargo1">Arquitecto de Desempeño Humano-Comercial</div>
+  <div class="firma-cargo2">Director Comercial Agentic con K&rsquo;iin</div>
+</section>
+
+<!-- ── GOBERNANZA & PROTECCIÓN DE LTV ── -->
+<section class="gobernanza-section">
+  <div class="gobernanza-eyebrow">Resumen Ejecutivo</div>
+  <h2 class="gobernanza-titulo">Protocolo de Gobernanza &amp; Protección de LTV</h2>
+  <p class="gobernanza-intro">
+    La infraestructura ADC incorpora un marco de Gobierno de Datos de alta densidad, diseñado para auditar la operación comercial sin comprometer la integridad regulatoria de la agencia ante las compañías matrices (GNP&nbsp;/&nbsp;MetLife). Este mecanismo asegura el blindaje del flujo futuro del Valor de Vida (LTV) del agente a través de tres directrices críticas.
+  </p>
+
+  <div class="gobernanza-directrices">
+
+    <div class="directriz-item">
+      <div class="directriz-num">01</div>
+      <div class="directriz-body">
+        <div class="directriz-label">Inmunidad Algorítmica &mdash; Sandbox</div>
+        <p class="directriz-texto">
+          El núcleo de IA (K&rsquo;iin) procesa las trazas conversacionales de la Bitácora de WhatsApp bajo un estricto protocolo de disociación de identidad. El sistema extrae exclusivamente variables sistémicas de proceso&nbsp;&mdash;fricciones en el funnel, cumplimiento de compromisos operativos&mdash;&nbsp;y descarta el texto plano natural. La privacidad de la célula comercial está blindada por diseño.
+        </p>
+      </div>
+    </div>
+
+    <div class="directriz-item">
+      <div class="directriz-num">02</div>
+      <div class="directriz-body">
+        <div class="directriz-label">Consolidación Patrimonial del Conocimiento</div>
+        <p class="directriz-texto">
+          Toda la data conductual, matrices de la 5ª Dimensión y Playbooks generados durante los 120 días se codifican como Propiedad Intelectual exclusiva de la agencia. Esto elimina la fuga de conocimiento táctico ante la rotación de los mandos medios (Gerentes de Desarrollo) y garantiza la inmortalidad del sistema.
+        </p>
+      </div>
+    </div>
+
+    <div class="directriz-item">
+      <div class="directriz-num">03</div>
+      <div class="directriz-body">
+        <div class="directriz-label">Exclusión de Contingencia Jurídica</div>
+        <p class="directriz-texto">
+          Los diagnósticos e indicadores algorítmicos actúan estrictamente como herramientas de calibración, diseño y optimización del rendimiento comercial. Quedan explícitamente excluidos como instrumentos de coerción o causales de rescisión punitiva, protegiendo la relación contractual y el cumplimiento legal con los agentes independientes.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="aviso-privacidad">
+    <div class="aviso-header">
+      <div class="aviso-linea"></div>
+      <div class="aviso-label">Aviso de Privacidad Simplificado</div>
+      <div class="aviso-linea"></div>
+    </div>
+    <p class="aviso-texto">
+      De conformidad con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares, la información procesada por el sistema ADC y su entorno agéntico (K&rsquo;iin) será tratada con la exclusiva finalidad de optimizar la infraestructura comercial, ejecutar diagnósticos forenses de desempeño y salvaguardar el activo humano de la organización. La dirección de la agencia mantiene la titularidad y el control absoluto sobre los repositorios encriptados, garantizando la confidencialidad mediante sandboxing tecnológico. Ningún dato de comportamiento o identidad es compartido o transferido a entidades externas al ecosistema de gobierno digital de la empresa.
+    </p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-frase">Recuerda… tú eres tiempo.</div>
+  <div class="footer-sep"></div>
+  <div class="footer-meta">ADC &middot; Ecosistema Comercial GAM &middot; Julio 2026 &middot; V7</div>
+</footer>
+
+  <script>
+    (function() {
+      var sections = ['inicio','apertura','origen','vectores','kpis','plan','inversion'];
+      var links = document.querySelectorAll('.dot-nav a');
+      var linkMap = {};
+      links.forEach(function(a) {
+        var id = a.getAttribute('href').replace('#','');
+        linkMap[id] = a;
+      });
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            links.forEach(function(a) { a.classList.remove('dn-active'); });
+            var id = entry.target.getAttribute('id');
+            if (linkMap[id]) { linkMap[id].classList.add('dn-active'); }
+          }
+        });
+      }, { threshold: 0.35 });
+      sections.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) { observer.observe(el); }
+      });
+    })();
+  </script>
+</body>
+</html>
