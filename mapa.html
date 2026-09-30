@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa de Fractura Raíz · Innovación Humana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --negro:#000000; --negro-2:#070707; --negro-3:#0F0E0C;
+    --oro:#C8993A; --oro-claro:#E0B968; --oro-suave:#8A6E3A;
+    --hueso:#EDE8DE; --gris:#8C8C8C; --gris-linea:#25211A; --oro-faded:#A8915A; --oro-faded-borde:rgba(168,145,90,.34); --oro-faded-dim:rgba(168,145,90,.07);
+    --riesgo:#CC5555; --desarrollo:#C8993A; --solidez:#5588CC; --referencia:#4A9F6A;
+    --personal:#C8993A; --profesional:#5588CC; --comercial:#4A9F6A;
+    --serif:'Cormorant Garamond',serif; --sans:'Montserrat',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background-color:#000; color:var(--hueso); font-family:var(--sans);
+    background-image:radial-gradient(ellipse 70% 42% at 50% 0%, rgba(168,145,90,.13), transparent 70%),
+                     radial-gradient(rgba(168,145,90,.16) 1px, transparent 1px);
+    background-size:100% 100%, 28px 28px; background-repeat:no-repeat, repeat; min-height:100vh;
+  }
+  .frame{max-width:1180px;margin:0 auto;padding:56px 32px 100px;}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--oro-faded);margin-bottom:18px;text-align:center;}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(32px,4.2vw,52px);line-height:1.12;color:var(--hueso);max-width:820px;margin:0 auto;text-align:center;}
+  h1 em{font-style:italic;color:var(--oro-faded);}
+  .lede{font-family:var(--serif);font-size:19px;font-style:italic;color:var(--gris);max-width:640px;margin:20px auto 0;line-height:1.55;text-align:center;}
+  .ctx-row{display:flex;gap:36px;flex-wrap:wrap;margin-top:34px;padding-top:26px;border-top:1px solid var(--oro-faded-borde);justify-content:center;text-align:center;}
+  .ctx-item{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--gris);}
+  .ctx-item b{color:var(--oro-faded);font-size:15px;display:block;font-family:var(--sans);font-weight:600;margin-bottom:2px;}
+
+  .tabs-dim{display:flex;gap:2px;margin-top:46px;border:1px solid var(--gris-linea);}
+  .tab-dim{flex:1;padding:24px 20px 20px;background:var(--negro-2);border:none;cursor:pointer;text-align:center;
+    border-right:1px solid var(--gris-linea);transition:.2s;}
+  .tab-dim:last-child{border-right:none;}
+  .tab-dim .tn{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gris);text-transform:uppercase;}
+  .tab-dim .tl{font-family:var(--serif);font-size:22px;color:var(--hueso);margin-top:4px;}
+  .tab-ico{display:flex;justify-content:center;margin-bottom:12px;color:var(--dim-color,var(--oro));opacity:.55;transition:.2s;}
+  .tab-ico svg{width:34px;height:34px;display:block;}
+  .tab-dim.active .tab-ico,.tab-dim:hover .tab-ico{opacity:1;}
+  .tab-dim.active{background:var(--negro-3);box-shadow:inset 0 3px 0 var(--dim-color,var(--oro));}
+  .tab-dim.active .tn{color:var(--dim-color,var(--oro));}
+  .tab-dim:hover:not(.active){background:#0E0D0B;}
+  .dim-note{font-family:var(--mono);font-size:11px;color:var(--gris);margin-top:14px;font-style:italic;text-align:center;}
+
+  .name-card{position:relative;max-width:620px;margin:44px auto 0;padding:34px 40px 36px;text-align:center;
+    background:linear-gradient(180deg,var(--oro-faded-dim),rgba(0,0,0,0) 70%),var(--negro-2);
+    border:1px solid var(--oro-faded-borde);box-shadow:0 0 44px rgba(168,145,90,.10);}
+  .name-card::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:84px;height:2px;background:var(--oro-faded);}
+  .name-ico{display:flex;justify-content:center;color:var(--oro-faded);margin-bottom:10px;}
+  .name-ico svg{width:26px;height:26px;display:block;}
+  .name-card label{display:block;font-family:var(--serif);font-size:28px;font-weight:500;color:var(--hueso);}
+  .name-hint{font-family:var(--mono);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gris);margin:6px 0 22px;}
+  .name-card input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--oro-faded-borde);color:var(--hueso);
+    font-family:var(--serif);font-size:24px;text-align:center;padding:8px 10px 10px;transition:.2s;}
+  .name-card input::placeholder{color:#5A5545;font-style:italic;font-size:18px;}
+  .name-card input:focus{outline:none;border-bottom-color:var(--oro-faded);box-shadow:0 12px 20px -14px rgba(168,145,90,.55);}
+
+  .espejo-explain{margin:30px auto 0;padding:18px 22px;background:var(--negro-2);border-left:2px solid var(--oro-faded);
+    font-size:13px;color:var(--gris);line-height:1.6;max-width:760px;}
+  .espejo-explain b{color:var(--oro-claro);font-weight:500;}
+
+  .wrap{display:flex;gap:48px;margin-top:48px;align-items:flex-start;}
+  .qpanel{flex:1.15;min-width:0;}
+  .rpanel{flex:1;position:sticky;top:32px;}
+
+  .qcard{background:var(--negro-2);border:1px solid var(--gris-linea);padding:24px 26px;margin-bottom:14px;}
+  .q-indicator{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--dim-color,var(--oro));text-transform:uppercase;margin-bottom:8px;}
+  .qtitle{font-family:var(--serif);font-size:21px;color:var(--hueso);margin-bottom:8px;}
+  .qtext{font-size:13.5px;color:var(--gris);line-height:1.55;margin-bottom:18px;}
+  .srow{display:flex;gap:6px;flex-wrap:wrap;}
+  .sbtn{width:38px;height:38px;background:var(--negro-3);border:1px solid var(--gris-linea);color:var(--gris);
+    font-family:var(--mono);font-size:13px;cursor:pointer;transition:.15s;}
+  .sbtn:hover{border-color:var(--oro-suave);color:var(--hueso);}
+  .sbtn.sel{background:var(--dim-color,var(--oro));border-color:var(--dim-color,var(--oro));color:var(--negro);font-weight:700;}
+
+  .rbox{background:var(--negro-2);border:1px solid var(--gris-linea);padding:30px;}
+  .rbox h3{font-family:var(--serif);font-size:20px;color:var(--hueso);margin-bottom:4px;}
+  .rbox .rsub{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--gris);text-transform:uppercase;margin-bottom:20px;}
+  #radarWrap{display:flex;justify-content:center;margin-bottom:18px;}
+  .legend{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin-top:6px;}
+  .leg-row{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--gris);padding:3px 0;border-bottom:1px solid #1e1e1e;}
+  .leg-dot{width:7px;height:7px;flex-shrink:0;}
+  .leg-num{font-family:var(--mono);color:var(--gris);width:16px;}
+  .leg-name{flex:1;color:var(--hueso);}
+  .leg-val{font-family:var(--mono);color:var(--oro-claro);}
+
+  .espejo-alerts{margin-top:22px;}
+  .esp-alert{background:#1A1414;border-left:2px solid var(--riesgo);padding:12px 16px;margin-bottom:8px;font-size:12px;color:var(--gris);line-height:1.5;}
+  .esp-alert b{color:#E08888;font-weight:500;}
+  .esp-ok{font-size:12px;color:var(--gris);font-style:italic;margin-top:14px;}
+
+  .reflexion{margin-top:22px;padding-top:20px;border-top:1px solid var(--gris-linea);}
+  .reflexion .rtitle{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--oro);text-transform:uppercase;margin-bottom:10px;}
+  .reflexion p{font-size:13.5px;color:var(--hueso);line-height:1.65;margin-bottom:10px;}
+  .reflexion p:last-child{margin-bottom:0;color:var(--gris);font-style:italic;}
+
+  .actions{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap;}
+  .btn{flex:1;min-width:160px;padding:14px 18px;font-family:var(--sans);font-size:12.5px;font-weight:600;
+    letter-spacing:.5px;text-transform:uppercase;cursor:pointer;text-align:center;text-decoration:none;display:block;border:1px solid;}
+  .btn-wa{background:var(--oro);border-color:var(--oro);color:var(--negro);}
+  .btn-wa:hover{background:var(--oro-claro);}
+  .btn-print{background:transparent;border-color:var(--gris-linea);color:var(--hueso);}
+  .btn-print:hover{border-color:var(--oro-suave);color:var(--oro-claro);}
+
+  .cta-block{margin-top:16px;padding-top:20px;border-top:1px solid var(--gris-linea);text-align:center;}
+  .cta-block a{display:block;background:transparent;border:1px solid var(--oro-suave);color:var(--oro-claro);
+    padding:14px;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+    text-decoration:none;}
+  .cta-block a:hover{background:var(--oro);color:var(--negro);border-color:var(--oro);}
+  .cta-sub{font-family:var(--mono);font-size:10.5px;color:var(--gris);margin-top:10px;}
+
+  .foot{margin-top:60px;padding-top:20px;border-top:1px solid var(--gris-linea);font-family:var(--mono);font-size:10px;color:#555;letter-spacing:1px;}
+
+  @media(max-width:880px){.wrap{flex-direction:column;}.rpanel{position:static;width:100%;}.tabs-dim{flex-direction:column;}.tab-dim{border-right:none;border-bottom:1px solid var(--gris-linea);}}
+
+  @media print{
+    body{background:#fff;color:#111;background-image:none;}
+    .tabs-dim,.name-card,.espejo-explain,.qpanel,.actions,.cta-block,.foot,.ctx-row{display:none !important;}
+    .frame{padding:20px;max-width:100%;}
+    h1,.eyebrow,.lede{display:none;}
+    .wrap{display:block;margin-top:0;}
+    .rpanel{position:static;width:100%;}
+    .rbox{border:1px solid #ccc;background:#fff;}
+    .rbox h3,.qtitle{color:#111;}
+    .rsub,.q-indicator{color:#666;}
+    .leg-name{color:#111;}
+    .esp-alert{background:#fdf0f0;color:#333;}
+    .reflexion p{color:#111;}
+    .reflexion p:last-child{color:#555;}
+    #printHead{display:block !important;}
+  }
+  #printHead{display:none;margin-bottom:16px;}
+  #printHead .ph-dim{font-family:var(--serif);font-size:24px;}
+  #printHead .ph-meta{font-family:var(--mono);font-size:11px;color:#666;margin-top:4px;}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <div class="eyebrow">Innovación Humana · Autoevaluación Privada</div>
+  <h1>El Mapa de <em>Fractura Raíz</em>.<br>Doce áreas. Un espejo. Una fotografía honesta.</h1>
+  <p class="lede">Elige la dimensión que quieres calificar hoy. No hay respuesta correcta — solo la más honesta. Al terminar, imprime tu resultado o envíamelo por WhatsApp para tenerlo listo en tu Sesión de Mapeo.</p>
+
+  <div class="ctx-row">
+    <div class="ctx-item"><b>3</b>Dimensiones</div>
+    <div class="ctx-item"><b>12</b>Áreas por dimensión</div>
+    <div class="ctx-item"><b>~5 min</b>Por dimensión</div>
+    <div class="ctx-item"><b>100%</b>Privado — nadie ve tus respuestas hasta que tú las envías</div>
+  </div>
+
+  <div class="tabs-dim" id="tabsDim"></div>
+  <p class="dim-note" id="dimNote"></p>
+
+  <div class="name-card">
+    <div class="name-ico"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="11" r="4.5"/><path d="M6.5 27c0-5.5 4.2-9 9.5-9s9.5 3.5 9.5 9"/></svg></div>
+    <label for="nombreInput">Tu nombre</label>
+    <p class="name-hint">Para tu resultado · Opcional</p>
+    <input type="text" id="nombreInput" placeholder="Escribe aquí para identificar tu envío" autocomplete="name">
+  </div>
+
+  <div class="espejo-explain">
+    <b>Ley del Espejo:</b> cada área tiene una pareja. La 1 dialoga con la 12, la 2 con la 11, la 3 con la 10 — y así hasta cerrar el círculo en el centro, 6 con 7. La primera mitad (1–6) es tu arquitectura interna — <b>El Ser</b>. La segunda mitad (7–12) es cómo esa arquitectura se manifiesta hacia afuera — <b>La Ruta</b>. Cuando la brecha entre un par es de 3 puntos o más, hay una fractura de espejo: tu origen y tu resultado están yendo por caminos distintos.
+  </div>
+
+  <div class="wrap">
+    <div class="qpanel" id="qpanel"></div>
+
+    <div class="rpanel">
+      <div class="rbox">
+        <div id="printHead">
+          <div class="ph-dim" id="phDim"></div>
+          <div class="ph-meta" id="phMeta"></div>
+        </div>
+        <h3>Tu Radar</h3>
+        <div class="rsub" id="rsubLabel">Dimensión Personal</div>
+        <div id="radarWrap"><canvas id="radar" width="360" height="360"></canvas></div>
+        <div class="legend" id="legend"></div>
+
+        <div class="espejo-alerts" id="espejoAlerts"></div>
+
+        <div class="reflexion">
+          <div class="rtitle">Lectura de tu Resultado</div>
+          <div id="reflexionText"></div>
+        </div>
+
+        <div class="actions">
+          <a href="#" class="btn btn-wa" id="btnWa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+          <button class="btn btn-print" onclick="window.print()">Imprimir Resultado</button>
+        </div>
+      </div>
+
+      <div class="cta-block">
+        <a href="https://calendly.com/jesueugalde/descubrimiento" target="_blank" rel="noopener">Agendar mi Sesión de Mapeo</a>
+        <p class="cta-sub">Paso 2 · 60 min · $500 MXN · Abonables al 100% a tu programa si te inscribes</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">INNOVACIÓN HUMANA · MAPA DE FRACTURA RAÍZ V1 · 3 DIMENSIONES · LEY DEL ESPEJO · SEPTIEMBRE 2026</div>
+</div>
+
+<script>
+const WA_NUMBER = "525643440676";
+
+const DATA = {
+  personal: {
+    label: "Personal", short:"P", color:"var(--personal)", hex:"#C8993A",
+    note: "Aplica a cualquier persona, tenga o no un negocio.",
+    areas: [
+      {t:"Salud Física y Energía", q:"¿Qué tan bien está tu cuerpo sosteniendo la vida que llevas hoy — energía, descanso, movimiento?"},
+      {t:"Relación con el Dinero / Paz Económica", q:"¿Qué tan en paz estás con tu situación económica actual, más allá de cuánto ganas?"},
+      {t:"Confianza en tus Propias Decisiones", q:"¿Qué tan firme te sientes tomando tus propias decisiones, sin necesitar que alguien más las valide?"},
+      {t:"Responsabilidad y Carácter", q:"¿Qué tanto tus acciones del día a día coinciden con lo que dices que valoras?"},
+      {t:"Espiritualidad y Propósito", q:"¿Qué tan conectado te sientes con algo más grande que tu rutina — un propósito, una raíz, un sentido?"},
+      {t:"Amor Propio y Autoestima", q:"¿Qué tan en paz estás con quién eres, más allá de lo que logras?"},
+      {t:"Comunicación", q:"¿Qué tan bien logras decir lo que sientes y necesitas, antes de que se convierta en resentimiento?"},
+      {t:"Sexualidad", q:"¿Qué tan cómodo y en paz estás con tu vida sexual?"},
+      {t:"Relación Familiar", q:"¿Cómo está tu relación con tu familia — la que te crio, o la que estás construyendo?"},
+      {t:"Relación de Pareja", q:"¿Cómo está tu relación de pareja hoy — o, si no la tienes, tu relación con la idea de tenerla?"},
+      {t:"Autoexpresión", q:"¿Qué tan libre te sientes de mostrarte al mundo tal como eres, sin editarte?"},
+      {t:"Hábitos Destructivos y Vicios", q:"¿Qué tanto dominio tienes sobre tus hábitos — libre de vicios o compulsiones que sabes que te dañan?"}
+    ]
+  },
+  profesional: {
+    label: "Profesional", short:"PR", color:"var(--profesional)", hex:"#5588CC",
+    note: "Aplica sobre todo si diriges un negocio o un equipo.",
+    areas: [
+      {t:"Estabilidad Emocional bajo Presión", q:"¿Sostienes tu ritmo y tu claridad aunque la semana de trabajo sea difícil?"},
+      {t:"Seguridad y Autoridad Serena", q:"¿Tu autoridad como profesional nace de tu propia convicción, sin necesitar que otros la confirmen?"},
+      {t:"Honorabilidad y Alineación con tu Palabra", q:"¿Tu palabra profesional vale lo que dices que vale — cumples lo que prometes?"},
+      {t:"Responsabilidad sobre tus Resultados", q:"¿Asumes tus resultados profesionales sin buscar excusas externas?"},
+      {t:"Claridad de Propósito y Objetivos", q:"¿Tienes claro qué quieres lograr profesionalmente y por qué?"},
+      {t:"Gestión de tu Energía y tus Límites", q:"¿Sabes poner límites reales a tu tiempo y tu energía en el trabajo, o todo te desborda?"},
+      {t:"Comunicación Asertiva con tu Equipo", q:"¿Te comunicas con claridad y firmeza con quienes trabajan contigo?"},
+      {t:"Plan de Acción Diaria / Ejecución", q:"¿Tienes un plan real de lo que harás cada día, o improvisas según la urgencia?"},
+      {t:"Delegación Efectiva", q:"¿Sueltas tareas y confías en otros, o sientes que todo depende de ti?"},
+      {t:"Toma de Decisiones Estratégicas", q:"¿Tomas decisiones importantes con visión de mediano plazo, o solo reaccionas a lo urgente?"},
+      {t:"Retorno de tu Inversión de Tiempo", q:"¿Sientes que el tiempo que le entregas a tu profesión te devuelve resultados que de verdad importan — o se te va la vida trabajando, sin tiempo para ti ni para los tuyos, sin que lo logrado justifique lo que te está costando?"},
+      {t:"Liderazgo y Retención de tu Equipo", q:"¿Las personas que trabajan contigo se quedan y crecen, o hay una fuga constante que no logras frenar?"}
+    ]
+  },
+  comercial: {
+    label: "Comercial", short:"C", color:"var(--comercial)", hex:"#4A9F6A",
+    note: "Aplica sobre todo si vendes, cobras o diriges un modelo comercial.",
+    areas: [
+      {t:"Postura ante el Dinero / Merecimiento", q:"¿Crees genuinamente que mereces cobrar lo que cobras por lo que ofreces?"},
+      {t:"Confianza en el Valor de lo que Ofreces", q:"¿Crees con convicción que lo que vendes tiene un valor real para quien lo recibe?"},
+      {t:"Disposición Real ante el Rechazo y la Negociación", q:"¿Sostienes tu proceso comercial aunque te digan que no, sin tomarlo como algo personal?"},
+      {t:"Responsabilidad sobre tus Resultados Comerciales", q:"¿Asumes tus resultados de venta como tuyos, sin culpar solo al mercado?"},
+      {t:"Claridad de tu Cliente Ideal", q:"¿Tienes claro a quién le hablas, qué necesita y por qué tú eres la respuesta?"},
+      {t:"Dominio de tu Propuesta de Valor / Marca Personal", q:"¿Puedes explicar con seguridad por qué alguien debería elegirte a ti?"},
+      {t:"Estrategia de Marca y Modelo de Ventas", q:"¿Tienes un modelo claro de cómo vendes, o cada venta es un caso distinto sin sistema?"},
+      {t:"Prospección y Generación de Conversaciones", q:"¿Generas conversaciones comerciales de forma constante, o dependen de que alguien te busque?"},
+      {t:"Reclutamiento de Talento Comercial", q:"¿Atraes activamente a personas con potencial comercial y las haces crecer en tu modelo — o tus resultados dependen solo de tus propias manos porque “no hay buena gente”?"},
+      {t:"Cierre y Conversión", q:"¿Cierras las ventas que inicias, o se te quedan a medias con frecuencia?"},
+      {t:"Satisfacción del Cliente y Referidos", q:"¿Tus clientes quedan tan satisfechos que te recomiendan sin que se los pidas — o cada cliente nuevo lo sigues consiguiendo desde cero, sin que los actuales te traigan a los siguientes?"},
+      {t:"Ingresos y Resultados de Venta", q:"¿Qué tan en paz estás con lo que estás generando comercialmente hoy, frente a lo que sabes que puedes generar?"}
+    ]
+  }
+};
+
+const _svg = inner => `<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+const ICONS = {
+  // Personal: una persona, sola consigo misma
+  personal: _svg('<circle cx="16" cy="11" r="4.5"/><path d="M6.5 27c0-5.5 4.2-9 9.5-9s9.5 3.5 9.5 9"/>'),
+  // Profesional: una persona que asciende peldaños
+  profesional: _svg('<circle cx="9.5" cy="10" r="3.5"/><path d="M3 26c0-4.4 3-7 6.5-7s6.5 2.6 6.5 7"/><path d="M18 27v-5h4v-5h4v-5h4"/>'),
+  // Comercial: dos personas en intercambio
+  comercial: _svg('<circle cx="9" cy="8" r="3.2"/><circle cx="23" cy="8" r="3.2"/><path d="M3 18.5c0-3.4 2.6-5.6 6-5.6s6 2.2 6 5.6"/><path d="M17 18.5c0-3.4 2.6-5.6 6-5.6s6 2.2 6 5.6"/><path d="M8 25h16M21 22l3 3-3 3M11 22l-3 3 3 3"/>')
+};
+
+const ESPEJOS = [[0,11],[1,10],[2,9],[3,8],[4,7],[5,6]];
+const _hash = (location.hash||"").slice(1);
+let currentDim = DATA[_hash] ? _hash : "personal";
+let scores = { personal:Array(12).fill(0), profesional:Array(12).fill(0), comercial:Array(12).fill(0) };
+let nombre = "";
+
+document.getElementById("nombreInput").addEventListener("input", e=>{ nombre = e.target.value.trim(); });
+
+function buildTabs(){
+  const box = document.getElementById("tabsDim");
+  box.innerHTML = "";
+  Object.keys(DATA).forEach(key=>{
+    const d = DATA[key];
+    const b = document.createElement("button");
+    b.className = "tab-dim" + (key===currentDim ? " active":"");
+    b.style.setProperty("--dim-color", d.hex);
+    b.innerHTML = `<div class="tab-ico">${ICONS[key]}</div><div class="tn">Dimensión</div><div class="tl">${d.label}</div>`;
+    b.onclick = ()=>switchDim(key);
+    box.appendChild(b);
+  });
+  document.getElementById("dimNote").textContent = DATA[currentDim].note;
+}
+
+function switchDim(key){
+  currentDim = key;
+  buildTabs();
+  buildForm();
+  renderResults();
+}
+
+function buildForm(){
+  const panel = document.getElementById("qpanel");
+  panel.innerHTML = "";
+  const d = DATA[currentDim];
+  d.areas.forEach((a,i)=>{
+    const espejoIdx = ESPEJOS.find(p=>p[0]===i || p[1]===i);
+    const partner = espejoIdx[0]===i ? espejoIdx[1] : espejoIdx[0];
+    const card = document.createElement("div");
+    card.className = "qcard";
+    card.style.setProperty("--dim-color", d.hex);
+    card.innerHTML = `
+      <div class="q-indicator">Área ${String(i+1).padStart(2,"0")} de 12 · Espejo ↔ ${String(partner+1).padStart(2,"0")}</div>
+      <div class="qtitle">${a.t}</div>
+      <div class="qtext">${a.q}</div>
+      <div class="srow" id="srow-${i}"></div>
+    `;
+    panel.appendChild(card);
+    const srow = card.querySelector(`#srow-${i}`);
+    for(let v=1; v<=10; v++){
+      const btn = document.createElement("button");
+      btn.className = "sbtn" + (scores[currentDim][i]===v ? " sel":"");
+      btn.style.setProperty("--dim-color", d.hex);
+      btn.textContent = v;
+      btn.onclick = ()=>{ scores[currentDim][i]=v; buildForm(); renderResults(); };
+      srow.appendChild(btn);
+    }
+  });
+}
+
+function colorFor(v){
+  if(v<=3) return "#CC5555";
+  if(v<=6) return "#C8993A";
+  if(v<=8) return "#5588CC";
+  return "#4A9F6A";
+}
+function zoneLabel(v){
+  if(v<=3) return "Riesgo";
+  if(v<=6) return "Desarrollo";
+  if(v<=8) return "Solidez";
+  return "Referencia";
+}
+
+function drawRadar(){
+  const canvas = document.getElementById("radar");
+  const ctx = canvas.getContext("2d");
+  const cx=180, cy=180, R=140, N=12;
+  ctx.clearRect(0,0,360,360);
+  const vals = scores[currentDim];
+
+  // rings
+  for(let ring=1; ring<=5; ring++){
+    ctx.beginPath();
+    for(let i=0;i<N;i++){
+      const ang = (Math.PI*2*i/N) - Math.PI/2;
+      const r = R*ring/5;
+      const x = cx + r*Math.cos(ang), y = cy + r*Math.sin(ang);
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = "#2A2A2A";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  // spokes
+  for(let i=0;i<N;i++){
+    const ang = (Math.PI*2*i/N) - Math.PI/2;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+R*Math.cos(ang), cy+R*Math.sin(ang));
+    ctx.strokeStyle = "#232323";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  // data polygon
+  ctx.beginPath();
+  for(let i=0;i<N;i++){
+    const ang = (Math.PI*2*i/N) - Math.PI/2;
+    const r = R*(vals[i]||0)/10;
+    const x = cx+r*Math.cos(ang), y=cy+r*Math.sin(ang);
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = DATA[currentDim].hex + "33";
+  ctx.fill();
+  ctx.strokeStyle = DATA[currentDim].hex;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  // points
+  for(let i=0;i<N;i++){
+    const ang = (Math.PI*2*i/N) - Math.PI/2;
+    const r = R*(vals[i]||0)/10;
+    const x = cx+r*Math.cos(ang), y=cy+r*Math.sin(ang);
+    ctx.beginPath();
+    ctx.arc(x,y,3.5,0,Math.PI*2);
+    ctx.fillStyle = vals[i] ? colorFor(vals[i]) : "#444";
+    ctx.fill();
+  }
+  // labels
+  ctx.font = "10px JetBrains Mono";
+  ctx.fillStyle = "#8C8C8C";
+  for(let i=0;i<N;i++){
+    const ang = (Math.PI*2*i/N) - Math.PI/2;
+    const x = cx+(R+16)*Math.cos(ang), y=cy+(R+16)*Math.sin(ang);
+    ctx.textAlign = Math.abs(Math.cos(ang))<0.15 ? "center" : (Math.cos(ang)>0 ? "left":"right");
+    ctx.fillText(String(i+1).padStart(2,"0"), x, y+3);
+  }
+}
+
+function buildLegend(){
+  const box = document.getElementById("legend");
+  box.innerHTML = "";
+  const d = DATA[currentDim];
+  d.areas.forEach((a,i)=>{
+    const v = scores[currentDim][i];
+    const row = document.createElement("div");
+    row.className = "leg-row";
+    row.innerHTML = `<span class="leg-dot" style="background:${v?colorFor(v):"#444"}"></span>
+      <span class="leg-num">${String(i+1).padStart(2,"0")}</span>
+      <span class="leg-name">${a.t}</span>
+      <span class="leg-val">${v||"–"}</span>`;
+    box.appendChild(row);
+  });
+}
+
+function checkEspejos(){
+  const box = document.getElementById("espejoAlerts");
+  box.innerHTML = "";
+  const d = DATA[currentDim];
+  const vals = scores[currentDim];
+  let any = false;
+  ESPEJOS.forEach(([a,b])=>{
+    if(vals[a] && vals[b]){
+      const gap = Math.abs(vals[a]-vals[b]);
+      if(gap>=3){
+        any = true;
+        const alto = vals[a]>vals[b] ? a : b;
+        const bajo = vals[a]>vals[b] ? b : a;
+        const div = document.createElement("div");
+        div.className = "esp-alert";
+        div.innerHTML = `<b>Fractura de Espejo ${String(a+1).padStart(2,"0")}↔${String(b+1).padStart(2,"0")}:</b> "${d.areas[alto].t}" (${vals[alto]}) y "${d.areas[bajo].t}" (${vals[bajo]}) tienen una brecha de ${gap} puntos — tu arquitectura interna y tu resultado externo van por caminos distintos aquí.`;
+        box.appendChild(div);
+      }
+    }
+  });
+  if(!any && vals.every(v=>v>0)){
+    box.innerHTML = `<p class="esp-ok">Sin fracturas de espejo mayores a 2 puntos — tu origen y tu manifestación están alineados.</p>`;
+  }
+}
+
+function renderResults(){
+  const d = DATA[currentDim];
+  document.getElementById("rsubLabel").textContent = "Dimensión " + d.label;
+  drawRadar();
+  buildLegend();
+  checkEspejos();
+  updateReflection();
+  updateWaLink();
+  document.getElementById("phDim").textContent = "Dimensión " + d.label + (nombre ? " · " + nombre : "");
+  document.getElementById("phMeta").textContent = "Mapa de Fractura Raíz · Innovación Humana · " + new Date().toLocaleDateString("es-MX");
+}
+
+function updateReflection(){
+  const vals = scores[currentDim];
+  const answered = vals.filter(v=>v>0).length;
+  const box = document.getElementById("reflexionText");
+  if(answered<12){
+    box.innerHTML = `<p>Responde las 12 áreas para ver tu lectura completa. Llevas ${answered} de 12.</p>`;
+    return;
+  }
+  const avg = vals.reduce((a,b)=>a+b,0)/12;
+  const zona = zoneLabel(avg);
+  const min = Math.min(...vals);
+  const minIdx = vals.indexOf(min);
+  const d = DATA[currentDim];
+
+  const bloqueA = vals.slice(0,6).reduce((a,b)=>a+b,0)/6;
+  const bloqueB = vals.slice(6,12).reduce((a,b)=>a+b,0)/6;
+
+  let texto = "";
+  if(zona==="Riesgo") texto = `Tu promedio en ${d.label} es ${avg.toFixed(1)}/10 — zona de Riesgo. No es una sentencia, es una fotografía: hay más de una base sin cimentar de lo que tu día a día puede sostener con soltura.`;
+  else if(zona==="Desarrollo") texto = `Tu promedio en ${d.label} es ${avg.toFixed(1)}/10 — zona de Desarrollo. Hay estructura, pero todavía en construcción: sostienes, pero con esfuerzo.`;
+  else if(zona==="Solidez") texto = `Tu promedio en ${d.label} es ${avg.toFixed(1)}/10 — zona de Solidez. Tienes una base que funciona; el trabajo desde aquí es afinar, no reconstruir.`;
+  else texto = `Tu promedio en ${d.label} es ${avg.toFixed(1)}/10 — zona de Referencia. Esta dimensión ya es un punto de apoyo, no un punto de fuga.`;
+
+  let p2 = `Tu área con más fractura es "${d.areas[minIdx].t}" (${min}/10) — es probable que ahí esté la palanca más honesta para empezar.`;
+
+  let p3 = "";
+  if(bloqueA < bloqueB - 1){
+    p3 = `Nota adicional: tu arquitectura interna — El Ser (áreas 01–06) — promedia ${bloqueA.toFixed(1)}, por debajo de cómo se manifiesta hacia afuera — La Ruta (áreas 07–12), que promedia ${bloqueB.toFixed(1)}. Esto suele significar que estás sosteniendo resultados desde el esfuerzo, no desde la base. Conviene mirar el origen antes de exigirle más a la ruta.`;
+  }
+
+  box.innerHTML = `<p>${texto}</p><p>${p2}</p>` + (p3 ? `<p>${p3}</p>` : "");
+}
+
+function updateWaLink(){
+  const d = DATA[currentDim];
+  const vals = scores[currentDim];
+  const answered = vals.filter(v=>v>0).length;
+  let msg = `Hola Fer, este es mi resultado del Mapa de Fractura Raíz.\n`;
+  msg += `Dimensión: ${d.label}\n`;
+  if(nombre) msg += `Nombre: ${nombre}\n`;
+  msg += `\n`;
+  d.areas.forEach((a,i)=>{ msg += `${String(i+1).padStart(2,"0")}. ${a.t}: ${vals[i]||"–"}/10\n`; });
+  if(answered===12){
+    const avg = vals.reduce((a,b)=>a+b,0)/12;
+    msg += `\nPromedio: ${avg.toFixed(1)}/10 — Zona: ${zoneLabel(avg)}\n`;
+    const min = Math.min(...vals);
+    msg += `Área con más fractura: ${d.areas[vals.indexOf(min)].t} (${min}/10)`;
+  } else {
+    msg += `\n(Diagnóstico incompleto — ${answered}/12 áreas respondidas)`;
+  }
+  const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  document.getElementById("btnWa").href = url;
+}
+
+buildTabs();
+buildForm();
+renderResults();
+</script>
+</body>
+</html>
