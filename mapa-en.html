@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Root Fracture Map · Innovación Humana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --negro:#000000; --negro-2:#070707; --negro-3:#0F0E0C;
+    --oro:#C8993A; --oro-claro:#E0B968; --oro-suave:#8A6E3A;
+    --hueso:#EDE8DE; --gris:#8C8C8C; --gris-linea:#25211A; --oro-faded:#A8915A; --oro-faded-borde:rgba(168,145,90,.34); --oro-faded-dim:rgba(168,145,90,.07);
+    --riesgo:#CC5555; --desarrollo:#C8993A; --solidez:#5588CC; --referencia:#4A9F6A;
+    --personal:#C8993A; --profesional:#5588CC; --comercial:#4A9F6A;
+    --serif:'Cormorant Garamond',serif; --sans:'Montserrat',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background-color:#000; color:var(--hueso); font-family:var(--sans);
+    background-image:radial-gradient(ellipse 70% 42% at 50% 0%, rgba(168,145,90,.13), transparent 70%),
+                     radial-gradient(rgba(168,145,90,.16) 1px, transparent 1px);
+    background-size:100% 100%, 28px 28px; background-repeat:no-repeat, repeat; min-height:100vh;
+  }
+  .frame{max-width:1180px;margin:0 auto;padding:56px 32px 100px;}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--oro-faded);margin-bottom:18px;text-align:center;}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(32px,4.2vw,52px);line-height:1.12;color:var(--hueso);max-width:820px;margin:0 auto;text-align:center;}
+  h1 em{font-style:italic;color:var(--oro-faded);}
+  .lede{font-family:var(--serif);font-size:19px;font-style:italic;color:var(--gris);max-width:640px;margin:20px auto 0;line-height:1.55;text-align:center;}
+  .ctx-row{display:flex;gap:36px;flex-wrap:wrap;margin-top:34px;padding-top:26px;border-top:1px solid var(--oro-faded-borde);justify-content:center;text-align:center;}
+  .ctx-item{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--gris);}
+  .ctx-item b{color:var(--oro-faded);font-size:15px;display:block;font-family:var(--sans);font-weight:600;margin-bottom:2px;}
+
+  .tabs-dim{display:flex;gap:2px;margin-top:46px;border:1px solid var(--gris-linea);}
+  .tab-dim{flex:1;padding:24px 20px 20px;background:var(--negro-2);border:none;cursor:pointer;text-align:center;
+    border-right:1px solid var(--gris-linea);transition:.2s;}
+  .tab-dim:last-child{border-right:none;}
+  .tab-dim .tn{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gris);text-transform:uppercase;}
+  .tab-dim .tl{font-family:var(--serif);font-size:22px;color:var(--hueso);margin-top:4px;}
+  .tab-ico{display:flex;justify-content:center;margin-bottom:12px;color:var(--dim-color,var(--oro));opacity:.55;transition:.2s;}
+  .tab-ico svg{width:34px;height:34px;display:block;}
+  .tab-dim.active .tab-ico,.tab-dim:hover .tab-ico{opacity:1;}
+  .tab-dim.active{background:var(--negro-3);box-shadow:inset 0 3px 0 var(--dim-color,var(--oro));}
+  .tab-dim.active .tn{color:var(--dim-color,var(--oro));}
+  .tab-dim:hover:not(.active){background:#0E0D0B;}
+  .dim-note{font-family:var(--mono);font-size:11px;color:var(--gris);margin-top:14px;font-style:italic;text-align:center;}
+
+  .name-card{position:relative;max-width:620px;margin:44px auto 0;padding:34px 40px 36px;text-align:center;
+    background:linear-gradient(180deg,var(--oro-faded-dim),rgba(0,0,0,0) 70%),var(--negro-2);
+    border:1px solid var(--oro-faded-borde);box-shadow:0 0 44px rgba(168,145,90,.10);}
+  .name-card::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:84px;height:2px;background:var(--oro-faded);}
+  .name-ico{display:flex;justify-content:center;color:var(--oro-faded);margin-bottom:10px;}
+  .name-ico svg{width:26px;height:26px;display:block;}
+  .name-card label{display:block;font-family:var(--serif);font-size:28px;font-weight:500;color:var(--hueso);}
+  .name-hint{font-family:var(--mono);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gris);margin:6px 0 22px;}
+  .name-card input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--oro-faded-borde);color:var(--hueso);
+    font-family:var(--serif);font-size:24px;text-align:center;padding:8px 10px 10px;transition:.2s;}
+  .name-card input::placeholder{color:#5A5545;font-style:italic;font-size:18px;}
+  .name-card input:focus{outline:none;border-bottom-color:var(--oro-faded);box-shadow:0 12px 20px -14px rgba(168,145,90,.55);}
+
+  .espejo-explain{margin:30px auto 0;padding:18px 22px;background:var(--negro-2);border-left:2px solid var(--oro-faded);
+    font-size:13px;color:var(--gris);line-height:1.6;max-width:760px;}
+  .espejo-explain b{color:var(--oro-claro);font-weight:500;}
+
+  .wrap{display:flex;gap:48px;margin-top:48px;align-items:flex-start;}
+  .qpanel{flex:1.15;min-width:0;}
+  .rpanel{flex:1;position:sticky;top:32px;}
+
+  .qcard{background:var(--negro-2);border:1px solid var(--gris-linea);padding:24px 26px;margin-bottom:14px;}
+  .q-indicator{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--dim-color,var(--oro));text-transform:uppercase;margin-bottom:8px;}
+  .qtitle{font-family:var(--serif);font-size:21px;color:var(--hueso);margin-bottom:8px;}
+  .qtext{font-size:13.5px;color:var(--gris);line-height:1.55;margin-bottom:18px;}
+  .srow{display:flex;gap:6px;flex-wrap:wrap;}
+  .sbtn{width:38px;height:38px;background:var(--negro-3);border:1px solid var(--gris-linea);color:var(--gris);
+    font-family:var(--mono);font-size:13px;cursor:pointer;transition:.15s;}
+  .sbtn:hover{border-color:var(--oro-suave);color:var(--hueso);}
+  .sbtn.sel{background:var(--dim-color,var(--oro));border-color:var(--dim-color,var(--oro));color:var(--negro);font-weight:700;}
+
+  .rbox{background:var(--negro-2);border:1px solid var(--gris-linea);padding:30px;}
+  .rbox h3{font-family:var(--serif);font-size:20px;color:var(--hueso);margin-bottom:4px;}
+  .rbox .rsub{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--gris);text-transform:uppercase;margin-bottom:20px;}
+  #radarWrap{display:flex;justify-content:center;margin-bottom:18px;}
+  .legend{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin-top:6px;}
+  .leg-row{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--gris);padding:3px 0;border-bottom:1px solid #1e1e1e;}
+  .leg-dot{width:7px;height:7px;flex-shrink:0;}
+  .leg-num{font-family:var(--mono);color:var(--gris);width:16px;}
+  .leg-name{flex:1;color:var(--hueso);}
+  .leg-val{font-family:var(--mono);color:var(--oro-claro);}
+
+  .espejo-alerts{margin-top:22px;}
+  .esp-alert{background:#1A1414;border-left:2px solid var(--riesgo);padding:12px 16px;margin-bottom:8px;font-size:12px;color:var(--gris);line-height:1.5;}
+  .esp-alert b{color:#E08888;font-weight:500;}
+  .esp-ok{font-size:12px;color:var(--gris);font-style:italic;margin-top:14px;}
+
+  .reflexion{margin-top:22px;padding-top:20px;border-top:1px solid var(--gris-linea);}
+  .reflexion .rtitle{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--oro);text-transform:uppercase;margin-bottom:10px;}
+  .reflexion p{font-size:13.5px;color:var(--hueso);line-height:1.65;margin-bottom:10px;}
+  .reflexion p:last-child{margin-bottom:0;color:var(--gris);font-style:italic;}
+
+  .actions{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap;}
+  .btn{flex:1;min-width:160px;padding:14px 18px;font-family:var(--sans);font-size:12.5px;font-weight:600;
+    letter-spacing:.5px;text-transform:uppercase;cursor:pointer;text-align:center;text-decoration:none;display:block;border:1px solid;}
+  .btn-wa{background:var(--oro);border-color:var(--oro);color:var(--negro);}
+  .btn-wa:hover{background:var(--oro-claro);}
+  .btn-print{background:transparent;border-color:var(--gris-linea);color:var(--hueso);}
+  .btn-print:hover{border-color:var(--oro-suave);color:var(--oro-claro);}
+
+  .cta-block{margin-top:16px;padding-top:20px;border-top:1px solid var(--gris-linea);text-align:center;}
+  .cta-block a{display:block;background:transparent;border:1px solid var(--oro-suave);color:var(--oro-claro);
+    padding:14px;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+    text-decoration:none;}
+  .cta-block a:hover{background:var(--oro);color:var(--negro);border-color:var(--oro);}
+  .cta-sub{font-family:var(--mono);font-size:10.5px;color:var(--gris);margin-top:10px;}
+
+  .foot{margin-top:60px;padding-top:20px;border-top:1px solid var(--gris-linea);font-family:var(--mono);font-size:10px;color:#555;letter-spacing:1px;}
+
+  @media(max-width:880px){.wrap{flex-direction:column;}.rpanel{position:static;width:100%;}.tabs-dim{flex-direction:column;}.tab-dim{border-right:none;border-bottom:1px solid var(--gris-linea);}}
+
+  @media print{
+    body{background:#fff;color:#111;background-image:none;}
+    .tabs-dim,.name-card,.espejo-explain,.qpanel,.actions,.cta-block,.foot,.ctx-row{display:none !important;}
+    .frame{padding:20px;max-width:100%;}
+    h1,.eyebrow,.lede{display:none;}
+    .wrap{display:block;margin-top:0;}
+    .rpanel{position:static;width:100%;}
+    .rbox{border:1px solid #ccc;background:#fff;}
+    .rbox h3,.qtitle{color:#111;}
+    .rsub,.q-indicator{color:#666;}
+    .leg-name{color:#111;}
+    .esp-alert{background:#fdf0f0;color:#333;}
+    .reflexion p{color:#111;}
+    .reflexion p:last-child{color:#555;}
+    #printHead{display:block !important;}
+  }
+  #printHead{display:none;margin-bottom:16px;}
+  #printHead .ph-dim{font-family:var(--serif);font-size:24px;}
+  #printHead .ph-meta{font-family:var(--mono);font-size:11px;color:#666;margin-top:4px;}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <div class="eyebrow">Innovación Humana · Private Self-Assessment</div>
+  <h1>The <em>Root Fracture</em> Map.<br>Twelve areas. One mirror. One honest snapshot.</h1>
+  <p class="lede">Choose the dimension you want to rate today. There is no right answer — only the most honest one. When you finish, print your results or send them to me on WhatsApp so they're ready for your Mapping Session.</p>
+
+  <div class="ctx-row">
+    <div class="ctx-item"><b>3</b>Dimensions</div>
+    <div class="ctx-item"><b>12</b>Areas per dimension</div>
+    <div class="ctx-item"><b>~5 min</b>Per dimension</div>
+    <div class="ctx-item"><b>100%</b>Private — no one sees your answers until you send them</div>
+  </div>
+
+  <div class="tabs-dim" id="tabsDim"></div>
+  <p class="dim-note" id="dimNote"></p>
+
+  <div class="name-card">
+    <div class="name-ico"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="11" r="4.5"/><path d="M6.5 27c0-5.5 4.2-9 9.5-9s9.5 3.5 9.5 9"/></svg></div>
+    <label for="nombreInput">Your name</label>
+    <p class="name-hint">For your results · Optional</p>
+    <input type="text" id="nombreInput" placeholder="Type here to label your submission" autocomplete="name">
+  </div>
+
+  <div class="espejo-explain">
+    <b>Law of the Mirror:</b> every area has a partner. Area 1 speaks to 12, 2 to 11, 3 to 10 — and so on, closing the circle at the center with 6 and 7. The first half (1–6) is your inner architecture — <b>The Being</b>. The second half (7–12) is how that architecture shows up in the world — <b>The Path</b>. When the gap between a pair is 3 points or more, there is a mirror fracture: your origin and your results are heading down different roads.
+  </div>
+
+  <div class="wrap">
+    <div class="qpanel" id="qpanel"></div>
+
+    <div class="rpanel">
+      <div class="rbox">
+        <div id="printHead">
+          <div class="ph-dim" id="phDim"></div>
+          <div class="ph-meta" id="phMeta"></div>
+        </div>
+        <h3>Your Radar</h3>
+        <div class="rsub" id="rsubLabel">Personal Dimension</div>
+        <div id="radarWrap"><canvas id="radar" width="360" height="360"></canvas></div>
+        <div class="legend" id="legend"></div>
+
+        <div class="espejo-alerts" id="espejoAlerts"></div>
+
+        <div class="reflexion">
+          <div class="rtitle">Reading Your Results</div>
+          <div id="reflexionText"></div>
+        </div>
+
+        <div class="actions">
+          <a href="#" class="btn btn-wa" id="btnWa" target="_blank" rel="noopener">Send via WhatsApp</a>
+          <button class="btn btn-print" onclick="window.print()">Print Results</button>
+        </div>
+      </div>
+
+      <div class="cta-block">
+        <a href="https://calendly.com/jesueugalde/descubrimiento" target="_blank" rel="noopener">Book My Mapping Session</a>
+        <p class="cta-sub">Step 2 · 60 min · $55 USD ($1,000 MXN) · 100% credited toward your program if you enroll</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">INNOVACIÓN HUMANA · ROOT FRACTURE MAP V1 · 3 DIMENSIONS · LAW OF THE MIRROR · SEPTEMBER 2026</div>
+</div>
+
+<script>
+const WA_NUMBER = "525643440676";
+
+const DATA = {
+  personal: {
+    label: "Personal", short:"P", color:"var(--personal)", hex:"#C8993A",
+    note: "Applies to anyone, whether or not you run a business.",
+    areas: [
+      {t:"Physical Health & Energy", q:"How well is your body supporting the life you're living today — energy, rest, movement?"},
+      {t:"Relationship with Money / Financial Peace", q:"How at peace are you with your current financial situation, beyond how much you earn?"},
+      {t:"Trust in Your Own Decisions", q:"How firm do you feel making your own decisions, without needing someone else to validate them?"},
+      {t:"Accountability & Character", q:"How closely do your day-to-day actions match what you say you value?"},
+      {t:"Spirituality & Purpose", q:"How connected do you feel to something bigger than your routine — a purpose, a root, a sense of meaning?"},
+      {t:"Self-Love & Self-Esteem", q:"How at peace are you with who you are, beyond what you achieve?"},
+      {t:"Communication", q:"How well do you express what you feel and need before it turns into resentment?"},
+      {t:"Sexuality", q:"How comfortable and at peace are you with your sex life?"},
+      {t:"Family Relationships", q:"How is your relationship with your family — the one that raised you, or the one you're building?"},
+      {t:"Romantic Relationship", q:"How is your romantic relationship today — or, if you don't have one, your relationship with the idea of having one?"},
+      {t:"Self-Expression", q:"How free do you feel to show up in the world exactly as you are, without editing yourself?"},
+      {t:"Destructive Habits & Vices", q:"How much command do you have over your habits — free from vices or compulsions you know are hurting you?"}
+    ]
+  },
+  profesional: {
+    label: "Professional", short:"PR", color:"var(--profesional)", hex:"#5588CC",
+    note: "Applies most if you run a business or lead a team.",
+    areas: [
+      {t:"Emotional Stability Under Pressure", q:"Do you keep your pace and clarity even when the work week gets hard?"},
+      {t:"Confidence & Calm Authority", q:"Does your authority as a professional come from your own conviction, without needing others to confirm it?"},
+      {t:"Integrity & Alignment with Your Word", q:"Is your professional word worth what you say it's worth — do you do what you promise?"},
+      {t:"Ownership of Your Results", q:"Do you take ownership of your professional results without looking for outside excuses?"},
+      {t:"Clarity of Purpose & Goals", q:"Are you clear on what you want to achieve professionally, and why?"},
+      {t:"Managing Your Energy & Boundaries", q:"Do you set real limits on your time and energy at work, or does everything overwhelm you?"},
+      {t:"Assertive Communication with Your Team", q:"Do you communicate clearly and firmly with the people who work with you?"},
+      {t:"Daily Action Plan / Execution", q:"Do you have a real plan for what you'll do each day, or do you improvise based on whatever is urgent?"},
+      {t:"Effective Delegation", q:"Do you let go of tasks and trust others, or does it feel like everything depends on you?"},
+      {t:"Strategic Decision-Making", q:"Do you make important decisions with a medium-term vision, or do you just react to what's urgent?"},
+      {t:"Return on Your Time Investment", q:"Do you feel the time you give your profession pays you back with results that truly matter — or is life slipping away in work, with no time for yourself or your loved ones, and nothing achieved that justifies what it's costing you?"},
+      {t:"Leadership & Team Retention", q:"Do the people who work with you stay and grow, or is there a constant exodus you can't seem to stop?"}
+    ]
+  },
+  comercial: {
+    label: "Commercial", short:"C", color:"var(--comercial)", hex:"#4A9F6A",
+    note: "Applies most if you sell, collect payment, or run a commercial model.",
+    areas: [
+      {t:"Mindset Around Money / Worthiness", q:"Do you genuinely believe you deserve to charge what you charge for what you offer?"},
+      {t:"Confidence in the Value of What You Offer", q:"Do you firmly believe that what you sell has real value for the person who receives it?"},
+      {t:"Real Readiness for Rejection & Negotiation", q:"Do you stick to your sales process even when people say no, without taking it personally?"},
+      {t:"Ownership of Your Commercial Results", q:"Do you own your sales results as yours, without blaming only the market?"},
+      {t:"Clarity on Your Ideal Client", q:"Are you clear on who you're speaking to, what they need, and why you are the answer?"},
+      {t:"Mastery of Your Value Proposition / Personal Brand", q:"Can you confidently explain why someone should choose you?"},
+      {t:"Brand Strategy & Sales Model", q:"Do you have a clear model for how you sell, or is every sale a one-off with no system?"},
+      {t:"Prospecting & Generating Conversations", q:"Do you generate sales conversations consistently, or do they depend on someone reaching out to you?"},
+      {t:"Recruiting Commercial Talent", q:"Do you actively attract people with sales potential and help them grow in your model — or do your results depend only on your own two hands because “there are no good people out there”?"},
+      {t:"Closing & Conversion", q:"Do you close the sales you start, or do they often stall halfway?"},
+      {t:"Client Satisfaction & Referrals", q:"Are your clients so satisfied that they refer you without being asked — or do you still win every new client from scratch, with your current ones not bringing you the next?"},
+      {t:"Income & Sales Results", q:"How at peace are you with what you're generating commercially today, compared to what you know you can generate?"}
+    ]
+  }
+};
+
+const _svg = inner => `<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+const ICONS = {
+  // Personal: one person, alone with themselves
+  personal: _svg('<circle cx="16" cy="11" r="4.5"/><path d="M6.5 27c0-5.5 4.2-9 9.5-9s9.5 3.5 9.5 9"/>'),
+  // Professional: a person climbing steps
+  profesional: _svg('<circle cx="9.5" cy="10" r="3.5"/><path d="M3 26c0-4.4 3-7 6.5-7s6.5 2.6 6.5 7"/><path d="M18 27v-5h4v-5h4v-5h4"/>'),
+  // Commercial: two people in exchange
+  comercial: _svg('<circle cx="9" cy="8" r="3.2"/><circle cx="23" cy="8" r="3.2"/><path d="M3 18.5c0-3.4 2.6-5.6 6-5.6s6 2.2 6 5.6"/><path d="M17 18.5c0-3.4 2.6-5.6 6-5.6s6 2.2 6 5.6"/><path d="M8 25h16M21 22l3 3-3 3M11 22l-3 3 3 3"/>')
+};
+
+const ESPEJOS = [[0,11],[1,10],[2,9],[3,8],[4,7],[5,6]];
+const _hash = (location.hash||"").slice(1);
+let currentDim = DATA[_hash] ? _hash : "personal";
+let scores = { personal:Array(12).fill(0), profesional:Array(12).fill(0), comercial:Array(12).fill(0) };
+let nombre = "";
+
+document.getElementById("nombreInput").addEventListener("input", e=>{ nombre = e.target.value.trim(); });
+
+function buildTabs(){
+  const box = document.getElementById("tabsDim");
+  box.innerHTML = "";
+  Object.keys(DATA).forEach(key=>{
+    const d = DATA[key];
+    const b = document.createElement("button");
+    b.className = "tab-dim" + (key===currentDim ? " active":"");
+    b.style.setProperty("--dim-color", d.hex);
+    b.innerHTML = `<div class="tab-ico">${ICONS[key]}</div><div class="tn">Dimension</div><div class="tl">${d.label}</div>`;
+    b.onclick = ()=>switchDim(key);
+    box.appendChild(b);
+  });
+  document.getElementById("dimNote").textContent = DATA[currentDim].note;
+}
+
+function switchDim(key){
+  currentDim = key;
+  buildTabs();
+  buildForm();
+  renderResults();
+}
+
+function buildForm(){
+  const panel = document.getElementById("qpanel");
+  panel.innerHTML = "";
+  const d = DATA[currentDim];
+  d.areas.forEach((a,i)=>{
+    const espejoIdx = ESPEJOS.find(p=>p[0]===i || p[1]===i);
+    const partner = espejoIdx[0]===i ? espejoIdx[1] : espejoIdx[0];
+    const card = document.createElement("div");
+    card.className = "qcard";
+    card.style.setProperty("--dim-color", d.hex);
+    card.innerHTML = `
+      <div class="q-indicator">Area ${String(i+1).padStart(2,"0")} of 12 · Mirror ↔ ${String(partner+1).padStart(2,"0")}</div>
+      <div class="qtitle">${a.t}</div>
+      <div class="qtext">${a.q}</div>
+      <div class="srow" id="srow-${i}"></div>
+    `;
+    panel.appendChild(card);
+    const srow = card.querySelector(`#srow-${i}`);
+    for(let v=1; v<=10; v++){
+      const btn = document.createElement("button");
+      btn.className = "sbtn" + (scores[currentDim][i]===v ? " sel":"");
+      btn.style.setProperty("--dim-color", d.hex);
+      btn.textContent = v;
+      btn.onclick = ()=>{ scores[currentDim][i]=v; buildForm(); renderResults(); };
+      srow.appendChild(btn);
+    }
+  });
+}
+
+function colorFor(v){
+  if(v<=3) return "#CC5555";
+  if(v<=6) return "#C8993A";
+  if(v<=8) return "#5588CC";
+  return "#4A9F6A";
+}
+function zoneLabel(v){
+  if(v<=3) return "Risk";
+  if(v<=6) return "Development";
+  if(v<=8) return "Solid";
+  return "Benchmark";
+}
+
+function drawRadar(){
+  const canvas = document.getElementById("radar");
+  const ctx = canvas.getContext("2d");
+  const cx=180, cy=180, R=140, N=12;
+  ctx.clearRect(0,0,360,360);
+  const vals = scores[currentDim];
+
+  // rings
+  for(let ring=1; ring<=5; ring++){
+    ctx.beginPath();
+    for(let i=0;i<N;i++){
+      const ang = (Math.PI*2*i/N) - Math.PI/2;
+      const r = R*ring/5;
+      const x = cx + r*Math.cos(ang), y = cy + r*Math.sin(ang);
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = "#2A2A2A";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  // spokes
+  for(let i=0;i<N;i++){
+    const ang = (Math.PI*2*i/N) - Math.PI/2;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+R*Math.cos(ang), cy+R*Math.sin(ang));
+    ctx.strokeStyle = "#232323";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  // data polygon
+  ctx.beginPath();
+  for(let i=0;i<N;i++){
+    const ang = (Math.PI*2*i/N) - Math.PI/2;
+    const r = R*(vals[i]||0)/10;
+    const x = cx+r*Math.cos(ang), y=cy+r*Math.sin(ang);
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = DATA[currentDim].hex + "33";
+  ctx.fill();
+  ctx.strokeStyle = DATA[currentDim].hex;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  // points
+  for(let i=0;i<N;i++){
+    const ang = (Math.PI*2*i/N) - Math.PI/2;
+    const r = R*(vals[i]||0)/10;
+    const x = cx+r*Math.cos(ang), y=cy+r*Math.sin(ang);
+    ctx.beginPath();
+    ctx.arc(x,y,3.5,0,Math.PI*2);
+    ctx.fillStyle = vals[i] ? colorFor(vals[i]) : "#444";
+    ctx.fill();
+  }
+  // labels
+  ctx.font = "10px JetBrains Mono";
+  ctx.fillStyle = "#8C8C8C";
+  for(let i=0;i<N;i++){
+    const ang = (Math.PI*2*i/N) - Math.PI/2;
+    const x = cx+(R+16)*Math.cos(ang), y=cy+(R+16)*Math.sin(ang);
+    ctx.textAlign = Math.abs(Math.cos(ang))<0.15 ? "center" : (Math.cos(ang)>0 ? "left":"right");
+    ctx.fillText(String(i+1).padStart(2,"0"), x, y+3);
+  }
+}
+
+function buildLegend(){
+  const box = document.getElementById("legend");
+  box.innerHTML = "";
+  const d = DATA[currentDim];
+  d.areas.forEach((a,i)=>{
+    const v = scores[currentDim][i];
+    const row = document.createElement("div");
+    row.className = "leg-row";
+    row.innerHTML = `<span class="leg-dot" style="background:${v?colorFor(v):"#444"}"></span>
+      <span class="leg-num">${String(i+1).padStart(2,"0")}</span>
+      <span class="leg-name">${a.t}</span>
+      <span class="leg-val">${v||"–"}</span>`;
+    box.appendChild(row);
+  });
+}
+
+function checkEspejos(){
+  const box = document.getElementById("espejoAlerts");
+  box.innerHTML = "";
+  const d = DATA[currentDim];
+  const vals = scores[currentDim];
+  let any = false;
+  ESPEJOS.forEach(([a,b])=>{
+    if(vals[a] && vals[b]){
+      const gap = Math.abs(vals[a]-vals[b]);
+      if(gap>=3){
+        any = true;
+        const alto = vals[a]>vals[b] ? a : b;
+        const bajo = vals[a]>vals[b] ? b : a;
+        const div = document.createElement("div");
+        div.className = "esp-alert";
+        div.innerHTML = `<b>Mirror Fracture ${String(a+1).padStart(2,"0")}↔${String(b+1).padStart(2,"0")}:</b> "${d.areas[alto].t}" (${vals[alto]}) and "${d.areas[bajo].t}" (${vals[bajo]}) have a ${gap}-point gap — your inner architecture and your outer results are heading down different roads here.`;
+        box.appendChild(div);
+      }
+    }
+  });
+  if(!any && vals.every(v=>v>0)){
+    box.innerHTML = `<p class="esp-ok">No mirror fractures larger than 2 points — your origin and your expression are aligned.</p>`;
+  }
+}
+
+function renderResults(){
+  const d = DATA[currentDim];
+  document.getElementById("rsubLabel").textContent = d.label + " Dimension";
+  drawRadar();
+  buildLegend();
+  checkEspejos();
+  updateReflection();
+  updateWaLink();
+  document.getElementById("phDim").textContent = d.label + " Dimension" + (nombre ? " · " + nombre : "");
+  document.getElementById("phMeta").textContent = "Root Fracture Map · Innovación Humana · " + new Date().toLocaleDateString("en-US");
+}
+
+function updateReflection(){
+  const vals = scores[currentDim];
+  const answered = vals.filter(v=>v>0).length;
+  const box = document.getElementById("reflexionText");
+  if(answered<12){
+    box.innerHTML = `<p>Answer all 12 areas to see your full reading. You're at ${answered} of 12.</p>`;
+    return;
+  }
+  const avg = vals.reduce((a,b)=>a+b,0)/12;
+  const zona = zoneLabel(avg);
+  const min = Math.min(...vals);
+  const minIdx = vals.indexOf(min);
+  const d = DATA[currentDim];
+
+  const bloqueA = vals.slice(0,6).reduce((a,b)=>a+b,0)/6;
+  const bloqueB = vals.slice(6,12).reduce((a,b)=>a+b,0)/6;
+
+  let texto = "";
+  if(zona==="Risk") texto = `Your ${d.label} average is ${avg.toFixed(1)}/10 — the Risk zone. This isn't a verdict, it's a snapshot: there is more than one foundation not yet set than your day-to-day can comfortably carry.`;
+  else if(zona==="Development") texto = `Your ${d.label} average is ${avg.toFixed(1)}/10 — the Development zone. There is structure, but it's still under construction: you're holding it up, but with effort.`;
+  else if(zona==="Solid") texto = `Your ${d.label} average is ${avg.toFixed(1)}/10 — the Solid zone. You have a base that works; the work from here is refining, not rebuilding.`;
+  else texto = `Your ${d.label} average is ${avg.toFixed(1)}/10 — the Benchmark zone. This dimension is already a point of support, not a point of leakage.`;
+
+  let p2 = `Your most fractured area is "${d.areas[minIdx].t}" (${min}/10) — chances are that's the most honest lever to start with.`;
+
+  let p3 = "";
+  if(bloqueA < bloqueB - 1){
+    p3 = `Additional note: your inner architecture — The Being (areas 01–06) — averages ${bloqueA.toFixed(1)}, below how it shows up in the world — The Path (areas 07–12), which averages ${bloqueB.toFixed(1)}. This usually means you're sustaining results through effort, not from a solid base. It's worth looking at the origin before demanding more from the path.`;
+  }
+
+  box.innerHTML = `<p>${texto}</p><p>${p2}</p>` + (p3 ? `<p>${p3}</p>` : "");
+}
+
+function updateWaLink(){
+  const d = DATA[currentDim];
+  const vals = scores[currentDim];
+  const answered = vals.filter(v=>v>0).length;
+  let msg = `Hi Fer, here are my results from the Root Fracture Map.\n`;
+  msg += `Dimension: ${d.label}\n`;
+  if(nombre) msg += `Name: ${nombre}\n`;
+  msg += `\n`;
+  d.areas.forEach((a,i)=>{ msg += `${String(i+1).padStart(2,"0")}. ${a.t}: ${vals[i]||"–"}/10\n`; });
+  if(answered===12){
+    const avg = vals.reduce((a,b)=>a+b,0)/12;
+    msg += `\nAverage: ${avg.toFixed(1)}/10 — Zone: ${zoneLabel(avg)}\n`;
+    const min = Math.min(...vals);
+    msg += `Most fractured area: ${d.areas[vals.indexOf(min)].t} (${min}/10)`;
+  } else {
+    msg += `\n(Incomplete assessment — ${answered}/12 areas answered)`;
+  }
+  const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  document.getElementById("btnWa").href = url;
+}
+
+buildTabs();
+buildForm();
+renderResults();
+</script>
+</body>
+</html>
