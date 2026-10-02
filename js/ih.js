@@ -176,7 +176,8 @@
     '.proceso-editorial-grid .paso-editorial',
     '.editorial-fit-container .fit-column',
     '.precios-grid .precio-card',
-    '.galeria-grid .eje-foto'
+    '.galeria-grid .eje-foto',
+    '.dolores li'
   ];
   var EXCLUDE = '.hero, .t-extra, .tab-content, .acordeon-item, .modal-overlay';
   var targets = [];
@@ -418,6 +419,40 @@
       Array.prototype.forEach.call(pills, function(o){ var on = o === b; o.classList.toggle('on', on); o.setAttribute('aria-pressed', String(on)); });
       labelAll();
       if (active >= 0) show(active);
+    });
+  });
+})();
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   ENTREGA 5 (v37) · "¿Qué puedes lograr?" cambia con la dimensión elegida bajo el radar
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  var list = document.getElementById('logros-list');
+  var pills = document.querySelectorAll('.rd-dims button');
+  if (!list || !pills.length) return;
+  var D = {"personal": [["De reaccionar en automático", "decidir desde tu centro"], ["Del agotamiento constante", "energía y tiempo para lo que importa"], ["De relaciones que desgastan", "vínculos donde puedes ser tú"], ["De cargar lo que te daña", "soltarlo sin pelearte contigo"]], "profesional": [["De decidir bajo presión y duda", "decidir con calma y criterio"], ["De cargarlo todo tú", "un equipo que responde y delegar sin culpa"], ["De días llenos que no avanzan", "tiempo que rinde en lo importante"], ["De resultados que dependen de tu humor", "un liderazgo sereno y sostenido"]], "comercial": [["De pedir disculpas por cobrar", "negociar desde tu valor"], ["De ofrecer de todo a todos", "saber a quién sirves y qué ofreces"], ["De prospectar con desgaste", "conversaciones que cierran"], ["De un negocio que depende de tu ánimo", "resultados que se sostienen"]]};
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cur = 'personal', timer = null;
+  var paint = function(k){
+    list.textContent = '';
+    D[k].forEach(function(r){
+      var li = document.createElement('li');
+      var d = document.createElement('span'); d.className = 'de'; d.textContent = r[0];
+      var a = document.createElement('span'); a.className = 'a'; a.textContent = 'a ' + r[1];
+      li.appendChild(d); li.appendChild(a); list.appendChild(li);
+    });
+  };
+  Array.prototype.forEach.call(pills, function(b){
+    b.addEventListener('click', function(){
+      var k = b.getAttribute('data-dim');
+      if (!D[k] || k === cur) return;
+      cur = k;
+      window.clearTimeout(timer);
+      if (reduce) { paint(k); return; }
+      list.classList.add('swap');
+      timer = window.setTimeout(function(){ paint(k); list.classList.remove('swap'); }, 220);
     });
   });
 })();
