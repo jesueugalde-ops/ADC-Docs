@@ -23,15 +23,37 @@
     icon.firstElementChild.setAttribute('href', abrir ? '#i-chevron-up' : '#i-chevron-down');
   }
 
+  var _opener = null;
   function openModal(id) {
-    document.getElementById(id).classList.add('active');
+    var ov = document.getElementById(id);
+    if (!ov) return;
+    _opener = document.activeElement;
+    ov.classList.add('active');
     document.body.style.overflow = 'hidden';
+    var btn = ov.querySelector('.modal-close');
+    if (btn) window.setTimeout(function(){ try { btn.focus({ preventScroll: true }); } catch (e) { btn.focus(); } }, 60);
   }
 
   function closeModal(id) {
-    document.getElementById(id).classList.remove('active');
+    var ov = document.getElementById(id);
+    if (!ov) return;
+    ov.classList.remove('active');
     document.body.style.overflow = 'auto';
+    if (_opener && _opener.focus) { try { _opener.focus({ preventScroll: true }); } catch (e) { _opener.focus(); } }
+    _opener = null;
   }
+
+  /* Mantiene el foco del teclado dentro del panel abierto */
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Tab') return;
+    var ov = document.querySelector('.modal-overlay.active');
+    if (!ov) return;
+    var f = ov.querySelectorAll('button, [href], input, select, textarea, summary, [tabindex]:not([tabindex="-1"])');
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
 
   /* v30 */
   (function(){
@@ -181,6 +203,8 @@
     });
   });
 
+  var isMobile = window.matchMedia('(max-width: 720px)').matches;
+  if (isMobile) { targets = targets.filter(function(t){ return !t.el.closest('.t-grid--flat'); }); }
   var vh = window.innerHeight;
   var reveal = function(item){
     var el = item.el;
@@ -209,4 +233,36 @@
     map.set(item.el, item);
     io.observe(item.el);
   });
+})();
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   ENTREGA 2 (v34) · Puntos del carrusel de testimonios (solo se ven en móvil)
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  var track = document.querySelector('#testimonios-destacados .t-grid--flat');
+  if (!track) return;
+  var cards = track.querySelectorAll('.t-card');
+  if (cards.length < 2) return;
+  track.setAttribute('tabindex', '0');
+  track.setAttribute('role', 'region');
+  track.setAttribute('aria-label', 'Testimonios (desliza para ver más)');
+  var dots = document.createElement('div');
+  dots.className = 't-dots';
+  dots.setAttribute('aria-hidden', 'true');
+  for (var i = 0; i < cards.length; i++) dots.appendChild(document.createElement('i'));
+  track.insertAdjacentElement('afterend', dots);
+  var set = function(){
+    var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bd = 1e9;
+    Array.prototype.forEach.call(cards, function(c, k){
+      var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+      if (d < bd) { bd = d; best = k; }
+    });
+    Array.prototype.forEach.call(dots.children, function(d, k){ d.classList.toggle('on', k === best); });
+  };
+  var t = false;
+  track.addEventListener('scroll', function(){ if (!t) { t = true; requestAnimationFrame(function(){ set(); t = false; }); } }, { passive: true });
+  window.addEventListener('resize', set);
+  set();
 })();
