@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/hero-fer-roberto.webp" type="image/webp" fetchpriority="high">
-<link rel="stylesheet" href="css/ih.css?v=36">
+<link rel="stylesheet" href="css/ih.css?v=37">
 
 
 <meta property="og:type" content="website">
@@ -95,12 +95,13 @@
       <p class="hero-kicker">Arquitectura de Identidad y Desempeño</p>
       <h1>El <em>origen</em> determina el resultado.<span class="h1-sub">Tú eres el origen.</span></h1>
       <div class="linea" aria-hidden="true"></div>
-      <p class="hero-intro">Acompañamiento estratégico para <strong>fundadores, directores y líderes</strong> que buscan:</p>
+      <p class="hero-intro">Acompañamiento estratégico para <strong>fundadores, directores y líderes de familia</strong> que ya conocen:</p>
       <ul class="hero-busca">
-        <li>Soberanía integral.</li>
-        <li>Maestría en sus decisiones.</li>
-        <li>Solidez en sus relaciones más significativas (familia, equipo, clientes y consigo mismos).</li>
+        <li>El agotamiento de decidirlo todo.</li>
+        <li>La fricción en sus relaciones más importantes.</li>
+        <li>El desgaste de tiempo, energía y dinero.</li>
       </ul>
+      <p class="hero-promesa">Te acompaño a volver a tu centro y decidir desde ahí.</p>
       <p class="hero-idiomas">Sesiones en Español e Inglés.</p>
 
       <div class="hero-cta-group">
@@ -136,7 +137,17 @@
           </div>
           <small>Ejemplo ilustrativo · tu progreso en autoevaluaciones continuas</small>
         </div>
-        <div class="esc-card"><h3>¿Qué puedes lograr?</h3><p>Decisiones más sanas, hábitos de bienestar, relaciones significativas, armonía personal y más; mejoras tu nivel de satisfacción y plenitud en diferentes áreas de tu vida.</p></div>
+        <div class="esc-card" id="esc-logros">
+          <h3>¿Qué puedes lograr?</h3>
+          <p class="logro-lead">No es sentirte motivado una semana. Es dejar de repetir lo que ya sabes que no quieres repetir.</p>
+          <ul class="logros" id="logros-list" aria-live="polite">
+            <li><span class="de">De reaccionar en automático</span><span class="a">a decidir desde tu centro</span></li>
+            <li><span class="de">Del agotamiento constante</span><span class="a">a energía y tiempo para lo que importa</span></li>
+            <li><span class="de">De relaciones que desgastan</span><span class="a">a vínculos donde puedes ser tú</span></li>
+            <li><span class="de">De cargar lo que te daña</span><span class="a">a soltarlo sin pelearte contigo</span></li>
+          </ul>
+          <p class="logro-cierre">Lo medimos en tu mapa de 12 áreas: lo que cambia se ve, no solo se siente.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -216,7 +227,7 @@
             </figure>
             <figure class="t-card">
               <blockquote class="t-quote">"Me siento empoderado internamente. <strong>Ser vulnerable</strong> con alguien como Fernando fue verdaderamente hermoso."</blockquote>
-              <figcaption class="t-attr">— <b>Roberto</b> · Gerente Comercial GAM y Agente Independiente, CDMX</figcaption>
+              <figcaption class="t-attr">— <b>Roberto</b> · Gerente de Desarrollo Comercial y Agente de Seguros, CDMX</figcaption>
             </figure>
           </div>
         </div>
@@ -486,29 +497,40 @@
     <div class="wrap">
       <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-filter"/></svg> Filtro de Elección</div>
       <h2 class="sec-title">¿Cómo sé si <em>Innovación Humana</em> es para mí?</h2>
-      <p class="sec-desc">Ya hiciste terapia. Ya intentaste algo de bienestar y, aun así, sigues volviendo al mismo lugar. Lo que ves afuera es <strong>un espejo de una estructura interna</strong> que todavía no has mirado de frente.</p>
-      <p class="sec-desc">Puede que pienses que ya sabes cuál es el problema: esa relación que no funciona — o cualquier otro vínculo que sostengas. Que así eres tú — así de ansioso, así de explosivo, así de frío. Que esa depresión, esa ansiedad, ya deberían haber pasado y no entiendes por qué siguen ahí. Que esa pérdida ya debería estar sanada. Que esa relación está siendo tóxica. Que el estrés y la frustración son solo el precio de tener la vida que construiste. Que esos vicios, esos hábitos destructivos, son solo una válvula de escape. Que es tu equipo, su falta de capacidad o responsabilidad. Que es el mercado o la falta de capacidad económica de tu clientela. <span class="pico">Cada una explica una parte. <span class="concepto">Ninguna explica por qué se repite.</span></span></p>
+      <p class="sec-desc">Ya hiciste terapia. Ya probaste otras formas de estar mejor. Y sigues volviendo al mismo lugar. Lo que ves afuera es <strong>el reflejo de una estructura interna</strong> que aún no has mirado de frente.</p>
+      <p class="sec-desc filtro-lead">Seguramente ya tienes una explicación. Quizá es una de estas:</p>
+
+      <ul class="dolores">
+        <li><span class="dolor">Una relación que no funciona</span><span class="creencia">“Es tóxica; el problema es esa persona.”</span></li>
+        <li><span class="dolor">Reaccionas siempre igual</span><span class="creencia">“Así soy yo: ansioso, explosivo, frío.”</span></li>
+        <li><span class="dolor">Un dolor que no se va</span><span class="creencia">“Esa depresión, esa ansiedad o esa pérdida ya deberían haber pasado.”</span></li>
+        <li><span class="dolor">Estrés que ya normalizaste</span><span class="creencia">“Es el precio de la vida que construí.”</span></li>
+        <li><span class="dolor">Hábitos que te dañan</span><span class="creencia">“Son solo mi válvula de escape.”</span></li>
+        <li><span class="dolor">Un equipo que no responde</span><span class="creencia">“Es su falta de capacidad o de responsabilidad.”</span></li>
+        <li><span class="dolor">Ventas que no despegan</span><span class="creencia">“Es el mercado, o mis clientes no tienen dinero.”</span></li>
+      </ul>
+      <p class="sec-desc dolores-cierre"><span class="pico">Cada explicación cubre una parte. <span class="concepto">Ninguna explica por qué se repite.</span></span></p>
 
       <div class="editorial-fit-container">
         <div class="fit-column no">
           <h3>No es para ti si...</h3>
           <ul class="fit-list">
-            <li>Buscas que alguien más te diga qué hacer en lugar de construir tu propio criterio.</li>
-            <li>Esperas resultados mágicos sin estar dispuesto a transformar lo que los produce.</li>
-            <li>Necesitas que el proceso sea cómodo todo el tiempo — aquí se nombra lo que incomoda con respeto.</li>
+            <li>Quieres que otro te diga qué hacer, en vez de construir tu propio criterio.</li>
+            <li>Esperas resultados mágicos sin transformar lo que los produce.</li>
+            <li>Necesitas que todo sea cómodo: aquí se nombra, con respeto, lo que incomoda.</li>
           </ul>
         </div>
         <div class="fit-column si">
           <h3>Es para ti si...</h3>
           <ul class="fit-list">
-            <li>Has logrado y has perdido; ahora, para volver a lograrlo, toca aclarar lo que de verdad es importante.</li>
-            <li>Tienes claridad de hacia dónde quieres ir, pero te falta el sistema interno para sostener el camino.</li>
-            <li>Reconoces que tu vida externa es un espejo de tu arquitectura no resuelta y estás listo para mirarla.</li>
+            <li>Has logrado y has perdido, y para volver a lograrlo toca aclarar qué importa de verdad.</li>
+            <li>Sabes hacia dónde vas, pero te falta el sistema interno para sostenerlo.</li>
+            <li>Reconoces que tu vida externa refleja una estructura interna sin resolver, y estás listo para mirarla.</li>
           </ul>
         </div>
       </div>
 
-      <p class="sec-desc cierre-filtro">Si te reconociste en algo de esto, el siguiente paso no es otro libro ni otro retiro de fin de semana. <strong>Es un mapa de 5 minutos y, si te hace sentido, una hora contigo mismo</strong>, con alguien que ya ha sostenido este proceso con más de 2,000 personas antes que tú.</p>
+      <p class="sec-desc cierre-filtro">Si te reconociste, el siguiente paso no es otro libro ni otro retiro. <strong>Es un mapa de 5 minutos</strong> y, si te hace sentido, una hora de trabajo contigo, con alguien que ya acompañó este proceso con más de 2,000 personas.</p>
     </div>
   </section>
 
@@ -724,7 +746,8 @@
   <section class="section cta-final" id="cta-final">
     <div class="wrap">
       <div class="eyebrow centrado"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flag"/></svg> Punto de Partida</div>
-      <h2 class="sec-title centrado">Cuando quieras volver a tu <em>centro</em>, empezamos por aquí.</h2>
+      <h2 class="sec-title centrado">¿Cuándo será <em>tu momento</em>?</h2>
+      <p class="cta-preguntas"><span>¿Cuánto más vas a seguir cargando con ese dolor?</span><span>¿Qué estás esperando para recuperar tu tiempo, tu energía, tu paz?</span></p>
       <p class="sec-desc">
         Empieza con tu <strong>Evaluación de Fracturas Raíz</strong> (5 minutos por dimensión, sin costo). Si te hace sentido, agenda tu <strong>Sesión de Mapeo</strong> de 60 minutos: miramos juntos tu arquitectura humana y elegimos la ruta que mejor se ajusta a tu necesidad y a tus objetivos.
       </p>
@@ -875,6 +898,6 @@
 </div>
 
 
-<script src="js/ih.js?v=36" defer></script>
+<script src="js/ih.js?v=37" defer></script>
 </body>
 </html>
