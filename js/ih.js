@@ -69,7 +69,7 @@
     document.querySelectorAll('.modal-overlay').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)closeModal(m.id)})});
     document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){a.addEventListener('click',function(){
       var p=a.closest('section,nav,footer'),id=(p&&p.id)||(p&&p.tagName.toLowerCase())||'web';
-      if(a.href.indexOf('%5Bweb-')<0)a.href+='%20%5Bweb-'+id+'%5D'})});
+      if(a.hasAttribute('data-sin-etiqueta'))return;if(a.href.indexOf('%5Bweb-')<0)a.href+='%20%5Bweb-'+id+'%5D'})});
     var svg=document.getElementById('rd');
     if(svg){var NS='http://www.w3.org/2000/svg',N=12,R=110;
       var pt=function(i,v){var a=-Math.PI/2+i*2*Math.PI/N;return [Math.cos(a)*R*v/10,Math.sin(a)*R*v/10]};
@@ -203,6 +203,7 @@
     });
   });
 
+  if (window.matchMedia('(min-width: 901px)').matches) { targets = targets.filter(function(t){ return !t.el.closest('.ciclo-af'); }); }
   var isMobile = window.matchMedia('(max-width: 720px)').matches;
   if (isMobile) { targets = targets.filter(function(t){ return !t.el.closest('.t-grid--flat'); }); }
   var vh = window.innerHeight;
@@ -265,4 +266,100 @@
   track.addEventListener('scroll', function(){ if (!t) { t = true; requestAnimationFrame(function(){ set(); t = false; }); } }, { passive: true });
   window.addEventListener('resize', set);
   set();
+})();
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   ENTREGA 3 (v35) · Ciclo A–F con letra fija + riel de capítulos
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Ciclo A–F: la letra queda fija mientras bajas; el paso activo se ilumina ── */
+  var grid = document.querySelector('#metodo .ciclo-af');
+  if (grid && 'IntersectionObserver' in window) {
+    var steps = Array.prototype.slice.call(grid.querySelectorAll('.paso-editorial'));
+    var letters = steps.map(function(s){ var n = s.querySelector('.paso-num'); return n ? n.textContent.trim() : ''; });
+    var stage = document.createElement('div');
+    stage.className = 'ciclo-stage';
+    stage.setAttribute('aria-hidden', 'true');
+    var big = document.createElement('div'); big.className = 'cl-letter';
+    var ticks = document.createElement('div'); ticks.className = 'cl-ticks';
+    letters.forEach(function(l){ var t = document.createElement('span'); t.textContent = l; ticks.appendChild(t); });
+    stage.appendChild(big); stage.appendChild(ticks);
+    var cur = -1, timer = null;
+    var paint = function(i){
+      big.textContent = letters[i];
+      Array.prototype.forEach.call(ticks.children, function(t, k){ t.classList.toggle('on', k === i); t.classList.toggle('done', k < i); });
+    };
+    var set = function(i){
+      if (i === cur || i < 0) return;
+      var first = cur === -1; cur = i;
+      steps.forEach(function(s, k){ s.classList.toggle('on', k === i); });
+      window.clearTimeout(timer);
+      if (reduce || first) { paint(i); return; }
+      big.classList.add('out');
+      timer = window.setTimeout(function(){ paint(i); big.classList.remove('out'); }, 170);
+    };
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) set(steps.indexOf(e.target)); });
+    }, { rootMargin: '-42% 0px -42% 0px', threshold: 0 });
+    var mq = window.matchMedia('(min-width: 901px)');
+    var apply = function(){
+      if (mq.matches) {
+        grid.classList.add('ciclo-on');
+        grid.insertBefore(stage, grid.firstChild);
+        steps.forEach(function(s){ io.observe(s); });
+        cur = -1; set(0);
+      } else {
+        grid.classList.remove('ciclo-on');
+        if (stage.parentNode) stage.parentNode.removeChild(stage);
+        steps.forEach(function(s){ io.unobserve(s); s.classList.remove('on'); });
+        cur = -1;
+      }
+    };
+    if (mq.addEventListener) mq.addEventListener('change', apply); else if (mq.addListener) mq.addListener(apply);
+    apply();
+  }
+
+  /* ── Riel de capítulos (solo ≥1280 px; el CSS lo oculta en pantallas menores) ── */
+  var CH = [
+    { n: 'Inicio',               ids: ['hero', 'esencial', 'testimonios-destacados'] },
+    { n: 'Qué es',               ids: ['definicion', 'arquitectura'] },
+    { n: 'Método',               ids: ['metodo'] },
+    { n: 'Para ti · Quién soy',  ids: ['para-mi', 'autor'] },
+    { n: 'Inversión',            ids: ['precios', 'preguntas-detalle', 'galeria', 'cta-final'] }
+  ];
+  if (!('IntersectionObserver' in window) || !document.getElementById('hero')) return;
+  var rail = document.createElement('nav');
+  rail.className = 'rail';
+  rail.setAttribute('aria-label', 'Capítulos de la página');
+  var links = CH.map(function(c, k){
+    var a = document.createElement('a');
+    a.href = k === 0 ? '#hero' : '#' + c.ids[0];
+    a.setAttribute('aria-label', c.n);
+    var s = document.createElement('span'); s.textContent = c.n;
+    a.appendChild(s);
+    if (k === 0) a.addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+    rail.appendChild(a);
+    return a;
+  });
+  document.body.appendChild(rail);
+  var chapterOf = {};
+  CH.forEach(function(c, k){ c.ids.forEach(function(id){ chapterOf[id] = k; }); });
+  var setChapter = function(k){
+    links.forEach(function(a, i){
+      a.classList.toggle('on', i === k);
+      if (i === k) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+  };
+  var cio = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting && chapterOf[e.target.id] !== undefined) setChapter(chapterOf[e.target.id]); });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+  Object.keys(chapterOf).forEach(function(id){ var el = document.getElementById(id); if (el) cio.observe(el); });
+  setChapter(0);
+  /* El riel aparece al salir del hero, para no competir con el primer pantallazo */
+  var hero = document.getElementById('hero');
+  new IntersectionObserver(function(es){ es.forEach(function(e){ rail.classList.toggle('show', !e.isIntersecting); }); }, { threshold: 0.35 }).observe(hero);
 })();
