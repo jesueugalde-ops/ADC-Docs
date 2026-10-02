@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/hero-sesion.webp" type="image/webp" fetchpriority="high">
-<link rel="stylesheet" href="css/ih.css?v=35">
+<link rel="preload" as="image" href="img/hero-fer-roberto.webp" type="image/webp" fetchpriority="high">
+<link rel="stylesheet" href="css/ih.css?v=36">
 
 
 <meta property="og:type" content="website">
@@ -117,7 +117,7 @@
       <p style="margin-top:22px; font-family:var(--sans); font-size:13.5px; color:var(--gris-cl);">¿Ya conoces tus fracturas raíz? <a href="https://calendly.com/jesueugalde/descubrimiento" target="_blank" rel="noopener" style="color:var(--oro-vivo);">Agenda directo tu Sesión de Mapeo</a>.</p>
     </div>
     <figure class="hero-foto">
-      <img src="img/hero-sesion.webp" width="1000" height="1176" fetchpriority="high" decoding="async" alt="Sesión 1 a 1 en un espacio cálido: un alumno sonríe con calidez mientras conversa y señala su cuaderno">
+      <img src="img/hero-fer-roberto.webp" width="1500" height="1125" fetchpriority="high" decoding="async" alt="Sesión 1 a 1: Fer, a la izquierda, señala la pantalla de una laptop con una mano sobre el hombro de un exalumno, que observa atento">
     </figure>
   </section>
 
@@ -126,7 +126,16 @@
   <section class="section section--compact" id="esencial">
     <div class="wrap">
       <div class="esc-grid">
-        <div class="esc-radar" aria-hidden="true"><svg id="rd" viewBox="-130 -130 260 260"></svg><small>Ejemplo ilustrativo · tu progreso en autoevaluaciones continuas</small></div>
+        <div class="esc-radar">
+          <svg id="rd" viewBox="-130 -130 260 260" role="group" aria-label="Radar de 12 áreas, ejemplo ilustrativo"></svg>
+          <div class="rd-area idle" id="rd-area" aria-live="polite">Toca un punto para ver qué área mide</div>
+          <div class="rd-dims" role="group" aria-label="Dimensión del mapa">
+            <button type="button" class="on" data-dim="personal" aria-pressed="true">Personal</button>
+            <button type="button" data-dim="profesional" aria-pressed="false">Profesional</button>
+            <button type="button" data-dim="comercial" aria-pressed="false">Comercial</button>
+          </div>
+          <small>Ejemplo ilustrativo · tu progreso en autoevaluaciones continuas</small>
+        </div>
         <div class="esc-card"><h3>¿Qué puedes lograr?</h3><p>Decisiones más sanas, hábitos de bienestar, relaciones significativas, armonía personal y más; mejoras tu nivel de satisfacción y plenitud en diferentes áreas de tu vida.</p></div>
       </div>
     </div>
@@ -612,7 +621,7 @@
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Programa intensivo diseñado contigo, con especialistas invitados según lo que quieras trabajar. Puede incluir procesos presenciales.</p>
             <ul class="p-list"><li>Se define en una sesión de diagnóstico</li><li>Incluye dimensiones: personal, profesional, comercial y trascendente</li></ul>
           </div>
-          <a href="https://wa.me/525643440676?text=Hola%20Fer,%20quiero%20aplicar%20al%20programa%20A%20medida" data-sin-etiqueta class="btn-secundario" style="text-align:center; justify-content:center;" target="_blank" rel="noopener">Aplicar por WhatsApp</a>
+          <a href="https://wa.me/525643440676?text=Hola%20Fer,%20quiero%20aplicar%20al%20programa%20A%20medida" class="btn-secundario" style="text-align:center; justify-content:center;" target="_blank" rel="noopener">Aplicar por WhatsApp</a>
         </div>
       </div>
 
@@ -866,6 +875,6 @@
 </div>
 
 
-<script src="js/ih.js?v=35" defer></script>
+<script src="js/ih.js?v=36" defer></script>
 </body>
 </html>
