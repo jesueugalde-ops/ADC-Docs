@@ -1,7 +1,7 @@
 
 /* ═══════════════════════════════════════════════════════════════════
    TOKENS & DESIGN SYSTEM · Innovación Humana (Editorial Humanista De Lujo)
-   Versión 35 · Fase 1 + Entregas 2 y 3 (ciclo A–F, riel de capítulos) · Estilo "A · Sutil" · Lote A de espacio + sección Autor de la V28 (con puente ADC conservado)
+   Versión 36 · Fase 1 + Entregas 2, 3 y 4 (hero con foto horizontal, radar interactivo) · Estilo "A · Sutil" · Lote A de espacio + sección Autor de la V28 (con puente ADC conservado)
    ═══════════════════════════════════════════════════════════════════ */
 :root {
   color-scheme: dark;
@@ -625,20 +625,21 @@ strong { font-weight: 600; color: var(--blanco); }
 :root { --foto-tono: saturate(.94) contrast(1.02); }
 .eje-foto img, .metodo-foto img, .franja-foto-frame img, .hero-foto img { filter: var(--foto-tono); }
 
-/* Hero con foto · texto a la izquierda, foto a color que se disuelve en el negro */
+/* Hero con foto horizontal (v36) · texto a la izquierda, foto de dos personas que se disuelve en el negro por los bordes */
 .hero-foto { margin: 0; position: relative; z-index: 1; }
 .hero-foto img {
-  display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 78%, transparent 100%),
-                      linear-gradient(180deg, transparent 0%, #000 16%, #000 74%, transparent 100%);
+  display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%;
+  filter: brightness(.84) contrast(1.06) saturate(.92);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 13%, #000 85%, transparent 100%),
+                      linear-gradient(180deg, transparent 0%, #000 14%, #000 80%, transparent 100%);
   -webkit-mask-composite: source-in;
-          mask-image: linear-gradient(90deg, transparent 0%, #000 34%, #000 78%, transparent 100%),
-                      linear-gradient(180deg, transparent 0%, #000 16%, #000 74%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0%, #000 13%, #000 85%, transparent 100%),
+                      linear-gradient(180deg, transparent 0%, #000 14%, #000 80%, transparent 100%);
           mask-composite: intersect;
 }
 @media (min-width: 901px) {
   .hero {
-    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); column-gap: 16px;
+    display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); column-gap: 8px;
     align-items: center; text-align: left;
     padding: 96px max(40px, calc((100% - 1240px) / 2)) 72px;
   }
@@ -650,11 +651,13 @@ strong { font-weight: 600; color: var(--blanco); }
   .hero .ley { flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 10px; }
   .hero .ley li { padding: 0; }
   .hero .ley li + li { border-left: 0; }
-  .hero-foto { grid-column: 2; grid-row: 1; align-self: stretch; min-height: 560px; }
+  .hero-foto {
+    grid-column: 2; grid-row: 1; align-self: center; aspect-ratio: 4 / 3; min-height: 0;
+    margin-right: calc(-1 * min(120px, max(40px, (100vw - 1240px) / 2)));  /* se extiende hasta el borde derecho */
+  }
 }
 @media (max-width: 900px) {
-  .hero-foto { order: -1; width: 100%; max-width: 400px; aspect-ratio: 5 / 4; margin: 0 auto 28px; }
-  .hero-foto img { object-position: 50% 22%; }
+  .hero-foto { order: -1; width: 100%; max-width: 560px; aspect-ratio: 4 / 3; margin: 0 auto 24px; }
 }
 
 /* ═══ ACOMPAÑAMIENTO & GUÍA — FER U ═══ */
@@ -1176,3 +1179,28 @@ a.lang-opt:hover{color:var(--oro-vivo)}
 @media (max-width: 720px) { .hero .ley li, .ley li { align-items: flex-start; } .hero .ley li .lucide-icon { margin-top: 2px; flex: 0 0 auto; } .hero .ley li { text-align: left; } }
 
 @media (max-width: 720px) { .hero .ley { align-items: stretch; } }
+
+
+/* ═══ ENTREGA 4 (v36) · radar interactivo ═══ */
+.rd-pt { cursor: pointer; outline: none; }
+.rd-pt .rd-hit { fill: transparent; }
+.rd-pt .rd-dot { fill: var(--oro); stroke: var(--negro-deep); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; transition: transform .35s var(--ease), fill .35s var(--ease); }
+.rd-pt:hover .rd-dot, .rd-pt.on .rd-dot { fill: var(--oro-puro); transform: scale(1.75); filter: drop-shadow(0 0 5px rgba(232, 201, 122, .8)); }
+.rd-pt:focus-visible .rd-dot { stroke: #fff; stroke-width: 1.2; }
+.rd-ax { stroke: var(--oro-vivo); stroke-width: 1.2; opacity: 0; transition: opacity .35s var(--ease); pointer-events: none; }
+.rd-ax.on { opacity: .7; }
+.rd-area {
+  min-height: 3.2em; max-width: 300px; margin: 12px auto 0; display: flex; align-items: center; justify-content: center; text-align: center; gap: 10px;
+  font: italic 400 20px/1.3 var(--serif); color: var(--oro-vivo);
+}
+.rd-area .n { flex: 0 0 auto; font: 500 11px var(--sans); letter-spacing: .1em; color: var(--oro); border: 1px solid var(--oro-borde-med); border-radius: 50%; width: 24px; height: 24px; display: grid; place-items: center; font-style: normal; }
+.rd-area.idle { font: 400 12px/1.4 var(--sans); letter-spacing: .08em; color: var(--gris-cl); }
+.rd-dims { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 12px 0 6px; }
+.rd-dims button {
+  font: 500 10.5px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--gris-cl);
+  padding: 9px 14px; min-height: 36px; border: 1px solid var(--oro-borde); border-radius: 999px; background: transparent; cursor: pointer;
+  transition: color .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
+}
+.rd-dims button:hover { color: var(--oro-vivo); border-color: var(--oro-borde-med); }
+.rd-dims button.on { color: var(--negro-deep); background: var(--oro); border-color: var(--oro); }
+.rd-dims button:focus-visible { outline: 1px solid var(--oro-vivo); outline-offset: 2px; }
