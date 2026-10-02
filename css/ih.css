@@ -1,7 +1,7 @@
 
 /* ═══════════════════════════════════════════════════════════════════
    TOKENS & DESIGN SYSTEM · Innovación Humana (Editorial Humanista De Lujo)
-   Versión 36 · Fase 1 + Entregas 2, 3 y 4 (hero con foto horizontal, radar interactivo) · Estilo "A · Sutil" · Lote A de espacio + sección Autor de la V28 (con puente ADC conservado)
+   Versión 37 · Entrega 5 (ajuste de textos: hero, filtro, logros, cierre) · Estilo "A · Sutil" · Lote A de espacio + sección Autor de la V28 (con puente ADC conservado)
    ═══════════════════════════════════════════════════════════════════ */
 :root {
   color-scheme: dark;
@@ -1204,3 +1204,46 @@ a.lang-opt:hover{color:var(--oro-vivo)}
 .rd-dims button:hover { color: var(--oro-vivo); border-color: var(--oro-borde-med); }
 .rd-dims button.on { color: var(--negro-deep); background: var(--oro); border-color: var(--oro); }
 .rd-dims button:focus-visible { outline: 1px solid var(--oro-vivo); outline-offset: 2px; }
+
+
+/* ═══ ENTREGA 5 (v37) · textos ═══ */
+/* Hero: línea de promesa */
+.hero p.hero-promesa { margin: 22px 0 0; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 24px; line-height: 1.35; color: var(--oro-vivo); max-width: 560px; text-wrap: balance; }
+@media (min-width: 901px) { .hero p.hero-promesa { margin-left: 0; margin-right: 0; } }
+@media (max-width: 720px) { .hero p.hero-promesa { font-size: 21px; margin-top: 18px; } }
+
+/* Filtro de Elección: dolor resaltado + lo que te dices */
+.filtro-lead { margin-top: 28px; margin-bottom: 8px; }
+.dolores { list-style: none; margin: 18px 0 0; padding: 0; border-bottom: 1px solid var(--oro-borde); }
+.dolores li {
+  display: grid; grid-template-columns: minmax(220px, .85fr) 1.5fr; column-gap: 40px; align-items: baseline;
+  padding: 20px 0; border-top: 1px solid var(--oro-borde);
+}
+.dolores .dolor {
+  position: relative; padding-left: 26px;
+  font-family: var(--serif); font-weight: 600; font-size: 24px; line-height: 1.25; color: var(--oro-vivo);
+}
+.dolores .dolor::before { content: ''; position: absolute; left: 2px; top: .55em; width: 7px; height: 7px; transform: rotate(45deg); background: var(--oro-vivo); }
+.dolores .creencia { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 20px; line-height: 1.45; color: var(--gris-cl); }
+.dolores-cierre { margin-top: 12px; }
+.dolores-cierre .pico { margin-top: 28px; }
+@media (max-width: 720px) {
+  .dolores li { grid-template-columns: 1fr; row-gap: 6px; padding: 16px 0; }
+  .dolores .dolor { font-size: 21px; }
+  .dolores .creencia { font-size: 18px; padding-left: 26px; }
+}
+
+/* ¿Qué puedes lograr? */
+.esc-card .logro-lead { font: italic 400 20px/1.45 var(--serif); color: var(--blanco); margin: 4px 0 20px; }
+.logros { list-style: none; margin: 0; padding: 0; transition: opacity .25s var(--ease), translate .25s var(--ease); }
+.logros.swap { opacity: 0; translate: 0 6px; }
+.logros li { padding: 13px 0 13px 22px; position: relative; border-top: 1px solid var(--oro-borde); }
+.logros li::before { content: ''; position: absolute; left: 2px; top: 28px; width: 6px; height: 6px; transform: rotate(45deg); background: var(--oro); }
+.logros .de { display: block; font: 400 14px/1.4 var(--sans); letter-spacing: .02em; color: #8E8E8E; }
+.logros .a { display: block; margin-top: 2px; font: 500 21px/1.3 var(--serif); color: var(--blanco); }
+.esc-card p.logro-cierre { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--oro-borde); font: 400 13px/1.55 var(--sans); letter-spacing: .03em; color: var(--oro-vivo); }
+@media (max-width: 720px) { .logros .a { font-size: 19px; } .esc-card .logro-lead { font-size: 18px; } }
+
+/* Cierre: preguntas */
+.cta-preguntas { display: flex; flex-direction: column; gap: 6px; margin: -4px auto 26px; max-width: 640px; font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 22px; line-height: 1.4; color: var(--gris-cl); }
+@media (max-width: 720px) { .cta-preguntas { font-size: 19px; } }
