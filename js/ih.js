@@ -67,9 +67,6 @@
       document.getElementById('more-ic').firstElementChild.setAttribute('href',o?'#i-chevron-up':'#i-chevron-down')})}
     document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.active').forEach(function(m){closeModal(m.id)})}});
     document.querySelectorAll('.modal-overlay').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)closeModal(m.id)})});
-    document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){a.addEventListener('click',function(){
-      var p=a.closest('section,nav,footer'),id=(p&&p.id)||(p&&p.tagName.toLowerCase())||'web';
-      if(a.hasAttribute('data-sin-etiqueta'))return;if(a.href.indexOf('%5Bweb-')<0)a.href+='%20%5Bweb-'+id+'%5D'})});
     var svg=document.getElementById('rd');
     if(svg){var NS='http://www.w3.org/2000/svg',N=12,R=110;
       var pt=function(i,v){var a=-Math.PI/2+i*2*Math.PI/N;return [Math.cos(a)*R*v/10,Math.sin(a)*R*v/10]};
@@ -362,4 +359,65 @@
   /* El riel aparece al salir del hero, para no competir con el primer pantallazo */
   var hero = document.getElementById('hero');
   new IntersectionObserver(function(es){ es.forEach(function(e){ rail.classList.toggle('show', !e.isIntersecting); }); }, { threshold: 0.35 }).observe(hero);
+})();
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   ENTREGA 4 (v36) · Radar interactivo con las 12 áreas del Mapa de Fractura Raíz
+   (nombres tomados de mapa.html; las tres dimensiones comparten la misma forma ilustrativa)
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  var svg = document.getElementById('rd'), info = document.getElementById('rd-area');
+  if (!svg || !info) return;
+  var NS = 'http://www.w3.org/2000/svg', N = 12, R = 110;
+  var DIMS = {
+    personal: ['Salud Física y Energía','Relación con el Dinero / Paz Económica','Confianza en tus Propias Decisiones','Responsabilidad y Carácter','Espiritualidad y Propósito','Amor Propio y Autoestima','Comunicación','Sexualidad','Relación Familiar','Relación de Pareja','Autoexpresión','Hábitos Destructivos y Vicios'],
+    profesional: ['Estabilidad Emocional bajo Presión','Seguridad y Autoridad Serena','Honorabilidad y Alineación con tu Palabra','Responsabilidad sobre tus Resultados','Claridad de Propósito y Objetivos','Gestión de tu Energía y tus Límites','Comunicación Asertiva con tu Equipo','Plan de Acción Diaria / Ejecución','Delegación Efectiva','Toma de Decisiones Estratégicas','Retorno de tu Inversión de Tiempo','Liderazgo y Retención de tu Equipo'],
+    comercial: ['Postura ante el Dinero / Merecimiento','Confianza en el Valor de lo que Ofreces','Disposición Real ante el Rechazo y la Negociación','Responsabilidad sobre tus Resultados Comerciales','Claridad de tu Cliente Ideal','Dominio de tu Propuesta de Valor / Marca Personal','Estrategia de Marca y Modelo de Ventas','Prospección y Generación de Conversaciones','Reclutamiento de Talento Comercial','Cierre y Conversión','Satisfacción del Cliente y Referidos','Ingresos y Resultados de Venta']
+  };
+  var cur = 'personal', active = -1;
+  var mk = function(tag, attrs){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; };
+  var g = mk('g', { 'class': 'rd-pts' });
+  var ax = mk('line', { 'class': 'rd-ax', x1: 0, y1: 0, x2: 0, y2: 0 });
+  g.appendChild(ax);
+  var nodes = [];
+  var show = function(i){
+    active = i;
+    nodes.forEach(function(n, k){ n.classList.toggle('on', k === i); });
+    var a = -Math.PI / 2 + i * 2 * Math.PI / N;
+    ax.setAttribute('x2', (Math.cos(a) * R).toFixed(2)); ax.setAttribute('y2', (Math.sin(a) * R).toFixed(2));
+    ax.classList.add('on');
+    info.classList.remove('idle');
+    info.textContent = '';
+    var n = document.createElement('span'); n.className = 'n'; n.textContent = String(i + 1);
+    var t = document.createElement('span'); t.textContent = DIMS[cur][i];
+    info.appendChild(n); info.appendChild(t);
+  };
+  for (var i = 0; i < N; i++) (function(i){
+    var a = -Math.PI / 2 + i * 2 * Math.PI / N, x = Math.cos(a) * R, y = Math.sin(a) * R;
+    var p = mk('g', { 'class': 'rd-pt', tabindex: '0', role: 'button' });
+    p.appendChild(mk('circle', { 'class': 'rd-hit', cx: x.toFixed(2), cy: y.toFixed(2), r: 17 }));
+    p.appendChild(mk('circle', { 'class': 'rd-dot', cx: x.toFixed(2), cy: y.toFixed(2), r: 3.4 }));
+    p.addEventListener('mouseenter', function(){ show(i); });
+    p.addEventListener('focus', function(){ show(i); });
+    p.addEventListener('click', function(){ show(i); });
+    p.addEventListener('keydown', function(e){
+      var d = (e.key === 'ArrowRight' || e.key === 'ArrowDown') ? 1 : (e.key === 'ArrowLeft' || e.key === 'ArrowUp') ? -1 : 0;
+      if (d) { e.preventDefault(); nodes[(i + d + N) % N].focus(); }
+    });
+    g.appendChild(p); nodes.push(p);
+  })(i);
+  svg.appendChild(g);
+  var labelAll = function(){ nodes.forEach(function(n, k){ n.setAttribute('aria-label', 'Área ' + (k + 1) + ': ' + DIMS[cur][k]); }); };
+  labelAll();
+  var pills = document.querySelectorAll('.rd-dims button');
+  Array.prototype.forEach.call(pills, function(b){
+    b.addEventListener('click', function(){
+      cur = b.getAttribute('data-dim');
+      Array.prototype.forEach.call(pills, function(o){ var on = o === b; o.classList.toggle('on', on); o.setAttribute('aria-pressed', String(on)); });
+      labelAll();
+      if (active >= 0) show(active);
+    });
+  });
 })();
