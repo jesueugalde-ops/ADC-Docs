@@ -1,7 +1,7 @@
 
 /* ═══════════════════════════════════════════════════════════════════
    TOKENS & DESIGN SYSTEM · Innovación Humana (Editorial Humanista De Lujo)
-   Versión 33 · Fase 1 (assets externos + movimiento) · Estilo "A · Sutil" · Lote A de espacio + sección Autor de la V28 (con puente ADC conservado)
+   Versión 34 · Fase 1 + Entrega 2 (paneles, carrusel, compartir) · Estilo "A · Sutil" · Lote A de espacio + sección Autor de la V28 (con puente ADC conservado)
    ═══════════════════════════════════════════════════════════════════ */
 :root {
   color-scheme: dark;
@@ -791,7 +791,7 @@ strong { font-weight: 600; color: var(--blanco); }
 .t-toggle { margin-top: 28px; }
 
 /* ═══ PRECIOS ═══ */
-.precios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 32px; margin-top: 56px; }
+.precios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(310px, 100%), 1fr)); gap: 32px; margin-top: 56px; }
 .precio-card {
   position: relative;
   background: linear-gradient(180deg, rgba(232,201,122,0.04), rgba(20,20,25,0.5) 45%);
@@ -866,16 +866,46 @@ details[open] summary.acordeon-header::after { content: '−'; background: rgba(
 .foot-frase { margin-top: 12px; color: var(--oro-vivo); font-family: var(--serif); font-style: italic; font-size: 20px; letter-spacing: 0; }
 
 /* ═══ MODALES ═══ */
-.modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 4, 0.94); backdrop-filter: blur(16px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity var(--t-fast); }
-.modal-overlay.active { opacity: 1; pointer-events: auto; }
-.modal-card { position: relative; background: #0D0D10; border: 1px solid var(--oro-borde-med); border-radius: 16px; max-width: 780px; width: 100%; padding: clamp(28px, 5vw, 56px); max-height: 88vh; overflow-y: auto; }
+/* ═══ PANEL LATERAL (v34) · escritorio: entra desde la derecha · móvil: hoja desde abajo ═══ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  display: flex; align-items: stretch; justify-content: flex-end;
+  background: rgba(3, 3, 4, 0.55); backdrop-filter: blur(3px);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity var(--t-med), visibility 0s linear .55s;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s; }
+.modal-card {
+  --pad: clamp(26px, 4vw, 52px);
+  position: relative; display: flex; flex-direction: column;
+  width: min(640px, 100%); height: 100%;
+  background: #0D0D10; border-left: 1px solid var(--oro-borde-med);
+  box-shadow: -40px 0 90px rgba(0, 0, 0, 0.55);
+  transform: translateX(100%);
+  transition: transform .6s var(--ease);
+}
+.modal-overlay.active .modal-card { transform: none; }
 .modal-card::before {
-  content: '';
-  position: absolute; top: 0; left: clamp(28px, 5vw, 56px); width: 120px; height: 1px;
+  content: ''; position: absolute; top: 0; left: var(--pad); width: 120px; height: 1px; z-index: 1;
   background: linear-gradient(90deg, var(--oro-vivo), transparent);
 }
-.modal-close { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; display: grid; place-items: center; background: transparent; border: none; color: var(--gris-cl); font-size: 20px; cursor: pointer; border-radius: 50%; transition: color var(--t-fast), background var(--t-fast); }
-.modal-close:hover { color: var(--oro-vivo); background: rgba(201,168,76,0.1); }
+.modal-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 76px var(--pad) calc(var(--pad) + env(safe-area-inset-bottom, 0px)); }
+.modal-close { position: absolute; top: 14px; right: 14px; z-index: 2; width: 44px; height: 44px; display: grid; place-items: center; background: #0D0D10; border: none; color: var(--gris-cl); font-size: 20px; cursor: pointer; border-radius: 50%; transition: color var(--t-fast), background var(--t-fast); }
+.modal-close:hover { color: var(--oro-vivo); background: rgba(201,168,76,0.12); }
+.modal-close:focus-visible { outline: 1px solid var(--oro-vivo); outline-offset: 2px; }
+@media (max-width: 720px) {
+  .modal-overlay { align-items: flex-end; justify-content: center; }
+  .modal-card {
+    width: 100%; height: auto; max-height: 90vh; max-height: 90dvh;
+    border-left: none; border-top: 1px solid var(--oro-borde-med); border-radius: 20px 20px 0 0;
+    box-shadow: 0 -30px 80px rgba(0, 0, 0, 0.6);
+    transform: translateY(100%);
+  }
+  .modal-card::after { content: ''; position: absolute; top: 9px; left: 50%; width: 44px; height: 4px; margin-left: -22px; border-radius: 2px; background: rgba(201, 168, 76, 0.35); }
+  .modal-card::before { display: none; }
+  .modal-body { padding-top: 56px; }
+  .modal-close { top: 8px; right: 8px; }
+}
 
 /* ═══ LISTA DE BENEFICIOS (desgloses de modal + FAQ de fe) ═══ */
 .beneficio-list { list-style: none; margin: 28px 0 0; display: flex; flex-direction: column; gap: 14px; }
@@ -1048,3 +1078,30 @@ a.lang-opt:hover{color:var(--oro-vivo)}
 .rb-n { display: inline-block; text-align: center; }
 
 @media print { .rv { opacity: 1 !important; translate: none !important; } .nav-progress { display: none; } }
+
+
+/* ═══ ENTREGA 2 (v34) ═══ */
+
+/* Header muy angosto (≤340 px): compacta marca, selector de idioma y CTA para que no desborde */
+@media (max-width: 340px) {
+  .nav-brand { font-size: 10.5px; letter-spacing: .03em; }
+  .nav-actions { gap: 8px; }
+  .lang-switch button, .lang-switch a { padding-left: 8px; padding-right: 8px; }
+  .nav-cta { padding: 8px 10px; font-size: 9px; letter-spacing: .05em; }
+}
+
+/* Testimonios destacados: carrusel con snap en móvil (escritorio no cambia) */
+.t-dots { display: none; }
+@media (max-width: 720px) {
+  .t-grid--flat {
+    display: flex; gap: 14px; margin-left: -22px; margin-right: -22px; padding: 0 22px 6px;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 22px;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none; overscroll-behavior-x: contain;
+  }
+  .t-grid--flat::-webkit-scrollbar { display: none; }
+  .t-grid--flat .t-card { flex: 0 0 86%; scroll-snap-align: center; margin: 0; }
+  .t-grid--flat:focus-visible { outline: 1px solid var(--oro-borde-med); outline-offset: 4px; }
+  .t-dots { display: flex; justify-content: center; gap: 8px; margin: 18px 0 4px; }
+  .t-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(201, 168, 76, 0.28); transition: background var(--t-fast), transform var(--t-fast); }
+  .t-dots i.on { background: var(--oro-vivo); transform: scale(1.35); }
+}
