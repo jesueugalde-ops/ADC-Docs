@@ -456,3 +456,29 @@
     });
   });
 })();
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   ENTREGA 6 (v38) · Galería: muestra 8 fotos; si algún día hay más, aparece "Ver más fotos"
+   (para agregar fotos basta con sumar otro <figure class="eje-foto"> dentro de .galeria-grid)
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  var LIMIT = 8;
+  var grid = document.querySelector('.galeria-grid');
+  if (!grid) return;
+  var items = Array.prototype.slice.call(grid.querySelectorAll(':scope > .eje-foto'));
+  if (items.length <= LIMIT) return;
+  var extra = items.slice(LIMIT);
+  extra.forEach(function(el){ el.hidden = true; });
+  var btn = document.createElement('button');
+  btn.type = 'button'; btn.className = 'btn-secundario galeria-mas';
+  btn.setAttribute('aria-expanded', 'false');
+  btn.textContent = 'Ver más fotos';
+  btn.addEventListener('click', function(){
+    extra.forEach(function(el){ el.hidden = false; });
+    btn.setAttribute('aria-expanded', 'true');
+    btn.parentNode.removeChild(btn);
+  });
+  grid.insertAdjacentElement('afterend', btn);
+})();
