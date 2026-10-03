@@ -1,7 +1,7 @@
 
 /* ═══════════════════════════════════════════════════════════════════
    TOKENS & DESIGN SYSTEM · Innovación Humana (Editorial Humanista De Lujo)
-   Versión 37 · Entrega 5 (ajuste de textos: hero, filtro, logros, cierre) · Estilo "A · Sutil" · Lote A de espacio + sección Autor de la V28 (con puente ADC conservado)
+   Versión 38 · Entrega 6 (fotos ligeras, firma, galería de 8) · Estilo "A · Sutil" · Lote A de espacio + sección Autor de la V28 (con puente ADC conservado)
    ═══════════════════════════════════════════════════════════════════ */
 :root {
   color-scheme: dark;
@@ -510,13 +510,13 @@ strong { font-weight: 600; color: var(--blanco); }
 #galeria .sec-desc { margin: 0 auto 48px; }
 .galeria-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   text-align: left;
 }
 .galeria-grid .eje-foto { aspect-ratio: 4 / 5; }
-@media (max-width: 720px) {
-  .galeria-grid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 900px) {
+  .galeria-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
 }
 
 /* ═══ CÓMO TRABAJAMOS (MÉTODO) ═══ */
@@ -670,7 +670,7 @@ strong { font-weight: 600; color: var(--blanco); }
 }
 .autor-portrait {
   position: relative;
-  aspect-ratio: 943/729;
+  aspect-ratio: 4 / 5;
   background: radial-gradient(ellipse at 50% 30%, rgba(232,201,122,0.10), rgba(20,20,25,0.5) 70%);
   border: 1px solid var(--oro-borde-med);
   border-radius: 999px 999px 10px 10px;
@@ -1247,3 +1247,10 @@ a.lang-opt:hover{color:var(--oro-vivo)}
 /* Cierre: preguntas */
 .cta-preguntas { display: flex; flex-direction: column; gap: 6px; margin: -4px auto 26px; max-width: 640px; font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 22px; line-height: 1.4; color: var(--gris-cl); }
 @media (max-width: 720px) { .cta-preguntas { font-size: 19px; } }
+
+
+/* ═══ ENTREGA 6 (v38) ═══ */
+.firma-feru { display: block; width: 150px; height: auto; margin: 26px 0 0; opacity: .95; }
+@media (max-width: 720px) { .firma-feru { width: 130px; margin-top: 20px; } }
+.galeria-grid [hidden] { display: none !important; }
+.galeria-mas { display: flex; margin: 36px auto 0; }
