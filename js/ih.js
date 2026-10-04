@@ -1,3 +1,15 @@
+/* ═══ Idioma de la página (el mismo JS sirve a index.html y a index-en.html) ═══ */
+var IH_EN = /^en/i.test(document.documentElement.lang || '');
+var IH_T = {
+  moreTesti: IH_EN ? 'See more testimonials' : 'Ver más testimonios',
+  lessTesti: IH_EN ? 'Show fewer testimonials' : 'Mostrar menos testimonios',
+  moreStory: IH_EN ? 'Read my full story' : 'Conoce mi historia completa',
+  lessStory: IH_EN ? 'Show less' : 'Mostrar menos',
+  carousel: IH_EN ? 'Testimonials (swipe to see more)' : 'Testimonios (desliza para ver más)',
+  railLabel: IH_EN ? 'Page chapters' : 'Capítulos de la página',
+  morePhotos: IH_EN ? 'See more photos' : 'Ver más fotos',
+  area: IH_EN ? 'Area ' : 'Área '
+};
 
   function switchTab(tabId, btn) {
     const contents = document.querySelectorAll('.tab-content');
@@ -19,7 +31,7 @@
 
     extra.classList.toggle('expanded', abrir);
     btn.setAttribute('aria-expanded', String(abrir));
-    text.innerText = abrir ? 'Mostrar menos testimonios' : 'Ver más testimonios';
+    text.innerText = abrir ? IH_T.lessTesti : IH_T.moreTesti;
     icon.firstElementChild.setAttribute('href', abrir ? '#i-chevron-up' : '#i-chevron-down');
   }
 
@@ -63,7 +75,7 @@
       ps.forEach(function(e){e.innerHTML=e.getAttribute('data-'+c)})})});
     var mb=document.getElementById('more-btn'),mbody=document.getElementById('more-body');
     if(mb){mb.addEventListener('click',function(){var o=mbody.hidden;mbody.hidden=!o;mb.setAttribute('aria-expanded',String(o));
-      document.getElementById('more-txt').textContent=o?'Mostrar menos':'Conoce mi historia completa';
+      document.getElementById('more-txt').textContent=o?IH_T.lessStory:IH_T.moreStory;
       document.getElementById('more-ic').firstElementChild.setAttribute('href',o?'#i-chevron-up':'#i-chevron-down')})}
     document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.active').forEach(function(m){closeModal(m.id)})}});
     document.querySelectorAll('.modal-overlay').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)closeModal(m.id)})});
@@ -246,7 +258,7 @@
   if (cards.length < 2) return;
   track.setAttribute('tabindex', '0');
   track.setAttribute('role', 'region');
-  track.setAttribute('aria-label', 'Testimonios (desliza para ver más)');
+  track.setAttribute('aria-label', IH_T.carousel);
   var dots = document.createElement('div');
   dots.className = 't-dots';
   dots.setAttribute('aria-hidden', 'true');
@@ -323,16 +335,16 @@
 
   /* ── Riel de capítulos (solo ≥1280 px; el CSS lo oculta en pantallas menores) ── */
   var CH = [
-    { n: 'Inicio',               ids: ['hero', 'esencial', 'testimonios-destacados'] },
-    { n: 'Qué es',               ids: ['definicion', 'arquitectura'] },
-    { n: 'Método',               ids: ['metodo'] },
-    { n: 'Para ti · Quién soy',  ids: ['para-mi', 'autor'] },
-    { n: 'Inversión',            ids: ['precios', 'preguntas-detalle', 'galeria', 'cta-final'] }
+    { n: IH_EN ? 'Start' : 'Inicio',                         ids: ['hero', 'esencial', 'testimonios-destacados'] },
+    { n: IH_EN ? 'What it is' : 'Qué es',                    ids: ['definicion', 'arquitectura'] },
+    { n: IH_EN ? 'Method' : 'Método',                        ids: ['metodo'] },
+    { n: IH_EN ? 'For you · About me' : 'Para ti · Quién soy', ids: ['para-mi', 'autor'] },
+    { n: IH_EN ? 'Investment' : 'Inversión',                 ids: ['precios', 'preguntas-detalle', 'galeria', 'cta-final'] }
   ];
   if (!('IntersectionObserver' in window) || !document.getElementById('hero')) return;
   var rail = document.createElement('nav');
   rail.className = 'rail';
-  rail.setAttribute('aria-label', 'Capítulos de la página');
+  rail.setAttribute('aria-label', IH_T.railLabel);
   var links = CH.map(function(c, k){
     var a = document.createElement('a');
     a.href = k === 0 ? '#hero' : '#' + c.ids[0];
@@ -377,6 +389,8 @@
     profesional: ['Estabilidad Emocional bajo Presión','Seguridad y Autoridad Serena','Honorabilidad y Alineación con tu Palabra','Responsabilidad sobre tus Resultados','Claridad de Propósito y Objetivos','Gestión de tu Energía y tus Límites','Comunicación Asertiva con tu Equipo','Plan de Acción Diaria / Ejecución','Delegación Efectiva','Toma de Decisiones Estratégicas','Retorno de tu Inversión de Tiempo','Liderazgo y Retención de tu Equipo'],
     comercial: ['Postura ante el Dinero / Merecimiento','Confianza en el Valor de lo que Ofreces','Disposición Real ante el Rechazo y la Negociación','Responsabilidad sobre tus Resultados Comerciales','Claridad de tu Cliente Ideal','Dominio de tu Propuesta de Valor / Marca Personal','Estrategia de Marca y Modelo de Ventas','Prospección y Generación de Conversaciones','Reclutamiento de Talento Comercial','Cierre y Conversión','Satisfacción del Cliente y Referidos','Ingresos y Resultados de Venta']
   };
+  var DIMS_EN = {"personal": ["Physical Health & Energy", "Relationship with Money / Financial Peace", "Trust in Your Own Decisions", "Accountability & Character", "Spirituality & Purpose", "Self-Love & Self-Esteem", "Communication", "Sexuality", "Family Relationships", "Romantic Relationship", "Self-Expression", "Destructive Habits & Vices"], "profesional": ["Emotional Stability Under Pressure", "Confidence & Calm Authority", "Integrity & Alignment with Your Word", "Ownership of Your Results", "Clarity of Purpose & Goals", "Managing Your Energy & Boundaries", "Assertive Communication with Your Team", "Daily Action Plan / Execution", "Effective Delegation", "Strategic Decision-Making", "Return on Your Time Investment", "Leadership & Team Retention"], "comercial": ["Mindset Around Money / Worthiness", "Confidence in the Value of What You Offer", "Real Readiness for Rejection & Negotiation", "Ownership of Your Commercial Results", "Clarity on Your Ideal Client", "Mastery of Your Value Proposition / Personal Brand", "Brand Strategy & Sales Model", "Prospecting & Generating Conversations", "Recruiting Commercial Talent", "Closing & Conversion", "Client Satisfaction & Referrals", "Income & Sales Results"]};
+  if (IH_EN) DIMS = DIMS_EN;
   var cur = 'personal', active = -1;
   var mk = function(tag, attrs){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; };
   var g = mk('g', { 'class': 'rd-pts' });
@@ -410,7 +424,7 @@
     g.appendChild(p); nodes.push(p);
   })(i);
   svg.appendChild(g);
-  var labelAll = function(){ nodes.forEach(function(n, k){ n.setAttribute('aria-label', 'Área ' + (k + 1) + ': ' + DIMS[cur][k]); }); };
+  var labelAll = function(){ nodes.forEach(function(n, k){ n.setAttribute('aria-label', IH_T.area + (k + 1) + ': ' + DIMS[cur][k]); }); };
   labelAll();
   var pills = document.querySelectorAll('.rd-dims button');
   Array.prototype.forEach.call(pills, function(b){
@@ -434,13 +448,14 @@
   if (!list || !pills.length) return;
   var D = {"personal": [["De reaccionar en automático", "decidir desde tu centro"], ["Del agotamiento constante", "energía y tiempo para lo que importa"], ["De relaciones que desgastan", "vínculos donde puedes ser tú"], ["De cargar lo que te daña", "soltarlo sin pelearte contigo"]], "profesional": [["De decidir bajo presión y duda", "decidir con calma y criterio"], ["De cargarlo todo tú", "un equipo que responde y delegar sin culpa"], ["De días llenos que no avanzan", "tiempo que rinde en lo importante"], ["De resultados que dependen de tu humor", "un liderazgo sereno y sostenido"]], "comercial": [["De pedir disculpas por cobrar", "negociar desde tu valor"], ["De ofrecer de todo a todos", "saber a quién sirves y qué ofreces"], ["De prospectar con desgaste", "conversaciones que cierran"], ["De un negocio que depende de tu ánimo", "resultados que se sostienen"]]};
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (IH_EN) D = {"personal": [["From reacting on autopilot", "to deciding from your center"], ["From constant exhaustion", "to energy and time for what matters"], ["From relationships that drain you", "to bonds where you can be yourself"], ["From carrying what hurts you", "to letting it go without fighting yourself"]], "profesional": [["From deciding under pressure and doubt", "to deciding with calm and judgment"], ["From carrying everything yourself", "to a team that responds and delegating without guilt"], ["From packed days that don’t move forward", "to time that pays off where it matters"], ["From results that depend on your mood", "to steady, calm leadership"]], "comercial": [["From apologizing for charging", "to negotiating from your value"], ["From offering everything to everyone", "to knowing who you serve and what you offer"], ["From prospecting with burnout", "to conversations that close"], ["From a business that depends on your mood", "to results that hold"]]};
   var cur = 'personal', timer = null;
   var paint = function(k){
     list.textContent = '';
     D[k].forEach(function(r){
       var li = document.createElement('li');
       var d = document.createElement('span'); d.className = 'de'; d.textContent = r[0];
-      var a = document.createElement('span'); a.className = 'a'; a.textContent = 'a ' + r[1];
+      var a = document.createElement('span'); a.className = 'a'; a.textContent = IH_EN ? r[1] : 'a ' + r[1];
       li.appendChild(d); li.appendChild(a); list.appendChild(li);
     });
   };
@@ -474,7 +489,7 @@
   var btn = document.createElement('button');
   btn.type = 'button'; btn.className = 'btn-secundario galeria-mas';
   btn.setAttribute('aria-expanded', 'false');
-  btn.textContent = 'Ver más fotos';
+  btn.textContent = IH_T.morePhotos;
   btn.addEventListener('click', function(){
     extra.forEach(function(el){ el.hidden = false; });
     btn.setAttribute('aria-expanded', 'true');
