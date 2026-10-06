@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IAD Campo ADC V8 — Biopsia de Arquitectura de Desempeño · Cortex ADC · Auditado</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C;--gold-l:#F5E6C0;--gold-d:#8a6e2f;
+  --gold-bg:rgba(201,168,76,0.07);--gold-border:rgba(201,168,76,0.22);
+  --black:#0D0D0D;--dark:#141414;--dark2:#1a1a1a;--dark3:#202020;--dark4:#282828;
+  --grey:#555;--grey-l:#999;--grey-ll:#ccc;--white:#F5F0E8;
+  --blue:#7EB8C9;--verde:#4A9F6A;--red:#c0645a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--black);color:var(--white);font-family:'Montserrat',sans-serif;min-height:100%;}
+
+/* ── SCREENS ── */
+.screen{display:none;flex-direction:column;min-height:100vh;}
+.screen.active{display:flex;}
+
+/* ══════════════════════════════════
+   PORTADA
+══════════════════════════════════ */
+#s-portada{
+  align-items:center;justify-content:center;
+  padding:60px 32px;
+  background:radial-gradient(ellipse at 50% 25%,#1c1800 0%,#0D0D0D 65%);
+}
+.logo-adc{font-family:'Cormorant Garamond',serif;font-size:3.6rem;font-weight:700;color:var(--gold);letter-spacing:8px;}
+.logo-sub{font-size:0.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--grey-l);margin-top:4px;}
+.divider{width:50px;height:1px;background:var(--gold);margin:24px auto;opacity:0.35;}
+.p-title{font-family:'Cormorant Garamond',serif;font-size:1.85rem;color:var(--white);font-weight:300;letter-spacing:2px;margin-bottom:8px;}
+.p-desc{font-size:0.76rem;color:var(--grey-l);line-height:1.8;max-width:460px;margin:0 auto 10px;text-align:center;}
+
+/* Bloque de contexto IAD */
+.iad-context{
+  display:flex;gap:0;max-width:520px;width:100%;
+  border:1px solid #1e1e1e;
+  margin:16px auto 28px;
+}
+.iad-ctx-item{
+  flex:1;padding:14px 16px;text-align:center;
+  border-right:1px solid #1e1e1e;
+}
+.iad-ctx-item:last-child{border-right:none;}
+.iad-ctx-n{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--gold);line-height:1;}
+.iad-ctx-l{font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-top:3px;}
+
+.field-label{font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:10px;font-weight:600;}
+.name-input{
+  background:transparent;border:none;border-bottom:1px solid #2a2a2a;
+  padding:10px 0;font-size:0.9rem;color:var(--white);
+  font-family:'Montserrat',sans-serif;width:300px;text-align:center;
+  outline:none;transition:border-color 0.3s;
+}
+.name-input:focus{border-color:var(--gold);}
+.name-input::placeholder{color:#333;}
+.role-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:28px;}
+.rbtn{
+  padding:11px 22px;border:1px solid #252525;background:transparent;
+  color:var(--grey-l);font-family:'Montserrat',sans-serif;
+  font-size:0.68rem;letter-spacing:1.5px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.22s;font-weight:500;
+}
+.rbtn:hover{border-color:var(--gold-d);color:var(--white);}
+.rbtn.sel{background:var(--gold);color:var(--black);border-color:var(--gold);}
+.btn-p{
+  margin-top:4px;padding:15px 44px;
+  background:var(--gold);color:var(--black);border:none;
+  font-family:'Montserrat',sans-serif;font-size:0.68rem;letter-spacing:2px;
+  text-transform:uppercase;font-weight:700;cursor:pointer;transition:all 0.2s;
+}
+.btn-p:hover{background:var(--gold-l);}
+.btn-p:disabled{background:#1e1e1e;color:#333;cursor:not-allowed;}
+.p-footer{margin-top:20px;font-size:0.6rem;color:var(--grey);letter-spacing:1px;}
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:16px;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--grey);text-decoration:none;transition:color 0.2s;
+}
+.back-link:hover{color:var(--gold);}
+.back-link::before{content:'←';font-size:0.75rem;}
+
+/* ══════════════════════════════════
+   HEADER COMPARTIDO
+══════════════════════════════════ */
+.hdr{
+  padding:18px 36px;border-bottom:1px solid var(--dark4);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  background:rgba(13,13,13,0.97);position:sticky;top:0;z-index:40;
+  backdrop-filter:blur(8px);
+}
+.hdr-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--gold);font-weight:600;}
+.hdr-sub{font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-top:2px;}
+.badge{padding:5px 14px;background:var(--gold-bg);border:1px solid var(--gold-d);font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600;}
+
+/* Barra de progreso global */
+.progress-bar-wrap{height:2px;background:var(--dark4);width:100%;}
+.progress-bar-fill{height:2px;background:var(--gold);transition:width 0.4s ease;width:0%;}
+
+/* ══════════════════════════════════
+   GUÍA DE SESIÓN
+══════════════════════════════════ */
+.guia-body{padding:36px;flex:1;}
+.guia-intro{
+  font-size:0.74rem;color:var(--grey-l);line-height:1.8;
+  max-width:600px;margin-bottom:28px;
+  padding:14px 20px;border-left:2px solid var(--gold-d);
+  background:rgba(201,168,76,0.04);font-style:italic;
+}
+.etapas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;max-width:1040px;}
+.ecard{
+  padding:22px 26px;border:1px solid var(--dark4);
+  background:var(--dark2);cursor:pointer;transition:all 0.22s;position:relative;overflow:hidden;
+}
+.ecard:hover{border-color:var(--gold-d);}
+.ecard.done{border-color:rgba(143,188,143,0.35);background:rgba(143,188,143,0.03);}
+.ecard-n{
+  font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:300;
+  color:var(--gold);opacity:0.12;position:absolute;top:10px;right:16px;line-height:1;
+}
+.etag{font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:5px;}
+.etitle{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--white);font-weight:600;margin-bottom:8px;}
+.epoints{list-style:none;}
+.epoints li{font-size:0.68rem;color:var(--grey-l);padding:2px 0 2px 12px;position:relative;line-height:1.55;}
+.epoints li::before{content:'·';position:absolute;left:0;color:var(--gold);}
+.estatus{position:absolute;bottom:12px;right:16px;font-size:0.56rem;letter-spacing:1px;text-transform:uppercase;color:var(--grey);}
+.estatus.ok{color:var(--verde);}
+.guia-actions{margin-top:28px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.guia-hint{font-size:0.68rem;color:var(--grey);font-style:italic;max-width:380px;line-height:1.6;}
+
+/* ══════════════════════════════════
+   IAD
+══════════════════════════════════ */
+.iad-body{display:flex;flex:1;min-height:0;}
+.qpanel{width:56%;padding:32px 36px;overflow-y:auto;border-right:1px solid var(--dark4);}
+
+.bloque-header{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:20px;padding-bottom:14px;
+  border-bottom:1px solid var(--dark4);
+}
+.bloque-header.b{margin-top:36px;}
+.bloque-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.bloque-dot.a{background:var(--gold);}
+.bloque-dot.b{background:var(--blue);}
+.bloque-info{}
+.bloque-title{font-size:0.58rem;letter-spacing:3px;text-transform:uppercase;font-weight:600;margin-bottom:2px;}
+.bloque-title.a{color:var(--gold);}
+.bloque-title.b{color:var(--blue);}
+.bloque-desc{font-size:0.65rem;color:var(--grey);line-height:1.5;}
+
+.qcard{margin-bottom:20px;padding:20px 24px;border:1px solid var(--dark4);background:var(--dark2);transition:border-color 0.25s;}
+.qcard.active{border-color:var(--gold-d);background:#181610;}
+.qnum{font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:4px;}
+.qnum.a{color:var(--gold);}
+.qnum.b{color:var(--blue);}
+.qtext{font-size:0.8rem;color:var(--white);line-height:1.7;margin-bottom:10px;}
+.qespejo{
+  font-size:0.64rem;color:var(--grey);font-style:italic;
+  margin-bottom:10px;padding:7px 12px;
+  border-left:2px solid rgba(201,168,76,0.3);
+  background:rgba(201,168,76,0.03);
+}
+
+/* Botones de puntaje */
+.srow{display:flex;gap:4px;align-items:center;flex-wrap:wrap;}
+.sbtn{
+  width:32px;height:32px;border:1px solid var(--dark4);
+  background:transparent;color:var(--grey-l);
+  font-size:0.72rem;cursor:pointer;transition:all 0.18s;
+  font-family:'Montserrat',sans-serif;font-weight:500;border-radius:2px;
+}
+.sbtn:hover{border-color:#555;color:var(--white);}
+.slabel{font-size:0.58rem;color:var(--grey);margin-left:6px;font-style:italic;}
+
+/* ── PANEL DERECHO — Radar ── */
+.rpanel{
+  width:44%;padding:28px 24px;
+  display:flex;flex-direction:column;align-items:center;
+  position:sticky;top:58px;height:calc(100vh - 58px);
+  overflow-y:auto;background:var(--dark);
+}
+.rlabel{font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:var(--grey);margin-bottom:14px;font-weight:600;}
+#rcanvas{max-width:300px;width:100%;}
+
+.rscore{text-align:center;margin-top:10px;}
+.rscore-v{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:var(--gold);line-height:1;}
+.rscore-l{font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-top:2px;}
+.rscore-z{font-size:0.66rem;font-weight:600;margin-top:3px;}
+
+/* Leyenda del radar — corregida para Bloque A / Bloque B */
+.rlegend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:12px;}
+.rleg{display:flex;align-items:center;gap:5px;font-size:0.58rem;color:var(--grey-l);}
+.rlegdot{width:7px;height:7px;border-radius:50%;}
+
+/* Espejo table */
+.etbl{width:100%;margin-top:18px;border-top:1px solid var(--dark4);padding-top:14px;}
+.etblhdr{font-size:0.54rem;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:8px;font-weight:600;}
+.erow{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #181818;font-size:0.62rem;}
+.epair{color:var(--gold);font-weight:600;min-width:40px;}
+.evals{display:flex;gap:5px;align-items:center;}
+.eval{width:20px;height:20px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:0.64rem;font-weight:700;color:var(--black);}
+.ediff{font-size:0.56rem;min-width:28px;text-align:center;}
+
+/* Bloques promedio en radar panel */
+.bloc-avgs{display:flex;gap:0;width:100%;margin-top:14px;border:1px solid var(--dark4);}
+.bavg-item{flex:1;padding:10px 8px;text-align:center;border-right:1px solid var(--dark4);}
+.bavg-item:last-child{border-right:none;}
+.bavg-n{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;line-height:1;}
+.bavg-l{font-size:0.52rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);margin-top:2px;}
+
+/* ══════════════════════════════════
+   RESULTADOS
+══════════════════════════════════ */
+.resbody{padding:32px 36px;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1060px;}
+.rcard{padding:20px 24px;border:1px solid var(--dark4);background:var(--dark2);margin-bottom:16px;}
+.rcard-title{font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600;}
+.irow{padding:9px 0;border-bottom:1px solid var(--dark4);}
+.irow:last-child{border:none;}
+.irow-lbl{font-size:0.67rem;font-weight:600;color:var(--white);margin-bottom:3px;display:flex;align-items:center;gap:8px;}
+.irow-txt{font-size:0.68rem;color:var(--grey-l);line-height:1.6;}
+.indrow{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.indname{font-size:0.66rem;color:var(--grey-l);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.indbar{flex:2;height:4px;background:var(--dark4);border-radius:2px;}
+.indbarfill{height:100%;border-radius:2px;transition:width 0.4s;}
+.indval{font-size:0.66rem;font-weight:600;min-width:18px;text-align:right;}
+.zone-box{padding:16px 20px;text-align:center;}
+.zone-v{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;}
+.zone-n{font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;margin-top:3px;}
+
+/* ── NAVBAR ── */
+.navbar{
+  display:flex;gap:0;border-top:1px solid var(--dark4);
+  padding:10px 36px;background:var(--dark);
+  align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+}
+.nsteps{display:flex;gap:0;}
+.nstep{
+  padding:8px 16px;font-size:0.6rem;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--grey);
+  border:1px solid transparent;cursor:pointer;transition:all 0.2s;font-weight:500;
+}
+.nstep.active{color:var(--gold);border-color:var(--gold-d);}
+.nstep.done{color:var(--verde);}
+.nright{display:flex;gap:8px;align-items:center;}
+.nbtn{
+  padding:8px 20px;border:1px solid var(--dark4);background:transparent;
+  color:var(--grey-l);font-family:'Montserrat',sans-serif;
+  font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;font-weight:500;
+}
+.nbtn:hover{border-color:var(--gold-d);color:var(--white);}
+.nbtn.gld{background:var(--gold);color:var(--black);border-color:var(--gold);}
+.nbtn.gld:hover{background:var(--gold-l);}
+.progress-label{font-size:0.58rem;color:var(--grey);padding-right:10px;}
+
+/* ══════════════════════════════════
+   ROMBO 4 FUERZAS
+══════════════════════════════════ */
+.rombo-wrap{
+  width:100%;margin-top:18px;
+  border:1px solid #1e1e1e;background:rgba(201,168,76,0.03);
+  padding:14px 10px 10px;
+}
+.rombo-title{
+  font-size:0.52rem;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--gold);text-align:center;font-weight:600;margin-bottom:12px;
+}
+.rombo-svg-wrap{display:flex;justify-content:center;margin-bottom:10px;}
+.fuerzas-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;
+}
+.fuerza-item{
+  padding:7px 8px;border:1px solid #202020;
+  font-size:0.58rem;line-height:1.5;
+}
+.fuerza-label{
+  font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:2px;font-size:0.55rem;
+}
+.fuerza-val{font-size:0.62rem;color:var(--grey-l);}
+.fuerza-state{
+  font-size:0.5rem;letter-spacing:1px;text-transform:uppercase;
+  margin-top:2px;font-weight:600;
+}
+
+/* Benchmarking strip */
+.bench-strip{
+  width:100%;margin-top:14px;
+  padding:9px 12px;
+  background:rgba(126,184,201,0.06);border:1px solid rgba(126,184,201,0.18);
+  font-size:0.56rem;line-height:1.65;color:var(--grey-l);text-align:center;
+}
+.bench-strip strong{color:var(--blue);font-weight:600;}
+
+/* ── PERITAJE FER U ── */
+.peritaje-panel{
+  background:rgba(201,168,76,0.04);
+  border:1px solid var(--gold-border);
+  padding:20px;margin-top:16px;
+}
+.peritaje-title{
+  font-size:0.58rem;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:14px;display:block;
+}
+.peritaje-sub{
+  font-size:0.64rem;font-weight:300;color:var(--grey-l);
+  line-height:1.7;margin-bottom:14px;
+}
+.fractura-check{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.fcheck-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 10px;border:1px solid #1e1e1e;
+  cursor:pointer;transition:border-color 0.2s;
+}
+.fcheck-item:hover{border-color:rgba(192,100,90,0.3);}
+.fcheck-item.checked{border-color:rgba(192,100,90,0.5);background:rgba(192,100,90,0.05);}
+.fcheck-box{
+  width:14px;height:14px;border:1px solid #333;
+  flex-shrink:0;margin-top:2px;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.fcheck-item.checked .fcheck-box{background:#c0645a;border-color:#c0645a;}
+.fcheck-item.checked .fcheck-box::after{content:'✓';font-size:9px;color:white;font-weight:700;}
+.fcheck-label{font-size:0.66rem;color:var(--grey-l);line-height:1.55;}
+.fcheck-item.checked .fcheck-label{color:var(--grey-ll);}
+.polo-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;
+}
+.polo-item{padding:10px 12px;background:#0D0D0D;border:1px solid #1e1e1e;}
+.polo-label{font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:6px;}
+.polo-select{
+  width:100%;background:transparent;border:none;border-bottom:1px solid #282828;
+  color:var(--white);font-family:'Montserrat',sans-serif;
+  font-size:0.72rem;padding:6px 0;outline:none;
+}
+.polo-select option{background:#141414;color:var(--white);}
+.peritaje-textarea{
+  width:100%;background:#0D0D0D;border:1px solid #1e1e1e;
+  color:var(--white);padding:12px;
+  font-family:'Montserrat',sans-serif;font-size:0.7rem;
+  line-height:1.7;resize:vertical;min-height:64px;
+  outline:none;transition:border-color 0.2s;margin-top:8px;
+}
+.peritaje-textarea:focus{border-color:var(--gold-border);}
+.peritaje-textarea::placeholder{color:#333;}
+
+/* ── PRINT ── */
+@media print{
+  body{background:white;color:black;}
+  #s-portada,#s-guia,#s-iad,.navbar,.hdr{display:none!important;}
+  #s-resultados{display:flex!important;}
+  #s-resultados .hdr{display:flex!important;}
+  .rcard{background:white;border:1px solid #ddd;margin-bottom:12px;}
+  .rcard-title{color:#8a6e2f;}
+  .irow-txt{color:#444;}
+  .resbody{display:block;}
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  .hdr{padding:14px 20px;}
+  .iad-body{flex-direction:column;}
+  .qpanel,.rpanel{width:100%;height:auto;position:static;}
+  .resbody{grid-template-columns:1fr;padding:20px;}
+  .guia-body{padding:24px 20px;}
+  .role-grid{gap:6px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     PORTADA
+══════════════════════════════════ -->
+<div id="s-portada" class="screen active">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:60px 32px;">
+    <div class="logo-adc">ADC</div>
+    <div class="logo-sub">Arquitectura de Desempeño Comercial · Cortex ADC · V8</div>
+    <div class="divider"></div>
+    <div class="p-title">IAD · Índice de Arquitectura de Desempeño</div>
+    <div class="p-desc">Biopsia de Arquitectura del origen humano que produce el desempeño. No mide resultados — detecta las Fracturas de Arquitectura que los producen. <em style="color:var(--gold-l);font-style:normal;">"El origen siempre determina el resultado."</em></div>
+
+    <!-- Contexto del IAD -->
+    <div class="iad-context">
+      <div class="iad-ctx-item">
+        <div class="iad-ctx-n">12</div>
+        <div class="iad-ctx-l">Indicadores</div>
+      </div>
+      <div class="iad-ctx-item">
+        <div class="iad-ctx-n">6</div>
+        <div class="iad-ctx-l">Roles</div>
+      </div>
+      <div class="iad-ctx-item">
+        <div class="iad-ctx-n">2</div>
+        <div class="iad-ctx-l">Bloques</div>
+      </div>
+      <div class="iad-ctx-item">
+        <div class="iad-ctx-n" style="font-size:1rem;padding-top:4px;">Ley del<br>Espejo</div>
+        <div class="iad-ctx-l" style="margin-top:1px;">Integrada</div>
+      </div>
+    </div>
+
+    <div class="field-label">Nombre del participante:</div>
+    <input class="name-input" id="ninput" type="text" placeholder="Nombre completo" oninput="chk()">
+
+    <div style="margin-top:26px;" class="field-label">Rol a diagnosticar:</div>
+    <div class="role-grid">
+      <button class="rbtn" onclick="selRole('director',this)">Director de Agencia</button>
+      <button class="rbtn" onclick="selRole('gerente',this)">Gerente de Desarrollo</button>
+      <button class="rbtn" onclick="selRole('consolidado',this)">Agente Consolidado</button>
+      <button class="rbtn" onclick="selRole('edat',this)">Reclutador / EDAT</button>
+      <button class="rbtn" onclick="selRole('novel',this)">Agente Novel</button>
+      <button class="rbtn" onclick="selRole('mkt',this)">Arquitecto de Atracción Digital</button>
+    </div>
+
+    <button class="btn-p" id="bstart" disabled onclick="startSession()">Iniciar Biopsia de Arquitectura</button>
+
+    <a class="back-link" href="ADC_Framework_Visual_v2.html">Ver Framework ADC</a>
+    <div class="p-footer">Fernando Ugalde · Fer U · IAD Campo · Biopsia de Arquitectura · ADC V8.2 · Abril 2026</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     GUÍA
+══════════════════════════════════ -->
+<div id="s-guia" class="screen">
+  <div class="hdr">
+    <div>
+      <div class="hdr-title">Guía de Sesión</div>
+      <div class="hdr-sub">Biopsia de Arquitectura de Desempeño · 60 minutos</div>
+    </div>
+    <div class="badge" id="gbadge"></div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb-guia"></div></div>
+  <div class="guia-body">
+    <div class="guia-intro">
+      Esta sesión vende todo. Condúcela con calma. Escucha más de lo que hablas.
+      La Ley del Espejo aparece naturalmente cuando las 7 etapas fluyen.
+      Toca cada etapa para marcarla completada mientras avanzas.
+    </div>
+    <div class="etapas-grid" id="egrid"></div>
+    <div class="guia-actions">
+      <button class="btn-p" onclick="go('iad')">Ir al IAD →</button>
+      <div class="guia-hint">El IAD se aplica en la Etapa 4 — cuando el Director ya ve el sistema con claridad.</div>
+    </div>
+  </div>
+  <div class="navbar">
+    <div class="nsteps">
+      <div class="nstep done" onclick="go('portada')">Inicio</div>
+      <div class="nstep active">Guía</div>
+      <div class="nstep" onclick="go('iad')">IAD</div>
+      <div class="nstep">Resultados</div>
+    </div>
+    <div class="nright">
+      <button class="nbtn gld" onclick="go('iad')">Ir al IAD →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     IAD
+══════════════════════════════════ -->
+<div id="s-iad" class="screen">
+  <div class="hdr">
+    <div>
+      <div class="hdr-title">IAD · Índice de Arquitectura de Desempeño</div>
+      <div class="hdr-sub" id="iadsub">—</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="display:flex;gap:3px;" id="pdots"></div>
+      <div class="badge" id="iadbadge">—</div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb-iad"></div></div>
+
+  <div class="iad-body">
+    <div class="qpanel" id="qpanel"></div>
+    <div class="rpanel">
+      <div class="rlabel">Radar IAD · Tiempo Real</div>
+      <canvas id="rcanvas" width="300" height="300"></canvas>
+      <div class="rscore">
+        <div class="rscore-v" id="rscv">—</div>
+        <div class="rscore-l">Promedio IAD</div>
+        <div class="rscore-z" id="rscz"></div>
+      </div>
+      <!-- Leyenda corregida: Bloque A / Bloque B -->
+      <div class="rlegend">
+        <div class="rleg"><div class="rlegdot" style="background:var(--gold)"></div>01–06 Bloque A · El Ser</div>
+        <div class="rleg"><div class="rlegdot" style="background:var(--blue)"></div>07–12 Bloque B · La Ruta</div>
+      </div>
+      <!-- Promedios por bloque -->
+      <div class="bloc-avgs">
+        <div class="bavg-item">
+          <div class="bavg-n" style="color:var(--gold)" id="bavg-a">—</div>
+          <div class="bavg-l">El Ser</div>
+        </div>
+        <div class="bavg-item">
+          <div class="bavg-n" style="color:var(--blue)" id="bavg-b">—</div>
+          <div class="bavg-l">La Ruta</div>
+        </div>
+        <div class="bavg-item">
+          <div class="bavg-n" style="color:var(--white)" id="bavg-t">—</div>
+          <div class="bavg-l">IAD Total</div>
+        </div>
+      </div>
+      <div class="etbl" id="etbl"></div>
+
+      <!-- ══════════════════════════════════════════════════════════════
+           ROMBO DE LAS 4 FUERZAS
+           Visualiza el núcleo filosófico de Innovación Humana aplicado
+           al diagnóstico en tiempo real. Las 4 Fuerzas son el eje
+           interpretativo del radar IAD.
+      ══════════════════════════════════════════════════════════════ -->
+      <div class="rombo-wrap" id="rombo-wrap">
+        <div class="rombo-title">Rombo · 4 Fuerzas del Sistema</div>
+
+        <!-- SVG diamond showing force states, driven by live scores -->
+        <div class="rombo-svg-wrap">
+          <svg id="rombo-svg" width="160" height="130" viewBox="0 0 160 130">
+            <!-- Background grid lines -->
+            <line x1="80" y1="10" x2="80" y2="120" stroke="#1e1e1e" stroke-width="0.8"/>
+            <line x1="10" y1="65" x2="150" y2="65" stroke="#1e1e1e" stroke-width="0.8"/>
+            <!-- Diamond outline -->
+            <polygon id="rombo-base" points="80,12 148,65 80,118 12,65"
+              fill="rgba(201,168,76,0.03)" stroke="#252525" stroke-width="1"/>
+            <!-- Filled polygon by force state — updated by JS -->
+            <polygon id="rombo-fill" points="80,65 80,65 80,65 80,65"
+              fill="rgba(201,168,76,0.18)" stroke="rgba(201,168,76,0.6)" stroke-width="1.2"/>
+            <!-- Force node dots — updated by JS -->
+            <circle id="rf-c" cx="80" cy="65" r="4" fill="#C9A84C"/>
+            <circle id="rf-d" cx="80" cy="65" r="4" fill="#C9A84C"/>
+            <circle id="rf-r" cx="80" cy="65" r="4" fill="#7EB8C9"/>
+            <circle id="rf-i" cx="80" cy="65" r="4" fill="#4A9F6A"/>
+            <!-- Labels -->
+            <text x="80" y="7" text-anchor="middle" fill="#C9A84C" font-size="7" font-family="Montserrat,sans-serif" font-weight="700" letter-spacing="1">C</text>
+            <text x="154" y="68" text-anchor="start" fill="#C9A84C" font-size="7" font-family="Montserrat,sans-serif" font-weight="700" letter-spacing="1">D</text>
+            <text x="80" y="129" text-anchor="middle" fill="#7EB8C9" font-size="7" font-family="Montserrat,sans-serif" font-weight="700" letter-spacing="1">R</text>
+            <text x="6" y="68" text-anchor="start" fill="#4A9F6A" font-size="7" font-family="Montserrat,sans-serif" font-weight="700" letter-spacing="1">I</text>
+          </svg>
+        </div>
+
+        <!-- Force card grid — live state labels -->
+        <div class="fuerzas-grid">
+          <div class="fuerza-item" id="fc-c">
+            <div class="fuerza-label" style="color:var(--gold)">Conciencia</div>
+            <div class="fuerza-val">Indicadores 01–02</div>
+            <div class="fuerza-state" id="fs-c" style="color:var(--grey)">—</div>
+          </div>
+          <div class="fuerza-item" id="fc-d">
+            <div class="fuerza-label" style="color:var(--gold)">Dirección</div>
+            <div class="fuerza-val">Indicadores 03–04</div>
+            <div class="fuerza-state" id="fs-d" style="color:var(--grey)">—</div>
+          </div>
+          <div class="fuerza-item" id="fc-r">
+            <div class="fuerza-label" style="color:var(--blue)">Relación</div>
+            <div class="fuerza-val">Indicadores 05–08</div>
+            <div class="fuerza-state" id="fs-r" style="color:var(--grey)">—</div>
+          </div>
+          <div class="fuerza-item" id="fc-i">
+            <div class="fuerza-label" style="color:var(--verde)">Impacto</div>
+            <div class="fuerza-val">Indicadores 09–12</div>
+            <div class="fuerza-state" id="fs-i" style="color:var(--grey)">—</div>
+          </div>
+        </div>
+
+        <!-- ============================================================
+             AI MODULE HOOK #1 — ANÁLISIS PREDICTIVO POR FUERZA
+             -------------------------------------------------------
+             INTEGRACIÓN FUTURA: Fer U Agent · Motor de Análisis Predictivo
+             Input esperado: { scores[12], role, sessionDate, directorId }
+             Output: {
+               fuerzaDominante: string,
+               fuerzaEnRiesgo: string,
+               patronEspejo: "coherente" | "fractura_leve" | "fractura_critica",
+               recomendacionProtocolo: string,
+               probabilidadExito90D: number (0-1)
+             }
+             Endpoint: /api/fer-u/analisis-fuerza (POST)
+             Status: PENDIENTE — Q3 2026
+             ============================================================ -->
+      </div>
+
+      <!-- Benchmarking sectorial strip -->
+      <div class="bench-strip">
+        <strong>IAD · Primer paso hacia el Benchmarking Sectorial</strong><br>
+        Cada diagnóstico contribuye al índice anónimo de arquitectura del sector asegurador hispanohablante. El IAD es el instrumento fundacional de una base de datos sectorial impulsada por datos reales de campo.
+      </div>
+
+    </div><!-- end rpanel -->
+  </div><!-- end iad-body -->
+
+  <div class="navbar">
+    <div class="nsteps">
+      <div class="nstep done" onclick="go('portada')">Inicio</div>
+      <div class="nstep done" onclick="go('guia')">Guía</div>
+      <div class="nstep active">IAD</div>
+      <div class="nstep">Resultados</div>
+    </div>
+    <div class="nright">
+      <span class="progress-label" id="nfilled">0/12 completados</span>
+      <button class="nbtn gld" onclick="go('resultados')">Ver Resultados →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     RESULTADOS
+══════════════════════════════════ -->
+<!-- ============================================================
+     AI MODULE HOOK #2 — GENERACIÓN DE REPORTE NARRATIVO
+     -------------------------------------------------------
+     INTEGRACIÓN FUTURA: Fer U Agent · Síntesis de Resultados
+     Trigger: al cargar la pantalla de resultados
+     Input: { scores[12], role, nombre, sessionDate, iadGlobal, zonas }
+     Output: Párrafo narrativo de hallazgos clave + recomendaciones
+             en lenguaje ADC (no tecnicismos) para incluir en PDF
+     Endpoint: /api/fer-u/reporte-narrativo (POST)
+     Status: PENDIENTE — Q3 2026
+     ============================================================ -->
+<div id="s-resultados" class="screen">
+  <div class="hdr">
+    <div>
+      <div class="hdr-title">Resultados del Diagnóstico IAD</div>
+      <div class="hdr-sub" id="ressub">—</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="nbtn" onclick="window.print()">Exportar PDF</button>
+      <button class="nbtn" onclick="go('portada')">← Nueva Sesión</button>
+    </div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:100%;opacity:0.4;"></div></div>
+  <div class="resbody" id="resbody"></div>
+  <div class="navbar">
+    <div class="nsteps">
+      <div class="nstep done" onclick="go('portada')">Inicio</div>
+      <div class="nstep done" onclick="go('guia')">Guía</div>
+      <div class="nstep done" onclick="go('iad')">IAD</div>
+      <div class="nstep active">Resultados</div>
+    </div>
+    <div class="nright">
+      <button class="nbtn" onclick="go('iad')">← Editar scores</button>
+      <button class="nbtn gld" onclick="window.print()">Exportar PDF</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════ DATOS ═══════════ */
+// ============================================================
+// AI MODULE HOOK #3 — VALIDACIÓN DE INTEGRIDAD DE DATOS
+// -------------------------------------------------------
+// INTEGRACIÓN FUTURA: Fer U Agent · Auditoría de Sesión
+// Trigger: al finalizar los 12 indicadores
+// Input: { scores[12], sessionDuration, roleId }
+// Output: {
+//   dataQualityScore: 0-100,
+//   inconsistenciasFlag: boolean,
+//   sugerenciasRevision: string[],
+//   readyForBenchmark: boolean  ← si cumple estándares mínimos
+// }
+// Este módulo determina si el dataset puede incorporarse
+// al índice sectorial de benchmarking ADC.
+// Endpoint: /api/fer-u/validar-sesion (POST)
+// Status: PENDIENTE — Q4 2026
+// ============================================================
+const RD={
+  director:{label:"Director de Agencia",preguntas:[
+    {n:"01",b:"a",t:"Estabilidad Emocional",q:"¿Tu agencia opera con ritmo constante independientemente de tu estado de ánimo? ¿Tu equipo no necesita leer cómo llegaste hoy para saber cómo va a ser el día?",e:"Espejo de 12 — Solo el Director emocionalmente estable puede construir algo diseñado para durar más que su presencia."},
+    {n:"02",b:"a",t:"Seguridad y Confianza",q:"¿Tomas decisiones desde tu criterio como arquitecto del sistema o todavía buscas validación externa — de tu director regional, de tus mejores agentes, de los números del mes?",e:"Espejo de 11 — Un Director inseguro no exige, no celebra y no sostiene el ritmo porque teme el conflicto."},
+    {n:"03",b:"a",t:"Disposición y Entrega",q:"¿Estás presente para tu equipo con la misma energía en los meses difíciles que en los meses de campaña? ¿Tu entrega no depende de los resultados?",e:"Espejo de 10 — Sostener el desarrollo de los más avanzados exige presencia constante."},
+    {n:"04",b:"a",t:"Responsabilidad",q:"¿Asumes los resultados de la agencia completa como propios — los del novel, los del gerente, los del EDAT — o los resultados malos siempre tienen nombre ajeno?",e:"Espejo de 09 — El Director que no se responsabiliza no interviene a tiempo cuando el novel está en riesgo de abandono."},
+    {n:"05",b:"a",t:"Estrategia de Agencia",q:"¿Tienes un plan claro de cómo crece la agencia este año: cuántos ingresan, cuántos se consolidan, cuántos gerentes se desarrollan? ¿O avanza según lo que vaya pasando?",e:"Espejo de 08 — Sin estrategia de agencia, el gerente no sabe hacia dónde formar."},
+    {n:"06",b:"a",t:"Dominio como Arquitecto del Sistema",q:"¿Puedes leer tu agencia como sistema? ¿Identificas dónde está la restricción real — reclutamiento, formación, activación o ritmo — sin confundir síntoma con causa?",e:"Espejo de 07 — Sin lectura sistémica, el Director no sabe qué intervenir ni cuándo."},
+    {n:"07",b:"b",t:"Sistema de Reclutamiento Activo",q:"¿La agencia tiene un flujo constante de candidatos entrando, independientemente de si tú estás ocupado? ¿El EDAT tiene proceso, perfil definido y métricas claras?",e:""},
+    {n:"08",b:"b",t:"Sistema de Formación de Agentes",q:"¿Los gerentes están formando agentes con metodología, seguimiento individual y acompañamiento en campo — o solo están reportando números?",e:""},
+    {n:"09",b:"b",t:"Sistema del Agente Novel",q:"¿Los agentes que ingresan tienen un proceso claro de activación en los primeros 30 días? ¿Sabes cuántos noveles están en riesgo de abandono esta semana?",e:""},
+    {n:"10",b:"b",t:"Sistema del Agente Consolidado",q:"¿Los agentes con cartera tienen un camino de crecimiento hacia multi-producto, multi-aseguradora y perfil consultor? ¿O se quedan estancados? — Registra cotizaciones activas del Consolidado por producto: GMM · Vida · Auto · Otro",e:""},
+    {n:"11",b:"b",t:"Ritmo Comercial y Campañas",q:"¿La agencia tiene ganadores consistentes en GMM y Vida? ¿El ritmo de juntas y seguimiento es sostenido por ti o solo aparece cuando hay presión de arriba? — Registra cierres del grupo por producto: GMM · Vida · Auto · Otro",e:""},
+    {n:"12",b:"b",t:"Legado y Sucesión",q:"¿Tienes identificado quién puede continuar la agencia? ¿El sistema está documentado, los liderazgos desarrollados y la cultura arraigada para que funcione si tú no estás?",e:"Espejo de 01 — El ciclo cierra aquí. El legado es resultado de la estabilidad emocional sostenida."},
+  ],espejos:[["01","12"],["02","11"],["03","10"],["04","09"],["05","08"],["06","07"]]},
+
+  gerente:{label:"Gerente de Desarrollo",preguntas:[
+    {n:"01",b:"a",t:"Estabilidad Emocional",q:"¿Puedes sostener tu rol de formador con constancia aunque tu grupo tenga semanas de producción baja o agentes que no avanzan al ritmo que esperas?",e:"Espejo de 12 (Vida) — Solo el gerente emocionalmente estable forma desde propósito, no desde presión."},
+    {n:"02",b:"a",t:"Seguridad y Confianza",q:"¿Tu autoridad como formador viene de tu experiencia real en ventas o todavía necesitas demostrar que puedes vender para que te respeten?",e:"Espejo de 11 (GMM) — Solo el gerente con autoridad real forma agentes con nivel técnico para ganar en el ramo más exigente."},
+    {n:"03",b:"a",t:"Disposición y Entrega",q:"¿Tienes paciencia real para acompañar a un agente que aprende lento, comete los mismos errores y necesita más tiempo del que planeas?",e:"Espejo de 10 — Sin disposición, el gerente evita las conversaciones difíciles."},
+    {n:"04",b:"a",t:"Responsabilidad",q:"¿Asumes los resultados de tu grupo como propios o los explicas con el perfil del agente, el mercado o la temporada?",e:"Espejo de 09 — El irresponsable evita el campo porque le incomoda ver la brecha real."},
+    {n:"05",b:"a",t:"Estrategia de Formación",q:"¿Tienes un sistema claro de cómo llevas a un agente de cero a producción consistente? ¿O formas por intuición?",e:"Espejo de 08 — Sin estrategia, la sesión individual es conversación sin dirección."},
+    {n:"06",b:"a",t:"Dominio Técnico — Proceso Comercial Completo",q:"¿Puedes demostrar, enseñar y corregir cada paso de la ruta comercial del agente: prospección, contacto, detección, presentación, cierre y referidos? ¿Con ejemplos reales?",e:"Espejo de 07 — Sin dominio técnico, el gerente no identifica dónde está la falla real del agente."},
+    {n:"07",b:"b",t:"Diagnóstico del Agente a Desarrollar",q:"¿Sabes exactamente en qué paso de la ruta comercial está atascado cada uno de tus agentes esta semana? ¿Tienes un mapa claro de quién necesita qué tipo de intervención?",e:""},
+    {n:"08",b:"b",t:"Sesión Individual de Activación",q:"¿Tienes conversaciones individuales reales donde se revisan compromisos anteriores, se identifica el bloqueo concreto y se establecen compromisos nuevos específicos y medibles?",e:""},
+    {n:"09",b:"b",t:"Acompañamiento en Campo",q:"¿Acompañas a tus agentes en situaciones reales de venta — no para hacer la venta tú, sino para observar, retroalimentar y enseñar desde la experiencia viva?",e:""},
+    {n:"10",b:"b",t:"Revisión de Métricas y Corrección de Ruta",q:"¿Revisas los números de tu grupo con frecuencia para detectar desviaciones antes de que se conviertan en crisis? ¿Y corriges con conversación directa, no con presión o silencio? — Registra cotizaciones activas del grupo por producto: GMM · Vida · Auto · Otro",e:""},
+    {n:"11",b:"b",t:"Ganadores de Campañas GMM",q:"¿Tus agentes están compitiendo y ganando en campañas de Gastos Médicos Mayores? ¿Tu grupo produce ganadores en el ramo más exigente del sector? — Registra cierres del grupo por producto: GMM · Vida · Auto · Otro",e:""},
+    {n:"12",b:"b",t:"Ganadores de Campañas de Vida",q:"¿Tus agentes están ganando en campañas de Vida? ¿Tu grupo produce en el ramo que más requiere convicción, propósito y conexión emocional con el cliente?",e:"Espejo de 01 — El ciclo cierra aquí."},
+  ],espejos:[["01","12"],["02","11"],["03","10"],["04","09"],["05","08"],["06","07"]]},
+
+  consolidado:{label:"Agente Consolidado",nota:"El IAD del Agente Consolidado usa actualmente la misma base que el Novel. Calibración independiente pendiente hasta datos de usuarios piloto.",preguntas:[
+    {n:"01",b:"a",t:"Estabilidad Emocional",q:"¿Tu desempeño es independiente de los ciclos del mercado o de los meses bajos? ¿Operas desde ecuanimidad, no desde reacción?",e:"Espejo de 12 — Solo el Agente Consolidado estable genera referidos desde autoridad, no desde necesidad."},
+    {n:"02",b:"a",t:"Seguridad y Confianza",q:"¿Tu autoridad como asesor nace de tu trayectoria real o todavía dependes de la validación del cliente o de la aseguradora?",e:"Espejo de 11 — El cliente avanzado compra autoridad, no productos."},
+    {n:"03",b:"a",t:"Disposición y Entrega",q:"¿Sigues comprometido con el servicio de largo plazo a tus clientes con la misma energía que cuando los conquistaste?",e:"Espejo de 10 — La propuesta multi-solución requiere preparación profunda."},
+    {n:"04",b:"a",t:"Responsabilidad",q:"¿Asumes la gestión completa de tu cartera como arquitecto de ella, o esperas que los clientes te busquen?",e:"Espejo de 09 — Nadie hace el diagnóstico financiero integral si no se siente responsable del resultado del otro."},
+    {n:"05",b:"a",t:"Estrategia de Cartera y Expansión",q:"¿Tienes un plan claro de crecimiento: nuevas aseguradoras, nuevos productos, nuevos segmentos? ¿O estás en modo mantenimiento?",e:"Espejo de 08 — Sin estrategia, el contacto es reactivo."},
+    {n:"06",b:"a",t:"Dominio Técnico Multi-dimensional",q:"¿Dominas productos complejos, multi-aseguradora, multi-ramo, con capacidad de diseñar soluciones de protección integral para perfiles distintos?",e:"Espejo de 07 — Sin dominio, la auditoría de cartera no revela nada útil."},
+    {n:"07",b:"b",t:"Auditoría de Cartera y Mapa de Expansión",q:"¿Tienes un diagnóstico actual de tu cartera completa: activos, sub-asegurados, potencial de ampliación, dormidos? ¿Y tienes identificado hacia dónde crecer?",e:""},
+    {n:"08",b:"b",t:"Contacto Proactivo y Expansión Activa",q:"¿Estás generando conversaciones con clientes actuales de forma proactiva, antes de que ellos te llamen? ¿Y simultáneamente abriendo nuevos mercados?",e:""},
+    {n:"09",b:"b",t:"Diagnóstico Financiero Integral del Cliente",q:"¿En cada revisión vas más allá de la póliza vigente? ¿Exploras situación de vida actual, nuevas necesidades, huecos de protección y metas de largo plazo?",e:""},
+    {n:"10",b:"b",t:"Propuesta Multi-Solución",q:"¿Presentas soluciones diseñadas para cada cliente integrando productos, aseguradoras y estrategias distintas? ¿O presentas lo mismo a todos? — Registra cotizaciones activas por producto: GMM · Vida · Auto · Otro",e:""},
+    {n:"11",b:"b",t:"Cierre Consultivo Complejo",q:"¿Cierras negocios de mayor valor: renovaciones con ampliación, nuevas pólizas sobre cartera existente, productos que el cliente no sabía que necesitaba? — Registra cierres del período por producto: GMM · Vida · Auto · Otro",e:""},
+    {n:"12",b:"b",t:"Estrategia de Referidos",q:"¿Tienes un sistema activo para que tus clientes te conecten con personas de su red con perfil similar o superior? ¿Los referidos llegan por tu reputación y estrategia?",e:"Espejo de 01 — El ciclo cierra aquí."},
+  ],espejos:[["01","12"],["02","11"],["03","10"],["04","09"],["05","08"],["06","07"]]},
+
+  edat:{label:"Reclutador / EDAT",preguntas:[
+    {n:"01",b:"a",t:"Estabilidad Emocional",q:"¿Puedes mantener tu ritmo de atracción aunque pases semanas sin que nadie ingrese?",e:"Espejo de 12 — Solo el reclutador estable cierra bien, entrega bien y pide el referido con dignidad."},
+    {n:"02",b:"a",t:"Seguridad y Confianza",q:"¿Crees con convicción real que la oportunidad que ofreces puede cambiar la vida de la persona correcta?",e:"Espejo de 11 — La convicción se transfiere en el momento inicial del arranque."},
+    {n:"03",b:"a",t:"Disposición y Entrega",q:"¿Acompañas al candidato con paciencia durante todo el proceso, incluyendo la parte burocrática y de espera?",e:"Espejo de 10 — Sin disposición, no hay paciencia para la segunda entrevista."},
+    {n:"04",b:"a",t:"Responsabilidad",q:"¿Asumes los resultados de tu reclutamiento sin culpar al mercado, a los candidatos o a la agencia?",e:"Espejo de 09 — El irresponsable saltea las pruebas y evaluaciones para llenar cuotas."},
+    {n:"05",b:"a",t:"Estrategia de Reclutamiento",q:"¿Tienes definido el perfil de agente compatible con la cultura de la agencia y sabes exactamente dónde encontrarlo?",e:"Espejo de 08 — Sin estrategia, la primera entrevista no tiene criterio."},
+    {n:"06",b:"a",t:"Dominio Técnico — Proceso de Incorporación",q:"¿Conoces con precisión los tiempos, requisitos, filtros y pasos formales del proceso de ingreso de un nuevo agente?",e:"Espejo de 07 — Sin dominio del proceso, el perfilamiento es superficial."},
+    {n:"07",b:"b",t:"Cartera de Candidatos Perfilados",q:"¿Tienes candidatos activos con perfil compatible? No importan los CVs recibidos. Importan los perfiles alineados con la cultura y el modelo de la agencia.",e:""},
+    {n:"08",b:"b",t:"Primera Entrevista",q:"¿Estás teniendo conversaciones reales de primer contacto con candidatos esta semana? ¿La entrevista revela el perfil o solo confirma el interés?",e:""},
+    {n:"09",b:"b",t:"Pruebas y Evaluaciones",q:"¿Aplicas herramientas de evaluación que te dan información real sobre la compatibilidad del candidato con el rol y la cultura?",e:""},
+    {n:"10",b:"b",t:"Segunda Entrevista — Cierre de la Decisión",q:"¿Tienes una conversación profunda donde se aclaran expectativas reales, se confirma la decisión y se cierra el compromiso de ingreso?",e:""},
+    {n:"11",b:"b",t:"Arranque del Proceso de Desarrollo",q:"¿El nuevo agente comienza con claridad de qué sigue, quién lo acompaña y qué se espera de él en los primeros 30 días?",e:""},
+    {n:"12",b:"b",t:"Conexión + Referido de Talento",q:"¿El agente está dado de alta, con clave activa y conectado al sistema? ¿Y le pediste que te conecte con alguien de perfil similar?",e:"Espejo de 01 — El ciclo cierra aquí."},
+  ],espejos:[["01","12"],["02","11"],["03","10"],["04","09"],["05","08"],["06","07"]]},
+
+  novel:{label:"Agente Novel",preguntas:[
+    {n:"01",b:"a",t:"Estabilidad Emocional",q:"¿Puedes trabajar con constancia aunque la semana no tenga resultados? ¿El 'no' no te saca del juego?",e:"Espejo de 12 — Solo el agente estable pide referidos desde dignidad, no desde necesidad."},
+    {n:"02",b:"a",t:"Seguridad y Confianza",q:"¿Crees genuinamente que lo que ofreces tiene valor real para quien lo compra?",e:"Espejo de 11 — Sin confianza en el valor, el agente no pide el cierre."},
+    {n:"03",b:"a",t:"Disposición y Entrega",q:"¿Estás comprometido con el proceso completo, no solo con las partes cómodas?",e:"Espejo de 10 — La presentación requiere preparación real, no improvisación."},
+    {n:"04",b:"a",t:"Responsabilidad",q:"¿Asumes tus resultados sin buscar excusas externas?",e:"Espejo de 09 — Quien no se responsabiliza no escucha al otro durante la detección de necesidades."},
+    {n:"05",b:"a",t:"Estrategia de Ventas",q:"¿Tienes un plan claro de a quién le hablas, qué le ofreces y por qué le sirve?",e:"Espejo de 08 — Sin estrategia, el primer contacto es caótico o se evita."},
+    {n:"06",b:"a",t:"Dominio Técnico — Productos de Seguros",q:"¿Conoces los productos con suficiente profundidad para responder con seguridad en una conversación real?",e:"Espejo de 07 — Sin dominio técnico, el perfilamiento de prospectos es vago."},
+    {n:"07",b:"b",t:"Cartera de Prospectos",q:"¿Tienes una lista activa de personas reales con nombre, contexto y perfil definido?",e:""},
+    {n:"08",b:"b",t:"Primer Contacto",q:"¿Estás generando conversaciones reales con tus prospectos de forma constante esta semana?",e:""},
+    {n:"09",b:"b",t:"Detección de Necesidades",q:"¿En cada conversación logras que el prospecto hable de lo que le preocupa antes de que tú hables del producto?",e:""},
+    {n:"10",b:"b",t:"Presentación de Propuesta",q:"¿Presentas una solución personalizada o el catálogo completo a todos por igual?",e:""},
+    {n:"11",b:"b",t:"Cierre y Pago",q:"¿Estás cerrando ventas y recibiendo el primer pago en tiempo? ¿O el proceso se queda en 'lo voy a pensar'?",e:""},
+    {n:"12",b:"b",t:"Solicitud de Referidos",q:"¿Le pides al cliente recién cerrado que te conecte con alguien de confianza con necesidades similares?",e:"Espejo de 01 — El ciclo cierra aquí."},
+  ],espejos:[["01","12"],["02","11"],["03","10"],["04","09"],["05","08"],["06","07"]]},
+  mkt:{label:"Arquitecto de Atracción Digital",preguntas:[
+    {n:"01",b:"a",t:"Identidad Digital",q:"¿Tienes claridad de la marca que comunicas? ¿Puedes nombrar los 3 pilares narrativos?",e:"Espejo de 12 — Sin identidad, no hay referidos orgánicos."},
+    {n:"02",b:"a",t:"Bienestar Creativo",q:"¿Cómo está tu energía para crear? ¿Publicas por convicción o por obligación?",e:"Espejo de 11 — Burnout creativo mata la atracción dual."},
+    {n:"03",b:"a",t:"Propósito de Marca",q:"¿El contenido refleja la misión de la agencia o solo llena el calendario?",e:"Espejo de 10 — Contenido sin propósito no convierte."},
+    {n:"04",b:"a",t:"Visión Estratégica",q:"¿Hay calendarización a 30–90 días? ¿Pilares definidos? ¿KPIs por formato?",e:"Espejo de 09 — Sin visión, el engagement es accidental."},
+    {n:"05",b:"a",t:"Relación con el Equipo",q:"¿Te alineas con Gerente, EDAT y Director semanalmente?",e:"Espejo de 08 — Contenido aislado del sistema comercial es ruido."},
+    {n:"06",b:"a",t:"Compromiso de Entrega",q:"¿Cumples el calendario? ¿La calidad es consistente?",e:"Espejo de 07 — Sin consistencia, no hay estrategia."},
+    {n:"07",b:"b",t:"Estrategia de Contenido",q:"¿Hay plan o se postea lo que se ocurre?",e:""},
+    {n:"08",b:"b",t:"Creación y Publicación",q:"¿El contenido es genérico o tiene la voz de ESA agencia?",e:""},
+    {n:"09",b:"b",t:"Engagement Real",q:"¿Los comentarios producen conversación o son likes vacíos?",e:""},
+    {n:"10",b:"b",t:"Conversión de Audiencia",q:"¿La audiencia se convierte o solo observa?",e:""},
+    {n:"11",b:"b",t:"Atracción Dual",q:"¿El contenido alimenta reclutamiento Y ventas simultáneamente?",e:""},
+    {n:"12",b:"b",t:"Referidos Digitales",q:"¿La marca se multiplica sin pagar? ¿Hay embajadores orgánicos?",e:"Espejo de 01 — El ciclo cierra aquí."},
+  ],espejos:[["01","12"],["02","11"],["03","10"],["04","09"],["05","08"],["06","07"]]}
+};
+
+const ETAPAS=[
+  {n:1,tag:"Apertura",title:"Contexto del Director",pts:["Objetivos de la agencia","Situación actual","Percepción del problema","Escucha sin confrontar"]},
+  {n:2,tag:"Exploración",title:"Estructura de la Agencia",pts:["Dirección","Reclutamiento","Gerencia","Agentes","Ritmo comercial"]},
+  {n:3,tag:"El Momento",title:"Ley del Espejo",pts:["El sistema refleja la arquitectura del liderazgo","Con mucho cuidado","Genera insight profundo","El Director empieza a ver"]},
+  {n:4,tag:"Diagnóstico",title:"Visualización del IAD",pts:["Presenta el radar","El Director ve su agencia objetivamente","Momento de mayor impacto","Aquí se abre la disposición al cambio"]},
+  {n:5,tag:"Decisión",title:"Escenarios",pts:["Camino 1: seguir igual","Camino 2: rediseñar la arquitectura","El Director empieza a pedir ayuda"]},
+  {n:6,tag:"Co-diseño",title:"Diseño Preliminar",pts:["Áreas de intervención","Foco estratégico","Intensidad del acompañamiento","Construyes en tiempo real con él"]},
+  {n:7,tag:"Cierre",title:"Protocolo de Inversión en Arquitectura",pts:["P21 · Soberanía VIP — si el Director necesita recuperar su centro primero","P30+P90 · Arquitectura Sistémica — si está listo para intervenir toda la agencia","P99 · Soberanía Tecnológica — si busca Autonomía Operativa total con tecnología propia","El Director pide el camino — tú no lo presionas","Siguiente paso concreto con fecha y compromiso"]},
+];
+
+const ZONES=[
+  {min:1,max:3,l:"Zona de Riesgo",c:"#c0645a"},
+  {min:4,max:6,l:"Zona de Desarrollo",c:"#C9A84C"},
+  {min:7,max:8,l:"Zona de Solidez",c:"#7EB8C9"},
+  {min:9,max:10,l:"Zona de Referencia",c:"#4A9F6A"}
+];
+
+/* ═══════════ ESTADO ═══════════ */
+let S={role:null,nombre:"",scores:Array(12).fill(0),etdone:Array(7).fill(false)};
+
+/* ═══════════ UTILIDADES ═══════════ */
+function sc(v){
+  const cs=["","#c0645a","#c8745a","#d4845a","#d4944c","#c9a84c","#b0b44c","#8fbc5f","#70c870","#50c882","#28a898"];
+  return v?cs[v]:"#1e1e1e";
+}
+function getZ(a){for(const z of ZONES)if(a>=z.min&&a<=z.max)return z;return ZONES[0];}
+
+/* ═══════════ PORTADA ═══════════ */
+function selRole(r,el){
+  S.role=r;
+  document.querySelectorAll('.rbtn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');chk();
+}
+function chk(){
+  document.getElementById('bstart').disabled=!(document.getElementById('ninput').value.trim()&&S.role);
+}
+function startSession(){
+  S.nombre=document.getElementById('ninput').value.trim();
+  S.scores=Array(12).fill(0);S.etdone=Array(7).fill(false);
+  buildGuia();buildIAD();go('guia');
+}
+
+/* ═══════════ GUÍA ═══════════ */
+function buildGuia(){
+  document.getElementById('gbadge').textContent=S.nombre+" · "+RD[S.role].label;
+  document.getElementById('egrid').innerHTML=ETAPAS.map((e,i)=>`
+    <div class="ecard${S.etdone[i]?' done':''}" id="ec${i}" onclick="toggleE(${i})">
+      <div class="ecard-n">${e.n}</div>
+      <div class="etag">Etapa ${e.n} · ${e.tag}</div>
+      <div class="etitle">${e.title}</div>
+      <ul class="epoints">${e.pts.map(p=>`<li>${p}</li>`).join('')}</ul>
+      <div class="estatus${S.etdone[i]?' ok':''}" id="es${i}">${S.etdone[i]?'✓ Completada':'Toca para marcar'}</div>
+    </div>`).join('');
+  updGuiaProgress();
+}
+function toggleE(i){
+  S.etdone[i]=!S.etdone[i];
+  document.getElementById('ec'+i).classList.toggle('done',S.etdone[i]);
+  const s=document.getElementById('es'+i);
+  s.textContent=S.etdone[i]?'✓ Completada':'Toca para marcar';
+  s.className='estatus'+(S.etdone[i]?' ok':'');
+  updGuiaProgress();
+}
+function updGuiaProgress(){
+  const done=S.etdone.filter(Boolean).length;
+  document.getElementById('pb-guia').style.width=(done/7*100)+'%';
+}
+
+/* ═══════════ IAD ═══════════ */
+function buildIAD(){
+  const d=RD[S.role];
+  document.getElementById('iadsub').textContent=S.nombre+" · "+d.label;
+  document.getElementById('iadbadge').textContent=d.label;
+  document.getElementById('pdots').innerHTML=d.preguntas.map((_,i)=>
+    `<div style="width:6px;height:6px;border-radius:50%;background:#242424;transition:background 0.3s;" id="pd${i}"></div>`
+  ).join('');
+  let h='';
+  // Nota de calibración si aplica
+  if(d.nota){
+    h+=`<div style="font-size:0.62rem;color:var(--grey);font-style:italic;padding:8px 12px;border-left:2px solid rgba(201,168,76,0.25);background:rgba(201,168,76,0.03);margin-bottom:16px;line-height:1.6;">${d.nota}</div>`;
+  }
+  // Bloque A header
+  h+=`<div class="bloque-header"><div class="bloque-dot a"></div><div class="bloque-info"><div class="bloque-title a">BLOQUE A · EL SER</div><div class="bloque-desc">Indicadores 01–06 · Autoliderazgo Universal · Los cimientos del desempeño</div></div></div>`;
+  d.preguntas.forEach((q,i)=>{
+    if(q.n==="07"){
+      h+=`<div class="bloque-header b"><div class="bloque-dot b"></div><div class="bloque-info"><div class="bloque-title b">BLOQUE B · LA RUTA</div><div class="bloque-desc">Indicadores 07–12 · Proceso Específico del Rol · La ejecución en campo</div></div></div>`;
+    }
+    h+=`<div class="qcard" id="qc${i}">
+      <div class="qnum ${q.b}">${q.n} · ${q.t}</div>
+      <div class="qtext">${q.q}</div>
+      ${q.e?`<div class="qespejo">${q.e}</div>`:''}
+      <div class="srow">
+        ${[1,2,3,4,5,6,7,8,9,10].map(v=>`<button class="sbtn" id="sb${i}-${v}" onclick="setSc(${i},${v})">${v}</button>`).join('')}
+        <span class="slabel" id="sl${i}"></span>
+      </div>
+    </div>`;
+  });
+  document.getElementById('qpanel').innerHTML=h;
+  buildEspejo();drawRadar();updNF();
+}
+
+function setSc(idx,val){
+  S.scores[idx]=val;
+  for(let v=1;v<=10;v++){
+    const b=document.getElementById(`sb${idx}-${v}`);
+    const sel=v===val;
+    b.style.background=sel?sc(v):'transparent';
+    b.style.color=sel?'#0D0D0D':'#888';
+    b.style.borderColor=sel?sc(v):'#282828';
+  }
+  const lbls=['','Riesgo','Riesgo','Riesgo','Desarrollo','Desarrollo','Desarrollo','Solidez','Solidez','Referencia','Referencia'];
+  document.getElementById('sl'+idx).textContent=lbls[val];
+  document.getElementById('qc'+idx).classList.add('active');
+  document.getElementById('pd'+idx).style.background=val>=7?'#4A9F6A':val>=4?'#C9A84C':'#c0645a';
+  drawRadar();buildEspejo();updNF();
+  // ── AI MODULE HOOK #4 — ANÁLISIS EN TIEMPO REAL ──────────────────
+  // INTEGRACIÓN FUTURA: llamar /api/fer-u/score-update en cada cambio
+  // de score para activar sugerencias de re-calibración en sesión.
+  // Input: { idx, val, scores[12], role }
+  // Output: { alertaEspejo?: string, sugerenciaPreguntaAdicional?: string }
+  // Status: PENDIENTE — Q4 2026
+  // ────────────────────────────────────────────────────────────────── 
+}
+
+function updNF(){
+  const f=S.scores.filter(s=>s>0).length;
+  document.getElementById('nfilled').textContent=f+'/12 completados';
+  document.getElementById('pb-iad').style.width=(f/12*100)+'%';
+
+  // Block averages
+  const sA=S.scores.slice(0,6).filter(v=>v>0);
+  const sB=S.scores.slice(6).filter(v=>v>0);
+  const sT=S.scores.filter(v=>v>0);
+  document.getElementById('bavg-a').textContent=sA.length?(sA.reduce((a,b)=>a+b,0)/sA.length).toFixed(1):'—';
+  document.getElementById('bavg-b').textContent=sB.length?(sB.reduce((a,b)=>a+b,0)/sB.length).toFixed(1):'—';
+  document.getElementById('bavg-t').textContent=sT.length?(sT.reduce((a,b)=>a+b,0)/sT.length).toFixed(1):'—';
+  updateRombo();
+}
+
+/* ═══════════ ROMBO 4 FUERZAS ═══════════ */
+// Mapeo de indicadores → Fuerzas según Innovación Humana:
+//   Conciencia  = 01,02 (capacidad de observar sin ego)
+//   Dirección   = 03,04 (decisiones coherentes con propósito)
+//   Relación    = 05,06,07,08 (vínculos de confianza que producen equipo)
+//   Impacto     = 09,10,11,12 (resultados que evolucionan el sistema)
+function updateRombo(){
+  const s=S.scores;
+  function avg(idxs){const vals=idxs.map(i=>s[i]).filter(v=>v>0);return vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length):0;}
+  const C=avg([0,1]),D=avg([2,3]),R=avg([4,5,6,7]),I=avg([8,9,10,11]);
+  const forces=[
+    {key:'c',val:C,el:'fs-c',fc:'fc-c',lbl:'Conciencia',dot:'rf-c',color:'#C9A84C'},
+    {key:'d',val:D,el:'fs-d',fc:'fc-d',lbl:'Dirección',dot:'rf-d',color:'#C9A84C'},
+    {key:'r',val:R,el:'fs-r',fc:'fc-r',lbl:'Relación',dot:'rf-r',color:'#7EB8C9'},
+    {key:'i',val:I,el:'fs-i',fc:'fc-i',lbl:'Impacto',dot:'rf-i',color:'#4A9F6A'},
+  ];
+  forces.forEach(f=>{
+    const el=document.getElementById(f.el);
+    const fc=document.getElementById(f.fc);
+    if(!el||!fc)return;
+    if(f.val===0){el.textContent='—';el.style.color='#444';fc.style.borderColor='#202020';return;}
+    let state,color;
+    if(f.val<=3){state='Distorsionada · Riesgo';color='#c0645a';}
+    else if(f.val<=6){state='En Desarrollo · Atención';color='#C9A84C';}
+    else if(f.val<=8){state='Consciente · Solidez';color='#7EB8C9';}
+    else{state='Expandida · Referencia';color='#4A9F6A';}
+    el.textContent=f.val.toFixed(1)+' · '+state;
+    el.style.color=color;
+    fc.style.borderColor=color+'55';
+  });
+
+  // Update SVG rombo polygon — 4 vertices: top=C, right=D, bottom=R, left=I
+  const cx=80,cy=65,maxR=53;
+  function pt(angle,val){
+    const r=val>0?(val/10)*maxR:0;
+    return{x:cx+r*Math.cos(angle),y:cy+r*Math.sin(angle)};
+  }
+  const topPt=pt(-Math.PI/2,C),rightPt=pt(0,D),botPt=pt(Math.PI/2,R),leftPt=pt(Math.PI,I);
+  const poly=document.getElementById('rombo-fill');
+  if(poly) poly.setAttribute('points',`${topPt.x},${topPt.y} ${rightPt.x},${rightPt.y} ${botPt.x},${botPt.y} ${leftPt.x},${leftPt.y}`);
+
+  // Update force dots
+  ['rf-c','rf-d','rf-r','rf-i'].forEach((id,i)=>{
+    const pts=[topPt,rightPt,botPt,leftPt][i];
+    const dot=document.getElementById(id);
+    if(dot&&pts.x!==cx){dot.setAttribute('cx',pts.x);dot.setAttribute('cy',pts.y);}
+  });
+}
+
+/* ═══════════ RADAR ═══════════ */
+function drawRadar(){
+  const cv=document.getElementById('rcanvas'),ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height,cx=W/2,cy=H/2,R=Math.min(W,H)/2-28,N=12;
+  ctx.clearRect(0,0,W,H);
+  const ang=Array.from({length:N},(_,i)=>-Math.PI/2+(2*Math.PI*i)/N);
+  // Colores: 0-5 → gold (Bloque A), 6-11 → blue (Bloque B)
+  const cols=Array(6).fill('#C9A84C').concat(Array(6).fill('#7EB8C9'));
+
+  // Anillos
+  for(let r=2;r<=10;r+=2){
+    ctx.beginPath();
+    for(let i=0;i<N;i++){const x=cx+R*(r/10)*Math.cos(ang[i]),y=cy+R*(r/10)*Math.sin(ang[i]);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+    ctx.closePath();ctx.strokeStyle=r===6?'#252525':'#1c1c1c';ctx.lineWidth=r===6?1.2:0.7;ctx.stroke();
+  }
+  // Ejes
+  ang.forEach(a=>{ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.strokeStyle='#181818';ctx.lineWidth=0.7;ctx.stroke();});
+
+  // Polígono de datos
+  const s=S.scores;
+  if(s.some(v=>v>0)){
+    ctx.beginPath();
+    ang.forEach((a,i)=>{const v=s[i]||0,x=cx+R*(v/10)*Math.cos(a),y=cy+R*(v/10)*Math.sin(a);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+    ctx.closePath();ctx.fillStyle='rgba(201,168,76,0.08)';ctx.fill();
+    ctx.strokeStyle='rgba(201,168,76,0.45)';ctx.lineWidth=1.5;ctx.stroke();
+  }
+  // Puntos y etiquetas
+  ang.forEach((a,i)=>{
+    const v=s[i]||0,lx=cx+(R+18)*Math.cos(a),ly=cy+(R+18)*Math.sin(a);
+    if(v>0){ctx.beginPath();ctx.arc(cx+R*(v/10)*Math.cos(a),cy+R*(v/10)*Math.sin(a),3.5,0,2*Math.PI);ctx.fillStyle=cols[i];ctx.fill();}
+    ctx.font='bold 8px Montserrat,sans-serif';ctx.fillStyle=v>0?cols[i]:'#2a2a2a';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText((i+1<10?'0'+(i+1):(i+1)),lx,ly);
+  });
+  ctx.textAlign='left';ctx.textBaseline='alphabetic';
+
+  // Score central
+  const f=s.filter(v=>v>0);
+  if(f.length){
+    const avg=(f.reduce((a,b)=>a+b,0)/f.length).toFixed(1),z=getZ(parseFloat(avg));
+    document.getElementById('rscv').textContent=avg;
+    document.getElementById('rscv').style.color=z.c;
+    document.getElementById('rscz').textContent=z.l;
+    document.getElementById('rscz').style.color=z.c;
+  } else {
+    document.getElementById('rscv').textContent='—';
+    document.getElementById('rscz').textContent='';
+  }
+}
+
+/* ═══════════ ESPEJO TABLE ═══════════ */
+function buildEspejo(){
+  const d=RD[S.role],s=S.scores;
+  let h='<div class="etblhdr">Ley del Espejo · Coherencia Interna</div>';
+  d.espejos.forEach(([a,b])=>{
+    const ia=parseInt(a)-1,ib=parseInt(b)-1,va=s[ia],vb=s[ib];
+    const diff=va&&vb?Math.abs(va-vb):null;
+    const dc=diff===null?'#2a2a2a':diff===0?'#4A9F6A':diff<=1?'#C9A84C':diff<=2?'#d4944c':'#c0645a';
+    h+=`<div class="erow">
+      <span class="epair">${a}↔${b}</span>
+      <div class="evals">
+        <div class="eval" style="background:${sc(va)};color:${va?'#0D0D0D':'#444'}">${va||'—'}</div>
+        <span style="color:#2a2a2a;font-size:0.7rem">↔</span>
+        <div class="eval" style="background:${sc(vb)};color:${vb?'#0D0D0D':'#444'}">${vb||'—'}</div>
+      </div>
+      <span class="ediff" style="color:${dc}">${diff!==null?(diff===0?'✓':diff<=1?'≈'+diff:'Δ'+diff):''}</span>
+    </div>`;
+  });
+  document.getElementById('etbl').innerHTML=h;
+}
+
+/* ═══════════ RESULTADOS ═══════════ */
+function buildRes(){
+  const d=RD[S.role],s=S.scores;
+  document.getElementById('ressub').textContent=S.nombre+" · "+d.label+" · "+new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'long',year:'numeric'});
+  const f=s.filter(v=>v>0),avg=f.length?(f.reduce((a,b)=>a+b,0)/f.length):0,avgFmt=avg.toFixed(1),z=getZ(avg);
+  const sA=s.slice(0,6).filter(v=>v>0),sB=s.slice(6).filter(v=>v>0);
+  const avgA=sA.length?(sA.reduce((a,b)=>a+b,0)/sA.length).toFixed(1):'—';
+  const avgB=sB.length?(sB.reduce((a,b)=>a+b,0)/sB.length).toFixed(1):'—';
+  const scored=s.map((v,i)=>({v,i,q:d.preguntas[i]})).filter(x=>x.v>0);
+  const fors=[...scored].sort((a,b)=>b.v-a.v).slice(0,3);
+  const brs=[...scored].sort((a,b)=>a.v-b.v).slice(0,3);
+  const incons=d.espejos.filter(([a,b])=>{const va=s[parseInt(a)-1],vb=s[parseInt(b)-1];return va&&vb&&Math.abs(va-vb)>=3;});
+
+  document.getElementById('resbody').innerHTML=`
+  <div>
+    <div class="rcard" style="border-color:${z.c}22">
+      <div class="zone-box" style="border-left:3px solid ${z.c}">
+        <div class="zone-v" style="color:${z.c}">${avgFmt}</div>
+        <div class="zone-n" style="color:${z.c}">${z.l}</div>
+        <div style="font-size:0.66rem;color:var(--grey-l);margin-top:6px">${S.nombre} · ${d.label}</div>
+        <div style="display:flex;gap:20px;justify-content:center;margin-top:14px">
+          <div style="text-align:center">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--gold)">${avgA}</div>
+            <div style="font-size:0.54rem;letter-spacing:1px;color:var(--grey);text-transform:uppercase">Bloque A · El Ser</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--blue)">${avgB}</div>
+            <div style="font-size:0.54rem;letter-spacing:1px;color:var(--grey);text-transform:uppercase">Bloque B · La Ruta</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rcard">
+      <div class="rcard-title">Fortalezas del Sistema</div>
+      ${fors.map(({v,q})=>`<div class="irow"><div class="irow-lbl"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:${sc(v)};font-size:0.62rem;font-weight:700;color:#0D0D0D">${v}</span>${q.n} · ${q.t}</div></div>`).join('')}
+    </div>
+
+    <div class="rcard">
+      <div class="rcard-title">Brechas Prioritarias</div>
+      ${brs.map(({v,q})=>`<div class="irow"><div class="irow-lbl"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:${sc(v)};font-size:0.62rem;font-weight:700;color:#0D0D0D">${v}</span>${q.n} · ${q.t}</div>${q.e?`<div class="irow-txt" style="margin-top:3px">${q.e}</div>`:''}</div>`).join('')}
+    </div>
+
+      ${incons.length?`<div class="rcard" style="border-color:rgba(192,100,90,0.25)">
+      <div class="rcard-title" style="color:#c0645a">Fracturas de Arquitectura · Ley del Espejo</div>
+      <div style="font-size:0.68rem;color:var(--grey-l);line-height:1.65;margin-bottom:10px">El Cortex detecta Fractura de Arquitectura cuando la brecha entre El Ser y La Ruta supera 3 puntos. No es un problema de actitud — es desconexión estructural entre el origen humano y la ejecución operativa. Requiere intervención en el Laboratorio de Autoría.</div>
+      ${incons.map(([a,b])=>{const va=s[parseInt(a)-1],vb=s[parseInt(b)-1],qa=d.preguntas[parseInt(a)-1],qb=d.preguntas[parseInt(b)-1];
+        return`<div class="irow"><div class="irow-lbl">Fractura · ${a} (${qa.t}) ↔ ${b} (${qb.t})</div><div class="irow-txt">Scores: ${va} ↔ ${vb} · Δ ${Math.abs(va-vb)} puntos — Fractura de Arquitectura activa. El P21 prioriza esta fractura como hito de entrada. El P30+P90 la interviene a nivel sistémico.</div></div>`;
+      }).join('')}
+    </div>`:''}
+  </div>
+
+  <div>
+    <div class="rcard">
+      <div class="rcard-title">Todos los Indicadores</div>
+      ${d.preguntas.map((q,i)=>`<div class="indrow"><span class="indname" title="${q.t}"><span style="color:${q.b==='a'?'var(--gold)':'var(--blue)'};font-weight:600;margin-right:4px">${q.n}</span>${q.t}</span><div class="indbar"><div class="indbarfill" style="width:${(s[i]||0)*10}%;background:${sc(s[i]||0)}"></div></div><span class="indval" style="color:${sc(s[i]||2)}">${s[i]||'—'}</span></div>`).join('')}
+    </div>
+
+    <!-- PERITAJE FER U -->
+    <div class="rcard" style="border-color:rgba(201,168,76,0.2)">
+      <div class="rcard-title" style="color:var(--gold)">Peritaje Forense · Fer U · Cortex Auditor</div>
+      <div style="font-size:0.66rem;color:var(--grey-l);line-height:1.65;margin-bottom:14px">Este panel es exclusivo del facilitador. Captura lo que el Director no dijo pero tú observaste. Alimenta al Cortex para el cruce dual de datos.</div>
+
+      <div class="peritaje-panel">
+        <span class="peritaje-title">Checklist · Fracturas de Arquitectura Detectadas</span>
+        <p class="peritaje-sub">Marca las fracturas que observaste en la sesión — aunque el IAD no las confirme aún. Tu lectura de campo es el dato más preciso.</p>
+        <div class="fractura-check" id="fracturaCheck">
+          <div class="fcheck-item" onclick="toggleFractura(this)">
+            <div class="fcheck-box"></div>
+            <span class="fcheck-label"><strong>Fractura de Origen</strong> — IAD 01 y 12 bajos simultáneamente. Inestabilidad emocional crónica. El Director opera desde reactividad, no desde propósito.</span>
+          </div>
+          <div class="fcheck-item" onclick="toggleFractura(this)">
+            <div class="fcheck-box"></div>
+            <span class="fcheck-label"><strong>Fractura de Continuidad</strong> — IHS bajo + IAD 07 débil. El reclutamiento existe como urgencia, no como proceso. Deuda de Voluntad concentrada en acuerdos de reclutamiento.</span>
+          </div>
+          <div class="fcheck-item" onclick="toggleFractura(this)">
+            <div class="fcheck-box"></div>
+            <span class="fcheck-label"><strong>Fractura de Traducción</strong> — Bloque A alto + Bloque B bajo. Director con claridad interna que nunca se convirtió en arquitectura operativa. El sistema depende de su presencia.</span>
+          </div>
+          <div class="fcheck-item" onclick="toggleFractura(this)">
+            <div class="fcheck-box"></div>
+            <span class="fcheck-label"><strong>Fractura de Origen Latente</strong> — Bloque B alto + Bloque A bajo. Sistema productivo hoy, desde un origen frágil. La más peligrosa — invisible a los KPIs hasta que colapsa.</span>
+          </div>
+          <div class="fcheck-item" onclick="toggleFractura(this)">
+            <div class="fcheck-box"></div>
+            <span class="fcheck-label"><strong>Fractura de Espejo</strong> — Brecha ≥3 puntos en pares 01↔12. La arquitectura interna y el legado del sistema divergen. El sistema no sobrevive la ausencia del Director.</span>
+          </div>
+        </div>
+
+        <span class="peritaje-title" style="margin-top:8px;">Tensión Polárica · ¿Dónde está el Director hoy?</span>
+        <div class="polo-row">
+          <div class="polo-item">
+            <div class="polo-label">Polo dominante</div>
+            <select class="polo-select" id="poloA">
+              <option value="">— Seleccionar —</option>
+              <option>Humanidad (Oeste)</option>
+              <option>Dinero (Sur)</option>
+              <option>Crecimiento expansivo (Este)</option>
+              <option>Incubación interna (Oeste)</option>
+              <option>Interior (Centro)</option>
+              <option>Exterior (acción)</option>
+            </select>
+          </div>
+          <div class="polo-item">
+            <div class="polo-label">Polo ausente</div>
+            <select class="polo-select" id="poloB">
+              <option value="">— Seleccionar —</option>
+              <option>Humanidad (Oeste)</option>
+              <option>Dinero (Sur)</option>
+              <option>Crecimiento expansivo (Este)</option>
+              <option>Incubación interna (Oeste)</option>
+              <option>Interior (Centro)</option>
+              <option>Exterior (acción)</option>
+            </select>
+          </div>
+        </div>
+
+        <span class="peritaje-title" style="margin-top:8px;">Síntomas Silenciosos · Lo que el Director no dijo</span>
+        <p class="peritaje-sub" style="margin-bottom:8px;">Captura el lenguaje no verbal, las resistencias y los patrones que observaste y que el IAD no puede medir.</p>
+        <textarea class="peritaje-textarea" id="peritajeNotes" placeholder="Ej: Habla de la familia pero solo menciona bonos. Hesitación visible en IAD 07. Narrativa defensiva al llegar al indicador 04..."></textarea>
+
+        <span class="peritaje-title" style="margin-top:12px;">Recomendación de Protocolo</span>
+        <div class="polo-row">
+          <div class="polo-item">
+            <div class="polo-label">Protocolo sugerido</div>
+            <select class="polo-select" id="protocoloSug">
+              <option value="">— Seleccionar —</option>
+              <option>P21 · Soberanía VIP — Rescate individual primero</option>
+              <option>P30+P90 · Arquitectura Sistémica — All-In directo</option>
+              <option>Workshop de Blueprints — Ganar confianza, escalar después</option>
+              <option>Esperar — el Director no está listo aún</option>
+            </select>
+          </div>
+          <div class="polo-item">
+            <div class="polo-label">Fractura primaria a intervenir</div>
+            <select class="polo-select" id="fracturaPrimaria">
+              <option value="">— Seleccionar —</option>
+              <option>Fractura de Origen (IAD 01↔12)</option>
+              <option>Fractura de Continuidad (IHS + IAD 07)</option>
+              <option>Fractura de Traducción (A alto, B bajo)</option>
+              <option>Fractura de Origen Latente (B alto, A bajo)</option>
+              <option>Fractura de Espejo (brecha ≥3)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rcard">
+      <div class="rcard-title">Protocolo de Soberanía · Siguiente Paso</div>
+      <div class="irow">
+        <div class="irow-lbl" style="color:var(--gold)">P21 · Soberanía VIP — Ignición</div>
+        <div class="irow-txt">Intervención individual de 21 días. Para el Director que necesita recuperar su palabra, su tiempo y su claridad estratégica antes de comprometer a toda la agencia. Entrega el Kit de Emergencia Táctico: Manifiesto + Protocolo de Rescate de Voluntad. Los Planos son del Director al cierre.</div>
+      </div>
+      <div class="irow">
+        <div class="irow-lbl" style="color:var(--blue)">P30+P90 · Laboratorio + Sprint — All-In</div>
+        <div class="irow-txt">Re-arquitectura completa en 120 días (P120): 30 Días de Laboratorio (Director + Equipo + Cortex) + 90 Días de Custodia de Sprint. El Laboratorio de Autoría produce los 7 Blueprints. La Bóveda es el entregable final — propiedad exclusiva del Director.</div>
+      </div>
+      <div class="irow">
+        <div class="irow-lbl" style="color:var(--verde)">P99 · Soberanía Tecnológica — Autonomía Operativa</div>
+        <div class="irow-txt">99 días de autonomía total: PWA personalizada de la agencia + Cortex ADC calibrado al Director como Director Comercial Adjunto + 60 Roles Premium + Licencia 3–5 años. La dimensión de Autonomía Operativa — cuando el sistema dirige con inteligencia aumentada sin la presencia constante del Facilitador Metodológico.</div>
+      </div>
+      <div class="irow">
+        <div class="irow-lbl">Próximas mediciones IAD</div>
+        <div class="irow-txt">Semana 6 · Corte medio P120 · Semana 14 · IAD final de consolidación. El radar confirma la evolución real del sistema — es la demostración de que la Fractura de Arquitectura fue intervenida desde el origen.</div>
+      </div>
+      <div class="irow">
+        <div class="irow-lbl" style="color:var(--blue)">Benchmarking Sectorial · ADC Performance Index</div>
+        <div class="irow-txt">Este diagnóstico alimenta el Índice ADC — la primera base de datos de desempeño humano en agencias de seguros del mercado hispanohablante. Los datos anonimizados construyen el estándar del sector. <strong style="color:var(--blue)">El IAD no solo diagnostica tu agencia. Es la primera piedra del estándar institucional.</strong></div>
+      </div>
+      <div class="irow" style="border-top:1px solid rgba(201,168,76,0.2);margin-top:8px;padding-top:14px;">
+        <div class="irow-lbl" style="color:var(--gold)">Seguimiento PI · Activación Semana 1</div>
+        <div class="irow-txt">Desde Semana 1 del protocolo, el <strong style="color:var(--gold)">PI Cockpit Semanal</strong> se activa como instrumento de seguimiento semanal. Cada rol registra su volumen de proceso (IAD 07–12) y el sistema calcula las tasas de conversión (%CV) y la métrica de velocidad correspondiente: <strong>Novel → TFS ≤22 días · EDAT → V-Cert ≤25 días · Agente Consolidado → SCV ≤30 días · Gerente → IHS Grupo ≥86% · Arquitecto de Atracción Digital → TAR ≤7 días</strong>. El Cruce 4D (IAD × IHS × PI × %CV) es la lectura que el Cortex ADC usa entre sesiones para prescribir antes de que el resultado comercial lo confirme.</div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="nbtn" onclick="go('iad')">← Editar scores</button>
+        <button class="nbtn gld" onclick="window.print()">Exportar Diagnóstico</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ═══════════ PERITAJE FER U ═══════════ */
+function toggleFractura(el){
+  el.classList.toggle('checked');
+}
+
+/* ═══════════ NAVEGACIÓN ═══════════ */
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const m={portada:'s-portada',guia:'s-guia',iad:'s-iad',resultados:'s-resultados'};
+  const el=document.getElementById(m[id]);
+  if(el){el.classList.add('active');if(id==='resultados')buildRes();}
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
