@@ -13,6 +13,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/hero-fer-roberto.webp" type="image/webp" fetchpriority="high">
 <link rel="stylesheet" href="css/ih.css?v=42">
+<style>
+/* Precios: 4 modalidades */
+.precios-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+@media(max-width:1180px){.precios-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.precios-grid{grid-template-columns:1fr}}
+/* CTA de Agencias: formulario + WhatsApp */
+.empresas-cta .empresas-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:16px}
+</style>
 
 
 <meta property="og:type" content="website">
@@ -478,7 +486,7 @@
           <img src="img/metodo-miro.webp" width="640" height="427" loading="lazy" decoding="async" style="object-position:55% 50%"   alt="Tablero de Miro con el mapa de Ikigai en pantalla y, al fondo, un participante escribiendo en el pizarrón">
         </div>
         <p>
-          <strong>Acompañamiento 1 a 1, en línea, por videollamada.</strong> En Reinvención y A medida, además, lo que piensas y has logrado se vuelve un mapa que diseñamos juntos y se queda contigo.
+          <strong>Acompañamiento 1 a 1, en línea, por videollamada.</strong> En Reinvención Profunda y A medida, además, lo que piensas y has logrado se vuelve un mapa que diseñamos juntos y se queda contigo.
         </p>
       </div>
     </div>
@@ -619,9 +627,20 @@
           <a href="https://calendly.com/jesueugalde/descubrimiento" class="btn-secundario" style="text-align:center; justify-content:center;" target="_blank" rel="noopener">Agendar mi Sesión de Mapeo</a>
         </div>
 
+        <div class="precio-card">
+          <div>
+            <div class="p-title">Reinvención Básica</div>
+            <div class="p-price" data-mxn='$18,000 <span class="mxn">MXN</span>' data-usd='≈ $1,000 <span class="mxn">USD</span>'>$18,000 <span class="mxn">MXN</span></div>
+            <div class="p-sub">12 sesiones 1:1 de 2 h · 12 semanas</div>
+            <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Para transformar tu vida a fondo con un proceso semanal y una inversión más accesible.</p>
+            <ul class="p-list"><li>Una videosesión 1 a 1 de 2 h por semana</li><li>Sin Miro, bitácora con IA ni acompañamiento diario</li><li>Garantía de satisfacción</li></ul>
+          </div>
+          <a href="https://calendly.com/jesueugalde/descubrimiento" class="btn-secundario" style="text-align:center; justify-content:center;" target="_blank" rel="noopener">Agendar mi Sesión de Mapeo</a>
+        </div>
+
         <div class="precio-card featured">
           <div>
-            <div class="p-title">Reinvención</div>
+            <div class="p-title">Reinvención Profunda</div>
             <div class="p-price" data-mxn='$50,000 <span class="mxn">MXN</span>' data-usd='≈ $2,780 <span class="mxn">USD</span>'>$50,000 <span class="mxn">MXN</span></div>
             <div class="p-sub">16 sesiones 1:1 de 2 h · 4 meses</div>
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Re-arquitectura de tu identidad, hábitos, decisiones y relaciones, con tus blueprints en Miro.</p>
@@ -649,8 +668,11 @@
       </div>
 
       <div class="empresas-cta">
-        <p><strong>¿Es para tu empresa?</strong> Empezamos con una sesión de mapeo de 1 hora; de ahí te entrego una propuesta a tu medida.</p>
-        <a href="https://wa.me/525643440676?text=Hola%20Fer%2C%20quisiera%20agendar%20una%20sesi%C3%B3n%20de%20mapeo%20para%20mi%20empresa" class="btn-secundario" target="_blank" rel="noopener"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-message-circle"/></svg> Agendar sesión de mapeo para empresas</a>
+        <p><strong>¿Es para tu Agencia?</strong> Empezamos con una sesión de mapeo de 1 hora; de ahí te entrego una propuesta a tu medida.</p>
+        <div class="empresas-btns">
+          <a href="https://jesueugalde-ops.github.io/ADC-Docs/IAD_ADC.html" class="btn-secundario" target="_blank" rel="noopener"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg> Llenar el formulario para Dirección de Agencia</a>
+          <a href="https://wa.me/525643440676?text=Hola%20Fer%2C%20quisiera%20agendar%20una%20sesi%C3%B3n%20de%20mapeo%20para%20mi%20Agencia" class="btn-secundario" target="_blank" rel="noopener"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-message-circle"/></svg> Agendar sesión de mapeo para mi Agencia</a>
+        </div>
       </div>
     </div>
   </section>
