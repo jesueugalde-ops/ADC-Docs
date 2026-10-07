@@ -14,10 +14,10 @@
 <link rel="preload" as="image" href="img/hero-fer-roberto.webp" type="image/webp" fetchpriority="high">
 <link rel="stylesheet" href="css/ih.css?v=42">
 <style>
-/* Precios: 4 modalidades */
-.precios-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
-@media(max-width:1180px){.precios-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Precios: 4 modalidades en 2 filas de 2 */
+.precios-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
 @media(max-width:640px){.precios-grid{grid-template-columns:1fr}}
+.precios-grid .p-price{flex-wrap:wrap}
 /* CTA de Agencias: formulario + WhatsApp */
 .empresas-cta .empresas-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:16px}
 </style>
