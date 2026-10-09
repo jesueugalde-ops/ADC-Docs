@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Temazcal ceremonial · Calpulli Cuauhtlatoatzin</title>
+<meta name="description" content="Temazcales ceremoniales en tradición Otomí y Lakota, en Agua Blanca, Huixquilucan. Para mujeres, hombres y mixtos.">
+<link rel="icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--noche:#13201f;--noche2:#1c2d2c;--hueso:#f1ead9;--suave:#c9d2c8;--cempa:#f2a31b;--turq:#5ccfd6;--cihua:#e0558a;
+--serif:'Marcellus',Georgia,serif;--sans:'Nunito Sans',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--noche);color:var(--hueso);font:18px/1.6 var(--sans)}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--cempa);outline-offset:3px}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.15}
+h2{font-size:clamp(1.9rem,6vw,2.7rem);margin-bottom:.6rem}
+h3{font-size:1.5rem;margin-bottom:.4rem}
+section{padding:3.5rem 1.25rem}
+.wrap{max-width:960px;margin:0 auto}
+.lead{color:var(--suave);max-width:60ch;margin-bottom:1.5rem}
+.btn{display:inline-block;background:var(--cempa);color:#1a1205;font-weight:700;text-decoration:none;padding:.8rem 1.4rem;border-radius:999px}
+.btn:hover{filter:brightness(1.1)}
+.btn.sec{background:transparent;color:var(--hueso);border:2px solid var(--hueso)}
+.btn.mini{padding:.45rem 1.1rem;font-size:.95rem}
+/* barra */
+header{position:sticky;top:0;z-index:5;background:rgba(19,32,31,.94);backdrop-filter:blur(6px);display:flex;align-items:center;gap:.7rem;padding:.5rem 1.25rem}
+header img{height:42px}
+header span{font-family:var(--serif);font-size:1.1rem;flex:1;line-height:1.1}
+/* portada */
+.hero{min-height:82vh;display:flex;align-items:flex-end;background:linear-gradient(to top,rgba(19,32,31,.96) 8%,rgba(19,32,31,.25) 70%),url(img/portada.jpg) center/cover;padding-bottom:3rem}
+.hero h1{font-size:clamp(2.6rem,10vw,5rem);margin-bottom:.8rem}
+.hero p{max-width:34ch;font-size:1.25rem;margin-bottom:1.5rem}
+.hero .btn+.btn{margin-left:.5rem}
+/* calendario */
+.mes{display:flex;flex-wrap:wrap;gap:.2rem 1rem;align-items:baseline;margin-bottom:1.5rem}
+.mes b{font-family:var(--serif);font-size:1.6rem;font-weight:400;color:var(--turq)}
+.mes span{color:var(--suave)}
+.fechas{list-style:none;padding:0;display:grid;gap:1rem}
+.fecha{display:grid;grid-template-columns:64px 64px 1fr;gap:.9rem;align-items:center;background:var(--noche2);border-left:6px solid var(--c);border-radius:10px;padding:.9rem 1rem .9rem .8rem}
+.fecha img{width:64px;height:64px;object-fit:contain;border-radius:8px}
+.num{text-align:center;line-height:1}
+.num small{display:block;font-size:.8rem;color:var(--suave)}
+.num b{font-family:var(--serif);font-size:2.4rem;font-weight:400}
+.info strong{display:block;font-size:1.1rem}
+.info .hora{color:var(--c);font-weight:700}
+.info .btn{margin-top:.5rem}
+.t-mujeres{--c:var(--cihua)}.t-hombres{--c:var(--turq)}.t-mixto,.t-mixto-nocturno{--c:var(--cempa)}
+.nota{margin-top:1.2rem;color:var(--suave);font-size:.95rem}
+/* ofrenda */
+.ofrenda{background:var(--noche2)}
+.dos{display:grid;gap:2rem;align-items:center}
+.dos img{border-radius:12px;width:100%;height:100%;max-height:480px;object-fit:cover}
+.precio{font-family:var(--serif);font-size:3.2rem;color:var(--cempa);line-height:1}
+/* tipos */
+.tipos{display:grid;gap:1.5rem}
+.tipo{background:var(--noche2);border-radius:12px;overflow:hidden;border-top:6px solid var(--c)}
+.tipo img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.tipo div{padding:1.2rem 1.3rem 1.5rem}
+.tipo h3{color:var(--c)}
+.tipo p{margin-bottom:1rem}
+.tipo small{display:block;color:var(--suave);margin:-.5rem 0 1rem}
+/* listas */
+.cols{display:grid;gap:1.5rem}
+ul.l{padding-left:1.2rem}ul.l li{margin:.3rem 0}
+.aviso{background:var(--noche2);border-radius:12px;padding:1.2rem 1.3rem}
+/* faq */
+details{border-bottom:1px solid rgba(241,234,217,.2);padding:1rem 0}
+summary{cursor:pointer;font-weight:700;font-size:1.1rem;list-style:none;display:flex;justify-content:space-between;gap:1rem}
+summary::after{content:'+';color:var(--cempa);font-size:1.5rem;line-height:1}
+details[open] summary::after{content:'–'}
+details p{margin-top:.6rem;color:var(--suave)}
+/* galería */
+.galeria{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
+.galeria img{width:100%;height:100%;aspect-ratio:1;object-fit:cover;border-radius:8px}
+/* contacto */
+.contacto{text-align:center;background:var(--noche2)}
+.contacto .lead{margin-inline:auto}
+.contacto .btn{margin:.4rem}
+footer{text-align:center;padding:2rem 1.25rem;color:var(--suave);font-size:.95rem}
+@media(min-width:760px){
+.dos{grid-template-columns:1fr 1fr}.tipos{grid-template-columns:repeat(3,1fr)}.cols{grid-template-columns:1fr 1fr}
+.galeria{grid-template-columns:repeat(4,1fr)}.fecha{grid-template-columns:72px 80px 1fr auto}.info{display:contents}
+.info>div{}.fecha .btn{margin:0}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="img/logo.png" alt="Logotipo del Calpulli Cuauhtlatoatzin">
+  <span>Calpulli<br>Cuauhtlatoatzin</span>
+  <a class="btn mini" data-wa="1" href="#">Escríbenos</a>
+</header>
+
+<main>
+<div class="hero"><div class="wrap" style="width:100%">
+  <h1>Temazcal ceremonial</h1>
+  <p>Ceremonia de sanación en la tradición Otomí y Lakota. Para mujeres, para hombres y mixtos.</p>
+  <a class="btn" href="#calendario">Ver calendario</a><a class="btn sec" data-wa="1" href="#">WhatsApp</a>
+</div></div>
+
+<section id="calendario"><div class="wrap">
+  <h2>Próximos temazcales</h2>
+  <div class="mes"><b id="mes-nombre"></b><span id="mes-veintenas"></span></div>
+  <ul class="fechas" id="fechas"></ul>
+  <p class="nota">Cada fecha lleva el glifo del tonal de su día. Escríbenos para apartar tu lugar.</p>
+</div></section>
+
+<section class="ofrenda"><div class="wrap dos">
+  <div>
+    <h2>Nuestra ofrenda</h2>
+    <p class="lead" style="margin-bottom:1rem">Pedimos amorosamente un costo de recuperación por cada temazcal.</p>
+    <p class="precio">$200</p>
+    <p style="margin-top:.8rem">Y flores, frutas o semillas para el altar.</p>
+  </div>
+  <img src="img/xochipilli.jpg" alt="Estatua de Xochipilli rodeada de flores de cempasúchil" loading="lazy">
+</div></section>
+
+<section id="calpulli"><div class="wrap dos">
+  <img src="img/ollin.jpg" alt="Ofrenda de flores en forma de Ollin" loading="lazy">
+  <div>
+    <h2>Cuauhtlatoatzin</h2>
+    <p style="font-family:var(--serif);font-size:1.5rem;color:var(--cempa);margin-bottom:1rem">La venerable águila que habla.</p>
+    <p class="lead">Somos una organización dedicada a la preservación y salvaguarda de nuestra cultura.</p>
+    <p>Nuestro temazcal es una ceremonia de sanación, no un servicio de bienestar. Venimos a rezar, a soltar y a cerrar ciclos, en comunidad.</p>
+  </div>
+</div></section>
+
+<section id="tipos" style="background:var(--noche2)"><div class="wrap">
+  <h2>Elige tu temazcal</h2>
+  <p class="lead">Hay temazcales para mujeres, para hombres y mixtos. Únete al grupo de WhatsApp del que te llame.</p>
+  <div class="tipos">
+    <article class="tipo t-mujeres" style="background:var(--noche)">
+      <img src="img/mujeres.jpg" alt="Mujeres frente al fuego antes del temazcal" loading="lazy">
+      <div><h3>Cihuas</h3>
+      <p>Entre mujeres nos preparamos física, mental y espiritualmente. Abrimos la abundancia, el amor y el compañerismo. Vamos unidas en un solo rezo: por mí, por ti, por la familia, por nuestra comunidad, por nuestro pueblo y por el Universo.</p>
+      <a class="btn mini" data-grupo="mujeres" href="#">Unirme al grupo</a></div>
+    </article>
+    <article class="tipo t-hombres" style="background:var(--noche)">
+      <img src="img/hombres.jpg" alt="Hombres reunidos antes del temazcal" loading="lazy">
+      <div><h3>Hermanos</h3>
+      <p>Venimos con permiso de nuestro rostro, corazón y sexualidad. Nos reconocemos, nos aceptamos y soltamos lo que hoy nos lastima. Dejamos atrás prejuicios, culpas y miedos, ordenamos el interior y cerramos un ciclo para renovar fuerzas. Como hermanos.</p>
+      <a class="btn mini" data-grupo="hombres" href="#">Unirme al grupo</a></div>
+    </article>
+    <article class="tipo t-mixto" style="background:var(--noche)">
+      <img src="img/mixto.jpg" alt="Mujeres y hombres reunidos junto al fuego" loading="lazy">
+      <div><h3>Mixtos</h3><small>Domingos y algunos sábados por la noche</small>
+      <p>Mujeres y hombres en un solo rezo. Nos reconocemos, soltamos lo que hoy nos lastima y ordenamos el interior. Abrimos el corazón al amor y al compañerismo: por nosotros, por la familia, por nuestra comunidad y por el Universo.</p>
+      <a class="btn mini" data-grupo="mixtos" href="#">Unirme al grupo</a></div>
+    </article>
+  </div>
+</div></section>
+
+<section id="preparacion"><div class="wrap">
+  <h2>Cómo prepararte</h2>
+  <div class="cols">
+    <div>
+      <h3>Qué llevar</h3>
+      <ul class="l">
+        <li>Ropa para el temazcal: short o falda de danzante del sol, falda, vestido</li>
+        <li>Paliacate</li>
+        <li>Toalla y cambio de ropa</li>
+        <li>Sandalias</li>
+        <li>Agua para antes y después</li>
+        <li>Instrumentos, si tienes (opcional)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Tu ofrenda</h3>
+      <ul class="l"><li>Flores</li><li>Frutas</li><li>Semillas</li></ul>
+      <p style="margin-top:1rem">Te invitamos a llegar en ayuno de sólidos y a tomar solo líquidos ese día. Si es tu primera vez o tienes alguna condición de salud, avísanos antes.</p>
+    </div>
+  </div>
+</div></section>
+
+<section style="background:var(--noche2)"><div class="wrap">
+  <h2>Precauciones</h2>
+  <div class="cols">
+    <div class="aviso"><h3>Avísanos antes si tienes</h3>
+      <ul class="l"><li>Diabetes, hipertensión o hipoglucemia</li><li>Embarazo</li></ul></div>
+    <div class="aviso"><h3>No es recomendable entrar con</h3>
+      <ul class="l"><li>Cáncer avanzado</li><li>Problemas graves del corazón o de circulación</li><li>Insuficiencia renal, epilepsia o esquizofrenia</li><li>Heridas profundas, cirugías recientes o tatuajes recientes</li><li>Enfermedades contagiosas, deshidratación o estado de ebriedad</li></ul></div>
+  </div>
+</div></section>
+
+<section id="preguntas"><div class="wrap">
+  <h2>Preguntas frecuentes</h2>
+  <details><summary>Es mi primera vez, ¿puedo ir?</summary><p>Sí. Escríbenos por WhatsApp y te explicamos cómo es y qué necesitas. Llega con tiempo para conocer el lugar.</p></details>
+  <details><summary>¿Cuánto cuesta?</summary><p>Pedimos un costo de recuperación de $200 por temazcal, más flores, frutas o semillas para el altar.</p></details>
+  <details><summary>¿Cómo aparto mi lugar?</summary><p>Escríbenos por WhatsApp desde el botón "Apartar" de la fecha que quieras. También puedes unirte al grupo de tu temazcal.</p></details>
+  <details><summary>¿Qué diferencia hay entre mujeres, hombres y mixtos?</summary><p>En el de mujeres y en el de hombres cada grupo se reúne a rezar entre sí. En el mixto nos reunimos mujeres y hombres. Los tres son ceremonias de sanación.</p></details>
+  <details><summary>¿Tengo que ir en ayuno?</summary><p>Es una invitación, como parte de la preparación. Si es tu primera vez o tienes una condición de salud, avísanos y bebe líquidos.</p></details>
+  <details><summary>¿Qué significan los glifos del calendario?</summary><p>Usamos el Tonalpohualli para identificar cada temazcal. El glifo es el del tonal de ese día. Los meses se identifican con las veintenas.</p></details>
+  <details><summary>¿Y si me siento mal dentro del temazcal?</summary><p>Avisa a quienes guían la ceremonia. Ninguna persona está obligada a permanecer dentro.</p></details>
+</div></section>
+
+<section style="background:var(--noche2)"><div class="wrap">
+  <h2>Galería</h2>
+  <div class="galeria">
+    <img src="img/portada.jpg" alt="Ofrenda de flores con una sonaja" loading="lazy">
+    <img src="img/temazcal.jpg" alt="Dos mujeres sentadas junto al temazcal y su altar" loading="lazy">
+    <img src="img/mujeres.jpg" alt="Grupo de mujeres junto al fuego" loading="lazy">
+    <img src="img/ollin.jpg" alt="Flores en forma de Ollin" loading="lazy">
+    <img src="img/hombres.jpg" alt="Grupo de hombres antes del temazcal" loading="lazy">
+    <img src="img/mixto.jpg" alt="Grupo mixto junto al fuego" loading="lazy">
+    <img src="img/xochipilli.jpg" alt="Xochipilli entre flores" loading="lazy">
+  </div>
+</div></section>
+
+<section id="ubicacion"><div class="wrap">
+  <h2>Dónde estamos</h2>
+  <p class="lead">Agua Blanca, Huixquilucan, Estado de México. Al apartar tu lugar te compartimos la ubicación exacta.</p>
+  <a class="btn sec" href="https://www.google.com/maps/search/?api=1&query=Agua+Blanca+Huixquilucan" target="_blank" rel="noopener">Ver la zona en el mapa</a>
+</div></section>
+
+<section class="contacto" id="contacto"><div class="wrap">
+  <h2>Más información</h2>
+  <p class="lead">Escríbenos por WhatsApp. Con gusto te atendemos.</p>
+  <a class="btn" data-wa="1" href="#">55 6088 6496</a>
+  <a class="btn" data-wa="2" href="#">56 4344 0676</a>
+</div></section>
+</main>
+
+<footer>Calpulli Cuauhtlatoatzin · Ometeotl</footer>
+
+<script>
+/* ===== Edita aquí cada mes ===== */
+const CONTACTO = { 1:'525560886496', 2:'525643440676' };
+// Pega aquí los enlaces de invitación a cada grupo de WhatsApp
+const GRUPOS = { mujeres:'', hombres:'', mixtos:'' };
+const MES = { nombre:'Octubre', veintenas:'Ochopaniztli y Teotlehco' };
+const TIPOS = { mujeres:'Temazcal para mujeres', hombres:'Temazcal para hombres', mixto:'Temazcal mixto', 'mixto-nocturno':'Temazcal mixto nocturno' };
+// glifo: imagen del tonal del día (img/glifos/)
+const FECHAS = [
+  { dia:'Sábado',  n:10, hora:'6:00 pm',  tipo:'mixto-nocturno', glifo:'10' },
+  { dia:'Domingo', n:11, hora:'12:00 pm', tipo:'mujeres',        glifo:'11' },
+  { dia:'Domingo', n:18, hora:'12:00 pm', tipo:'mujeres',        glifo:'18' },
+  { dia:'Domingo', n:25, hora:'12:00 pm', tipo:'hombres',        glifo:'25' }
+];
+/* ================================ */
+const wa = (num, txt) => 'https://wa.me/' + num + (txt ? '?text=' + encodeURIComponent(txt) : '');
+document.getElementById('mes-nombre').textContent = MES.nombre;
+document.getElementById('mes-veintenas').textContent = MES.veintenas;
+document.getElementById('fechas').innerHTML = FECHAS.map(f => {
+  const t = TIPOS[f.tipo];
+  const msg = 'Hola, quiero apartar mi lugar para el ' + t.toLowerCase() + ' del ' + f.dia.toLowerCase() + ' ' + f.n + ' de ' + MES.nombre.toLowerCase() + '.';
+  return '<li class="fecha t-' + f.tipo + '"><img src="img/glifos/' + f.glifo + '.png" alt="Glifo del tonal del día ' + f.n + '">' +
+    '<div class="num"><small>' + f.dia + '</small><b>' + f.n + '</b></div>' +
+    '<div class="info"><div><span class="hora">' + f.hora + '</span><strong>' + t + '</strong></div>' +
+    '<a class="btn mini" href="' + wa(CONTACTO[1], msg) + '" target="_blank" rel="noopener">Apartar</a></div></li>';
+}).join('');
+document.querySelectorAll('[data-wa]').forEach(a => { a.href = wa(CONTACTO[a.dataset.wa]); a.target = '_blank'; a.rel = 'noopener'; });
+document.querySelectorAll('[data-grupo]').forEach(a => { const g = GRUPOS[a.dataset.grupo]; if (g) { a.href = g; a.target = '_blank'; a.rel = 'noopener'; } });
+</script>
+</body>
+</html>
