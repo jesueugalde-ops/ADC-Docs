@@ -1520,39 +1520,15 @@ details[open] summary.acordeon-header::after { background: rgba(233, 225, 208, .
 #casos .casos-grid .caso-card p { font-size: 15.5px; line-height: 1.7; }
 #casos .casos-grid .caso-card h4 { font-size: 26px; }
 
-/* 3 · PAUSAS A SANGRE COMPLETA */
-.pausa {
-  --f: clamp(28px, 5vw, 64px);
-  position: relative; isolation: isolate;
-  display: grid; place-items: center;
-  min-height: clamp(300px, 56vh, 560px);
-  margin: 0; padding: clamp(56px, 9vw, 104px) 24px;
-  overflow: hidden; background: #050607;
-  clip-path: polygon(var(--f) 0, 100% 0, 100% calc(100% - var(--f)), calc(100% - var(--f)) 100%, 0 100%, 0 var(--f));
-}
-.pausa img {
-  position: absolute; inset: 0; z-index: -2;
-  width: 100%; height: 100%; object-fit: cover;
-  filter: saturate(.92) contrast(1.06) brightness(.72);
-}
-.pausa::before {
-  content: ''; position: absolute; inset: 0; z-index: -1;
-  background:
-    radial-gradient(ellipse at 50% 55%, rgba(5, 6, 7, .22), rgba(5, 6, 7, .78) 82%),
-    linear-gradient(180deg, rgba(5, 6, 7, .72), rgba(5, 6, 7, .12) 32%, rgba(5, 6, 7, .12) 68%, rgba(5, 6, 7, .78));
-}
-.pausa-txt {
-  max-width: 17em; margin: 0; text-align: center; text-wrap: balance;
-  font-family: var(--serif); font-style: italic; font-weight: 300;
-  font-size: clamp(30px, 4.6vw, 60px); line-height: 1.18; color: var(--blanco);
-}
-.pausa-rombo {
-  display: block; width: 12px; height: 12px; margin: 0 auto clamp(20px, 3vw, 32px);
-  transform: rotate(45deg); background: var(--oro); border: 1px solid var(--oro-vivo);
-}
+/* 3 · PAUSAS: sus estilos viven en un <style id="pausa-css"> dentro del <head> de cada HTML,
+   para que se vean bien aunque el navegador tenga una versión anterior de este archivo. */
 
 /* Cifra clave (+200%): el resultado comercial más fuerte se lee de un vistazo */
 .dato-clave {
   font-family: var(--serif); font-size: 1.75em; font-weight: 500; line-height: 1;
   letter-spacing: .01em; white-space: nowrap; color: var(--oro-vivo);
 }
+
+/* Enlaces dentro de párrafos: dorado con subrayado, para que se lean como enlace */
+.hero p.hero-nota a, button.link-casos, .rb-note a { color: var(--oro-vivo); font-weight: 500; text-decoration: underline; text-decoration-color: var(--oro-borde-med); text-underline-offset: 4px; }
+.hero p.hero-nota a:hover, button.link-casos:hover, .rb-note a:hover { color: var(--blanco); text-decoration-color: var(--oro-vivo); }
