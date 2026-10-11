@@ -20,6 +20,18 @@
 .precios-grid .p-price{flex-wrap:wrap}
 /* CTA de Agencias: formulario + WhatsApp */
 .empresas-cta .empresas-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:16px}
+
+/* ── Casos reales + enlaces a casos (portado de la versión EN) ── */
+.casos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:28px 0 8px}
+.caso-card{border:1px solid rgba(201,168,76,.28);border-radius:14px;padding:22px 22px 20px;background:rgba(255,255,255,.025)}
+.caso-tag{display:inline-block;font-family:var(--sans);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--oro-vivo,#E8C97A);margin-bottom:10px}
+.caso-card h4{font-family:var(--serif);font-size:22px;font-weight:400;margin:0 0 4px}
+.caso-meta{font-family:var(--sans);font-size:12.5px;color:var(--gris-cl,#9a9a9a);margin-bottom:12px}
+.caso-card p{font-family:var(--sans);font-size:14.5px;line-height:1.65;margin:0}
+.link-casos{background:none;border:0;padding:0;margin:0;font:inherit;color:var(--oro-vivo,#E8C97A);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.dolores li[hidden]{display:none!important}
+.p-list[hidden]{display:none!important}
+.p-incluye-btn{display:block;font-family:var(--sans);font-size:13.5px;margin:0 0 14px}
 </style>
 
 
@@ -110,7 +122,7 @@
         <li>El desgaste de tiempo, energía y dinero.</li>
       </ul>
       <p class="hero-promesa">Te acompaño a volver a tu centro y decidir desde ahí.</p>
-      <p class="hero-idiomas">Sesiones en Español e Inglés.</p>
+      <p class="hero-idiomas">Sesiones 1 a 1 en línea, en Español e Inglés.</p>
 
       <div class="hero-cta-group">
         <a href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html" class="cta-btn">
@@ -119,7 +131,7 @@
       </div>
 
       <ul class="ley">
-        <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg><span class="ley-t">Paso 1 · Evaluación de Fracturas Raíz: 5 min, sin costo</span></li>
+        <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg><span class="ley-t">Paso 1 · Evaluación de Fracturas Raíz: 5 min</span></li>
         <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg><span class="ley-t">Paso 2 · Sesión&nbsp;de&nbsp;Mapeo: <span class="nw">60 min · $1,000 MXN (≈ USD $55)</span></span></li>
         <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg><span class="ley-t">100% abonables a tu programa.</span></li>
       </ul>
@@ -187,7 +199,7 @@
           <span class="rb-l">Caso documentado: mejora en 12 áreas de vida en 3.5 meses*</span>
         </li>
       </ul>
-      <p class="rb-note">*Caso documentado, no promedio. Índice de 12 áreas autoevaluadas de 1 a 10, medido al inicio y al final del proceso.</p>
+      <p class="rb-note">*Caso documentado, no promedio: 12 áreas autoevaluadas de 1 a 10, al inicio y al final. <button type="button" class="link-casos" onclick="goCasos()">Ver casos reales</button></p>
 
       <!-- 4 TESTIMONIOS DESTACADOS (textos de los originales; solo se recortan, no se reescriben) -->
       <div class="t-grid t-grid--2 t-grid--flat">
@@ -268,7 +280,7 @@
         <div class="match-row-editorial">
           <div class="match-col-editorial no">
             <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-x"/></svg> No es</span>
-            <p><strong>Terapia clínica</strong> — no diagnostica ni la sustituye; si hace falta, trabajamos en paralelo con un profesional</p>
+            <p><strong>Terapia clínica</strong> — no diagnostica ni la sustituye</p>
           </div>
           <div class="match-col-editorial si">
             <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> Sí es</span>
@@ -292,7 +304,7 @@
           </div>
           <div class="match-col-editorial si">
             <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> Sí es</span>
-            <p><span class="concepto">Un camino único</span> sobre una estructura constante, con 14 años de campo</p>
+            <p><span class="concepto">Un camino único</span> sobre una estructura constante</p>
           </div>
         </div>
       </div>
@@ -304,7 +316,7 @@
     <div class="wrap">
       <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-layers"/></svg> Ruta de Arquitectura & Vínculos</div>
       <h2 class="sec-title">Cuatro dimensiones de <em>intervención</em>.</h2>
-      <p class="sec-desc"><strong>Nada</strong> se construye sobre un cimiento inestable. <strong>Elige la dimensión que deseas explorar</strong> o revisa cómo impacta directamente en tu vida cotidiana.</p>
+      <p class="sec-desc"><strong>Elige la dimensión que quieres explorar</strong> o revisa cómo impacta en tu vida cotidiana.</p>
 
       <div class="tabs-header">
         <button class="tab-btn active" onclick="switchTab('eje-1', this)"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-user"/></svg> 01. Personal</button>
@@ -318,7 +330,7 @@
           <div>
             <div class="eyebrow">Primer Horizonte / Raíz Interna</div>
             <h3>Identidad Personal & Estructura de origen</h3>
-            <p>Reconstrucción del autoconcepto, instalación de hábitos saludables, desarticulación del diálogo interno destructivo y regulación emocional. Exploración de verdades y creencias para generar avances reales en tu día a día.</p>
+            <p>Reconstrucción del autoconcepto, instalación de hábitos saludables, desarticulación del diálogo interno destructivo y regulación emocional.</p>
             <div class="eje-tags">
               <span class="tag-vincu">Uno mismo</span>
               <span class="tag-vincu">Pareja</span>
@@ -336,7 +348,7 @@
             <div class="eje-resultado">
               <span class="resultado-label">Resultado Sistémico</span>
               <p class="resultado-texto">Más paz, menos culpa reactiva y la recuperación de tu tiempo y de tu experiencia personal.</p>
-              <p class="resultado-dato">+67% en satisfacción personal. +40% en confianza personal. +45% en amor propio. +33% en salud física. +50% en comunicación y autoexpresión.* <span class="caso-nota">*Caso documentado, no promedio.</span></p>
+              <p class="resultado-dato">Caso documentado (Carlos, 3.5 meses): amor propio de 5 a 9 y comunicación de 4 a 9.* <span class="caso-nota">*Un caso, no un promedio. Autoevaluación de 1 a 10. <button type="button" class="link-casos" onclick="goCasos()">Ver casos reales</button></span></p>
             </div>
           </div>
         </div>
@@ -366,7 +378,7 @@
             <div class="eje-resultado">
               <span class="resultado-label">Resultado Sistémico</span>
               <p class="resultado-texto">Liderazgo con autoridad serena, menos fricción operativa y delegación efectiva.</p>
-              <p class="resultado-dato">+110% en liderazgo de equipo · hasta 93% de retención bajo un liderazgo formado con este método.* <span class="caso-nota">*Caso documentado, no promedio.</span></p>
+              <p class="resultado-dato">En un caso de 12 semanas, los indicadores profesionales pasaron de 4.1 a 8.6 (+110%); en un sprint de 12 semanas, 14 de 15 personas se quedaron en el equipo de un gerente formado con este método (93%).* <span class="caso-nota">*Dos casos documentados, no promedios. <button type="button" class="link-casos" onclick="goCasos()">Ver casos reales</button></span></p>
             </div>
           </div>
         </div>
@@ -377,7 +389,7 @@
           <div>
             <div class="eyebrow">Tercer Horizonte / Innovación Comercial</div>
             <h3>Identidad Comercial & Desempeño del negocio</h3>
-            <p>Tu forma de reclutar, vender, liderar y relacionarte con clientes es un espejo de tu estructura interna. Trabajamos primero esa base humana y, desde ahí, identificamos a tus clientes, cómo se comunican y qué valor les ofreces, y cuánto vale tu relación con ellos a largo plazo. Después rediseñamos tus procesos comerciales para que integren lo humano y lo tecnológico.</p>
+            <p>Tu forma de reclutar, vender, liderar y relacionarte con clientes es un espejo de tu estructura interna. Trabajamos primero esa base humana y, desde ahí, rediseñamos tus procesos comerciales para integrar lo humano y lo tecnológico.</p>
             <div class="eje-tags">
               <span class="tag-vincu">Equipo comercial</span>
               <span class="tag-vincu">Audiencias</span>
@@ -395,8 +407,8 @@
             </figure>
             <div class="eje-resultado">
               <span class="resultado-label">Resultado Sistémico</span>
-              <p class="resultado-texto">En 3 a 6 meses la claridad comercial ya es visible en cómo decides, vendes y mides tu crecimiento.</p>
-              <p class="resultado-dato">Ingresos que se duplican (+100%) y conversión medida, no supuesta, en menos de 4 meses. +37% en ventas de productos premium vs. el cuatrimestre anterior.* <span class="caso-nota">*Caso documentado, no promedio.</span></p>
+              <p class="resultado-texto">La claridad comercial suele aparecer meses después del trabajo personal: en cómo decides, vendes y mides tu crecimiento.</p>
+              <p class="resultado-dato">En un caso de 12 semanas, 6 de 16 oportunidades de Vida y GMM que no estaban proyectadas se cerraron durante el proceso (≈37%).* <span class="caso-nota">*Un caso documentado, no un promedio. <button type="button" class="link-casos" onclick="goCasos()">Ver casos reales</button></span></p>
             </div>
           </div>
         </div>
@@ -426,7 +438,7 @@
             </figure>
             <div class="eje-resultado">
               <span class="resultado-label">Contención Somática</span>
-              <p class="resultado-texto">Espacios de Temazcal, ceremonias tradicionales y cosmogonía ancestral que sostienen esta dimensión fuera de la lógica estandarizada.</p>
+              <p class="resultado-texto">Temazcal, ceremonias tradicionales y cosmogonía ancestral.</p>
               <p class="resultado-dato">Se respeta tu fe tal cual la vives: este trabajo no la sustituye ni la cuestiona. Te ayuda a conectar más con tu cuerpo y tu espíritu, a tu forma y a tu propio tiempo.</p>
             </div>
           </div>
@@ -440,11 +452,10 @@
     <div class="wrap">
       <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg> Cómo Trabajamos</div>
       <h2 class="sec-title">Un método que se probó primero <em>en mí</em>.</h2>
-      <p class="sec-desc">Se construyó sesión a sesión, probándose primero en mi propia vida y después con generaciones de alumnos. <span class="concepto">Rigor que mide y palabra que acompaña: dos lenguajes, un mismo centro.</span></p>
+      <p class="sec-desc">Afinado sesión a sesión con generaciones de alumnos. <span class="concepto">Rigor que mide y palabra que acompaña: dos lenguajes, un mismo centro.</span></p>
 
       <figure class="metodo-foto">
         <img src="img/metodo-abrazo.webp" width="1280" height="854" loading="lazy" decoding="async" style="object-position:55% 0%"   alt="Fer U en un abrazo con un participante, con los ojos cerrados, a la luz del sol">
-        <figcaption class="metodo-foto-cap">El método, vivido en persona — no solo en teoría.</figcaption>
       </figure>
 
       <h3 class="sub-seccion" style="margin-top:64px;">Así se trabaja el ciclo:</h3>
@@ -486,7 +497,7 @@
           <img src="img/metodo-miro.webp" width="640" height="427" loading="lazy" decoding="async" style="object-position:55% 50%"   alt="Tablero de Miro con el mapa de Ikigai en pantalla y, al fondo, un participante escribiendo en el pizarrón">
         </div>
         <p>
-          <strong>Acompañamiento 1 a 1, en línea, por videollamada.</strong> En Reinvención Profunda y A medida, además, lo que piensas y has logrado se vuelve un mapa que diseñamos juntos y se queda contigo.
+          En Reinvención Profunda y A medida, lo que piensas y has logrado se vuelve un mapa que diseñamos juntos y se queda contigo.
         </p>
       </div>
     </div>
@@ -506,9 +517,10 @@
         <li><span class="dolor">Un dolor que no se va</span><span class="creencia">“Esa depresión, esa ansiedad o esa pérdida ya deberían haber pasado.”</span></li>
         <li><span class="dolor">Estrés que ya normalizaste</span><span class="creencia">“Es el precio de la vida que construí.”</span></li>
         <li><span class="dolor">Hábitos que te dañan</span><span class="creencia">“Son solo mi válvula de escape.”</span></li>
-        <li><span class="dolor">Un equipo que no responde</span><span class="creencia">“Es su falta de capacidad o de responsabilidad.”</span></li>
-        <li><span class="dolor">Ventas que no despegan</span><span class="creencia">“Es el mercado, o mis clientes no tienen dinero.”</span></li>
+        <li class="dolor-extra" id="dolor-extra-1" hidden><span class="dolor">Un equipo que no responde</span><span class="creencia">“Es su falta de capacidad o de responsabilidad.”</span></li>
+        <li class="dolor-extra" id="dolor-extra-2" hidden><span class="dolor">Ventas que no despegan</span><span class="creencia">“Es el mercado, o mis clientes no tienen dinero.”</span></li>
       </ul>
+      <div class="dolores-toggle" style="text-align:center;margin:14px 0 6px;"><button type="button" class="btn-secundario" id="dolores-btn" aria-expanded="false" aria-controls="dolor-extra-1 dolor-extra-2" onclick="toggleDolores()"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-plus"/></svg> ¿Diriges un equipo o un negocio?</button></div>
       <p class="sec-desc dolores-cierre"><span class="pico">Cada explicación cubre una parte. <span class="concepto">Ninguna explica por qué se repite.</span></span></p>
 
       <div class="editorial-fit-container">
@@ -528,7 +540,8 @@
         </div>
       </div>
 
-      <p class="sec-desc cierre-filtro">Si te reconociste, el siguiente paso no es otro libro ni otro retiro: <strong>es un mapa de 5 minutos</strong> y, si te hace sentido, una hora de trabajo conmigo.</p>
+      <p class="sec-desc cierre-filtro">Si te reconociste, el siguiente paso no es otro libro ni otro retiro: <strong>es un mapa de 5 minutos</strong>, sin costo.</p>
+      <div style="text-align:center;margin-top:18px;"><a href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html" class="cta-btn"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg> Hacer mi Evaluación de Fracturas Raíz</a></div>
     </div>
   </section>
 
@@ -550,7 +563,7 @@
         </figure>
         <div>
           <h2 class="sec-title" style="margin-bottom:20px;">Fer U · <em>Arquitecto de Innovación Humana</em></h2>
-          <p class="sec-desc">Este acompañamiento nace de un camino que recorrí primero en mí: mis aprendizajes, mis estudios, mis conclusiones, mis miedos y mis visiones. <strong>Por eso puedo señalarte costos, atajos y límites, y exigirte cuando hace falta.</strong> El camino es tuyo: tú eliges en cada momento, y <span class="concepto">tu centro solo tú puedes habitarlo</span>. Seré tu <span class="concepto">Espejo humano</span>.</p>
+          <p class="sec-desc">Este acompañamiento nace de un camino que recorrí primero en mí. <strong>Por eso puedo señalarte costos, atajos y límites, y exigirte cuando hace falta.</strong> El camino es tuyo: tú eliges en cada momento, y <span class="concepto">tu centro solo tú puedes habitarlo</span>. Seré tu <span class="concepto">Espejo humano</span>.</p>
         </div>
       </div>
 
@@ -600,7 +613,7 @@
       </div>
 
       <div class="linaje-editorial">
-        <p>Fer es <b style="color:var(--oro-vivo)">Temazcalero de tradición Otomí, Aprendiz Marakame Wixárika, Tonalpouque y Danzante del Sol</b> — años de formación dentro de una tradición y comunidad reales. Esta contención sostiene todo el trabajo técnico y conceptual.</p>
+        <p>Fer es <b style="color:var(--oro-vivo)">Temazcalero de tradición Otomí, Aprendiz Marakame Wixárika, Tonalpouque y Danzante del Sol</b>. Aprende de <b style="color:var(--oro-vivo)">tradiciones y comunidades reales de México</b> y de maestros como Tío James (comunidad Lakota, EE. UU.), Temachtiani Alfredo (comunidad Otomí), Marakame Santos (comunidad Wixárika) y el Profesor Arturo Meza (comunidad Otomí). Esa raíz sostiene todo el trabajo técnico y conceptual.</p>
       </div>
       </div>
     </div>
@@ -622,7 +635,8 @@
             <div class="p-price" data-mxn='$10,000 <span class="mxn">MXN</span>' data-usd='≈ $555 <span class="mxn">USD</span>'>$10,000 <span class="mxn">MXN</span></div>
             <div class="p-sub">7 sesiones 1:1 de 60 min</div>
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Para un momento difícil, una decisión o una fractura específica.</p>
-            <ul class="p-list"><li>Videosesiones 1 a 1</li><li>Journaling entre sesiones</li><li>Garantía de satisfacción</li></ul>
+            <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
+<ul class="p-list" hidden><li>Journaling entre sesiones</li><li>Garantía de satisfacción</li></ul>
           </div>
           <a href="https://calendly.com/jesueugalde/descubrimiento" class="btn-secundario" style="text-align:center; justify-content:center;" target="_blank" rel="noopener">Agendar mi Sesión de Mapeo</a>
         </div>
@@ -633,7 +647,8 @@
             <div class="p-price" data-mxn='$18,000 <span class="mxn">MXN</span>' data-usd='≈ $1,000 <span class="mxn">USD</span>'>$18,000 <span class="mxn">MXN</span></div>
             <div class="p-sub">12 sesiones 1:1 de 2 h · 12 semanas</div>
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Para transformar tu vida a fondo con un proceso semanal y una inversión más accesible.</p>
-            <ul class="p-list"><li>Una videosesión 1 a 1 de 2 h por semana</li><li>Sin Miro, bitácora con IA ni acompañamiento diario</li><li>Garantía de satisfacción</li></ul>
+            <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
+<ul class="p-list" hidden><li>Sin Miro, bitácora con IA ni acompañamiento diario</li><li>Garantía de satisfacción</li></ul>
           </div>
           <a href="https://calendly.com/jesueugalde/descubrimiento" class="btn-secundario" style="text-align:center; justify-content:center;" target="_blank" rel="noopener">Agendar mi Sesión de Mapeo</a>
         </div>
@@ -644,7 +659,8 @@
             <div class="p-price" data-mxn='$50,000 <span class="mxn">MXN</span>' data-usd='≈ $2,780 <span class="mxn">USD</span>'>$50,000 <span class="mxn">MXN</span></div>
             <div class="p-sub">16 sesiones 1:1 de 2 h · 4 meses</div>
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Re-arquitectura de tu identidad, hábitos, decisiones y relaciones, con tus blueprints en Miro.</p>
-            <ul class="p-list"><li>Kick off y graduación</li><li>Acompañamiento casi diario entre sesiones</li><li>Medición semanal de tu avance</li><li>Bitácora diaria con asistentes de análisis con IA</li><li>Garantía de satisfacción</li></ul>
+            <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
+<ul class="p-list" hidden><li>Kick off y graduación</li><li>Acompañamiento casi diario entre sesiones</li><li>Medición semanal de tu avance</li><li>Bitácora diaria con asistentes de análisis con IA</li><li>Garantía de satisfacción</li></ul>
           </div>
           <a href="https://calendly.com/jesueugalde/descubrimiento" class="cta-btn" style="text-align:center;" target="_blank" rel="noopener">Agendar mi Sesión de Mapeo</a>
         </div>
@@ -655,7 +671,8 @@
             <div class="p-price" data-mxn='<span class="mxn desde">Desde</span>$90,000 <span class="mxn">MXN</span>' data-usd='<span class="mxn desde">Desde</span>$5,000 <span class="mxn">USD</span>'><span class="mxn desde">Desde</span>$90,000 <span class="mxn">MXN</span></div>
             <div class="p-sub">Por aplicación · hasta 6 meses</div>
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Programa intensivo diseñado contigo, con especialistas invitados. Puede incluir procesos presenciales.</p>
-            <ul class="p-list"><li>Se define en una sesión de diagnóstico</li><li>Personal, profesional, comercial y trascendente</li></ul>
+            <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
+<ul class="p-list" hidden><li>Se define en una sesión de diagnóstico</li><li>Personal, profesional, comercial y trascendente</li></ul>
           </div>
           <a href="https://wa.me/525643440676?text=Hola%20Fer,%20quiero%20aplicar%20al%20programa%20A%20medida" class="btn-secundario" style="text-align:center; justify-content:center;" target="_blank" rel="noopener">Aplicar por WhatsApp</a>
         </div>
@@ -678,10 +695,13 @@
   </section>
 
   <!-- ═══ 10. PREGUNTAS FRECUENTES ═══ -->
-  <section class="section alt" id="preguntas-detalle">
+  <section class="section alt section--compact" id="preguntas-detalle">
     <div class="wrap">
       <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-help"/></svg> Preguntas frecuentes</div>
       <h2 class="sec-title">Lo que suelen preguntar <em>antes de empezar</em>.</h2>
+<div class="faq-toggle" style="text-align:center;margin-top:22px;"><button type="button" class="btn-secundario" id="faq-btn" aria-expanded="false" aria-controls="faq-body" onclick="toggleFaq()" data-open="Ver las preguntas frecuentes" data-close="Ocultar las preguntas"><svg class="lucide-icon" id="faq-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg> <span id="faq-txt">Ver las preguntas frecuentes</span></button></div>
+<div id="faq-body" hidden style="margin-top:26px;">
+
 
       <details class="acordeon-item">
         <summary class="acordeon-header">¿Esto sustituye a una terapia psicológica?</summary>
@@ -700,7 +720,7 @@
       <details class="acordeon-item">
         <summary class="acordeon-header">¿Cómo se paga y qué pasa si necesito pausar o cancelar?</summary>
         <div class="acordeon-body">
-          <p>Eliges tu esquema: anticipo o pagos semanales o mensuales por transferencia (no manejo tarjeta; si necesitas factura, dímelo). Puedes reprogramar con más de 24 horas de aviso y pausar hasta 2 semanas. Si necesitas cancelar por razones económicas, no hay problema. <strong>Garantía:</strong> si tu satisfacción promedio queda por debajo de 7.5/10 a partir de la semana 4 y cumpliste el 100% de tus actividades, acuerdos y compromisos, te devuelvo tu inversión y descontinuamos el servicio.</p>
+          <p>Eliges tu esquema: anticipo o pagos semanales o mensuales por transferencia (no manejo tarjeta; si necesitas factura, dímelo). Puedes reprogramar con más de 24 horas de aviso y pausar hasta 2 semanas. Si necesitas cancelar por razones económicas, no hay problema. <strong>Garantía:</strong> las condiciones completas están en Modalidades de Acompañamiento.</p>
         </div>
       </details>
 
@@ -718,14 +738,7 @@
         </div>
       </details>
 
-      <details class="acordeon-item">
-        <summary class="acordeon-header">¿Cómo se conecta el orden personal con el desempeño de colaboradores y equipos?</summary>
-        <div class="acordeon-body">
-          <p>La forma en que un líder se sostiene se nota en su equipo: <strong>con claridad interna es más fácil delegar, poner límites y confiar</strong>; con desgaste, el equipo lo siente. Al trabajar tu identidad profesional cambia cómo decides, y eso suele transformar lo que ocurre a tu alrededor.</p>
-        </div>
-      </details>
-
-      <details class="acordeon-item">
+<details class="acordeon-item">
         <summary class="acordeon-header">¿Qué es la centralidad?</summary>
         <div class="acordeon-body">
           <p>Es el para qué de todo el proceso: volver a tu propio centro y decidir desde ahí. Ese centro solo tú puedes alcanzarlo y transformarlo; yo te ofrezco un espejo y una estructura para verlo con claridad. El pasado no se reescribe, pero <strong>el origen desde el cual decides sí se puede redefinir</strong>.</p>
@@ -746,6 +759,7 @@
         </div>
       </details>
     </div>
+</div>
   </section>
 
   <!-- ═══ 10.5. GALERÍA — PRESENCIA REAL ═══ -->
@@ -765,6 +779,32 @@
         <figure class="eje-foto"><img src="img/galeria-sesion-1a1.webp" width="575" height="719" alt="Sesión personal 1 a 1 con Fer U" loading="lazy" decoding="async"><span class="eje-foto-cap">Sesión 1:1</span></figure>
         <figure class="eje-foto"><img src="img/galeria-cx-design.webp" width="575" height="719" alt="Workshop de CX Design y diseño estratégico" loading="lazy" decoding="async"><span class="eje-foto-cap">CX Design Workshop</span></figure>
       </div>
+      <div class="casos-toggle" style="text-align:center;margin-top:32px;">
+        <button type="button" class="btn-secundario" id="casos-btn" onclick="toggleCasos()" aria-expanded="false" aria-controls="casos-panel"><svg class="lucide-icon" id="casos-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg> <span id="casos-txt">Ver casos reales</span></button>
+      </div>
+      <div id="casos-panel" hidden>
+        <h3 class="sub-seccion" style="text-align:center;margin-top:36px;">Casos reales</h3>
+        <p class="sec-desc" style="text-align:center;max-width:720px;margin:0 auto;">No todos los procesos se midieron igual. Unos siguieron las 12 áreas a lo largo del tiempo, otros algunos indicadores y otros son solo experiencia vivida. Cada caso dice cuál es.</p>
+        <div class="casos-grid">
+          <article class="caso-card"><span class="caso-tag">Medido · 12 áreas</span><h4>Carlos</h4><div class="caso-meta">Director de agencia · 3.5 meses</div><p>Llegó con casi nada de producción y sin estructura. En 3.5 meses su promedio en 12 áreas de vida y trabajo pasó de 5.3 a 8.8. La comunicación subió de 4 a 9, la productividad de 4 a 9 y el amor propio de 5 a 9. En el camino tomó su propia decisión: dejar su agencia. Lo acompañé sin empujarlo hacia ningún lado. El éxito no siempre es vender más; a veces es recuperar tu vida. Satisfacción: 5/5.</p></article>
+          <article class="caso-card"><span class="caso-tag">Medido · 12 áreas</span><h4>Ernesto</h4><div class="caso-meta">Director que heredó su agencia · 12 semanas</div><p>Por fuera todo funcionaba; por dentro estaba desconectado de su rol. Su promedio en 12 indicadores pasó de 5.2 a 8.7, y el de los profesionales de 4.1 a 8.6. Cumplió el 91.6% de sus compromisos. Primero empeoró y luego mejoró: en la semana 4 habilidades clave de venta bajaron (de 3 a 2) antes de subir a 9 en la semana 12. Al revisar su cartera de clientes identificamos 16 oportunidades de Vida y GMM que no tenía proyectadas; 6 se cerraron durante el proceso (≈37%) y otras 5 seguían activas al terminar el servicio. Satisfacción: 4.95/5.</p></article>
+          <article class="caso-card"><span class="caso-tag">Medido · indicadores clave</span><h4>Un sprint de equipo de 12 semanas</h4><div class="caso-meta">Agencia de 30 personas</div><p>La satisfacción del director con su equipo comercial subió de 5 a 8 sobre 10. En el equipo de un gerente, que cumplió el 90% de sus compromisos (112 de 124), 14 de 15 personas se quedaron (93% de retención); sus asesores lo calificaron con 9.0/10 y todos lo recomendarían.</p></article>
+          <article class="caso-card"><span class="caso-tag">Medido · indicadores clave</span><h4>Agentes independientes</h4><div class="caso-meta">12 semanas · 12 personas</div><p>Doce personas trabajaron su base personal, su marca y su servicio. Todas calificaron el programa con 5/5. Lo que suelo ver: primero llega el cambio personal y los resultados del negocio vienen entre 3 y 6 meses después.</p></article>
+          <article class="caso-card"><span class="caso-tag">Experiencia vivida</span><h4>Miguel</h4><div class="caso-meta">Director fundador de agencia, con 50 años en la industria</div><p>Una vida construida alrededor de una sola institución. Diseñamos su transición: una nueva marca, “Seguros con Miguel”, y una nueva profesión como conductor de radio de seguros. Aquí no hay métricas de ventas; el resultado fue un siguiente capítulo elegido y digno. Satisfacción: 5/5.</p></article>
+        </div>
+        <p class="rb-note">Escalas autoevaluadas de 1 a 10. Se comparten con el acuerdo de las personas involucradas, que pueden pedir su retiro en cualquier momento. Los resultados varían de una persona a otra.</p>
+        <div style="text-align:center;margin-top:22px;"><a href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html" class="cta-btn"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg> Hacer mi Evaluación de Fracturas Raíz</a></div>
+      </div>
+      <script>
+function toggleCasos(){var p=document.getElementById('casos-panel');if(!p)return;if(p.hasAttribute('hidden')){openCasos();}else{p.setAttribute('hidden','');setCasosUi(false);}}
+function openCasos(){var p=document.getElementById('casos-panel');if(!p)return;p.removeAttribute('hidden');setCasosUi(true);}
+function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.getElementById('casos-txt'),i=document.getElementById('casos-ic');if(b)b.setAttribute('aria-expanded',open?'true':'false');if(t)t.textContent=open?'Ocultar casos reales':'Ver casos reales';if(i){var u=i.querySelector('use');if(u)u.setAttribute('href',open?'#i-chevron-up':'#i-chevron-down');}}
+function togglePlan(b){var u=b.nextElementSibling;if(!u)return;var o=u.hasAttribute('hidden');if(o){u.removeAttribute('hidden');}else{u.setAttribute('hidden','');}b.setAttribute('aria-expanded',o?'true':'false');b.textContent=(o?'– ':'+ ')+(o?b.getAttribute('data-close'):b.getAttribute('data-open'));}
+function toggleFaq(open){var b=document.getElementById('faq-body');if(!b)return;var show=(typeof open==='boolean')?open:b.hasAttribute('hidden');if(show){b.removeAttribute('hidden');}else{b.setAttribute('hidden','');}var btn=document.getElementById('faq-btn'),t=document.getElementById('faq-txt'),i=document.getElementById('faq-ic');if(btn){btn.setAttribute('aria-expanded',show?'true':'false');if(t)t.textContent=show?btn.getAttribute('data-close'):btn.getAttribute('data-open');}if(i){var u=i.querySelector('use');if(u)u.setAttribute('href',show?'#i-chevron-up':'#i-chevron-down');}}
+if(location.hash==='#preguntas-detalle'){document.addEventListener('DOMContentLoaded',function(){toggleFaq(true);});}
+function goCasos(){openCasos();var p=document.getElementById('casos-panel');if(p&&p.scrollIntoView)p.scrollIntoView({behavior:'smooth',block:'start'});}
+function toggleDolores(){var x=document.querySelectorAll('.dolor-extra');for(var i=0;i<x.length;i++)x[i].removeAttribute('hidden');var b=document.getElementById('dolores-btn');if(b){b.setAttribute('aria-expanded','true');b.parentNode.style.display='none';}}
+      </script>
     </div>
   </section>
 
@@ -775,7 +815,7 @@
       <h2 class="sec-title centrado">¿Cuándo será <em>tu momento</em>?</h2>
       <p class="cta-preguntas"><span>¿Cuánto más vas a seguir cargando con ese dolor?</span><span>¿Qué estás esperando para recuperar tu tiempo, tu energía, tu paz?</span></p>
       <p class="sec-desc">
-        Empieza con tu <strong>Evaluación de Fracturas Raíz</strong> (5 minutos por dimensión, sin costo; es privada: solo me la envías si quieres). Si te hace sentido, agenda tu <strong>Sesión de Mapeo</strong> de 60 minutos: miramos juntos tu arquitectura humana y elegimos tu ruta.
+        Empieza con tu <strong>Evaluación de Fracturas Raíz</strong> (5 minutos por dimensión, gratis y privada: solo me la envías si quieres). Después, tu <strong>Sesión de Mapeo</strong> de 60 minutos: miramos juntos tu arquitectura humana y elegimos tu ruta.
       </p>
       <ul class="ley">
         <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> 100% abonables a tu programa si te inscribes en 4 semanas</li>
