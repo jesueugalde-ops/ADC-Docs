@@ -54,13 +54,27 @@
 <meta property="og:description" content="Acompaño a líderes de familia a reinventar su identidad. 1 a 1, en línea. Empieza con tu Evaluación de Fracturas Raíz, gratis.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,2 30,16 16,30 2,16' fill='none' stroke='%23C9A84C' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3.5' fill='%23C9A84C'/%3E%3C/svg%3E">
 <style id="pausa-css">
-/* Pausas a sangre completa (v46). Estilo autónomo: no depende de css/ih.css */
+/* Pausas (v47). Estilo autónomo: no depende de css/ih.css */
 .pausa{--f:clamp(22px,4vw,48px);position:relative;isolation:isolate;display:grid;place-items:center;box-sizing:border-box;width:100%;max-width:100%;min-height:clamp(220px,34vh,380px);margin:0;padding:clamp(40px,6vw,72px) clamp(24px,7vw,96px);overflow:hidden;background:#050607;clip-path:polygon(var(--f) 0,100% 0,100% calc(100% - var(--f)),calc(100% - var(--f)) 100%,0 100%,0 var(--f))}
 .pausa img{position:absolute;inset:0;z-index:-2;display:block;width:100%;height:100%;max-width:none;object-fit:cover;filter:saturate(.92) contrast(1.06) brightness(.72)}
 .pausa::before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% 55%,rgba(5,6,7,.22),rgba(5,6,7,.78) 82%),linear-gradient(180deg,rgba(5,6,7,.72),rgba(5,6,7,.12) 32%,rgba(5,6,7,.12) 68%,rgba(5,6,7,.78))}
 .pausa-txt{position:relative;box-sizing:border-box;width:100%;max-width:17em;margin:0 auto;padding:0;text-align:center;text-wrap:balance;font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-style:italic;font-weight:300;font-size:clamp(26px,3.6vw,46px);line-height:1.2;color:#F6F6F2}
 .pausa-rombo{display:block;width:12px;height:12px;margin:0 auto clamp(18px,2.6vw,28px);transform:rotate(45deg);background:#C9A84C;border:1px solid #E8C97A}
 @media (max-width:640px){.pausa{min-height:240px}}
+/* Escritorio (901 px o más): la foto va completa junto al texto, sin recorte y sin texto sobre las caras.
+   El celular conserva la versión con el texto sobre la foto. */
+@media (min-width:901px){
+.pausa{clip-path:none;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);column-gap:clamp(40px,5vw,80px);align-items:center;min-height:0;padding:clamp(56px,6vw,88px) max(40px,calc((100% - 1240px)/2))}
+.pausa::before{display:none}
+.pausa img{--ff:clamp(24px,3vw,44px);position:static;z-index:auto;grid-column:1;grid-row:1;width:100%;height:auto;filter:saturate(.96) contrast(1.04);clip-path:polygon(var(--ff) 0,100% 0,100% calc(100% - var(--ff)),calc(100% - var(--ff)) 100%,0 100%,0 var(--ff))}
+.pausa-txt{grid-column:2;grid-row:1;margin:0;max-width:14em;text-align:left;font-size:clamp(32px,3.4vw,52px)}
+.pausa-rombo{margin-left:0;margin-right:0}
+.pausa--der{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}
+.pausa--der img{grid-column:2}
+.pausa--der .pausa-txt{grid-column:1}
+.pausa--pano{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)}
+.pausa--pano.pausa--der{grid-template-columns:minmax(0,1fr) minmax(0,1.7fr)}
+}
 </style>
 </head>
 <body>
@@ -655,7 +669,7 @@
     </div>
   </section>
 
-  <div class="pausa">
+  <div class="pausa pausa--der pausa--pano">
     <img src="img/dim-comercial.webp" width="1279" height="533" loading="lazy" decoding="async" alt="Grupo de Directores y equipo comercial de una agencia GNP tras un cierre de programa de formación">
     <p class="pausa-txt"><span class="pausa-rombo" aria-hidden="true"></span>Lo que cambia se ve, no solo se siente.</p>
   </div>
