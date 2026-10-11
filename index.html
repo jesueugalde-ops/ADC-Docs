@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/hero-fer-roberto.webp" type="image/webp" fetchpriority="high">
-<link rel="stylesheet" href="css/ih.css?v=44">
+<link rel="stylesheet" href="css/ih.css?v=45">
 <style>
 /* Precios: 4 modalidades en 2 filas de 2 */
 .precios-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
@@ -282,14 +282,43 @@
     </div>
   </section>
 
-  <!-- ═══ 4. RUTA DE ARQUITECTURA & VÍNCULOS ═══ -->
-  <section class="section" id="arquitectura">
+  <!-- ═══ 6. QUÉ PUEDES LOGRAR — GRÁFICA RADAR ═══ -->
+  <section class="section section--compact" id="esencial">
+    <div class="wrap">
+      <div class="esc-grid">
+        <div class="esc-radar">
+          <svg id="rd" viewBox="-130 -130 260 260" role="group" aria-label="Radar de 12 áreas, ejemplo ilustrativo"></svg>
+          <div class="rd-area idle" id="rd-area" aria-live="polite">Toca un punto para ver qué área mide</div>
+          <div class="rd-dims" role="group" aria-label="Dimensión del mapa">
+            <button type="button" class="on" data-dim="personal" aria-pressed="true">Personal</button>
+            <button type="button" data-dim="profesional" aria-pressed="false">Profesional</button>
+            <button type="button" data-dim="comercial" aria-pressed="false">Comercial</button>
+          </div>
+          <small>Ejemplo ilustrativo · tu progreso en autoevaluaciones continuas</small>
+        </div>
+        <div class="esc-card" id="esc-logros">
+          <h3>¿Qué puedes lograr?</h3>
+          <p class="logro-lead">No es sentirte motivado una semana. Es dejar de repetir lo que ya sabes que no quieres repetir.</p>
+          <ul class="logros" id="logros-list" aria-live="polite">
+            <li><span class="de">De reaccionar en automático</span><span class="a">a decidir desde tu centro</span></li>
+            <li><span class="de">Del agotamiento constante</span><span class="a">a energía y tiempo para lo que importa</span></li>
+            <li><span class="de">De relaciones que desgastan</span><span class="a">a vínculos donde puedes ser tú</span></li>
+            <li><span class="de">De cargar lo que te daña</span><span class="a">a soltarlo sin pelearte contigo</span></li>
+          </ul>
+          <p class="logro-cierre">Lo medimos en tu mapa de 12 áreas: lo que cambia se ve, no solo se siente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- ═══ 4. RUTA DE ARQUITECTURA & VÍNCULOS ═══ -->
+  <section class="section alt" id="arquitectura">
     <div class="wrap">
       <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-layers"/></svg> Ruta de Arquitectura & Vínculos</div>
       <h2 class="sec-title">Cuatro dimensiones de <em>intervención</em>.</h2>
       <p class="sec-desc"><strong>Elige la dimensión que quieres explorar</strong> o revisa cómo impacta en tu vida cotidiana.</p>
 
-      <div class="tabs-header">
+      <div class="dim-layout">
+<div class="tabs-header" role="navigation" aria-label="Dimensiones">
         <button class="tab-btn active" onclick="switchTab('eje-1', this)"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-user"/></svg> 01. Personal</button>
         <button class="tab-btn" onclick="switchTab('eje-2', this)"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-briefcase"/></svg> 02. Profesional</button>
         <button class="tab-btn" onclick="switchTab('eje-3', this)"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-handshake"/></svg> 03. Comercial</button>
@@ -379,7 +408,7 @@
             <div class="eje-resultado">
               <span class="resultado-label">Resultado Sistémico</span>
               <p class="resultado-texto">La claridad comercial suele aparecer meses después del trabajo personal: en cómo decides, vendes y mides tu crecimiento.</p>
-              <p class="resultado-dato">En un caso de 12 semanas, 6 de 16 oportunidades de Vida y GMM que no estaban proyectadas se cerraron durante el proceso (≈37%).* <span class="caso-nota">*Un caso documentado, no un promedio. <button type="button" class="link-casos" onclick="goCasos()">Ver casos reales</button></span></p>
+              <p class="resultado-dato">En un caso de 12 semanas, 6 de 16 oportunidades de Vida y GMM que no estaban proyectadas se cerraron durante el proceso (≈37%); en un sprint de equipo de 12 semanas, los ganadores de bonos en la venta de Vida y GMM aumentaron <strong class="dato-clave">+200%</strong> frente al cuatrimestre anterior.* <span class="caso-nota">*Dos casos documentados, no promedios. <button type="button" class="link-casos" onclick="goCasos()">Ver casos reales</button></span></p>
             </div>
           </div>
         </div>
@@ -389,7 +418,7 @@
         <div class="eje-card-organic">
           <div>
             <div class="eyebrow">Cuarto Horizonte / Conexión Espiritual</div>
-            <h3 style="color:var(--oro-vivo);">Trascendencia, Consciencia & Raíz Ancestral</h3>
+            <h3>Trascendencia, Consciencia & Raíz Ancestral</h3>
             <p>Una dimensión de integración profunda. Trabajo de sanación humana y sabiduría ancestral (tradición Otomí/Wixárika/Lakota/Tolteca) para quienes buscan alinear su propósito cósmico y espiritual.</p>
             <div class="eje-tags">
               <span class="tag-vincu">Naturaleza humana</span>
@@ -416,18 +445,44 @@
         </div>
       </div>
     </div>
+</div>
   </section>
 
+  <section class="section" id="casos">
+    <div class="wrap">
+      <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flask-conical"/></svg> Evidencia</div>
+      <h2 class="sec-title">Casos <em>reales</em>.</h2>
+      <p class="sec-desc">No todos los procesos se midieron igual. Unos siguieron las 12 áreas a lo largo del tiempo, otros algunos indicadores y otros son solo experiencia vivida. Cada caso dice cuál es.</p>
+      <div class="casos-grid">
+        <article class="caso-card"><span class="caso-tag">Medido · 12 áreas</span><h4>Carlos</h4><div class="caso-meta">Director de agencia · 3.5 meses</div><p>Llegó con casi nada de producción y sin estructura. En 3.5 meses su promedio en 12 áreas de vida y trabajo pasó de 5.3 a 8.8. La comunicación subió de 4 a 9, la productividad de 4 a 9 y el amor propio de 5 a 9. En el camino tomó su propia decisión: dejar su agencia. Lo acompañé sin empujarlo hacia ningún lado. El éxito no siempre es vender más; a veces es recuperar tu vida. Satisfacción: 5/5.</p></article>
+        <article class="caso-card"><span class="caso-tag">Medido · 12 áreas</span><h4>Ernesto</h4><div class="caso-meta">Director que heredó su agencia · 12 semanas</div><p>Por fuera todo funcionaba; por dentro estaba desconectado de su rol. Su promedio en 12 indicadores pasó de 5.2 a 8.7, y el de los profesionales de 4.1 a 8.6. Cumplió el 91.6% de sus compromisos. Primero empeoró y luego mejoró: en la semana 4 habilidades clave de venta bajaron (de 3 a 2) antes de subir a 9 en la semana 12. Al revisar su cartera de clientes identificamos 16 oportunidades de Vida y GMM que no tenía proyectadas; 6 se cerraron durante el proceso (≈37%) y otras 5 seguían activas al terminar el servicio. Satisfacción: 4.95/5.</p></article>
+      </div>
+      <div id="casos-panel" hidden>
+        <div class="casos-grid">
+          <article class="caso-card"><span class="caso-tag">Medido · indicadores clave</span><h4>Un sprint de equipo de 12 semanas</h4><div class="caso-meta">Agencia con 2 Directores, 3 Gerentes de Desarrollo Comercial, 3 Especialistas de Atracción de Talento (EDAT), 35 Agentes Noveles y 20 Agentes Consolidados</div><p>Los ganadores de bonos en la venta de seguros de Vida y GMM aumentaron <strong class="dato-clave">+200%</strong> frente al cuatrimestre anterior. La satisfacción del director con su equipo comercial subió de 5 a 8 sobre 10. En el equipo de un gerente, que cumplió el 90% de sus compromisos (112 de 124), 14 de 15 personas se quedaron (93% de retención); sus asesores lo calificaron con 9.0/10 y todos lo recomendarían.</p></article>
+          <article class="caso-card"><span class="caso-tag">Medido · indicadores clave</span><h4>Agentes independientes</h4><div class="caso-meta">12 semanas · 12 personas</div><p>Doce personas trabajaron su base personal, su marca y su servicio. Todas calificaron el programa con 5/5. Lo que suelo ver: primero llega el cambio personal y los resultados del negocio vienen entre 3 y 6 meses después.</p></article>
+          <article class="caso-card"><span class="caso-tag">Experiencia vivida</span><h4>Miguel</h4><div class="caso-meta">Director fundador de agencia, con 50 años en la industria</div><p>Una vida construida alrededor de una sola institución. Diseñamos su transición: una nueva marca, “Seguros con Miguel”, y una nueva profesión como conductor de radio de seguros. Aquí no hay métricas de ventas; el resultado fue un siguiente capítulo elegido y digno. Satisfacción: 5/5.</p></article>
+        </div>
+      </div>
+      <div class="casos-toggle" style="text-align:center;margin-top:28px;">
+        <button type="button" class="btn-secundario" id="casos-btn" onclick="toggleCasos()" aria-expanded="false" aria-controls="casos-panel"><svg class="lucide-icon" id="casos-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg> <span id="casos-txt">Ver los otros 3 casos</span></button>
+      </div>
+      <p class="rb-note">Escalas autoevaluadas de 1 a 10. Se comparten con el acuerdo de las personas involucradas, que pueden pedir su retiro en cualquier momento. Los resultados varían de una persona a otra.</p>
+      <div style="text-align:center;margin-top:22px;"><a href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html" class="cta-btn"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg> Hacer mi Evaluación de Fracturas Raíz</a></div>
+    </div>
+  </section>
+
+  <div class="pausa">
+    <img src="img/metodo-abrazo.webp" width="1280" height="854" loading="lazy" decoding="async" style="object-position:55% 0%"   alt="Fer U en un abrazo con un participante, con los ojos cerrados, a la luz del sol">
+    <p class="pausa-txt"><span class="pausa-rombo" aria-hidden="true"></span>Rigor que mide y palabra que acompaña: dos lenguajes, un mismo centro.</p>
+  </div>
+
   <!-- ═══ 5. CÓMO TRABAJAMOS — PROCESO EDITORIAL ═══ -->
-  <section class="section alt" id="metodo">
+  <section class="section" id="metodo">
     <div class="wrap">
       <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg> Cómo Trabajamos</div>
       <h2 class="sec-title">Un método que se probó primero <em>en mí</em>.</h2>
-      <p class="sec-desc">Afinado sesión a sesión con generaciones de alumnos. <span class="concepto">Rigor que mide y palabra que acompaña: dos lenguajes, un mismo centro.</span></p>
-
-      <figure class="metodo-foto">
-        <img src="img/metodo-abrazo.webp" width="1280" height="854" loading="lazy" decoding="async" style="object-position:55% 0%"   alt="Fer U en un abrazo con un participante, con los ojos cerrados, a la luz del sol">
-      </figure>
+      <p class="sec-desc">Afinado sesión a sesión con generaciones de alumnos.</p>
 
       <h3 class="sub-seccion" style="margin-top:64px;">Así se trabaja el ciclo:</h3>
       <div class="proceso-editorial-grid ciclo-af">
@@ -474,35 +529,7 @@
     </div>
   </section>
 
-  <!-- ═══ 6. QUÉ PUEDES LOGRAR — GRÁFICA RADAR ═══ -->
-  <section class="section section--compact" id="esencial">
-    <div class="wrap">
-      <div class="esc-grid">
-        <div class="esc-radar">
-          <svg id="rd" viewBox="-130 -130 260 260" role="group" aria-label="Radar de 12 áreas, ejemplo ilustrativo"></svg>
-          <div class="rd-area idle" id="rd-area" aria-live="polite">Toca un punto para ver qué área mide</div>
-          <div class="rd-dims" role="group" aria-label="Dimensión del mapa">
-            <button type="button" class="on" data-dim="personal" aria-pressed="true">Personal</button>
-            <button type="button" data-dim="profesional" aria-pressed="false">Profesional</button>
-            <button type="button" data-dim="comercial" aria-pressed="false">Comercial</button>
-          </div>
-          <small>Ejemplo ilustrativo · tu progreso en autoevaluaciones continuas</small>
-        </div>
-        <div class="esc-card" id="esc-logros">
-          <h3>¿Qué puedes lograr?</h3>
-          <p class="logro-lead">No es sentirte motivado una semana. Es dejar de repetir lo que ya sabes que no quieres repetir.</p>
-          <ul class="logros" id="logros-list" aria-live="polite">
-            <li><span class="de">De reaccionar en automático</span><span class="a">a decidir desde tu centro</span></li>
-            <li><span class="de">Del agotamiento constante</span><span class="a">a energía y tiempo para lo que importa</span></li>
-            <li><span class="de">De relaciones que desgastan</span><span class="a">a vínculos donde puedes ser tú</span></li>
-            <li><span class="de">De cargar lo que te daña</span><span class="a">a soltarlo sin pelearte contigo</span></li>
-          </ul>
-          <p class="logro-cierre">Lo medimos en tu mapa de 12 áreas: lo que cambia se ve, no solo se siente.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  
   <!-- ═══ 7. FILTRO DE ELECCIÓN — COLUMNAS LIBRES ═══ -->
   <section class="section alt" id="para-mi">
     <div class="wrap">
@@ -619,6 +646,11 @@
     </div>
   </section>
 
+  <div class="pausa">
+    <img src="img/dim-comercial.webp" width="1279" height="533" loading="lazy" decoding="async" alt="Grupo de Directores y equipo comercial de una agencia GNP tras un cierre de programa de formación">
+    <p class="pausa-txt"><span class="pausa-rombo" aria-hidden="true"></span>Lo que cambia se ve, no solo se siente.</p>
+  </div>
+
   <!-- ═══ 9. ESQUEMA DE TRABAJO — PRECIOS & MODALIDADES ═══ -->
   <section class="section alt" id="precios">
     <div class="wrap">
@@ -711,30 +743,14 @@
         <figure class="eje-foto"><img src="img/galeria-sesion-1a1.webp" width="575" height="719" alt="Sesión personal 1 a 1 con Fer U" loading="lazy" decoding="async"><span class="eje-foto-cap">Sesión 1:1</span></figure>
         <figure class="eje-foto"><img src="img/galeria-cx-design.webp" width="575" height="719" alt="Workshop de CX Design y diseño estratégico" loading="lazy" decoding="async"><span class="eje-foto-cap">CX Design Workshop</span></figure>
       </div>
-      <div class="casos-toggle" style="text-align:center;margin-top:32px;">
-        <button type="button" class="btn-secundario" id="casos-btn" onclick="toggleCasos()" aria-expanded="false" aria-controls="casos-panel"><svg class="lucide-icon" id="casos-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg> <span id="casos-txt">Ver casos reales</span></button>
-      </div>
-      <div id="casos-panel" hidden>
-        <h3 class="sub-seccion" style="text-align:center;margin-top:36px;">Casos reales</h3>
-        <p class="sec-desc" style="text-align:center;max-width:720px;margin:0 auto;">No todos los procesos se midieron igual. Unos siguieron las 12 áreas a lo largo del tiempo, otros algunos indicadores y otros son solo experiencia vivida. Cada caso dice cuál es.</p>
-        <div class="casos-grid">
-          <article class="caso-card"><span class="caso-tag">Medido · 12 áreas</span><h4>Carlos</h4><div class="caso-meta">Director de agencia · 3.5 meses</div><p>Llegó con casi nada de producción y sin estructura. En 3.5 meses su promedio en 12 áreas de vida y trabajo pasó de 5.3 a 8.8. La comunicación subió de 4 a 9, la productividad de 4 a 9 y el amor propio de 5 a 9. En el camino tomó su propia decisión: dejar su agencia. Lo acompañé sin empujarlo hacia ningún lado. El éxito no siempre es vender más; a veces es recuperar tu vida. Satisfacción: 5/5.</p></article>
-          <article class="caso-card"><span class="caso-tag">Medido · 12 áreas</span><h4>Ernesto</h4><div class="caso-meta">Director que heredó su agencia · 12 semanas</div><p>Por fuera todo funcionaba; por dentro estaba desconectado de su rol. Su promedio en 12 indicadores pasó de 5.2 a 8.7, y el de los profesionales de 4.1 a 8.6. Cumplió el 91.6% de sus compromisos. Primero empeoró y luego mejoró: en la semana 4 habilidades clave de venta bajaron (de 3 a 2) antes de subir a 9 en la semana 12. Al revisar su cartera de clientes identificamos 16 oportunidades de Vida y GMM que no tenía proyectadas; 6 se cerraron durante el proceso (≈37%) y otras 5 seguían activas al terminar el servicio. Satisfacción: 4.95/5.</p></article>
-          <article class="caso-card"><span class="caso-tag">Medido · indicadores clave</span><h4>Un sprint de equipo de 12 semanas</h4><div class="caso-meta">Agencia de 30 personas</div><p>La satisfacción del director con su equipo comercial subió de 5 a 8 sobre 10. En el equipo de un gerente, que cumplió el 90% de sus compromisos (112 de 124), 14 de 15 personas se quedaron (93% de retención); sus asesores lo calificaron con 9.0/10 y todos lo recomendarían.</p></article>
-          <article class="caso-card"><span class="caso-tag">Medido · indicadores clave</span><h4>Agentes independientes</h4><div class="caso-meta">12 semanas · 12 personas</div><p>Doce personas trabajaron su base personal, su marca y su servicio. Todas calificaron el programa con 5/5. Lo que suelo ver: primero llega el cambio personal y los resultados del negocio vienen entre 3 y 6 meses después.</p></article>
-          <article class="caso-card"><span class="caso-tag">Experiencia vivida</span><h4>Miguel</h4><div class="caso-meta">Director fundador de agencia, con 50 años en la industria</div><p>Una vida construida alrededor de una sola institución. Diseñamos su transición: una nueva marca, “Seguros con Miguel”, y una nueva profesión como conductor de radio de seguros. Aquí no hay métricas de ventas; el resultado fue un siguiente capítulo elegido y digno. Satisfacción: 5/5.</p></article>
-        </div>
-        <p class="rb-note">Escalas autoevaluadas de 1 a 10. Se comparten con el acuerdo de las personas involucradas, que pueden pedir su retiro en cualquier momento. Los resultados varían de una persona a otra.</p>
-        <div style="text-align:center;margin-top:22px;"><a href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html" class="cta-btn"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg> Hacer mi Evaluación de Fracturas Raíz</a></div>
-      </div>
       <script>
 function toggleCasos(){var p=document.getElementById('casos-panel');if(!p)return;if(p.hasAttribute('hidden')){openCasos();}else{p.setAttribute('hidden','');setCasosUi(false);}}
 function openCasos(){var p=document.getElementById('casos-panel');if(!p)return;p.removeAttribute('hidden');setCasosUi(true);}
-function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.getElementById('casos-txt'),i=document.getElementById('casos-ic');if(b)b.setAttribute('aria-expanded',open?'true':'false');if(t)t.textContent=open?'Ocultar casos reales':'Ver casos reales';if(i){var u=i.querySelector('use');if(u)u.setAttribute('href',open?'#i-chevron-up':'#i-chevron-down');}}
+function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.getElementById('casos-txt'),i=document.getElementById('casos-ic');if(b)b.setAttribute('aria-expanded',open?'true':'false');if(t)t.textContent=open?'Ocultar los otros casos':'Ver los otros 3 casos';if(i){var u=i.querySelector('use');if(u)u.setAttribute('href',open?'#i-chevron-up':'#i-chevron-down');}}
 function togglePlan(b){var u=b.nextElementSibling;if(!u)return;var o=u.hasAttribute('hidden');if(o){u.removeAttribute('hidden');}else{u.setAttribute('hidden','');}b.setAttribute('aria-expanded',o?'true':'false');b.textContent=(o?'– ':'+ ')+(o?b.getAttribute('data-close'):b.getAttribute('data-open'));}
 function toggleFaq(open){var b=document.getElementById('faq-body');if(!b)return;var show=(typeof open==='boolean')?open:b.hasAttribute('hidden');if(show){b.removeAttribute('hidden');}else{b.setAttribute('hidden','');}var btn=document.getElementById('faq-btn'),t=document.getElementById('faq-txt'),i=document.getElementById('faq-ic');if(btn){btn.setAttribute('aria-expanded',show?'true':'false');if(t)t.textContent=show?btn.getAttribute('data-close'):btn.getAttribute('data-open');}if(i){var u=i.querySelector('use');if(u)u.setAttribute('href',show?'#i-chevron-up':'#i-chevron-down');}}
 if(location.hash==='#preguntas-detalle'){document.addEventListener('DOMContentLoaded',function(){toggleFaq(true);});}
-function goCasos(){openCasos();var p=document.getElementById('casos-panel');if(p&&p.scrollIntoView)p.scrollIntoView({behavior:'smooth',block:'start'});}
+function goCasos(){var p=document.getElementById('casos');if(p&&p.scrollIntoView)p.scrollIntoView({behavior:'smooth',block:'start'});}
 function toggleDolores(){var x=document.querySelectorAll('.dolor-extra');for(var i=0;i<x.length;i++)x[i].removeAttribute('hidden');var b=document.getElementById('dolores-btn');if(b){b.setAttribute('aria-expanded','true');b.parentNode.style.display='none';}}
       </script>
     </div>
@@ -807,6 +823,11 @@ function toggleDolores(){var x=document.querySelectorAll('.dolor-extra');for(var
     </div>
 </div>
   </section>
+
+  <div class="pausa">
+    <img src="img/dim-trascendencia.webp" width="1100" height="733" loading="lazy" decoding="async" style="object-position:50% 60%" alt="Ceremonia ancestral al aire libre: una pluma, una vela y tela roja sobre el pasto">
+    <p class="pausa-txt"><span class="pausa-rombo" aria-hidden="true"></span>El origen determina el resultado.</p>
+  </div>
 
   <!-- ═══ 12. PUNTO DE PARTIDA — CTA FINAL ═══ -->
   <section class="section cta-final" id="cta-final">
@@ -965,6 +986,6 @@ function toggleDolores(){var x=document.querySelectorAll('.dolor-extra');for(var
 </div>
 
 
-<script src="js/ih.js?v=44" defer></script>
+<script src="js/ih.js?v=45" defer></script>
 </body>
 </html>

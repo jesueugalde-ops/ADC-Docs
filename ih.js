@@ -11,15 +11,14 @@ var IH_T = {
   area: IH_EN ? 'Area ' : 'Área '
 };
 
+  /* FASE 3 (v45): las cuatro dimensiones se leen en secuencia (sin pestañas ocultas).
+     La barra superior es ahora un índice: al tocar un botón se baja a esa dimensión y
+     la dimensión que está en pantalla se marca sola mientras se hace scroll. */
   function switchTab(tabId, btn) {
-    const contents = document.querySelectorAll('.tab-content');
-    contents.forEach(c => c.classList.remove('active'));
-
-    const buttons = document.querySelectorAll('.tab-btn');
-    buttons.forEach(b => b.classList.remove('active'));
-
-    document.getElementById(tabId).classList.add('active');
-    btn.classList.add('active');
+    var t = document.getElementById(tabId);
+    if (!t) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
   }
 
   function toggleTestimonios() {
@@ -367,8 +366,8 @@ var IH_T = {
 
   /* ── Riel de capítulos (solo ≥1280 px; el CSS lo oculta en pantallas menores) ── */
   var CH = [
-    { n: IH_EN ? 'Start' : 'Inicio',                         ids: ['hero', 'esencial', 'testimonios-destacados'] },
-    { n: IH_EN ? 'What it is' : 'Qué es',                    ids: ['definicion', 'arquitectura'] },
+    { n: IH_EN ? 'Start' : 'Inicio',                         ids: ['hero', 'testimonios-destacados'] },
+    { n: IH_EN ? 'What it is' : 'Qué es',                    ids: ['definicion', 'esencial', 'arquitectura', 'casos'] },
     { n: IH_EN ? 'Method' : 'Método',                        ids: ['metodo'] },
     { n: IH_EN ? 'For you · About me' : 'Para ti · Quién soy', ids: ['para-mi', 'autor'] },
     { n: IH_EN ? 'Investment' : 'Inversión',                 ids: ['precios', 'preguntas-detalle', 'galeria', 'cta-final'] }
@@ -404,6 +403,34 @@ var IH_T = {
   /* El riel aparece al salir del hero, para no competir con el primer pantallazo */
   var hero = document.getElementById('hero');
   new IntersectionObserver(function(es){ es.forEach(function(e){ rail.classList.toggle('show', !e.isIntersecting); }); }, { threshold: 0.35 }).observe(hero);
+})();
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   FASE 3 (v45) · Índice de dimensiones: marca la dimensión que está en pantalla
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  var bar = document.querySelector('.dim-layout .tabs-header');
+  var tabs = document.querySelectorAll('.dim-layout .tab-content');
+  if (!bar || !tabs.length || !('IntersectionObserver' in window)) return;
+  var btns = bar.querySelectorAll('.tab-btn');
+  var setOn = function(i){
+    Array.prototype.forEach.call(tabs, function(t, k){ t.classList.toggle('active', k === i); });
+    Array.prototype.forEach.call(btns, function(b, k){
+      b.classList.toggle('active', k === i);
+      if (k === i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+    });
+    /* en pantallas angostas el índice se desplaza solo: el botón activo queda a la vista */
+    var b = btns[i];
+    if (b && bar.scrollWidth > bar.clientWidth) bar.scrollTo({ left: b.offsetLeft - 12, behavior: 'smooth' });
+  };
+  setOn(0);
+  bar.parentNode.classList.add('is-spy');
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) setOn(Array.prototype.indexOf.call(tabs, e.target)); });
+  }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+  Array.prototype.forEach.call(tabs, function(t){ io.observe(t); });
 })();
 
 
