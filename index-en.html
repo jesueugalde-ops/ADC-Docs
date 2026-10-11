@@ -46,6 +46,17 @@
 .foot-aviso{max-width:720px;margin:14px auto 0;font-family:var(--sans);font-size:12px;line-height:1.6;color:var(--gris-cl,#9a9a9a);text-align:center}
 .precios-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
 .cur-toggle{display:none}
+
+/* ── Casos reales + enlaces a casos (portado de la versión EN) ── */
+.casos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:28px 0 8px}
+.caso-card{border:1px solid rgba(201,168,76,.28);border-radius:14px;padding:22px 22px 20px;background:rgba(255,255,255,.025)}
+.caso-tag{display:inline-block;font-family:var(--sans);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--oro-vivo,#E8C97A);margin-bottom:10px}
+.caso-card h4{font-family:var(--serif);font-size:22px;font-weight:400;margin:0 0 4px}
+.caso-meta{font-family:var(--sans);font-size:12.5px;color:var(--gris-cl,#9a9a9a);margin-bottom:12px}
+.caso-card p{font-family:var(--sans);font-size:14.5px;line-height:1.65;margin:0}
+.link-casos{background:none;border:0;padding:0;margin:0;font:inherit;color:var(--oro-vivo,#E8C97A);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.p-list[hidden]{display:none!important}
+.p-incluye-btn{display:block;font-family:var(--sans);font-size:13.5px;margin:0 0 14px}
 </style>
 </head>
 <body>
@@ -109,7 +120,7 @@
 <a class="cta-btn" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-en.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Take my Root Fracture Assessment · free</a>
 </div>
 <ul class="ley">
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-clock"></use></svg><span class="ley-t">Step 1 · Root Fracture Assessment: 5 min, free</span></li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-clock"></use></svg><span class="ley-t">Step 1 · Root Fracture Assessment: 5 min</span></li>
 <li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg><span class="ley-t">Step 2 · Mapping Session: <span class="nw">60 min · $75 USD launch price</span></span></li>
 <li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg><span class="ley-t">100% credited toward your program <a href="#precios" style="color:var(--oro-vivo);">(see conditions)</a>.</span></li>
 </ul>
@@ -270,7 +281,7 @@
 <div class="wrap">
 <div class="eyebrow"><svg aria-hidden="true" class="lucide-icon icon-inline" viewbox="0 0 24 24"><use href="#i-layers"></use></svg> Architecture &amp; Relationships Path</div>
 <h2 class="sec-title">Four dimensions of <em>intervention</em>.</h2>
-<p class="sec-desc"><strong>Nothing</strong> is built on an unstable foundation. <strong>Choose the dimension you want to explore</strong> or see how it directly affects your daily life.</p>
+<p class="sec-desc"><strong>Choose the dimension you want to explore</strong> or see how it affects your daily life.</p>
 <div class="tabs-header">
 <button class="tab-btn active" onclick="switchTab('eje-1', this)"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-user"></use></svg> 01. Personal</button>
 <button class="tab-btn" onclick="switchTab('eje-2', this)"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-briefcase"></use></svg> 02. Professional</button>
@@ -282,7 +293,7 @@
 <div>
 <div class="eyebrow">First Horizon / Inner Root</div>
 <h3>Personal Identity &amp; Origin Structure</h3>
-<p>Rebuilding your self-concept, installing healthy habits, dismantling destructive inner dialogue and regulating emotions. We explore truths and beliefs to create real progress in your day to day.</p>
+<p>Rebuilding your self-concept, installing healthy habits, dismantling destructive inner dialogue and regulating emotions.</p>
 <div class="eje-tags"><span class="tag-vincu">Yourself</span> <span class="tag-vincu">Partner</span> <span class="tag-vincu">Children</span> <span class="tag-vincu">Family of origin</span></div>
 <button class="btn-secundario" onclick="openModal('modal-h1')"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-plus"></use></svg> See 1:1 breakdown</button>
 <a class="btn-secundario btn-iad" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-en.html#personal"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> My Root Fracture Assessment · Personal</a>
@@ -295,7 +306,7 @@
 <div class="eje-resultado">
 <span class="resultado-label">Systemic Result</span>
 <p class="resultado-texto">More peace, less reactive guilt, and getting your time and your personal experience back.</p>
-<p class="resultado-dato">In one documented case (Carlos, 3.5 months), self-love went from 5 to 9 and communication from 4 to 9.* <span class="caso-nota">*One case, not an average. Self-rated 1–10 scale.</span></p>
+<p class="resultado-dato">In one documented case (Carlos, 3.5 months), self-love went from 5 to 9 and communication from 4 to 9.* <span class="caso-nota">*One case, not an average. Self-rated 1–10 scale. <button type="button" class="link-casos" onclick="goCasos()">See real cases</button></span></p>
 </div>
 </div>
 </div>
@@ -318,7 +329,7 @@
 <div class="eje-resultado">
 <span class="resultado-label">Systemic Result</span>
 <p class="resultado-texto">Leadership with calm authority, less operational friction and effective delegation.</p>
-<p class="resultado-dato">In one 12-week case, professional indicators rose from 4.1 to 8.6 (+110%). In a 9-week team sprint, 14 of 15 people stayed in the team of a manager trained with this method (93% retention).* <span class="caso-nota">*Two documented cases, not averages. Self-rated 1–10 scale.</span></p>
+<p class="resultado-dato">In one 12-week case, professional indicators rose from 4.1 to 8.6 (+110%); in a 12-week team sprint, 14 of 15 people stayed on the team of a manager trained with this method (93%).* <span class="caso-nota">*Two documented cases, not averages. <button type="button" class="link-casos" onclick="goCasos()">See real cases</button></span></p>
 </div>
 </div>
 </div>
@@ -328,7 +339,7 @@
 <div>
 <div class="eyebrow">Third Horizon / Commercial Innovation</div>
 <h3>Commercial Identity &amp; Business Performance</h3>
-<p>The way you recruit, sell, lead and relate to clients mirrors your inner structure. We work on that human foundation first and, from there, identify your clients, how they communicate, what value you offer them, and what your long-term relationship with them is worth. Then we redesign your commercial processes to integrate the human and the technological.</p>
+<p>The way you recruit, sell, lead and relate to clients mirrors your inner structure. We work on that human foundation first and, from there, redesign your commercial processes to integrate the human and the technological.</p>
 <div class="eje-tags"><span class="tag-vincu">Sales team</span> <span class="tag-vincu">Audiences</span> <span class="tag-vincu">Prospects</span> <span class="tag-vincu">Clients</span> <span class="tag-vincu">Referrals</span></div>
 <button class="btn-secundario" onclick="openModal('modal-h3')"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-plus"></use></svg> See commercial breakdown</button>
 <a class="btn-secundario btn-iad" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-en.html#comercial"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> My Root Fracture Assessment · Commercial</a>
@@ -341,7 +352,7 @@
 <div class="eje-resultado">
 <span class="resultado-label">Systemic Result</span>
 <p class="resultado-texto">Commercial clarity tends to show up some months after the personal work: in how you decide, sell and measure your growth.</p>
-<p class="resultado-dato">In one 12-week case, 6 of the 16 sales opportunities the director identified in his portfolio closed during the process.* <span class="caso-nota">*One documented case, not an average.</span></p>
+<p class="resultado-dato">In one 12-week case, 6 of 16 life and major-medical (GMM) opportunities he hadn’t projected closed during the process (≈37%).* <span class="caso-nota">*One documented case, not an average. <button type="button" class="link-casos" onclick="goCasos()">See real cases</button></span></p>
 </div>
 </div>
 </div>
@@ -351,7 +362,7 @@
 <div>
 <div class="eyebrow">Fourth Horizon / Ancestral Roots (optional)</div>
 <h3 style="color:var(--oro-vivo);">Ancestral Roots &amp; Awareness</h3>
-<p>An optional dimension for people who feel called to it: the worldview of Mexico’s ancestral peoples as a lens on identity — origin, center, lineage. It is never a requirement, never a replacement for your own faith, and never a medical or psychological treatment.</p>
+<p>A dimension for people who feel called to it: the worldview of Mexico’s ancestral peoples as a lens on identity — origin, center, lineage. It is never a requirement and never a medical or psychological treatment.</p>
 <div class="eje-tags"><span class="tag-vincu">Origin</span> <span class="tag-vincu">Center</span> <span class="tag-vincu">Lineage</span> <span class="tag-vincu">Community</span></div>
 <ul class="beneficio-list" style="margin-top:20px;">
 <li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> Your connection is unique, unrepeatable and autonomous.</li>
@@ -377,10 +388,9 @@
 <div class="wrap">
 <div class="eyebrow"><svg aria-hidden="true" class="lucide-icon icon-inline" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> How We Work</div>
 <h2 class="sec-title">A method first tested <em>on me</em>.</h2>
-<p class="sec-desc">It was built session by session, tested first in my own life and then with generations of students. <span class="concepto">Rigor that measures and words that accompany: two languages, one center.</span></p>
+<p class="sec-desc">Refined session by session with generations of students. <span class="concepto">Rigor that measures and words that accompany: two languages, one center.</span></p>
 <figure class="metodo-foto">
 <img alt="Fer U in an embrace with a participant, eyes closed, in the sunlight" decoding="async" height="854" loading="lazy" src="img/metodo-abrazo.webp" style="object-position:55% 0%" width="1280"/>
-<figcaption class="metodo-foto-cap">The method, lived in person — not just in theory.</figcaption>
 </figure>
 <h3 class="sub-seccion" style="margin-top:64px;">This is how the cycle works:</h3>
 <div class="proceso-editorial-grid ciclo-af">
@@ -419,7 +429,7 @@
 <div class="franja-foto-frame">
 <img alt="Miro board with the Ikigai map on screen and, in the background, a participant writing on the whiteboard" decoding="async" height="427" loading="lazy" src="img/metodo-miro.webp" style="object-position:55% 50%" width="640"/>
 </div>
-<p><strong>One-on-one guidance, online, by video call.</strong> In Reinvention Deep and Tailored, what you think and what you’ve achieved also become a map we design together and that stays with you.</p>
+<p>In Reinvention Deep and Tailored, what you think and what you’ve achieved also become a map we design together and that stays with you.</p>
 </div>
 </div>
 </section>
@@ -446,7 +456,7 @@
 <ul class="fit-list">
 <li>You want someone else to tell you what to do, instead of building your own judgment.</li>
 <li>You need everything to be comfortable: here, what’s uncomfortable is named, with respect.</li>
-<li>You need clinical care right now. This is not a substitute for therapy, psychiatry or emergency care. If you are in crisis, call or text 988 (U.S., Spanish available).</li>
+<li>You need clinical care right now: this is not a substitute for therapy, psychiatry or emergency care.</li>
 </ul>
 </div>
 <div class="fit-column si">
@@ -457,7 +467,8 @@
 </ul>
 </div>
 </div>
-<p class="sec-desc cierre-filtro">If you recognized yourself, the next step isn’t another book or another retreat: <strong>it’s a 5-minute map</strong> and, if it makes sense to you, an hour of work with me.</p>
+<p class="sec-desc cierre-filtro">If you recognized yourself, the next step isn’t another book or another retreat: <strong>it’s a 5-minute map</strong>, free.</p>
+<div style="text-align:center;margin-top:18px;"><a class="cta-btn" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-en.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Take my Root Fracture Assessment</a></div>
 </div>
 </section>
 <!-- ═══ 8. ACOMPAÑAMIENTO & GUÍA — FER U ═══ -->
@@ -469,7 +480,7 @@
 <div class="autor-portrait">
 <img alt="Portrait of Fer Ugalde, Yei Mázatl Xamayari" decoding="async" height="800" loading="lazy" src="img/autor-fer.webp" width="640"/>
 </div>
-<figcaption class="autor-nombre"><span class="nombre-civil">Fer Ugalde</span> <span class="nombre-tribu">Yei Mázatl Xamayari</span> <span class="nombre-glosa">Balance · Deer · Corn Leaf</span></figcaption>
+<figcaption class="autor-nombre"><span class="nombre-civil">Fer Ugalde</span> <span class="nombre-tribu">Yei Mázatl Xamayari</span> <span class="nombre-glosa">Equilibrium · Deer · Corn Leaf</span></figcaption>
 </figure>
 <div>
 <h2 class="sec-title" style="margin-bottom:20px;">Fer U · <em>Architect of Human Innovation</em></h2>
@@ -533,7 +544,8 @@
 <div class="p-price" data-mxn='$800 &lt;span class="mxn"&gt;USD&lt;/span&gt;' data-usd='$800 &lt;span class="mxn"&gt;USD&lt;/span&gt;'>$800 <span class="mxn">USD</span></div>
 <div class="p-sub">7 one-on-one sessions · 60 min</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">For a hard moment, a decision or a specific fracture.</p>
-<ul class="p-list"><li>One-on-one video sessions</li><li>Journaling between sessions</li><li>Satisfaction guarantee</li></ul>
+<button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="See what’s included" data-close="Hide" onclick="togglePlan(this)">+ See what’s included</button>
+<ul class="p-list" hidden><li>One-on-one video sessions</li><li>Journaling between sessions</li><li>Satisfaction guarantee</li></ul>
 </div>
 <a class="btn-secundario" href="https://calendly.com/fer-ugaldemx/root-fracture-map" rel="noopener" style="text-align:center; justify-content:center;" target="_blank">Book my Mapping Session</a>
 </div>
@@ -543,7 +555,8 @@
 <div class="p-price" data-mxn='$1,400 &lt;span class="mxn"&gt;USD&lt;/span&gt;' data-usd='$1,400 &lt;span class="mxn"&gt;USD&lt;/span&gt;'>$1,400 <span class="mxn">USD</span></div>
 <div class="p-sub">12 one-on-one sessions · 2 hrs · 12 weeks</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">A full reinvention process with fewer tools, for those who want deep change at a more accessible investment.</p>
-<ul class="p-list"><li>12 one-on-one video sessions of 2 hours</li><li>Without the Miro blueprint, daily support or AI journal</li><li>Satisfaction guarantee</li></ul>
+<button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="See what’s included" data-close="Hide" onclick="togglePlan(this)">+ See what’s included</button>
+<ul class="p-list" hidden><li>12 one-on-one video sessions of 2 hours</li><li>Without the Miro blueprint, daily support or AI journal</li><li>Satisfaction guarantee</li></ul>
 </div>
 <a class="btn-secundario" href="https://calendly.com/fer-ugaldemx/root-fracture-map" rel="noopener" style="text-align:center; justify-content:center;" target="_blank">Book my Mapping Session</a>
 </div>
@@ -553,7 +566,8 @@
 <div class="p-price" data-mxn='$3,800 &lt;span class="mxn"&gt;USD&lt;/span&gt;' data-usd='$3,800 &lt;span class="mxn"&gt;USD&lt;/span&gt;'>$3,800 <span class="mxn">USD</span></div>
 <div class="p-sub">16 one-on-one sessions · 2 hrs · 4 months</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Re-architecture of your identity, habits, decisions and relationships, with your blueprints in Miro.</p>
-<ul class="p-list"><li>Kickoff and graduation</li><li>Support by message between sessions, during business hours (not for emergencies)</li><li>Weekly measurement of your progress</li><li>Daily journal with an AI assistant, only with your written consent</li><li>Satisfaction guarantee</li></ul>
+<button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="See what’s included" data-close="Hide" onclick="togglePlan(this)">+ See what’s included</button>
+<ul class="p-list" hidden><li>Kickoff and graduation</li><li>Support by message between sessions, during business hours (not for emergencies)</li><li>Weekly measurement of your progress</li><li>Daily journal with an AI assistant, only with your written consent</li><li>Satisfaction guarantee</li></ul>
 </div>
 <a class="cta-btn" href="https://calendly.com/fer-ugaldemx/root-fracture-map" rel="noopener" style="text-align:center;" target="_blank">Book my Mapping Session</a>
 </div>
@@ -563,16 +577,17 @@
 <div class="p-price" data-mxn='&lt;span class="mxn desde"&gt;From&lt;/span&gt;$5,000 &lt;span class="mxn"&gt;USD&lt;/span&gt;' data-usd='&lt;span class="mxn desde"&gt;From&lt;/span&gt;$5,000 &lt;span class="mxn"&gt;USD&lt;/span&gt;'><span class="mxn desde">From</span>$5,000 <span class="mxn">USD</span></div>
 <div class="p-sub">By application · up to 6 months</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">An intensive program designed with you, with guest specialists. May include in-person processes.</p>
-<ul class="p-list"><li>Defined in a mapping session</li><li>Personal, professional and commercial; ancestral roots optional</li></ul>
+<button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="See what’s included" data-close="Hide" onclick="togglePlan(this)">+ See what’s included</button>
+<ul class="p-list" hidden><li>Defined in a mapping session</li><li>Personal, professional and commercial; ancestral roots optional</li></ul>
 </div>
 <a class="btn-secundario" href="https://wa.me/525643440676?text=Hi%20Fer,%20I%E2%80%99d%20like%20to%20apply%20for%20the%20Tailored%20program" rel="noopener" style="text-align:center; justify-content:center;" target="_blank">Apply via WhatsApp</a>
 </div>
 </div>
 <p class="garantia"><strong>Satisfaction guarantee:</strong> if your average satisfaction falls below 7.5/10 starting in week 4 and you completed 100% of your activities, agreements and commitments, I will refund your investment and we will discontinue the service. It guarantees fit and effort, not a specific result.</p>
 <div class="precios-notas">
-<p><strong>Launch pricing:</strong> for the first 10 clients in the U.S., or until February 28, 2027, whichever comes first. When prices rise, this page will say so.</p>
-<p><strong>Mapping Session ($75):</strong> credited 100% toward any program if you enroll within 4 weeks; not refundable if you don’t enroll.</p>
-<p>Prices are in USD for <strong>online</strong> services. Pay by card (Stripe), Wise or PayPal, or by bank transfer, in full or in weekly or monthly payments. Invoices available on request.</p>
+<p><strong>Launch pricing:</strong> first 10 clients in the U.S. or until February 28, 2027, whichever comes first; this page will say when prices rise.</p>
+<p><strong>Mapping Session ($75):</strong> credited 100% toward any program if you enroll within 4 weeks; not refundable otherwise.</p>
+<p>Prices in USD for <strong>online</strong> services. Pay in full or in weekly or monthly payments by card (Stripe), Wise, PayPal or bank transfer; invoices on request.</p>
 </div>
 <div class="empresas-cta">
 <p><strong>Is this for your company?</strong> We start with a 1-hour mapping session; from there I’ll send you a proposal tailored to you.</p>
@@ -581,10 +596,13 @@
 </div>
 </section>
 <!-- ═══ 10. PREGUNTAS FRECUENTES ═══ -->
-<section class="section alt" id="preguntas-detalle">
+<section class="section alt section--compact" id="preguntas-detalle">
 <div class="wrap">
 <div class="eyebrow"><svg aria-hidden="true" class="lucide-icon icon-inline" viewbox="0 0 24 24"><use href="#i-circle-help"></use></svg> Common Questions</div>
 <h2 class="sec-title">What people usually ask <em>before starting</em>.</h2>
+<div class="faq-toggle" style="text-align:center;margin-top:22px;"><button type="button" class="btn-secundario" id="faq-btn" aria-expanded="false" aria-controls="faq-body" onclick="toggleFaq()" data-open="See common questions" data-close="Hide questions"><svg class="lucide-icon" id="faq-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg> <span id="faq-txt">See common questions</span></button></div>
+<div id="faq-body" hidden style="margin-top:26px;">
+
 <details class="acordeon-item">
 <summary class="acordeon-header">Does this replace psychological therapy?</summary>
 <div class="acordeon-body">
@@ -600,7 +618,7 @@
 <details class="acordeon-item">
 <summary class="acordeon-header">How does payment work, and what if I need to pause or cancel?</summary>
 <div class="acordeon-body">
-<p>You choose your plan: pay in full or in weekly or monthly payments, by card (Stripe), Wise, PayPal or bank transfer. If you need an invoice, tell me. You can reschedule with more than 24 hours’ notice and pause for up to 2 weeks. If you need to cancel for financial reasons, that’s not a problem. <strong>Guarantee:</strong> if your average satisfaction falls below 7.5/10 starting in week 4 and you completed 100% of your activities, agreements and commitments, I will refund your investment and we will discontinue the service.</p>
+<p>You choose your plan: pay in full or in weekly or monthly payments, by card (Stripe), Wise, PayPal or bank transfer. If you need an invoice, tell me. You can reschedule with more than 24 hours’ notice and pause for up to 2 weeks. If you need to cancel for financial reasons, that’s not a problem. <strong>Guarantee:</strong> the full conditions are in Ways to work together.</p>
 </div>
 </details>
 <details class="acordeon-item">
@@ -616,12 +634,6 @@
 </div>
 </details>
 <details class="acordeon-item">
-<summary class="acordeon-header">How does personal order connect with the performance of team members and teams?</summary>
-<div class="acordeon-body">
-<p>How a leader holds themselves shows in their team: <strong>with inner clarity it’s easier to delegate, set limits and trust</strong>; with exhaustion, the team feels it. When you work on your professional identity, how you decide changes, and that usually transforms what happens around you.</p>
-</div>
-</details>
-<details class="acordeon-item">
 <summary class="acordeon-header">What is centeredness?</summary>
 <div class="acordeon-body">
 <p>It is the purpose behind the whole process: returning to your own center and deciding from there. Only you can reach and transform that center; I offer you a mirror and a structure to see it clearly. The past isn’t rewritten, but <strong>the origin you decide from can be redefined</strong>.</p>
@@ -634,23 +646,18 @@
 </div>
 </details>
 <details class="acordeon-item">
-<summary class="acordeon-header">Do you work with people who take medication or are in therapy?</summary>
-<div class="acordeon-body">
-<p><strong>Yes.</strong> I never advise starting, changing or stopping medication; that belongs to you and your doctor. If you are in therapy or under psychiatric care, I’m glad to work in parallel, with your written permission to coordinate with your professional.</p>
-</div>
-</details>
-<details class="acordeon-item">
 <summary class="acordeon-header">Do you offer ceremonies?</summary>
 <div class="acordeon-body">
-<p>Not as part of the program. If you are curious about the ancestral traditions I have learned in Mexico, we can talk about them, but they are separate, optional, held in Mexico with the elders who guide them, and never presented as treatment. Nobody should feel pressure to take part.</p>
+<p>Not as part of the program. If you are curious about the ancestral traditions I have learned in Mexico, we can talk about them, but they are separate, optional, held in Mexico with the elders who guide them, for adults 18 and older only with a prior health and medication review, and never presented as treatment. Nobody should feel pressure to take part.</p>
 </div>
 </details>
 <details class="acordeon-item">
 <summary class="acordeon-header">Who can participate, and how many people do you guide at a time?</summary>
 <div class="acordeon-body">
-<p>Adults 18 and older. Ceremonial gatherings, when they happen, are separate from the program, optional, held in Mexico, and for people 18 and older only, with a prior health and medication review. I accompany up to 12 people at a time in one-on-one processes.</p>
+<p>Adults 18 and older. I accompany up to 12 people at a time in one-on-one processes.</p>
 </div>
 </details>
+</div>
 </div>
 </section>
 <!-- ═══ 10.5. GALERÍA — PRESENCIA REAL ═══ -->
@@ -677,16 +684,21 @@
 <p class="sec-desc" style="text-align:center;max-width:720px;margin:0 auto;">Not every process was measured. Some tracked all 12 areas over time, some tracked a few indicators, and some are lived experience only. Each case says which one it is.</p>
 <div class="casos-grid">
 <article class="caso-card"><span class="caso-tag">Measured · 12 areas</span><h4>Carlos</h4><div class="caso-meta">Agency director · 3.5 months</div><p>He arrived with almost no production and no structure. In 3.5 months his average across 12 areas of life and work went from 5.3 to 8.8. Communication went from 4 to 9, productivity from 4 to 9, self-love from 5 to 9. Along the way he made his own decision: to leave his agency. I supported it without pushing him either way. Success isn’t always selling more; sometimes it is getting your life back. Satisfaction: 5/5.</p></article>
-<article class="caso-card"><span class="caso-tag">Measured · 12 areas</span><h4>Ernesto</h4><div class="caso-meta">Director who inherited his agency · 12 weeks</div><p>On the surface things worked; inside, he was disconnected from his role. His average across 12 indicators went from 5.2 to 8.7, and the professional ones from 4.1 to 8.6. He kept 91.6% of his commitments along the way. It got worse before it got better: at week 4 key sales skills dipped (from 3 to 2) before rising to 9 by week 12. Of the 16 opportunities he identified in his portfolio, 6 closed during the process. Satisfaction: 4.95/5.</p></article>
-<article class="caso-card"><span class="caso-tag">Measured · key indicators</span><h4>A 9-week team sprint</h4><div class="caso-meta">Agency of 30 people</div><p>The director’s satisfaction rose from 5 to 8 out of 10. In the team of one manager, who kept 90% of his commitments (112 of 124), 14 of 15 people stayed (93% retention); his advisors rated him 9.0/10 and all of them would recommend him.</p></article>
-<article class="caso-card"><span class="caso-tag">Measured · key indicators</span><h4>Independent agents</h4><div class="caso-meta">12 weeks · 12 people</div><p>Twelve people worked on personal grounding, brand and service. All of them rated the program 5/5. What I usually see: the personal change comes first, and the business results follow some months later.</p></article>
-<article class="caso-card"><span class="caso-tag">Lived experience</span><h4>Miguel</h4><div class="caso-meta">Agency director with 50 years in the industry</div><p>A life built around one institution. We designed his transition: a new brand, “Seguros con Miguel”, and a new profession as an insurance radio host. There are no sales metrics here; the result was a chosen, dignified next chapter. Satisfaction: 5/5.</p></article>
+<article class="caso-card"><span class="caso-tag">Measured · 12 areas</span><h4>Ernesto</h4><div class="caso-meta">Director who inherited his agency · 12 weeks</div><p>On the surface things worked; inside, he was disconnected from his role. His average across 12 indicators went from 5.2 to 8.7, and the professional ones from 4.1 to 8.6. He kept 91.6% of his commitments along the way. It got worse before it got better: at week 4 key sales skills dipped (from 3 to 2) before rising to 9 by week 12. When we reviewed his current client portfolio, we identified 16 life and major-medical (GMM) opportunities he hadn’t projected; 6 closed during the process (≈37%) and 5 more were still active when the service ended. Satisfaction: 4.95/5.</p></article>
+<article class="caso-card"><span class="caso-tag">Measured · key indicators</span><h4>A 12-week team sprint</h4><div class="caso-meta">Agency of 30 people</div><p>The director’s satisfaction with his commercial team rose from 5 to 8 out of 10. In the team of one manager, who kept 90% of his commitments (112 of 124), 14 of 15 people stayed (93% retention); his advisors rated him 9.0/10 and all of them would recommend him.</p></article>
+<article class="caso-card"><span class="caso-tag">Measured · key indicators</span><h4>Independent agents</h4><div class="caso-meta">12 weeks · 12 people</div><p>Twelve people worked on personal grounding, brand and service. All of them rated the program 5/5. What I usually see: the personal change comes first, and the business results follow 3 to 6 months later.</p></article>
+<article class="caso-card"><span class="caso-tag">Lived experience</span><h4>Miguel</h4><div class="caso-meta">Founding agency director with 50 years in the industry</div><p>A life built around one institution. We designed his transition: a new brand, “Seguros con Miguel”, and a new profession as an insurance radio host. There are no sales metrics here; the result was a chosen, dignified next chapter. Satisfaction: 5/5.</p></article>
 </div>
 <p class="rb-note">Self-rated scales, 1–10. Shared with the agreement of the people involved, who can ask to be removed at any time. Results vary from person to person.</p>
+<div style="text-align:center;margin-top:22px;"><a class="cta-btn" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-en.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Take my Root Fracture Assessment</a></div>
 </div>
 <script>
 function toggleCasos(){var p=document.getElementById('casos-panel');if(!p)return;if(p.hasAttribute('hidden')){openCasos();}else{p.setAttribute('hidden','');setCasosUi(false);}}
 function openCasos(){var p=document.getElementById('casos-panel');if(!p)return;p.removeAttribute('hidden');setCasosUi(true);}
+function togglePlan(b){var u=b.nextElementSibling;if(!u)return;var o=u.hasAttribute('hidden');if(o){u.removeAttribute('hidden');}else{u.setAttribute('hidden','');}b.setAttribute('aria-expanded',o?'true':'false');b.textContent=(o?'– ':'+ ')+(o?b.getAttribute('data-close'):b.getAttribute('data-open'));}
+function toggleFaq(open){var b=document.getElementById('faq-body');if(!b)return;var show=(typeof open==='boolean')?open:b.hasAttribute('hidden');if(show){b.removeAttribute('hidden');}else{b.setAttribute('hidden','');}var btn=document.getElementById('faq-btn'),t=document.getElementById('faq-txt'),i=document.getElementById('faq-ic');if(btn){btn.setAttribute('aria-expanded',show?'true':'false');if(t)t.textContent=show?btn.getAttribute('data-close'):btn.getAttribute('data-open');}if(i){var u=i.querySelector('use');if(u)u.setAttribute('href',show?'#i-chevron-up':'#i-chevron-down');}}
+if(location.hash==='#preguntas-detalle'){document.addEventListener('DOMContentLoaded',function(){toggleFaq(true);});}
+function goCasos(){openCasos();var p=document.getElementById('casos-panel');if(p&&p.scrollIntoView)p.scrollIntoView({behavior:'smooth',block:'start'});}
 function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.getElementById('casos-txt'),i=document.getElementById('casos-ic');if(b)b.setAttribute('aria-expanded',open?'true':'false');if(t)t.textContent=open?'Hide real cases':'See real cases';if(i){var u=i.querySelector('use');if(u)u.setAttribute('href',open?'#i-chevron-up':'#i-chevron-down');}}
 </script>
 </div>
@@ -697,7 +709,7 @@ function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.
 <div class="eyebrow centrado"><svg aria-hidden="true" class="lucide-icon icon-inline" viewbox="0 0 24 24"><use href="#i-flag"></use></svg> Starting Point</div>
 <h2 class="sec-title centrado">When will <em>your moment</em> be?</h2>
 <p class="cta-preguntas"><span>How much longer will you keep carrying that pain?</span><span>What are you waiting for to get back your time, your energy, your peace?</span></p>
-<p class="sec-desc">Start with your <strong>Root Fracture Assessment</strong> (5 minutes per dimension, free; it’s private: you only send it to me if you want). If it makes sense to you, book your <strong>Mapping Session</strong> of 60 minutes: together we look at your human architecture and choose your path.</p>
+<p class="sec-desc">Start with your <strong>Root Fracture Assessment</strong> (5 minutes per dimension, free and private: you only send it to me if you want). Then, your <strong>Mapping Session</strong> of 60 minutes: together we look at your human architecture and choose your path.</p>
 <ul class="ley">
 <li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> 100% credited toward your program if you enroll within 4 weeks</li>
 </ul>
