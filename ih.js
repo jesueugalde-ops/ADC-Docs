@@ -84,28 +84,55 @@ var IH_T = {
       var pt=function(i,v){var a=-Math.PI/2+i*2*Math.PI/N;return [Math.cos(a)*R*v/10,Math.sin(a)*R*v/10]};
       [2,4,6,8,10].forEach(function(l){var p=document.createElementNS(NS,'polygon');
         p.setAttribute('points',Array.from({length:N},function(_,i){return pt(i,l).join(',')}).join(' '));
-        p.setAttribute('fill','none');p.setAttribute('stroke','rgba(201,168,76,.18)');svg.appendChild(p)});
+        p.setAttribute('fill','none');p.setAttribute('stroke','rgba(233,225,208,.15)');svg.appendChild(p)});
       for(var i=0;i<N;i++){var q=pt(i,10),ln=document.createElementNS(NS,'line');
         ln.setAttribute('x1',0);ln.setAttribute('y1',0);ln.setAttribute('x2',q[0]);ln.setAttribute('y2',q[1]);
-        ln.setAttribute('stroke','rgba(201,168,76,.12)');svg.appendChild(ln)}
+        ln.setAttribute('stroke','rgba(233,225,208,.09)');svg.appendChild(ln)}
       var A=[3,4,3,5,2,4,5,3,4,3,4,2],B=[7,6,8,8,7,7,7,7,7,8,6,6];
       var pts=function(arr,t,lo){return arr.map(function(v,i){return pt(i,lo?lo[i]+(v-lo[i])*t:v).join(',')}).join(' ')};
       var ghost=document.createElementNS(NS,'polygon');
-      ghost.setAttribute('fill','none');ghost.setAttribute('stroke','rgba(201,168,76,.4)');ghost.setAttribute('stroke-width','1');ghost.setAttribute('stroke-dasharray','3 4');
+      ghost.setAttribute('fill','none');ghost.setAttribute('stroke','rgba(233,225,208,.38)');ghost.setAttribute('stroke-width','1');ghost.setAttribute('stroke-dasharray','3 4');
       ghost.setAttribute('points',pts(A,1));svg.appendChild(ghost);
-      var poly=document.createElementNS(NS,'polygon');
-      poly.setAttribute('fill','rgba(201,168,76,.22)');poly.setAttribute('stroke','#E8C97A');poly.setAttribute('stroke-width','1.6');poly.setAttribute('stroke-linejoin','round');svg.appendChild(poly);
-      var draw=function(t){poly.setAttribute('points',pts(B,t,A))};
-      var easeOut=function(x){return 1-Math.pow(1-x,3)},easeIO=function(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2};
-      /* ciclo de 7.4 s: pausa en el inicio, crecimiento, pausa en el punto alto, regreso suave */
-      var frame=function(ms){var m=ms%7400,t;
-        if(m<600)t=0;else if(m<4600)t=easeOut((m-600)/4000);else if(m<6400)t=1;else t=1-easeIO((m-6400)/1000);
-        draw(t)};
+      /* FASE 2 (v44) · MAPA-CRISTAL: el polígono del radar se dibuja como un cristal de obsidiana facetado
+         (24 facetas con luz desde arriba-izquierda) y crece con el scroll en lugar del bucle de 7.4 s.
+         Con movimiento reducido se muestra ya crecido y quieto. */
+      var mkp=function(parent,attrs){var e=document.createElementNS(NS,'polygon');for(var k in attrs)e.setAttribute(k,attrs[k]);parent.appendChild(e);return e};
+      var defs=document.createElementNS(NS,'defs');svg.appendChild(defs);
+      var grad=document.createElementNS(NS,'linearGradient');grad.setAttribute('id','rd-sheen');grad.setAttribute('gradientUnits','userSpaceOnUse');
+      [['0','rgba(255,240,200,0)'],['.5','rgba(255,240,200,.30)'],['1','rgba(255,240,200,0)']].forEach(function(st){var o=document.createElementNS(NS,'stop');o.setAttribute('offset',st[0]);o.setAttribute('stop-color',st[1]);grad.appendChild(o)});
+      defs.appendChild(grad);
+      var clip=document.createElementNS(NS,'clipPath');clip.setAttribute('id','rd-clip');defs.appendChild(clip);
+      var clipPoly=document.createElementNS(NS,'polygon');clip.appendChild(clipPoly);
+      var gF=document.createElementNS(NS,'g');gF.setAttribute('class','rd-cristal');svg.appendChild(gF);
+      var IN=[],OUT=[];
+      /* luz: la faceta más clara es la que mira hacia arriba-izquierda; el interior es más oscuro que el borde */
+      var tone=function(k,inner){var a=-Math.PI/2+(k+.5)*2*Math.PI/N,l=.5+.5*Math.cos(a+3*Math.PI/4),m=Math.pow(l,1.5)*(inner?.55:.95);
+        var r=Math.round(12+m*150),g=Math.round(15+m*118),bl=Math.round(16+m*52);return 'rgb('+r+','+g+','+bl+')'};
+      for(var k=0;k<N;k++){
+        OUT.push(mkp(gF,{fill:tone(k,false),stroke:'rgba(232,201,122,.38)','stroke-width':'.5','stroke-linejoin':'miter'}));
+        IN.push(mkp(gF,{fill:tone(k,true),stroke:'rgba(232,201,122,.22)','stroke-width':'.5','stroke-linejoin':'miter'}));
+      }
+      var edge=mkp(svg,{fill:'none',stroke:'#E8C97A','stroke-width':'1.2','stroke-linejoin':'miter'});
+      svg.appendChild(ghost); /* el punto de partida (línea punteada) queda por encima del cristal */
+      var sheen=document.createElementNS(NS,'rect');sheen.setAttribute('x',-130);sheen.setAttribute('y',-130);sheen.setAttribute('width',260);sheen.setAttribute('height',260);
+      sheen.setAttribute('fill','url(#rd-sheen)');sheen.setAttribute('clip-path','url(#rd-clip)');sheen.setAttribute('pointer-events','none');svg.appendChild(sheen);
+      var vtx=function(t){return B.map(function(v,i){return pt(i,A[i]+(v-A[i])*t)})};
+      var draw=function(t){
+        var V=vtx(t),ps=V.map(function(q){return q.join(',')}).join(' ');
+        edge.setAttribute('points',ps);clipPoly.setAttribute('points',ps);
+        for(var k=0;k<N;k++){var v0=V[k],v1=V[(k+1)%N],m0=[v0[0]*.5,v0[1]*.5],m1=[v1[0]*.5,v1[1]*.5];
+          IN[k].setAttribute('points','0,0 '+m0.join(',')+' '+m1.join(','));
+          OUT[k].setAttribute('points',m0.join(',')+' '+v0.join(',')+' '+v1.join(',')+' '+m1.join(','))}
+        var s0=-190+t*380;grad.setAttribute('x1',s0);grad.setAttribute('y1',s0);grad.setAttribute('x2',s0+110);grad.setAttribute('y2',s0+110)};
+      var easeOut=function(x){return 1-Math.pow(1-x,3)};
+      var host=svg; /* el avance se mide sobre el propio radar (en móvil la sección es mucho más alta que el radar) */
+      /* 0 cuando el bloque apenas asoma por abajo · 1 cuando su centro llega al 45 % de la altura de la pantalla */
+      var prog=function(){var r=host.getBoundingClientRect(),vh=window.innerHeight||800,c=r.top+r.height/2;return Math.max(0,Math.min(1,(vh-c)/(vh*.55)))};
       if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){draw(1)}
-      else{draw(0);var run=false,s0=0;
-        var loop=function(n){if(!run)return;frame(n-s0);requestAnimationFrame(loop)};
-        var go=function(){if(!run){run=true;s0=performance.now();requestAnimationFrame(loop)}};
-        if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){go()}else{run=false}})},{threshold:.25}).observe(svg)}else{go()}}
+      else{var tick=false,upd=function(){tick=false;draw(easeOut(prog()))};
+        draw(easeOut(prog()));
+        window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});
+        window.addEventListener('resize',upd)}
     }
   })();
 

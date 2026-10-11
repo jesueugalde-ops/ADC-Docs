@@ -1447,3 +1447,39 @@ details[open] summary.acordeon-header::after { background: rgba(233, 225, 208, .
 
 /* Botones secundarios apilados: con el recorte se pegaban; se les da aire */
 .btn-secundario + .btn-secundario { margin-top: 12px; }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   FASE 2 · MAPA-CRISTAL + HERO RESPIRA (v44)
+   · El radar se dibuja como cristal de obsidiana facetado (JS) y crece con el scroll.
+   · Hero: la franja de pasos y la nota salen de la columna de texto y se alinean debajo.
+   Para revertir: borra desde este comentario hasta el final (y restaura ih.js / HTML de la v43).
+   ═══════════════════════════════════════════════════════════════════ */
+
+.hero p.hero-nota { margin: 26px 0 0; max-width: none; font-family: var(--sans); font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--gris-cl); }
+.hero p.hero-nota a { color: var(--hueso); text-decoration: underline; text-decoration-color: var(--oro); text-underline-offset: 4px; }
+.hero p.hero-nota a:hover { color: var(--blanco); }
+
+@media (min-width: 901px) {
+  .hero > .ley {
+    grid-column: 1 / -1; grid-row: 2;
+    display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 0;
+    margin-top: 40px; padding-top: 26px; border-top: 1px solid var(--linea);
+  }
+  .hero > .ley li { padding: 0 28px 0 0; }
+  .hero > .ley li + li { padding-left: 28px; border-left: 1px solid var(--linea-fuerte); }
+  .hero > .ley li:last-child { padding-right: 0; }
+  .hero > .ley .ley-t { text-wrap: balance; }
+  .hero p.hero-nota { grid-column: 1 / -1; grid-row: 3; margin-top: 18px; }
+}
+@media (max-width: 900px) {
+  .hero > .ley { margin-top: 30px; }
+  .hero p.hero-nota { text-align: center; margin-top: 22px; }
+}
+
+/* Mapa-cristal: el instrumento es la pieza central de la sección */
+@media (min-width: 961px) {
+  .esc-grid { grid-template-columns: 1.1fr 1fr; gap: 64px; }
+  .esc-radar svg { max-width: 460px; }
+}
+.rd-cristal polygon { shape-rendering: geometricPrecision; }
