@@ -13,7 +13,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
 <link as="image" fetchpriority="high" href="img/hero-fer-roberto.webp" rel="preload" type="image/webp"/>
-<link href="css/ih.css?v=46" rel="stylesheet"/>
+<link href="css/ih.css?v=48" rel="stylesheet"/>
 <meta content="website" property="og:type"/>
 <link href="https://jesueugalde-ops.github.io/ADC-Docs/index-en.html" rel="canonical"/>
 <meta content="https://jesueugalde-ops.github.io/ADC-Docs/index-en.html" property="og:url"/>
@@ -58,8 +58,13 @@
 .p-list[hidden]{display:none!important}
 .p-incluye-btn{display:block;font-family:var(--sans);font-size:13.5px;margin:0 0 14px}
 </style>
-<style id="pausa-css">
-/* Pausas (v47). Estilo autónomo: no depende de css/ih.css */
+<style id="ih-inline-css">
+/* Estilos autónomos (v48): pausas y nota del hero. No dependen de css/ih.css */
+/* Nota del hero y su enlace (v48): estilo autónomo, el enlace se distingue en dorado y subrayado */
+.hero p.hero-nota{margin:26px 0 0;max-width:none;font-family:var(--sans,'Montserrat',system-ui,sans-serif);font-size:14px;font-weight:400;line-height:1.6;color:#BBBBB6}
+.hero p.hero-nota a{color:#E8C97A;font-weight:500;text-decoration:underline;text-decoration-color:rgba(201,168,76,.6);text-underline-offset:4px}
+.hero p.hero-nota a:hover{color:#F6F6F2;text-decoration-color:#E8C97A}
+@media (max-width:900px){.hero p.hero-nota{text-align:center;margin-top:22px}}
 .pausa{--f:clamp(22px,4vw,48px);position:relative;isolation:isolate;display:grid;place-items:center;box-sizing:border-box;width:100%;max-width:100%;min-height:clamp(220px,34vh,380px);margin:0;padding:clamp(40px,6vw,72px) clamp(24px,7vw,96px);overflow:hidden;background:#050607;clip-path:polygon(var(--f) 0,100% 0,100% calc(100% - var(--f)),calc(100% - var(--f)) 100%,0 100%,0 var(--f))}
 .pausa img{position:absolute;inset:0;z-index:-2;display:block;width:100%;height:100%;max-width:none;object-fit:cover;filter:saturate(.92) contrast(1.06) brightness(.72)}
 .pausa::before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% 55%,rgba(5,6,7,.22),rgba(5,6,7,.78) 82%),linear-gradient(180deg,rgba(5,6,7,.72),rgba(5,6,7,.12) 32%,rgba(5,6,7,.12) 68%,rgba(5,6,7,.78))}
@@ -80,6 +85,17 @@
 .pausa--pano{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)}
 .pausa--pano.pausa--der{grid-template-columns:minmax(0,1fr) minmax(0,1.7fr)}
 }
+/* Fase 4 (v48): pausas apiladas en celular (foto clara o panorámica) y cifra de la pausa 2 */
+@media (max-width:900px){
+.pausa--apilada{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;min-height:0;padding:0 0 clamp(36px,9vw,56px);clip-path:none}
+.pausa--apilada img{position:static;z-index:auto;width:100%;height:auto;filter:saturate(.96) contrast(1.04);clip-path:polygon(var(--f) 0,100% 0,100% 100%,0 100%,0 var(--f))}
+.pausa--apilada::before{display:none}
+.pausa--apilada .pausa-txt{width:auto;align-self:center;padding:clamp(28px,8vw,44px) clamp(24px,8vw,64px) 0}
+}
+.pausa-dato{display:block;margin-top:clamp(18px,2.4vw,28px);font-style:normal;font-weight:400;text-wrap:balance}
+.pausa-cifra{display:block;font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-weight:500;font-size:clamp(46px,5vw,72px);line-height:1;color:#E8C97A}
+.pausa-cifra-txt{display:block;margin-top:10px;font-family:var(--sans,'Montserrat',system-ui,sans-serif);font-size:15px;line-height:1.55;color:#E9E1D0}
+.pausa-nota{display:block;margin-top:8px;font-family:var(--sans,'Montserrat',system-ui,sans-serif);font-size:13px;line-height:1.5;color:#8E8E8A}
 </style>
 </head>
 <body>
@@ -110,6 +126,11 @@
 <symbol id="i-target" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle> <circle cx="12" cy="12" r="6"></circle> <circle cx="12" cy="12" r="2"></circle></symbol>
 <symbol id="i-user" viewbox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path> <circle cx="12" cy="7" r="4"></circle></symbol>
 <symbol id="i-user-check" viewbox="0 0 24 24"><path d="m16 11 2 2 4-4"></path> <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path> <circle cx="9" cy="7" r="4"></circle></symbol>
+<symbol id="i-rombo-mark" viewBox="0 0 24 24"><path d="M12 5 19 12 12 19 5 12Z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-dim-1" viewBox="0 0 24 24"><path d="M12 2.5 21.5 12 12 21.5 2.5 12Z" stroke-linejoin="miter"/><path d="M12 9.5 14.5 12 12 14.5 9.5 12Z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-dim-2" viewBox="0 0 24 24"><path d="M12 2.5 21.5 12 12 21.5 2.5 12Z" stroke-linejoin="miter"/><path d="M2.5 12h19" stroke-linecap="butt"/></symbol>
+<symbol id="i-dim-3" viewBox="0 0 24 24"><path d="M12 2.5 21.5 12 12 21.5 2.5 12Z" stroke-linejoin="miter"/><path d="M2.5 12h19M12 2.5V12" stroke-linecap="butt"/></symbol>
+<symbol id="i-dim-4" viewBox="0 0 24 24"><path d="M12 2.5 21.5 12 12 21.5 2.5 12Z" stroke-linejoin="miter"/><path d="M2.5 12h19M12 2.5v19" stroke-linecap="butt"/></symbol>
 </defs></svg>
 <main>
 <!-- ═══ 0. NAVEGACIÓN DUAL ═══ -->
@@ -308,10 +329,10 @@
 <p class="sec-desc"><strong>Choose the dimension you want to explore</strong> or see how it affects your daily life.</p>
 <div class="dim-layout">
 <div class="tabs-header" role="navigation" aria-label="Dimensions">
-<button class="tab-btn active" onclick="switchTab('eje-1', this)"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-user"></use></svg> 01. Personal</button>
-<button class="tab-btn" onclick="switchTab('eje-2', this)"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-briefcase"></use></svg> 02. Professional</button>
-<button class="tab-btn" onclick="switchTab('eje-3', this)"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-handshake"></use></svg> 03. Commercial</button>
-<button class="tab-btn" onclick="switchTab('eje-4', this)"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-sun"></use></svg> 04. Ancestral roots</button>
+<button class="tab-btn active" onclick="switchTab('eje-1', this)"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-dim-1"></use></svg> 01. Personal</button>
+<button class="tab-btn" onclick="switchTab('eje-2', this)"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-dim-2"></use></svg> 02. Professional</button>
+<button class="tab-btn" onclick="switchTab('eje-3', this)"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-dim-3"></use></svg> 03. Commercial</button>
+<button class="tab-btn" onclick="switchTab('eje-4', this)"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-dim-4"></use></svg> 04. Ancestral roots</button>
 </div>
 <div class="tab-content active" id="eje-1">
 <div class="eje-card-organic">
@@ -411,7 +432,7 @@
 </section>
 <section class="section" id="casos">
     <div class="wrap">
-      <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flask-conical"/></svg> Evidence</div>
+      <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Evidence</div>
       <h2 class="sec-title">Real <em>cases</em>.</h2>
       <p class="sec-desc">Not every process was measured. Some tracked all 12 areas over time, some tracked a few indicators, and some are lived experience only. Each case says which one it is.</p>
       <div class="casos-grid">
@@ -433,8 +454,8 @@
     </div>
   </section>
 
-  <div class="pausa">
-    <img alt="Fer U in an embrace with a participant, eyes closed, in the sunlight" decoding="async" height="854" loading="lazy" src="img/metodo-abrazo.webp" style="object-position:55% 0%" width="1280"/>
+  <div class="pausa pausa--apilada">
+    <img src="img/metodo-pizarra.webp" width="1600" height="1066" loading="lazy" decoding="async" alt="Fer U explaining the Ikigai diagram on a whiteboard while a participant works on a laptop">
     <p class="pausa-txt"><span class="pausa-rombo" aria-hidden="true"></span>Rigor that measures and words that accompany: two languages, one center.</p>
   </div>
 
@@ -582,9 +603,9 @@
 </div>
 </div>
 </section>
-<div class="pausa pausa--der pausa--pano">
+<div class="pausa pausa--der pausa--pano pausa--apilada">
     <img src="img/dim-comercial.webp" width="1279" height="533" loading="lazy" decoding="async" alt="Group of Directors and the sales team of a GNP agency after a training program close">
-    <p class="pausa-txt"><span class="pausa-rombo" aria-hidden="true"></span>What changes shows, not just feels.</p>
+    <p class="pausa-txt"><span class="pausa-rombo" aria-hidden="true"></span>What changes shows, not just feels.<span class="pausa-dato"><strong class="pausa-cifra">+200%</strong><span class="pausa-cifra-txt">bonus winners in life and GMM insurance sales versus the previous four-month period · 12-week team sprint*</span><span class="pausa-nota">*One documented case, not an average.</span></span></p>
   </div>
 
   <!-- ═══ 9. ESQUEMA DE TRABAJO — PRECIOS & MODALIDADES ═══ -->
@@ -789,22 +810,22 @@ function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.
 <p style="font-family: var(--sans); font-size: 14px; color: var(--gris-cl); line-height: 1.7;">Guided work on how you think, feel, relate and take care of yourself day to day.</p>
 <span class="beneficio-list-label">What transforms in this dimension</span>
 <ul class="beneficio-list">
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You reinvent the architecture of your identity.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You live in harmony in your own skin.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You recover your confidence and your sense of security.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You rebuild your self-esteem.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You put your story and your past in order.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You raise your level of authenticity.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You develop your emotional intelligence.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You bring harmony to your sexuality.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You reconnect with your masculinity and your femininity.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You align your integrity and your will.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You let go of the vices and habits that hurt you.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You bring harmony to your core relationships.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You strengthen your fidelity and your loyalty.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You improve your inner dialogue and your self-expression.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You clarify your purposes and your goals.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You recover your <em>self agency</em>: you decide and act for yourself.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You reinvent the architecture of your identity.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You live in harmony in your own skin.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You recover your confidence and your sense of security.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You rebuild your self-esteem.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You put your story and your past in order.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You raise your level of authenticity.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You develop your emotional intelligence.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You bring harmony to your sexuality.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You reconnect with your masculinity and your femininity.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You align your integrity and your will.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You let go of the vices and habits that hurt you.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You bring harmony to your core relationships.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You strengthen your fidelity and your loyalty.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You improve your inner dialogue and your self-expression.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You clarify your purposes and your goals.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You recover your <em>self agency</em>: you decide and act for yourself.</li>
 </ul>
 </div>
 </div>
@@ -818,25 +839,25 @@ function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.
 <p style="font-family: var(--sans); font-size: 14px; color: var(--gris-cl); line-height: 1.7;">Designing executive boundaries, calendar architecture and active delegation. We move from desperate control to a decision system based on governance and self-regulation.</p>
 <span class="beneficio-list-label">What transforms in this dimension</span>
 <ul class="beneficio-list">
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You redesign the strategy behind your responsibilities.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You map the experience of your responsibility.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You understand your collaborative ecosystem.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You improve your assertive communication.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You create and execute your daily action plan.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You redefine the power of your word.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You learn to identify the personality of your team.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You increase your performance and productivity.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You increase your team’s satisfaction.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You strengthen your organization’s retention and sense of belonging.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You strengthen and develop your talents.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You understand the compatibility of the talent under your care.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You delegate with cause and purpose.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You develop cognitive resilience and adaptive flexibility.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You recover your self-leadership.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You build human sustainability.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You lead your team’s micro-culture.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You manage interpersonal trust.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You exercise your <em>super agency</em>: you lead with autonomy and with your team.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You redesign the strategy behind your responsibilities.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You map the experience of your responsibility.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You understand your collaborative ecosystem.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You improve your assertive communication.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You create and execute your daily action plan.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You redefine the power of your word.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You learn to identify the personality of your team.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You increase your performance and productivity.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You increase your team’s satisfaction.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You strengthen your organization’s retention and sense of belonging.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You strengthen and develop your talents.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You understand the compatibility of the talent under your care.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You delegate with cause and purpose.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You develop cognitive resilience and adaptive flexibility.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You recover your self-leadership.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You build human sustainability.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You lead your team’s micro-culture.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You manage interpersonal trust.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You exercise your <em>super agency</em>: you lead with autonomy and with your team.</li>
 </ul>
 </div>
 </div>
@@ -850,21 +871,21 @@ function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.
 <p style="font-family: var(--sans); font-size: 14px; color: var(--gris-cl); line-height: 1.7;">Redesigning your stance toward the market, negotiation and the client. Strategic mapping of your offers, sales cycles and continuous, frictionless measurement of your conversions.</p>
 <span class="beneficio-list-label">What transforms in this dimension</span>
 <ul class="beneficio-list">
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You get to know your ideal client and their buying experience.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You identify the sales profile that fits your clientele.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You design the strategy for your personal brand and your sales model.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You design the strategy for your client and service experience.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You design the strategy for the digital buying experience.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You design the strategy for the talent recruiting experience.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You design the strategy for the Sales Management experience.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You design the strategy for the Marketing and Social Media experience.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You design the strategy for the attraction, conversion and loyalty experience.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You design the strategy for managing your portfolios.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You design the strategy for your referral experience.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You design the strategy for the AI-powered operational experience.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You humanize the connection between the client, your salespeople and your brand.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You increase your productivity and commercial performance.</li>
-<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> You increase your income and sales results.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You get to know your ideal client and their buying experience.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You identify the sales profile that fits your clientele.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You design the strategy for your personal brand and your sales model.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You design the strategy for your client and service experience.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You design the strategy for the digital buying experience.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You design the strategy for the talent recruiting experience.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You design the strategy for the Sales Management experience.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You design the strategy for the Marketing and Social Media experience.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You design the strategy for the attraction, conversion and loyalty experience.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You design the strategy for managing your portfolios.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You design the strategy for your referral experience.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You design the strategy for the AI-powered operational experience.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You humanize the connection between the client, your salespeople and your brand.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You increase your productivity and commercial performance.</li>
+<li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-rombo-mark"></use></svg> You increase your income and sales results.</li>
 </ul>
 </div>
 </div>
@@ -884,6 +905,6 @@ function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.
 </div>
 </div>
 </div>
-<script defer="" src="js/ih.js?v=46"></script>
+<script defer="" src="js/ih.js?v=48"></script>
 </body>
 </html>

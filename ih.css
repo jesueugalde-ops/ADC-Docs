@@ -1532,3 +1532,23 @@ details[open] summary.acordeon-header::after { background: rgba(233, 225, 208, .
 /* Enlaces dentro de párrafos: dorado con subrayado, para que se lean como enlace */
 .hero p.hero-nota a, button.link-casos, .rb-note a { color: var(--oro-vivo); font-weight: 500; text-decoration: underline; text-decoration-color: var(--oro-borde-med); text-underline-offset: 4px; }
 .hero p.hero-nota a:hover, button.link-casos:hover, .rb-note a:hover { color: var(--blanco); text-decoration-color: var(--oro-vivo); }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   FASE 4 · ÍCONOS PROPIOS (v48)
+   · Cuatro glifos para las dimensiones, hechos con el rombo: 1 centro, 2, 3 y 4 facetas.
+   · Un solo rombo como marca de etiqueta (eyebrow) y como viñeta de las listas de beneficios.
+   · Riel lateral con rombos.
+   Para revertir: borra desde este comentario hasta el final (y restaura los HTML de la v47).
+   ═══════════════════════════════════════════════════════════════════ */
+.eyebrow .icon-inline { width: 14px; height: 14px; color: var(--hueso-dim); }
+.beneficio-list li svg { width: 16px; height: 16px; }
+.tab-btn .lucide-icon { width: 20px; height: 20px; stroke-width: 1.5; }
+.tab-btn.active .lucide-icon { color: var(--oro-vivo); }
+@media (max-width: 640px) { .tab-btn .lucide-icon { width: 18px; height: 18px; } }
+
+@media (min-width: 1280px) {
+  .rail a::before { border-radius: 0; transform: rotate(45deg); }
+  .rail a.on::before { box-shadow: none; }
+  .rail a:focus-visible { border-radius: 0; }
+}
