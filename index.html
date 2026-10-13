@@ -217,7 +217,7 @@
           <span class="rb-l">Caso documentado: mejora en 12 áreas de vida en 3.5 meses*</span>
         </li>
       </ul>
-      <p class="rb-note">*Caso documentado, no promedio: 12 áreas autoevaluadas de 1 a 10, al inicio y al final. <button type="button" class="link-casos" onclick="goCasos()">Ver casos reales</button></p>
+      <p class="rb-note">*No todos los procesos se midieron de la misma manera: <button type="button" class="link-casos" onclick="goCasos()">ver los casos reales</button> para saber cómo se dio seguimiento a cada uno.</p>
 
       <!-- 4 TESTIMONIOS DESTACADOS (textos de los originales; solo se recortan, no se reescriben) -->
       <div class="t-grid t-grid--2 t-grid--flat">
@@ -245,7 +245,7 @@
           <div class="t-masonry">
             <figure class="t-card">
               <blockquote class="t-quote">"Llegué en un momento de depresión, desgaste y sin rumbo claro en mi vida personal y profesional. Me sentía insegura, dependiente y con miedo a tomar decisiones que llevaba años postergando. Logré <strong>recuperar la claridad</strong>, y asumir responsabilidad sobre mi vida. Tomé decisiones importantes que transformaron mi entorno personal y profesional. Mejoré la relación con mi familia, y construí una nueva etapa en mi vida, incluso formando una relación estable y sana."</blockquote>
-              <figcaption class="t-attr">— <b>Elizabeth</b> · Operations Manager, EE. UU.</figcaption>
+              <figcaption class="t-attr">— <b>Elizabeth</b> · Operations Manager, EE. UU.<br><span class="caso-nota">En sus propias palabras y desde su propia percepción, no es un diagnóstico clínico.</span></figcaption>
             </figure>
             <figure class="t-card">
               <blockquote class="t-quote">"Con Fer logré comprenderme, y entender mis dinámicas de pareja, mi frustración profesional y por qué me sentía tan sin rumbo en mi vida. Me ayudó a <strong>recuperar mi soberanía personal</strong>, mi claridad profesional y a empezar una nueva familia con mi pareja."</blockquote>
@@ -275,6 +275,7 @@
         </div>
       </div>
 
+      <p class="rb-note" style="text-align:center;margin-top:18px;">Compartido por las propias personas, que aceptaron aparecer. Las experiencias son personales y varían.</p>
       <div class="t-toggle">
         <button id="toggle-testimonio-btn" class="btn-secundario" onclick="toggleTestimonios()" aria-expanded="false" aria-controls="testimonios-extra">
           <svg id="toggle-icon" class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg> <span id="toggle-text">Ver más testimonios</span>
@@ -302,7 +303,7 @@
         <div class="match-row-editorial">
           <div class="match-col-editorial no">
             <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-x"/></svg> No es</span>
-            <p><strong>Terapia clínica</strong> — no diagnostica ni la sustituye</p>
+            <p><strong>Terapia clínica</strong> — no diagnostica ni la sustituye; cuando hace falta, trabajamos en paralelo con un profesional</p>
           </div>
           <div class="match-col-editorial si">
             <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> Sí es</span>
@@ -326,7 +327,7 @@
           </div>
           <div class="match-col-editorial si">
             <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> Sí es</span>
-            <p><span class="concepto">Un camino único</span> sobre una estructura constante</p>
+            <p><span class="concepto">Un camino único</span> sobre una estructura constante, respaldada por 14 años de campo</p>
           </div>
         </div>
       </div>
@@ -378,7 +379,7 @@
         <button class="tab-btn active" onclick="switchTab('eje-1', this)"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-dim-1"/></svg> 01. Personal</button>
         <button class="tab-btn" onclick="switchTab('eje-2', this)"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-dim-2"/></svg> 02. Profesional</button>
         <button class="tab-btn" onclick="switchTab('eje-3', this)"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-dim-3"/></svg> 03. Comercial</button>
-        <button class="tab-btn" onclick="switchTab('eje-4', this)"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-dim-4"/></svg> 04. Trascendencia</button>
+        <button class="tab-btn" onclick="switchTab('eje-4', this)"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-dim-4"/></svg> 04. Raíces ancestrales</button>
       </div>
 
       <div class="tab-content active" id="eje-1">
@@ -473,15 +474,14 @@
       <div class="tab-content" id="eje-4">
         <div class="eje-card-organic">
           <div>
-            <div class="eyebrow">Cuarto Horizonte / Conexión Espiritual</div>
-            <h3>Trascendencia, Consciencia & Raíz Ancestral</h3>
-            <p>Una dimensión de integración profunda. Trabajo de sanación humana y sabiduría ancestral (tradición Otomí/Wixárika/Lakota/Tolteca) para quienes buscan alinear su propósito cósmico y espiritual.</p>
+            <div class="eyebrow">Cuarto Horizonte / Raíces ancestrales (opcional)</div>
+            <h3>Raíces Ancestrales & Consciencia</h3>
+            <p>Una dimensión para quienes sienten el llamado: la cosmovisión de los pueblos ancestrales de México como lente sobre la identidad — origen, centro, linaje. Nunca es un requisito y nunca es un tratamiento médico ni psicológico.</p>
             <div class="eje-tags">
-              <span class="tag-vincu">Naturaleza humana</span>
-              <span class="tag-vincu">Linaje ancestral</span>
-              <span class="tag-vincu">Sanación emocional</span>
-              <span class="tag-vincu">Reconexión divina</span>
-              <span class="tag-vincu">Renacimiento de identidad</span>
+              <span class="tag-vincu">Origen</span>
+              <span class="tag-vincu">Centro</span>
+              <span class="tag-vincu">Linaje</span>
+              <span class="tag-vincu">Comunidad</span>
             </div>
             <ul class="beneficio-list" style="margin-top:20px;">
               <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> Tu conexión es única, irrepetible y autónoma.</li>
@@ -490,12 +490,12 @@
           <div class="eje-visual">
             <figure class="eje-foto">
               <img src="img/dim-trascendencia.webp" width="1100" height="733" loading="lazy" decoding="async" style="object-position:50% 60%"   alt="Ceremonia ancestral al aire libre: una pluma, una vela y tela roja sobre el pasto">
-              <span class="eje-foto-cap">Ceremonia · Trascendencia</span>
+              <span class="eje-foto-cap">Raíces ancestrales</span>
             </figure>
             <div class="eje-resultado">
-              <span class="resultado-label">Contención Somática</span>
-              <p class="resultado-texto">Temazcal, ceremonias tradicionales y cosmogonía ancestral.</p>
-              <p class="resultado-dato">Se respeta tu fe tal cual la vives: este trabajo no la sustituye ni la cuestiona. Te ayuda a conectar más con tu cuerpo y tu espíritu, a tu forma y a tu propio tiempo.</p>
+              <span class="resultado-label">Con quién camino</span>
+              <p class="resultado-texto">Cualquier encuentro ceremonial es independiente del programa, se realiza en México con los mayores que lo guían, y no forma parte de lo que compras aquí.</p>
+              <p class="resultado-dato">Se respeta tu fe tal cual la vives: este trabajo no la sustituye ni la cuestiona.</p>
             </div>
           </div>
         </div>
@@ -554,7 +554,7 @@
         </div>
         <div class="paso-editorial">
           <div class="paso-num">C</div>
-          <h4>Sanar lo que más importa</h4>
+          <h4>Trabajar lo que más importa</h4>
           <p>Trabajamos las relaciones que más pesan, con personas y dinámicas reales.</p>
         </div>
         <div class="paso-editorial">
@@ -564,7 +564,7 @@
         </div>
         <div class="paso-editorial">
           <div class="paso-num">E</div>
-          <h4>Estrategias y objetivos</h4>
+          <h4>Estrategia y objetivos</h4>
           <p>Aclaramos tus metas y diseñamos la estrategia para ejecutarlas sin fricción.</p>
         </div>
         <div class="paso-editorial">
@@ -654,7 +654,7 @@
 
       <div class="origen-bloque">
         <div class="eyebrow">Mi origen</div>
-        <p>Crecí con heridas que me quitaron la seguridad de ser yo. Por años lo compensé con lo que el mundo aplaude: emprendí 18 veces, gané y perdí todo, viví lo que parecía una vida envidiable, y aun así no podía habitar mi propia piel con gusto. Pasé también por adicciones y hábitos que me dañaban.</p>
+        <p>Crecí con heridas que me quitaron la seguridad de ser yo. Por años lo compensé con lo que el mundo aplaude: emprendí 18 veces, gané y perdí todo, viví lo que parecía una vida envidiable, y aun así no podía habitar mi propia piel con gusto. También cargué hábitos que me dañaban.</p>
         <p>Lo que me cambió no fue otro logro. Fue volver al origen: aceptarme, valorarme y vivir en paz con quien soy. Hoy acompaño a otros en ese mismo camino, porque <em>el origen siempre determina el resultado.</em></p>
         <img class="firma-feru" src="img/firma-feru.webp" width="361" height="92" loading="lazy" decoding="async" alt="Firma de Fer U">
       </div>
@@ -698,7 +698,7 @@
       </div>
 
       <div class="linaje-editorial">
-        <p>Fer es <b style="color:var(--oro-vivo)">Temazcalero de tradición Otomí, Aprendiz Marakame Wixárika, Tonalpouque y Danzante del Sol</b>. Aprende de <b style="color:var(--oro-vivo)">tradiciones y comunidades reales de México</b> y de maestros como Tío James (comunidad Lakota, EE. UU.), Temachtiani Alfredo (comunidad Otomí), Marakame Santos (comunidad Wixárika) y el Profesor Arturo Meza (comunidad Otomí). Esa raíz sostiene todo el trabajo técnico y conceptual.</p>
+        <p>Aprendo de <b style="color:var(--oro-vivo)">tradiciones y comunidades reales en México</b> y de mayores como el Tío James (comunidad Lakota, EE. UU.), el Temachtiani Alfredo (comunidad Otomí), el Marakame Santos (comunidad Wixárika) y el Profesor Arturo Meza (comunidad Otomí). Ese arraigo sostiene todo el trabajo técnico y conceptual.</p>
       </div>
       </div>
     </div>
@@ -715,7 +715,7 @@
       <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Esquema de Trabajo</div>
       <h2 class="sec-title">Modalidades de <em>Acompañamiento</em>.</h2>
 
-      <div class="paso2">Eliges el nivel de compromiso y profundidad según el diagnóstico de tu <b>Sesión de Mapeo</b>.</div>
+      <div class="paso2">Eliges el nivel de compromiso y profundidad según lo que encontremos en tu <b>Sesión de Mapeo</b>.</div>
       <div class="cur-toggle" role="group" aria-label="Moneda" aria-hidden="true" style="display:none"><button type="button" data-cur="mxn" aria-pressed="true">MXN</button><button type="button" data-cur="usd" aria-pressed="false">USD</button></div>
 
       <div class="precios-grid">
@@ -750,7 +750,7 @@
             <div class="p-sub">16 sesiones 1:1 de 2 h · 4 meses</div>
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Re-arquitectura de tu identidad, hábitos, decisiones y relaciones, con tus blueprints en Miro.</p>
             <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
-<ul class="p-list" hidden><li>Kick off y graduación</li><li>Acompañamiento casi diario entre sesiones</li><li>Medición semanal de tu avance</li><li>Bitácora diaria con asistentes de análisis con IA</li><li>Garantía de satisfacción</li></ul>
+<ul class="p-list" hidden><li>Kick off y graduación</li><li>Acompañamiento por mensaje entre sesiones, en horario laboral (no es para emergencias)</li><li>Medición semanal de tu avance</li><li>Bitácora diaria con un asistente de IA, solo con tu consentimiento por escrito</li><li>Garantía de satisfacción</li></ul>
           </div>
           <a href="https://calendly.com/jesueugalde/descubrimiento" class="cta-btn" style="text-align:center;" target="_blank" rel="noopener">Agendar mi Sesión de Mapeo</a>
         </div>
@@ -762,13 +762,13 @@
             <div class="p-sub">Por aplicación · hasta 6 meses</div>
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Programa intensivo diseñado contigo, con especialistas invitados. Puede incluir procesos presenciales.</p>
             <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
-<ul class="p-list" hidden><li>Se define en una sesión de diagnóstico</li><li>Personal, profesional, comercial y trascendente</li></ul>
+<ul class="p-list" hidden><li>Se define en una sesión de mapeo</li><li>Personal, profesional y comercial; raíces ancestrales opcional</li></ul>
           </div>
           <a href="https://wa.me/525643440676?text=Hola%20Fer,%20quiero%20aplicar%20al%20programa%20A%20medida" class="btn-secundario" style="text-align:center; justify-content:center;" target="_blank" rel="noopener">Aplicar por WhatsApp</a>
         </div>
       </div>
 
-      <p class="garantia"><strong>Garantía de satisfacción:</strong> si tu satisfacción promedio queda por debajo de 7.5/10 a partir de la semana 4 y cumpliste el 100% de tus actividades, acuerdos y compromisos, te devuelvo tu inversión y descontinuamos el servicio.</p>
+      <p class="garantia"><strong>Garantía de satisfacción:</strong> si tu satisfacción promedio queda por debajo de 7.5/10 a partir de la semana 4 y cumpliste el 100% de tus actividades, acuerdos y compromisos, te devuelvo tu inversión y descontinuamos el servicio. Garantiza ajuste y esfuerzo, no un resultado específico.</p>
 
       <div class="precios-notas">
         <p>Precios en MXN para servicios <strong>online</strong>. Pago por anticipo o transferencias semanales o mensuales.</p>
@@ -789,15 +789,15 @@
     <div class="wrap">
       <div class="eyebrow centrado"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Presencia Real</div>
       <h2 class="sec-title centrado">El camino también se ve.</h2>
-      <p class="sec-desc">Sesiones, ceremonias, comunidad — el lado humano de este trabajo.</p>
+      <p class="sec-desc">Sesiones, talleres, comunidad — el lado humano de este trabajo. Los encuentros ancestrales se realizan en México y son independientes del programa.</p>
 
       <div class="galeria-grid">
         <figure class="eje-foto"><img src="img/galeria-taller-en-vivo.webp" width="640" height="800" alt="Taller en vivo con Fer U y un grupo de participantes" loading="lazy" decoding="async"><span class="eje-foto-cap">Taller en vivo</span></figure>
-        <figure class="eje-foto"><img src="img/galeria-ceremonia-contencion.webp" width="640" height="800" alt="Participante acompañado por varias manos durante una ceremonia nocturna" loading="lazy" decoding="async"><span class="eje-foto-cap">Ceremonia · Contención</span></figure>
+        <figure class="eje-foto"><img src="img/galeria-ceremonia-contencion.webp" width="640" height="800" alt="Participante acompañado por varias manos durante una ceremonia nocturna" loading="lazy" decoding="async"><span class="eje-foto-cap">Encuentro ancestral · México</span></figure>
         <figure class="eje-foto"><img src="img/galeria-sesion-en-linea.webp" width="528" height="660" alt="Sesión 1 a 1 por videollamada con Fer U" loading="lazy" decoding="async"><span class="eje-foto-cap">Sesión 1:1 · En línea</span></figure>
         <figure class="eje-foto"><img src="img/galeria-kick-off.webp" width="640" height="800" alt="Evento de kick off de un programa de acompañamiento" loading="lazy" decoding="async"><span class="eje-foto-cap">Kick off</span></figure>
         <figure class="eje-foto"><img src="img/galeria-workshop.webp" width="640" height="800" alt="Participantes durante un workshop de Innovación Humana" loading="lazy" decoding="async"><span class="eje-foto-cap">Workshop</span></figure>
-        <figure class="eje-foto"><img src="img/galeria-ceremonia.webp" width="640" height="800" alt="Ceremonia dentro del proceso de acompañamiento" loading="lazy" decoding="async"><span class="eje-foto-cap">Ceremonia</span></figure>
+        <figure class="eje-foto"><img src="img/galeria-ceremonia.webp" width="640" height="800" alt="Encuentro ancestral en México, independiente del programa" loading="lazy" decoding="async"><span class="eje-foto-cap">Encuentro ancestral</span></figure>
         <figure class="eje-foto"><img src="img/galeria-sesion-1a1.webp" width="575" height="719" alt="Sesión personal 1 a 1 con Fer U" loading="lazy" decoding="async"><span class="eje-foto-cap">Sesión 1:1</span></figure>
         <figure class="eje-foto"><img src="img/galeria-cx-design.webp" width="575" height="719" alt="Workshop de CX Design y diseño estratégico" loading="lazy" decoding="async"><span class="eje-foto-cap">CX Design Workshop</span></figure>
       </div>
@@ -831,6 +831,13 @@ function toggleDolores(){var x=document.querySelectorAll('.dolor-extra');for(var
       </details>
 
       <details class="acordeon-item">
+        <summary class="acordeon-header">¿Qué pasa en una Sesión de Mapeo?</summary>
+        <div class="acordeon-body">
+          <p>En 60 minutos lees tu radar de 12 áreas y ves cómo una área empuja a otra. Te dibujas durante dos minutos y lo miramos juntos, como un espejo, no como una prueba. Nombramos lo que ves, sin juicio, y sales con una propuesta que se ajusta a tu tiempo y a tu presupuesto.</p>
+        </div>
+      </details>
+
+      <details class="acordeon-item">
         <summary class="acordeon-header">¿Cuánto tiempo toma ver resultados tangibles en mi día a día?</summary>
         <div class="acordeon-body">
           <p><span class="concepto">El cambio requiere práctica</span> y cada persona lleva su ritmo. Verás señales perceptibles desde las primeras sesiones; la consolidación, cuando lo nuevo deja de ser forzado y se vuelve natural, suele tomar <strong>entre 12 y 24 semanas</strong>, porque un patrón nuevo se consolida con repetición. Lo medimos juntos para que lo veas en tu día a día.</p>
@@ -848,6 +855,13 @@ function toggleDolores(){var x=document.querySelectorAll('.dolor-extra');for(var
         <summary class="acordeon-header">¿Es necesario tener experiencia previa en desarrollo personal o espiritualidad?</summary>
         <div class="acordeon-body">
           <p><strong>No es necesario.</strong> El método se adapta a tu realidad y a tu vocabulario: traducimos lo abstracto en herramientas claras y aplicables a tus retos profesionales, comerciales y familiares. Lo espiritual y lo ancestral son una invitación, nunca un requisito.</p>
+        </div>
+      </details>
+
+      <details class="acordeon-item">
+        <summary class="acordeon-header">¿Y si no soy de los que hablan de sus emociones?</summary>
+        <div class="acordeon-body">
+          <p>No tienes que serlo. Partimos de lo que haces (decisiones, relaciones, trabajo), y las palabras llegan con la práctica, a tu ritmo.</p>
         </div>
       </details>
 
@@ -873,9 +887,23 @@ function toggleDolores(){var x=document.querySelectorAll('.dolor-extra');for(var
       </details>
 
       <details class="acordeon-item">
+        <summary class="acordeon-header">¿Lo que comparto contigo es privado?</summary>
+        <div class="acordeon-body">
+          <p>Sí. Mantengo en privado lo que compartes, y no lo vendo ni lo comparto con fines comerciales; el detalle está en el <a href="#" onclick="openModal('modal-priv');return false;" style="color:var(--oro-vivo);">aviso de privacidad</a>. Como esto es acompañamiento y no terapia, no está cubierto por la confidencialidad legal que existe entre un paciente y un terapeuta con licencia. Si tienes dudas al respecto, pregúntame antes de empezar.</p>
+        </div>
+      </details>
+
+      <details class="acordeon-item">
+        <summary class="acordeon-header">¿Ofreces ceremonias?</summary>
+        <div class="acordeon-body">
+          <p>No como parte del programa. Si te da curiosidad conocer las tradiciones ancestrales que he aprendido en México, podemos platicar de ellas, pero son independientes, opcionales, se realizan en México con los mayores que las guían, solo para mayores de 18 años y con una valoración previa de salud y medicación, y nunca se presentan como tratamiento. Nadie debe sentir presión para participar.</p>
+        </div>
+      </details>
+
+      <details class="acordeon-item">
         <summary class="acordeon-header">¿Quién puede participar y cuántas personas acompañas a la vez?</summary>
         <div class="acordeon-body">
-          <p>Mayores de 18 años; en casos especiales, desde los 16 con permiso firmado de madre, padre o tutor. Los temazcales y las ceremonias con plantas medicinales son solo para mayores de 18 y requieren una valoración previa de salud y medicación. Acompaño hasta 12 personas a la vez en procesos individuales.</p>
+          <p>Mayores de 18 años. Acompaño hasta 12 personas a la vez en procesos individuales.</p>
         </div>
       </details>
     </div>
@@ -936,7 +964,7 @@ function toggleDolores(){var x=document.querySelectorAll('.dolor-extra');for(var
     <div class="eyebrow">Primer Horizonte</div>
     <h3 id="modal-h1-titulo" style="font-family: var(--serif); font-size: 32px; font-weight: 300; margin-bottom: 20px;">Identidad Personal & Estructura de origen</h3>
     <p style="font-family: var(--sans); font-size: 14px; color: var(--gris-cl); line-height: 1.7;">
-      Intervención directa en los hábitos de salud mental, emocional, física y relacional.
+      Trabajo guiado sobre cómo piensas, sientes, te relacionas y te cuidas en tu día a día.
     </p>
     <span class="beneficio-list-label">Lo que se transforma en esta dimensión</span>
     <ul class="beneficio-list">
@@ -1038,7 +1066,10 @@ function toggleDolores(){var x=document.querySelectorAll('.dolor-extra');for(var
     <h4>Para qué</h4><p>Acompañarte, dar seguimiento y medir tu avance, agendar y cobrar, y contactarte. No vendo tu información ni la comparto con fines comerciales.</p>
     <h4>Proveedores que la procesan</h4><p>WhatsApp (mensajería), Miro (tu lienzo), Claude, de Anthropic (asistente de IA que ayuda a leer tu bitácora y tu lienzo), Gmail (correo), Zoom o Google Meet (videosesiones) y GitHub (aloja esta página). Operan bajo sus propios términos.</p>
     <h4>Tu consentimiento</h4><p>Para tratar datos sensibles y usar IA te pediré consentimiento expreso y por escrito antes de empezar. Puedes retirarlo en cualquier momento.</p>
-    <h4>Tus derechos</h4><p>Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos (derechos ARCO) escribiendo al correo de arriba. Este aviso puede actualizarse; la versión vigente estará aquí. Última actualización: septiembre 2026.</p>
+    <h4>Uso de IA</h4><p>El asistente de IA se usa solo con tu consentimiento por escrito. Si no lo das, tu bitácora no se comparte con él, y puedes retirar tu consentimiento en cualquier momento.</p>
+    <h4>Dónde se procesan tus datos</h4><p>Presto el servicio desde México. Los proveedores mencionados pueden procesar tu información en Estados Unidos, México u otros países, bajo sus propios términos.</p>
+    <h4>Cuánto tiempo la conservo</h4><p>Conservo tu información solo el tiempo que la necesito para acompañarte y cumplir obligaciones legales, y la elimino cuando me lo pides, salvo que la ley me obligue a conservarla.</p>
+    <h4>Tus derechos</h4><p>Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos (derechos ARCO) escribiendo al correo de arriba. Este aviso puede actualizarse; la versión vigente estará aquí. Última actualización: octubre 2026.</p>
     </div>
   </div>
 </div>
