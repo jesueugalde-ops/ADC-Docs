@@ -16,7 +16,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
 <link as="image" fetchpriority="high" href="img/hero-fer-roberto.webp" rel="preload" type="image/webp"/>
-<link href="css/ih.css?v=49" rel="stylesheet"/>
+<link href="css/ih.css?v=48" rel="stylesheet"/>
 <meta content="website" property="og:type"/>
 <link href="https://jesueugalde-ops.github.io/ADC-Docs/index-ca-es.html" rel="canonical"/>
 <meta content="https://jesueugalde-ops.github.io/ADC-Docs/index-ca-es.html" property="og:url"/>
@@ -48,7 +48,7 @@
 .alcance-bloque p{font-family:var(--sans);font-size:14px;line-height:1.7;color:var(--gris-cl,#b5b5b5);margin:0 0 8px}
 .foot-aviso{max-width:720px;margin:14px auto 0;font-family:var(--sans);font-size:12px;line-height:1.6;color:var(--gris-cl,#9a9a9a);text-align:center}
 .precios-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-
+.cur-toggle{display:none}
 
 /* ── Casos reales + enlaces a casos (portado de la versión EN) ── */
 .casos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:28px 0 8px}
@@ -146,7 +146,7 @@
 <div class="nav-actions">
 <div aria-label="Idioma / Language" class="lang-switch" role="group"><span aria-current="true" class="lang-opt is-active" lang="es">ES</span><a class="lang-opt" href="https://jesueugalde-ops.github.io/ADC-Docs/index-ca-en.html" hreflang="en-CA" lang="en" title="English version">EN</a></div>
 <a class="nav-wa" href="https://wa.me/525643440676?text=Hola%20Fer,%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Innovaci%C3%B3n%20Humana" rel="noopener" target="_blank"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-message-circle"></use></svg> Más información</a>
-<a class="nav-cta" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-ca-es.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> <span class="nav-cta-full">Hacer mi Evaluación</span><span class="nav-cta-short">Evaluación</span></a>
+<a class="nav-cta" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> <span class="nav-cta-full">Hacer mi Evaluación</span><span class="nav-cta-short">Evaluación</span></a>
 </div>
 </nav>
 <!-- ═══ 1. HERO ═══ -->
@@ -164,7 +164,7 @@
 <p class="hero-promesa">Te acompaño a volver a tu centro y decidir desde ahí. Sé lo que cuesta empezar de cero en otro país: lo viví en Canadá.</p>
 <p class="hero-idiomas">Sesiones 1 a 1 en línea, en español e inglés.</p>
 <div class="hero-cta-group">
-<a class="cta-btn" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-ca-es.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Hacer mi Evaluación de Fracturas Raíz · gratis</a>
+<a class="cta-btn" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Hacer mi Evaluación de Fracturas Raíz · gratis</a>
 </div>
 </div>
 <figure class="hero-foto">
@@ -349,7 +349,7 @@
 <p>Dejas de pretender que todo está bien. Reconstruyes cómo te ves, pones en orden tu historia y armas hábitos que sí puedes sostener, sin castigarte.</p>
 <div class="eje-tags"><span class="tag-vincu">Uno mismo</span> <span class="tag-vincu">Pareja</span> <span class="tag-vincu">Hijos</span> <span class="tag-vincu">Familia de origen</span></div>
 <button class="btn-secundario" onclick="openModal('modal-h1')"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-plus"></use></svg> Ver desglose 1:1</button>
-<a class="btn-secundario btn-iad" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-ca-es.html#personal"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Mi Evaluación de Fracturas Raíz · Personal</a>
+<a class="btn-secundario btn-iad" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html#personal"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Mi Evaluación de Fracturas Raíz · Personal</a>
 </div>
 <div class="eje-visual">
 <figure class="eje-foto">
@@ -372,7 +372,7 @@
 <p>Dejas de resolverlo todo tú. Decides con criterio, delegas sin convertirte en capataz y construyes un equipo que se hace cargo.</p>
 <div class="eje-tags"><span class="tag-vincu">Socios</span> <span class="tag-vincu">Colaboradores</span> <span class="tag-vincu">Reclutamiento</span> <span class="tag-vincu">Equipo directivo</span> <span class="tag-vincu">Equipo gerencial</span></div>
 <button class="btn-secundario" onclick="openModal('modal-h2')"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-plus"></use></svg> Ver desglose ejecutivo</button>
-<a class="btn-secundario btn-iad" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-ca-es.html#profesional"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Mi Evaluación de Fracturas Raíz · Profesional</a>
+<a class="btn-secundario btn-iad" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html#profesional"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Mi Evaluación de Fracturas Raíz · Profesional</a>
 </div>
 <div class="eje-visual">
 <figure class="eje-foto">
@@ -395,7 +395,7 @@
 <p>Tu forma de reclutar, vender, liderar y relacionarte con clientes es un espejo de tu estructura interna. Trabajamos primero esa base humana y, desde ahí, rediseñamos tus procesos comerciales para integrar lo humano y lo tecnológico.</p>
 <div class="eje-tags"><span class="tag-vincu">Equipo comercial</span> <span class="tag-vincu">Audiencias</span> <span class="tag-vincu">Prospectos</span> <span class="tag-vincu">Clientes</span> <span class="tag-vincu">Referidos</span></div>
 <button class="btn-secundario" onclick="openModal('modal-h3')"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-plus"></use></svg> Ver desglose comercial</button>
-<a class="btn-secundario btn-iad" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-ca-es.html#comercial"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Mi Evaluación de Fracturas Raíz · Comercial</a>
+<a class="btn-secundario btn-iad" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html#comercial"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Mi Evaluación de Fracturas Raíz · Comercial</a>
 </div>
 <div class="eje-visual">
 <figure class="eje-foto eje-foto--panoramica">
@@ -457,7 +457,7 @@
         <button type="button" class="btn-secundario" id="casos-btn" onclick="toggleCasos()" aria-expanded="false" aria-controls="casos-panel"><svg class="lucide-icon" id="casos-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg> <span id="casos-txt">Ver los otros 3 casos</span></button>
       </div>
       <p class="rb-note">Escalas autoevaluadas de 1 a 10. Se comparten con el acuerdo de las personas involucradas, que pueden pedir su retiro en cualquier momento. Los resultados varían de una persona a otra.</p>
-      <div style="text-align:center;margin-top:22px;"><a class="cta-btn" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-ca-es.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Hacer mi Evaluación de Fracturas Raíz</a></div>
+      <div style="text-align:center;margin-top:22px;"><a class="cta-btn" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Hacer mi Evaluación de Fracturas Raíz</a></div>
     </div>
   </section>
 
@@ -549,7 +549,7 @@
 </div>
 </div>
 <p class="sec-desc cierre-filtro">Si te reconociste, el siguiente paso no es otro libro ni otro retiro: <strong>es un mapa de 5 minutos</strong>, sin costo.</p>
-<div style="text-align:center;margin-top:18px;"><a class="cta-btn" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-ca-es.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Hacer mi Evaluación de Fracturas Raíz</a></div>
+<div style="text-align:center;margin-top:18px;"><a class="cta-btn" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Hacer mi Evaluación de Fracturas Raíz</a></div>
 </div>
 </section>
 <!-- ═══ 8. ACOMPAÑAMIENTO & GUÍA — FER U ═══ -->
@@ -622,11 +622,12 @@
 <div class="eyebrow"><svg aria-hidden="true" class="lucide-icon icon-inline" viewbox="0 0 24 24"><use href="#i-dollar-sign"></use></svg> Esquema de Trabajo</div>
 <h2 class="sec-title">Modalidades de <em>Acompañamiento</em>.</h2>
 <div class="paso2">Eliges el nivel de compromiso y profundidad según lo que encontremos en tu <b>Sesión de Mapeo</b>.</div>
+<div aria-label="Moneda" class="cur-toggle" role="group"><button aria-pressed="false" data-cur="mxn" type="button">MXN</button><button aria-pressed="true" data-cur="usd" type="button">USD</button></div>
 <div class="precios-grid">
 <div class="precio-card">
 <div>
 <div class="p-title">Reconexión</div>
-<div class="p-price">$1,100 <span class="mxn">CAD</span></div>
+<div class="p-price" data-mxn='$1,100 &lt;span class="mxn"&gt;CAD&lt;/span&gt;' data-usd='$1,100 &lt;span class="mxn"&gt;CAD&lt;/span&gt;'>$1,100 <span class="mxn">CAD</span></div>
 <div class="p-sub">7 sesiones 1:1 de 60 min</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Para un momento difícil, una decisión o una fractura específica.</p>
 <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
@@ -637,7 +638,7 @@
 <div class="precio-card">
 <div>
 <div class="p-title">Reinvención Básica</div>
-<div class="p-price">$1,950 <span class="mxn">CAD</span></div>
+<div class="p-price" data-mxn='$1,950 &lt;span class="mxn"&gt;CAD&lt;/span&gt;' data-usd='$1,950 &lt;span class="mxn"&gt;CAD&lt;/span&gt;'>$1,950 <span class="mxn">CAD</span></div>
 <div class="p-sub">12 sesiones 1:1 de 2 h · 12 semanas</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Un proceso completo de reinvención con menos herramientas, para quien quiere un cambio profundo con una inversión más accesible.</p>
 <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
@@ -648,7 +649,7 @@
 <div class="precio-card featured">
 <div>
 <div class="p-title">Reinvención Profunda</div>
-<div class="p-price">$5,300 <span class="mxn">CAD</span></div>
+<div class="p-price" data-mxn='$5,300 &lt;span class="mxn"&gt;CAD&lt;/span&gt;' data-usd='$5,300 &lt;span class="mxn"&gt;CAD&lt;/span&gt;'>$5,300 <span class="mxn">CAD</span></div>
 <div class="p-sub">16 sesiones 1:1 de 2 h · 4 meses</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Re-arquitectura de tu identidad, hábitos, decisiones y relaciones, con tus blueprints en Miro.</p>
 <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
@@ -659,7 +660,7 @@
 <div class="precio-card">
 <div>
 <div class="p-title">A medida</div>
-<div class="p-price"><span class="mxn desde">Desde</span>$7,000 <span class="mxn">CAD</span></div>
+<div class="p-price" data-mxn='&lt;span class="mxn desde"&gt;From&lt;/span&gt;$7,000 &lt;span class="mxn"&gt;CAD&lt;/span&gt;' data-usd='&lt;span class="mxn desde"&gt;From&lt;/span&gt;$7,000 &lt;span class="mxn"&gt;CAD&lt;/span&gt;'><span class="mxn desde">Desde</span>$7,000 <span class="mxn">CAD</span></div>
 <div class="p-sub">Por aplicación · hasta 6 meses</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Programa intensivo diseñado contigo, con especialistas invitados. Puede incluir procesos presenciales.</p>
 <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
@@ -806,7 +807,7 @@ function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.
 <li><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-circle-check"></use></svg> 100% abonables a tu programa si te inscribes en 4 semanas</li>
 </ul>
 <div class="cta-final-acciones">
-<a class="cta-btn" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa-ca-es.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Hacer mi Evaluación de Fracturas Raíz</a>
+<a class="cta-btn" href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-compass"></use></svg> Hacer mi Evaluación de Fracturas Raíz</a>
 <a class="btn-secundario" href="https://calendly.com/fer-ugaldemx/root-fracture-map" rel="noopener" target="_blank"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-calendar"></use></svg> Ya lo tengo claro: agendar Sesión de Mapeo ($105 CAD precio de lanzamiento)</a>
 <a class="btn-secundario" href="https://wa.me/525643440676?text=Hola%20Fer,%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20sobre%20las%20sesiones" rel="noopener" target="_blank"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-message-circle"></use></svg> ¿Preguntas? Escríbeme por WhatsApp</a>
 <a class="btn-secundario" href="mailto:jesueugalde@gmail.com?subject=Innovaci%C3%B3n%20Humana%20-%20M%C3%A1s%20informaci%C3%B3n"><svg aria-hidden="true" class="lucide-icon" viewbox="0 0 24 24"><use href="#i-message-square"></use></svg> ¿Prefieres correo? Escríbeme</a>
@@ -921,6 +922,6 @@ function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.
 </div>
 </div>
 </div>
-<script defer="" src="js/ih.js?v=49"></script>
+<script defer="" src="js/ih.js?v=48"></script>
 </body>
 </html>
