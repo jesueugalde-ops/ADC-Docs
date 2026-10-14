@@ -9,12 +9,14 @@
 <link href="https://jesueugalde-ops.github.io/ADC-Docs/index-us-es.html" hreflang="es-US" rel="alternate"/>
 <link href="https://jesueugalde-ops.github.io/ADC-Docs/index.html" hreflang="es-MX" rel="alternate"/>
 <link href="https://jesueugalde-ops.github.io/ADC-Docs/index-en.html" hreflang="en-US" rel="alternate"/>
+<link href="https://jesueugalde-ops.github.io/ADC-Docs/index-ca-en.html" hreflang="en-CA" rel="alternate"/>
+<link href="https://jesueugalde-ops.github.io/ADC-Docs/index-ca-es.html" hreflang="es-CA" rel="alternate"/>
 <link href="https://jesueugalde-ops.github.io/ADC-Docs/index.html" hreflang="x-default" rel="alternate"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
 <link as="image" fetchpriority="high" href="img/hero-fer-roberto.webp" rel="preload" type="image/webp"/>
-<link href="css/ih.css?v=48" rel="stylesheet"/>
+<link href="css/ih.css?v=49" rel="stylesheet"/>
 <meta content="website" property="og:type"/>
 <link href="https://jesueugalde-ops.github.io/ADC-Docs/index-en.html" rel="canonical"/>
 <meta content="https://jesueugalde-ops.github.io/ADC-Docs/index-en.html" property="og:url"/>
@@ -46,7 +48,7 @@
 .alcance-bloque p{font-family:var(--sans);font-size:14px;line-height:1.7;color:var(--gris-cl,#b5b5b5);margin:0 0 8px}
 .foot-aviso{max-width:720px;margin:14px auto 0;font-family:var(--sans);font-size:12px;line-height:1.6;color:var(--gris-cl,#9a9a9a);text-align:center}
 .precios-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.cur-toggle{display:none}
+
 
 /* ── Casos reales + enlaces a casos (portado de la versión EN) ── */
 .casos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:28px 0 8px}
@@ -620,12 +622,11 @@
 <div class="eyebrow"><svg aria-hidden="true" class="lucide-icon icon-inline" viewbox="0 0 24 24"><use href="#i-dollar-sign"></use></svg> Work Structure</div>
 <h2 class="sec-title">Ways to <em>work together</em>.</h2>
 <div class="paso2">You choose your level of commitment and depth based on what we find in your <b>Mapping Session</b>.</div>
-<div aria-label="Currency" class="cur-toggle" role="group"><button aria-pressed="false" data-cur="mxn" type="button">MXN</button><button aria-pressed="true" data-cur="usd" type="button">USD</button></div>
 <div class="precios-grid">
 <div class="precio-card">
 <div>
 <div class="p-title">Reconnection</div>
-<div class="p-price" data-mxn='$800 &lt;span class="mxn"&gt;USD&lt;/span&gt;' data-usd='$800 &lt;span class="mxn"&gt;USD&lt;/span&gt;'>$800 <span class="mxn">USD</span></div>
+<div class="p-price">$800 <span class="mxn">USD</span></div>
 <div class="p-sub">7 one-on-one sessions · 60 min</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">For a hard moment, a decision or a specific fracture.</p>
 <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="See what’s included" data-close="Hide" onclick="togglePlan(this)">+ See what’s included</button>
@@ -636,7 +637,7 @@
 <div class="precio-card">
 <div>
 <div class="p-title">Reinvention Essentials</div>
-<div class="p-price" data-mxn='$1,400 &lt;span class="mxn"&gt;USD&lt;/span&gt;' data-usd='$1,400 &lt;span class="mxn"&gt;USD&lt;/span&gt;'>$1,400 <span class="mxn">USD</span></div>
+<div class="p-price">$1,400 <span class="mxn">USD</span></div>
 <div class="p-sub">12 one-on-one sessions · 2 hrs · 12 weeks</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">A full reinvention process with fewer tools, for those who want deep change at a more accessible investment.</p>
 <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="See what’s included" data-close="Hide" onclick="togglePlan(this)">+ See what’s included</button>
@@ -647,7 +648,7 @@
 <div class="precio-card featured">
 <div>
 <div class="p-title">Reinvention Deep</div>
-<div class="p-price" data-mxn='$3,800 &lt;span class="mxn"&gt;USD&lt;/span&gt;' data-usd='$3,800 &lt;span class="mxn"&gt;USD&lt;/span&gt;'>$3,800 <span class="mxn">USD</span></div>
+<div class="p-price">$3,800 <span class="mxn">USD</span></div>
 <div class="p-sub">16 one-on-one sessions · 2 hrs · 4 months</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Re-architecture of your identity, habits, decisions and relationships, with your blueprints in Miro.</p>
 <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="See what’s included" data-close="Hide" onclick="togglePlan(this)">+ See what’s included</button>
@@ -658,7 +659,7 @@
 <div class="precio-card">
 <div>
 <div class="p-title">Tailored</div>
-<div class="p-price" data-mxn='&lt;span class="mxn desde"&gt;From&lt;/span&gt;$5,000 &lt;span class="mxn"&gt;USD&lt;/span&gt;' data-usd='&lt;span class="mxn desde"&gt;From&lt;/span&gt;$5,000 &lt;span class="mxn"&gt;USD&lt;/span&gt;'><span class="mxn desde">From</span>$5,000 <span class="mxn">USD</span></div>
+<div class="p-price"><span class="mxn desde">From</span>$5,000 <span class="mxn">USD</span></div>
 <div class="p-sub">By application · up to 6 months</div>
 <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">An intensive program designed with you, with guest specialists. May include in-person processes.</p>
 <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="See what’s included" data-close="Hide" onclick="togglePlan(this)">+ See what’s included</button>
@@ -920,6 +921,6 @@ function setCasosUi(open){var b=document.getElementById('casos-btn'),t=document.
 </div>
 </div>
 </div>
-<script defer="" src="js/ih.js?v=48"></script>
+<script defer="" src="js/ih.js?v=49"></script>
 </body>
 </html>
