@@ -68,10 +68,6 @@ var IH_T = {
 
   /* v30 */
   (function(){
-    var bs=document.querySelectorAll('.cur-toggle button'),ps=document.querySelectorAll('[data-mxn]');
-    bs.forEach(function(b){b.addEventListener('click',function(){var c=b.getAttribute('data-cur');
-      bs.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
-      ps.forEach(function(e){e.innerHTML=e.getAttribute('data-'+c)})})});
     var mb=document.getElementById('more-btn'),mbody=document.getElementById('more-body');
     if(mb){mb.addEventListener('click',function(){var o=mbody.hidden;mbody.hidden=!o;mb.setAttribute('aria-expanded',String(o));
       document.getElementById('more-txt').textContent=o?IH_T.lessStory:IH_T.moreStory;
