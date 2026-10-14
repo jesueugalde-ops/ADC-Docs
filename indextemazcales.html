@@ -152,19 +152,19 @@ footer{text-align:center;padding:2rem 1.25rem;color:var(--suave);font-size:.95re
       <img src="img/mujeres.jpg" alt="Mujeres frente al fuego antes del temazcal" loading="lazy">
       <div><h3>Cihuas</h3>
       <p>Entre mujeres nos preparamos física, mental y espiritualmente. Abrimos la abundancia, el amor y el compañerismo. Vamos unidas en un solo rezo: por mí, por ti, por la familia, por nuestra comunidad, por nuestro pueblo y por el Universo.</p>
-      <a class="btn mini" data-grupo="mujeres" href="#">Más info con Angeles</a></div>
+      <a class="btn mini" data-wa="1" data-msg="Hola Angeles, quiero más información del temazcal para mujeres." href="#">Más info con Angeles</a></div>
     </article>
     <article class="tipo t-hombres" style="background:var(--noche)">
       <img src="img/hombres.jpg" alt="Hombres reunidos antes del temazcal" loading="lazy">
       <div><h3>Guerreros</h3>
       <p>Venimos con permiso de nuestro rostro, corazón y sexualidad. Nos reconocemos, nos aceptamos y soltamos lo que hoy nos lastima. Dejamos atrás prejuicios, culpas y miedos, ordenamos el interior y cerramos un ciclo para renovar fuerzas. Como hermanos.</p>
-      <a class="btn mini" data-grupo="hombres" href="#">Más info con Fer</a></div>
+      <a class="btn mini" data-wa="2" data-msg="Hola Fer, quiero más información del temazcal para hombres." href="#">Más info con Fer</a></div>
     </article>
     <article class="tipo t-mixto" style="background:var(--noche)">
       <img src="img/mixto.jpg" alt="Mujeres y hombres reunidos junto al fuego" loading="lazy">
       <div><h3>Mixtos</h3><small>Domingos y algunos sábados por la noche</small>
       <p>Mujeres y hombres en un solo rezo. Nos reconocemos, soltamos lo que hoy nos lastima y ordenamos el interior. Abrimos el corazón al amor y al compañerismo: por nosotros, por la familia, por nuestra comunidad y por el Universo.</p>
-      <a class="btn mini" data-grupo="mixtos" href="#">Más info con Alfredo</a></div>
+      <a class="btn mini" data-wa="3" data-msg="Hola Alfredo, quiero más información del temazcal mixto." href="#">Más info con Alfredo</a></div>
     </article>
   </div>
 </div></section>
@@ -243,7 +243,7 @@ footer{text-align:center;padding:2rem 1.25rem;color:var(--suave);font-size:.95re
 
 <script>
 /* ===== Edita aquí cada mes ===== */
-const CONTACTO = { 1:'525560886496', 2:'525643440676' };
+const CONTACTO = { 1:'525560886496', 2:'525643440676', 3:'525616132673' }; // 1 Angeles · 2 Fer · 3 Alfredo
 // Pega aquí los enlaces de invitación a cada grupo de WhatsApp
 const GRUPOS = { mujeres:'', hombres:'', mixtos:'' };
 const MES = { nombre:'Octubre', veintenas:'Ochopaniztli y Teotlehco' };
@@ -267,7 +267,7 @@ document.getElementById('fechas').innerHTML = FECHAS.map(f => {
     '<div class="info"><div><span class="hora">' + f.hora + '</span><strong>' + t + '</strong></div>' +
     '<a class="btn mini" href="' + wa(CONTACTO[1], msg) + '" target="_blank" rel="noopener">Apartar</a></div></li>';
 }).join('');
-document.querySelectorAll('[data-wa]').forEach(a => { a.href = wa(CONTACTO[a.dataset.wa]); a.target = '_blank'; a.rel = 'noopener'; });
+document.querySelectorAll('[data-wa]').forEach(a => { a.href = wa(CONTACTO[a.dataset.wa], a.dataset.msg); a.target = '_blank'; a.rel = 'noopener'; });
 document.querySelectorAll('[data-grupo]').forEach(a => { const g = GRUPOS[a.dataset.grupo]; if (g) { a.href = g; a.target = '_blank'; a.rel = 'noopener'; } });
 </script>
 </body>
