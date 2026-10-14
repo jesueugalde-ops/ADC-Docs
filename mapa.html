@@ -210,7 +210,7 @@
 
       <div class="cta-block">
         <a href="https://calendly.com/jesueugalde/descubrimiento" target="_blank" rel="noopener">Agendar mi Sesión de Mapeo</a>
-        <p class="cta-sub">Paso 2 · 60 min · $1,000 MXN/$55 USD · Abonables al 100% a tu programa si te inscribes</p>
+        <p class="cta-sub">Paso 2 · 60 min · $1,000 MXN · Abonables al 100% a tu programa si te inscribes en 4 semanas</p>
       </div>
     </div>
   </div>
@@ -527,7 +527,7 @@ function updateWaLink(){
     const min = Math.min(...vals);
     msg += `Área con más fractura: ${d.areas[vals.indexOf(min)].t} (${min}/10)`;
   } else {
-    msg += `\n(Diagnóstico incompleto — ${answered}/12 áreas respondidas)`;
+    msg += `\n(Resultado incompleto — ${answered}/12 áreas respondidas)`;
   }
   const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
   document.getElementById("btnWa").href = url;
