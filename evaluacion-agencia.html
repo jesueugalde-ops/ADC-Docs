@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluación de tu Agencia · 5 minutos · Innovación Humana</title>
+<meta name="description" content="12 indicadores para ver tu agencia desde tu rol: Director, Gerente, Reclutador, Agente Novel o Consolidado. Gratis, privada y en 5 minutos.">
+<meta property="og:title" content="Evaluación de tu Agencia · Innovación Humana">
+<meta property="og:image" content="https://jesueugalde-ops.github.io/ADC-Docs/img/og-rombo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/ih.css?v=50">
+<style>
+.ev{max-width:760px;margin:0 auto;padding:0 20px}
+.ev [hidden]{display:none!important}
+.roles{display:grid;gap:10px;margin:26px 0 14px}
+.roles button{font:500 15px var(--sans,sans-serif);text-align:left;padding:16px 18px;border:1px solid var(--oro-borde,#5a4a1e);background:transparent;color:var(--blanco,#fff);border-radius:6px;cursor:pointer}
+.roles button:hover,.roles button:focus-visible{border-color:var(--oro-vivo,#E8C97A);background:rgba(201,168,76,.08)}
+.nota{font:300 13px/1.6 var(--sans,sans-serif);color:var(--gris-cl,#aaa)}
+.prog{height:3px;background:rgba(255,255,255,.1);margin:6px 0 22px}.prog i{display:block;height:100%;background:var(--oro-vivo,#C9A84C);width:0;transition:width .3s}
+.qbloque{font:500 12px var(--sans,sans-serif);letter-spacing:.14em;text-transform:uppercase;color:var(--oro-vivo,#C9A84C)}
+.qt{font:400 clamp(26px,4vw,34px)/1.2 var(--serif,serif);color:var(--blanco,#fff);margin:8px 0 10px}
+.qq{font:300 16px/1.7 var(--sans,sans-serif);color:var(--gris-cl,#ccc);margin:0 0 22px}
+.esc{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.esc button{font:500 17px var(--sans,sans-serif);padding:15px 0;border:1px solid var(--oro-borde,#5a4a1e);background:transparent;color:var(--blanco,#fff);border-radius:6px;cursor:pointer}
+.esc button:hover,.esc button.on{background:var(--oro-vivo,#C9A84C);color:#0D0D0D}
+.escl{display:flex;justify-content:space-between;margin:8px 0 18px}
+.back{background:none;border:0;color:var(--gris-cl,#aaa);font:400 14px var(--sans,sans-serif);cursor:pointer;text-decoration:underline}
+canvas{width:100%;max-width:460px;display:block;margin:10px auto}
+.res h3{font:400 24px var(--serif,serif);color:var(--blanco,#fff);margin:28px 0 8px}
+.res p,.res li{font:300 15px/1.7 var(--sans,sans-serif);color:var(--gris-cl,#ccc)}
+.res li{margin-bottom:8px}.res b{color:var(--oro-vivo,#E8C97A);font-weight:500}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+.kpi div{border:1px solid var(--oro-borde,#5a4a1e);border-radius:6px;padding:14px 6px}
+.kpi strong{display:block;font:400 30px var(--serif,serif);color:var(--oro-vivo,#E8C97A)}
+.kpi span{font:300 12px var(--sans,sans-serif);color:var(--gris-cl,#aaa)}
+.acc{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0}
+.inv button{font:400 13px var(--sans,sans-serif);margin:4px 6px 4px 0;padding:8px 12px;border:1px solid var(--oro-borde,#5a4a1e);background:transparent;color:var(--blanco,#fff);border-radius:20px;cursor:pointer}
+@media print{.nav,.foot,.acc,.inv,.back{display:none!important}body{background:#fff}.res *{color:#111!important}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="agencias.html" class="nav-brand">INNOVACIÓN HUMANA</a>
+  <div class="nav-actions"><a href="agencias.html" class="nav-wa">← Volver</a></div>
+</nav>
+
+<main class="ev" style="padding-top:110px;padding-bottom:70px">
+  <section id="intro">
+    <div class="eyebrow">Evaluación de tu Agencia</div>
+    <h1 class="sec-title">5 minutos para ver tu agencia <em>desde tu rol</em>.</h1>
+    <p class="sec-desc" style="text-align:left">12 indicadores, una lectura de partida de cómo vives hoy tu lugar en la agencia. <strong>Tus respuestas se calculan en tu navegador:</strong> no se envían a ningún lado, y solo me llega algo si tú decides enviarlo.</p>
+    <div class="roles" id="roles"></div>
+    <p class="nota">Es una autoevaluación: tiende a salir más alta que la realidad. En el Mapeo de Agencia la calibramos juntos.</p>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="nota" id="qn"></div><div class="prog"><i id="bar"></i></div>
+    <div class="qbloque" id="qb"></div>
+    <h2 class="qt" id="qt"></h2>
+    <p class="qq" id="qq"></p>
+    <div class="esc" id="esc"></div>
+    <div class="escl nota"><span>1 · nada cierto hoy</span><span>10 · totalmente cierto</span></div>
+    <button class="back" id="back">← Pregunta anterior</button>
+  </section>
+
+  <section id="res" class="res" hidden>
+    <div class="eyebrow">Tu lectura de partida</div>
+    <h2 class="sec-title" id="rt" style="text-align:left"></h2>
+    <canvas id="cv" width="920" height="920" aria-label="Radar de 12 indicadores"></canvas>
+    <div class="kpi" id="kpi"></div>
+    <h3>Lo que más pesa hoy</h3><ul id="pesa"></ul>
+    <h3>Lo que se refleja</h3><div id="esp"></div>
+    <h3>Tu siguiente paso</h3><p id="paso"></p>
+    <div class="acc">
+      <a id="wa" class="cta-btn" target="_blank" rel="noopener">Enviarle mi resumen a Fer</a>
+      <button class="btn-secundario" onclick="window.print()">Guardar mi resultado (PDF)</button>
+    </div>
+    <div class="inv" id="inv" hidden>
+      <h3>Invita a tu equipo</h3>
+      <p>Cada persona hace su evaluación y ve su resultado en privado; tú no recibes sus respuestas. Copia el enlace de cada rol:</p>
+      <div id="invb"></div>
+    </div>
+    <p class="nota">Esto no es terapia ni atención clínica, y no sustituye ninguna. Los resultados varían de una persona a otra.</p>
+  </section>
+</main>
+
+<footer class="foot"><div>INNOVACIÓN HUMANA · ARQUITECTURA DE IDENTIDAD</div></footer>
+
+<script>
+const RD={"director":{"label":"Director de Agencia","espejos":[["01","12"],["02","11"],["03","10"],["04","09"],["05","08"],["06","07"]],"preguntas":[{"n":"01","b":"a","t":"Estabilidad Emocional","q":"¿Tu agencia opera con ritmo constante independientemente de tu estado de ánimo? ¿Tu equipo no necesita leer cómo llegaste hoy para saber cómo va a ser el día?","e":"Espejo de 12 — Solo el Director emocionalmente estable puede construir algo diseñado para durar más que su presencia."},{"n":"02","b":"a","t":"Seguridad y Confianza","q":"¿Tomas decisiones desde tu criterio como arquitecto del sistema o todavía buscas validación externa — de tu director regional, de tus mejores agentes, de los números del mes?","e":"Espejo de 11 — Un Director inseguro no exige, no celebra y no sostiene el ritmo porque teme el conflicto."},{"n":"03","b":"a","t":"Disposición y Entrega","q":"¿Estás presente para tu equipo con la misma energía en los meses difíciles que en los meses de campaña? ¿Tu entrega no depende de los resultados?","e":"Espejo de 10 — Sostener el desarrollo de los más avanzados exige presencia constante."},{"n":"04","b":"a","t":"Responsabilidad","q":"¿Asumes los resultados de la agencia completa como propios — los del novel, los del gerente, los del EDAT — o los resultados malos siempre tienen nombre ajeno?","e":"Espejo de 09 — El Director que no se responsabiliza no interviene a tiempo cuando el novel está en riesgo de abandono."},{"n":"05","b":"a","t":"Estrategia de Agencia","q":"¿Tienes un plan claro de cómo crece la agencia este año: cuántos ingresan, cuántos se consolidan, cuántos gerentes se desarrollan? ¿O avanza según lo que vaya pasando?","e":"Espejo de 08 — Sin estrategia de agencia, el gerente no sabe hacia dónde formar."},{"n":"06","b":"a","t":"Dominio como Arquitecto del Sistema","q":"¿Puedes leer tu agencia como sistema? ¿Identificas dónde está la restricción real — reclutamiento, formación, activación o ritmo — sin confundir síntoma con causa?","e":"Espejo de 07 — Sin lectura sistémica, el Director no sabe qué intervenir ni cuándo."},{"n":"07","b":"b","t":"Sistema de Reclutamiento Activo","q":"¿La agencia tiene un flujo constante de candidatos entrando, independientemente de si tú estás ocupado? ¿El EDAT tiene proceso, perfil definido y métricas claras?","e":""},{"n":"08","b":"b","t":"Sistema de Formación de Agentes","q":"¿Los gerentes están formando agentes con metodología, seguimiento individual y acompañamiento en campo — o solo están reportando números?","e":""},{"n":"09","b":"b","t":"Sistema del Agente Novel","q":"¿Los agentes que ingresan tienen un proceso claro de activación en los primeros 30 días? ¿Sabes cuántos noveles están en riesgo de abandono esta semana?","e":""},{"n":"10","b":"b","t":"Sistema del Agente Consolidado","q":"¿Los agentes con cartera tienen un camino de crecimiento hacia multi-producto, multi-aseguradora y perfil consultor? ¿O se quedan estancados? — Registra cotizaciones activas del Consolidado por producto: GMM · Vida · Auto · Otro","e":""},{"n":"11","b":"b","t":"Ritmo Comercial y Campañas","q":"¿La agencia tiene ganadores consistentes en GMM y Vida? ¿El ritmo de juntas y seguimiento es sostenido por ti o solo aparece cuando hay presión de arriba? — Registra cierres del grupo por producto: GMM · Vida · Auto · Otro","e":""},{"n":"12","b":"b","t":"Legado y Sucesión","q":"¿Tienes identificado quién puede continuar la agencia? ¿El sistema está documentado, los liderazgos desarrollados y la cultura arraigada para que funcione si tú no estás?","e":"Espejo de 01 — El ciclo cierra aquí. El legado es resultado de la estabilidad emocional sostenida."}]},"gerente":{"label":"Gerente de Desarrollo","espejos":[["01","12"],["02","11"],["03","10"],["04","09"],["05","08"],["06","07"]],"preguntas":[{"n":"01","b":"a","t":"Estabilidad Emocional","q":"¿Puedes sostener tu rol de formador con constancia aunque tu grupo tenga semanas de producción baja o agentes que no avanzan al ritmo que esperas?","e":"Espejo de 12 (Vida) — Solo el gerente emocionalmente estable forma desde propósito, no desde presión."},{"n":"02","b":"a","t":"Seguridad y Confianza","q":"¿Tu autoridad como formador viene de tu experiencia real en ventas o todavía necesitas demostrar que puedes vender para que te respeten?","e":"Espejo de 11 (GMM) — Solo el gerente con autoridad real forma agentes con nivel técnico para ganar en el ramo más exigente."},{"n":"03","b":"a","t":"Disposición y Entrega","q":"¿Tienes paciencia real para acompañar a un agente que aprende lento, comete los mismos errores y necesita más tiempo del que planeas?","e":"Espejo de 10 — Sin disposición, el gerente evita las conversaciones difíciles."},{"n":"04","b":"a","t":"Responsabilidad","q":"¿Asumes los resultados de tu grupo como propios o los explicas con el perfil del agente, el mercado o la temporada?","e":"Espejo de 09 — El irresponsable evita el campo porque le incomoda ver la brecha real."},{"n":"05","b":"a","t":"Estrategia de Formación","q":"¿Tienes un sistema claro de cómo llevas a un agente de cero a producción consistente? ¿O formas por intuición?","e":"Espejo de 08 — Sin estrategia, la sesión individual es conversación sin dirección."},{"n":"06","b":"a","t":"Dominio Técnico — Proceso Comercial Completo","q":"¿Puedes demostrar, enseñar y corregir cada paso de la ruta comercial del agente: prospección, contacto, detección, presentación, cierre y referidos? ¿Con ejemplos reales?","e":"Espejo de 07 — Sin dominio técnico, el gerente no identifica dónde está la falla real del agente."},{"n":"07","b":"b","t":"Diagnóstico del Agente a Desarrollar","q":"¿Sabes exactamente en qué paso de la ruta comercial está atascado cada uno de tus agentes esta semana? ¿Tienes un mapa claro de quién necesita qué tipo de intervención?","e":""},{"n":"08","b":"b","t":"Sesión Individual de Activación","q":"¿Tienes conversaciones individuales reales donde se revisan compromisos anteriores, se identifica el bloqueo concreto y se establecen compromisos nuevos específicos y medibles?","e":""},{"n":"09","b":"b","t":"Acompañamiento en Campo","q":"¿Acompañas a tus agentes en situaciones reales de venta — no para hacer la venta tú, sino para observar, retroalimentar y enseñar desde la experiencia viva?","e":""},{"n":"10","b":"b","t":"Revisión de Métricas y Corrección de Ruta","q":"¿Revisas los números de tu grupo con frecuencia para detectar desviaciones antes de que se conviertan en crisis? ¿Y corriges con conversación directa, no con presión o silencio? — Registra cotizaciones activas del grupo por producto: GMM · Vida · Auto · Otro","e":""},{"n":"11","b":"b","t":"Ganadores de Campañas GMM","q":"¿Tus agentes están compitiendo y ganando en campañas de Gastos Médicos Mayores? ¿Tu grupo produce ganadores en el ramo más exigente del sector? — Registra cierres del grupo por producto: GMM · Vida · Auto · Otro","e":""},{"n":"12","b":"b","t":"Ganadores de Campañas de Vida","q":"¿Tus agentes están ganando en campañas de Vida? ¿Tu grupo produce en el ramo que más requiere convicción, propósito y conexión emocional con el cliente?","e":"Espejo de 01 — El ciclo cierra aquí."}]},"edat":{"label":"Reclutador / EDAT","espejos":[["01","12"],["02","11"],["03","10"],["04","09"],["05","08"],["06","07"]],"preguntas":[{"n":"01","b":"a","t":"Estabilidad Emocional","q":"¿Puedes mantener tu ritmo de atracción aunque pases semanas sin que nadie ingrese?","e":"Espejo de 12 — Solo el reclutador estable cierra bien, entrega bien y pide el referido con dignidad."},{"n":"02","b":"a","t":"Seguridad y Confianza","q":"¿Crees con convicción real que la oportunidad que ofreces puede cambiar la vida de la persona correcta?","e":"Espejo de 11 — La convicción se transfiere en el momento inicial del arranque."},{"n":"03","b":"a","t":"Disposición y Entrega","q":"¿Acompañas al candidato con paciencia durante todo el proceso, incluyendo la parte burocrática y de espera?","e":"Espejo de 10 — Sin disposición, no hay paciencia para la segunda entrevista."},{"n":"04","b":"a","t":"Responsabilidad","q":"¿Asumes los resultados de tu reclutamiento sin culpar al mercado, a los candidatos o a la agencia?","e":"Espejo de 09 — El irresponsable saltea las pruebas y evaluaciones para llenar cuotas."},{"n":"05","b":"a","t":"Estrategia de Reclutamiento","q":"¿Tienes definido el perfil de agente compatible con la cultura de la agencia y sabes exactamente dónde encontrarlo?","e":"Espejo de 08 — Sin estrategia, la primera entrevista no tiene criterio."},{"n":"06","b":"a","t":"Dominio Técnico — Proceso de Incorporación","q":"¿Conoces con precisión los tiempos, requisitos, filtros y pasos formales del proceso de ingreso de un nuevo agente?","e":"Espejo de 07 — Sin dominio del proceso, el perfilamiento es superficial."},{"n":"07","b":"b","t":"Cartera de Candidatos Perfilados","q":"¿Tienes candidatos activos con perfil compatible? No importan los CVs recibidos. Importan los perfiles alineados con la cultura y el modelo de la agencia.","e":""},{"n":"08","b":"b","t":"Primera Entrevista","q":"¿Estás teniendo conversaciones reales de primer contacto con candidatos esta semana? ¿La entrevista revela el perfil o solo confirma el interés?","e":""},{"n":"09","b":"b","t":"Pruebas y Evaluaciones","q":"¿Aplicas herramientas de evaluación que te dan información real sobre la compatibilidad del candidato con el rol y la cultura?","e":""},{"n":"10","b":"b","t":"Segunda Entrevista — Cierre de la Decisión","q":"¿Tienes una conversación profunda donde se aclaran expectativas reales, se confirma la decisión y se cierra el compromiso de ingreso?","e":""},{"n":"11","b":"b","t":"Arranque del Proceso de Desarrollo","q":"¿El nuevo agente comienza con claridad de qué sigue, quién lo acompaña y qué se espera de él en los primeros 30 días?","e":""},{"n":"12","b":"b","t":"Conexión + Referido de Talento","q":"¿El agente está dado de alta, con clave activa y conectado al sistema? ¿Y le pediste que te conecte con alguien de perfil similar?","e":"Espejo de 01 — El ciclo cierra aquí."}]},"novel":{"label":"Agente Novel","espejos":[["01","12"],["02","11"],["03","10"],["04","09"],["05","08"],["06","07"]],"preguntas":[{"n":"01","b":"a","t":"Estabilidad Emocional","q":"¿Puedes trabajar con constancia aunque la semana no tenga resultados? ¿El 'no' no te saca del juego?","e":"Espejo de 12 — Solo el agente estable pide referidos desde dignidad, no desde necesidad."},{"n":"02","b":"a","t":"Seguridad y Confianza","q":"¿Crees genuinamente que lo que ofreces tiene valor real para quien lo compra?","e":"Espejo de 11 — Sin confianza en el valor, el agente no pide el cierre."},{"n":"03","b":"a","t":"Disposición y Entrega","q":"¿Estás comprometido con el proceso completo, no solo con las partes cómodas?","e":"Espejo de 10 — La presentación requiere preparación real, no improvisación."},{"n":"04","b":"a","t":"Responsabilidad","q":"¿Asumes tus resultados sin buscar excusas externas?","e":"Espejo de 09 — Quien no se responsabiliza no escucha al otro durante la detección de necesidades."},{"n":"05","b":"a","t":"Estrategia de Ventas","q":"¿Tienes un plan claro de a quién le hablas, qué le ofreces y por qué le sirve?","e":"Espejo de 08 — Sin estrategia, el primer contacto es caótico o se evita."},{"n":"06","b":"a","t":"Dominio Técnico — Productos de Seguros","q":"¿Conoces los productos con suficiente profundidad para responder con seguridad en una conversación real?","e":"Espejo de 07 — Sin dominio técnico, el perfilamiento de prospectos es vago."},{"n":"07","b":"b","t":"Cartera de Prospectos","q":"¿Tienes una lista activa de personas reales con nombre, contexto y perfil definido?","e":""},{"n":"08","b":"b","t":"Primer Contacto","q":"¿Estás generando conversaciones reales con tus prospectos de forma constante esta semana?","e":""},{"n":"09","b":"b","t":"Detección de Necesidades","q":"¿En cada conversación logras que el prospecto hable de lo que le preocupa antes de que tú hables del producto?","e":""},{"n":"10","b":"b","t":"Presentación de Propuesta","q":"¿Presentas una solución personalizada o el catálogo completo a todos por igual?","e":""},{"n":"11","b":"b","t":"Cierre y Pago","q":"¿Estás cerrando ventas y recibiendo el primer pago en tiempo? ¿O el proceso se queda en 'lo voy a pensar'?","e":""},{"n":"12","b":"b","t":"Solicitud de Referidos","q":"¿Le pides al cliente recién cerrado que te conecte con alguien de confianza con necesidades similares?","e":"Espejo de 01 — El ciclo cierra aquí."}]},"consolidado":{"label":"Agente Consolidado","espejos":[["01","12"],["02","11"],["03","10"],["04","09"],["05","08"],["06","07"]],"preguntas":[{"n":"01","b":"a","t":"Estabilidad Emocional","q":"¿Tu desempeño es independiente de los ciclos del mercado o de los meses bajos? ¿Operas desde ecuanimidad, no desde reacción?","e":"Espejo de 12 — Solo el Agente Consolidado estable genera referidos desde autoridad, no desde necesidad."},{"n":"02","b":"a","t":"Seguridad y Confianza","q":"¿Tu autoridad como asesor nace de tu trayectoria real o todavía dependes de la validación del cliente o de la aseguradora?","e":"Espejo de 11 — El cliente avanzado compra autoridad, no productos."},{"n":"03","b":"a","t":"Disposición y Entrega","q":"¿Sigues comprometido con el servicio de largo plazo a tus clientes con la misma energía que cuando los conquistaste?","e":"Espejo de 10 — La propuesta multi-solución requiere preparación profunda."},{"n":"04","b":"a","t":"Responsabilidad","q":"¿Asumes la gestión completa de tu cartera como arquitecto de ella, o esperas que los clientes te busquen?","e":"Espejo de 09 — Nadie hace el diagnóstico financiero integral si no se siente responsable del resultado del otro."},{"n":"05","b":"a","t":"Estrategia de Cartera y Expansión","q":"¿Tienes un plan claro de crecimiento: nuevas aseguradoras, nuevos productos, nuevos segmentos? ¿O estás en modo mantenimiento?","e":"Espejo de 08 — Sin estrategia, el contacto es reactivo."},{"n":"06","b":"a","t":"Dominio Técnico Multi-dimensional","q":"¿Dominas productos complejos, multi-aseguradora, multi-ramo, con capacidad de diseñar soluciones de protección integral para perfiles distintos?","e":"Espejo de 07 — Sin dominio, la auditoría de cartera no revela nada útil."},{"n":"07","b":"b","t":"Auditoría de Cartera y Mapa de Expansión","q":"¿Tienes un diagnóstico actual de tu cartera completa: activos, sub-asegurados, potencial de ampliación, dormidos? ¿Y tienes identificado hacia dónde crecer?","e":""},{"n":"08","b":"b","t":"Contacto Proactivo y Expansión Activa","q":"¿Estás generando conversaciones con clientes actuales de forma proactiva, antes de que ellos te llamen? ¿Y simultáneamente abriendo nuevos mercados?","e":""},{"n":"09","b":"b","t":"Diagnóstico Financiero Integral del Cliente","q":"¿En cada revisión vas más allá de la póliza vigente? ¿Exploras situación de vida actual, nuevas necesidades, huecos de protección y metas de largo plazo?","e":""},{"n":"10","b":"b","t":"Propuesta Multi-Solución","q":"¿Presentas soluciones diseñadas para cada cliente integrando productos, aseguradoras y estrategias distintas? ¿O presentas lo mismo a todos? — Registra cotizaciones activas por producto: GMM · Vida · Auto · Otro","e":""},{"n":"11","b":"b","t":"Cierre Consultivo Complejo","q":"¿Cierras negocios de mayor valor: renovaciones con ampliación, nuevas pólizas sobre cartera existente, productos que el cliente no sabía que necesitaba? — Registra cierres del período por producto: GMM · Vida · Auto · Otro","e":""},{"n":"12","b":"b","t":"Estrategia de Referidos","q":"¿Tienes un sistema activo para que tus clientes te conecten con personas de su red con perfil similar o superior? ¿Los referidos llegan por tu reputación y estrategia?","e":"Espejo de 01 — El ciclo cierra aquí."}]}};
+const $=id=>document.getElementById(id);
+const ORD=['director','gerente','edat','novel','consolidado'];
+const WA='525643440676';
+const Z=v=>v<=3?'Riesgo':v<=6?'Desarrollo':v<=8?'Solidez':'Referencia';
+const avg=a=>a.reduce((x,y)=>x+y,0)/a.length;
+const f1=v=>(Math.round(v*10)/10).toFixed(1);
+let role,i,sc;
+const p=new URLSearchParams(location.search).get('rol');
+ORD.filter(r=>!RD[p]||r===p).forEach(r=>{
+  const b=document.createElement('button');
+  b.textContent=(RD[p]?'Empezar como ':'')+RD[r].label;
+  b.onclick=()=>start(r);$('roles').appendChild(b);
+});
+function show(id){['intro','quiz','res'].forEach(s=>$(s).hidden=s!==id);scrollTo(0,0)}
+function start(r){role=r;i=0;sc=Array(12).fill(0);show('quiz');q()}
+function q(){
+  const d=RD[role].preguntas[i];
+  $('qn').textContent=`Pregunta ${i+1} de 12 · ${RD[role].label}`;
+  $('bar').style.width=(i/12*100)+'%';
+  $('qb').textContent=(d.b==='a'?'El Ser':'Los Sistemas')+' · '+d.n;
+  $('qt').textContent=d.t;$('qq').textContent=d.q;
+  $('esc').innerHTML='';
+  for(let v=1;v<=10;v++){
+    const b=document.createElement('button');b.textContent=v;
+    if(sc[i]===v)b.className='on';
+    b.onclick=()=>{sc[i]=v;if(i<11){i++;q()}else result()};
+    $('esc').appendChild(b);
+  }
+  $('back').style.visibility=i?'visible':'hidden';
+}
+$('back').onclick=()=>{if(i){i--;q()}};
+function result(){
+  const R=RD[role],A=avg(sc.slice(0,6)),B=avg(sc.slice(6)),T=avg(sc);
+  show('res');
+  $('rt').innerHTML=`Tu radar como <em>${R.label}</em>`;
+  $('kpi').innerHTML=`<div><strong>${f1(T)}</strong><span>Promedio · ${Z(Math.round(T))}</span></div><div><strong>${f1(A)}</strong><span>El Ser · ${Z(Math.round(A))}</span></div><div><strong>${f1(B)}</strong><span>Los Sistemas · ${Z(Math.round(B))}</span></div>`;
+  const low=sc.map((v,k)=>[v,k]).sort((a,b)=>a[0]-b[0]||a[1]-b[1]).slice(0,2);
+  $('pesa').innerHTML=low.map(([v,k])=>`<li><b>${R.preguntas[k].n} · ${R.preguntas[k].t}</b> (${v}/10). ${R.preguntas[k].q}</li>`).join('');
+  const gaps=R.espejos.map(([a,b])=>[+a-1,+b-1]).filter(([a,b])=>Math.abs(sc[a]-sc[b])>=3);
+  $('esp').innerHTML=gaps.length?'<p>Dos indicadores que se reflejan entre sí suelen moverse juntos. Aquí se separan:</p><ul>'+gaps.map(([a,b])=>{const x=R.preguntas[a],y=R.preguntas[b];return `<li><b>${x.t} (${sc[a]}) ↔ ${y.t} (${sc[b]})</b>. ${x.e.replace(/^Espejo de \d+ — /,'')}</li>`}).join('')+'</ul>':'<p>Tus indicadores que se reflejan entre sí van en la misma dirección. Eso es coherencia: lo que se vive adentro y lo que se opera afuera se sostienen.</p>';
+  const dir=role==='director';
+  $('paso').textContent=dir
+    ?((sc[0]<=6||sc[1]<=6||A<B-.5)
+      ?'Tu lectura apunta a que el origen de tu sistema está en cómo lideras. Empezamos por ti: el Mapeo de Agencia es donde lo vemos juntos, con calma.'
+      :'Tu base como líder se ve sólida. El siguiente paso es leer a tu equipo comercial: la Lectura de tu equipo, anónima y sin costo para ellos.')
+    :'Este es tu punto de partida como '+R.label+'. El Acompañamiento por rol trabaja justo estas áreas, y cada rol sale con su Manual operativo y su Blueprint estratégico. Tu Director puede patrocinarlo, o puedes empezar tu proceso individual en Innovación Humana.';
+  const msg=`Hola Fer, hice la Evaluación de mi Agencia como ${R.label}. Mi promedio fue ${f1(T)} (El Ser ${f1(A)}, Los Sistemas ${f1(B)}). Quisiera platicar.`;
+  $('wa').href=`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+  $('inv').hidden=!dir;
+  if(dir){$('invb').innerHTML='';ORD.slice(1).forEach(r=>{const b=document.createElement('button');b.textContent='Copiar enlace · '+RD[r].label;b.onclick=()=>{const u=location.origin+location.pathname+'?rol='+r;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>b.textContent='Copiado ✓').catch(()=>prompt('Copia este enlace:',u))};$('invb').appendChild(b)})}
+  radar();
+}
+function radar(){
+  const c=$('cv'),x=c.getContext('2d'),S=c.width,m=S/2,R=S*.36;
+  const cs=getComputedStyle(document.documentElement);
+  const gold=cs.getPropertyValue('--oro-vivo').trim()||'#C9A84C',txt=cs.getPropertyValue('--gris-cl').trim()||'#aaa';
+  x.clearRect(0,0,S,S);x.lineWidth=2;
+  const pt=(k,v)=>{const a=-Math.PI/2+k*Math.PI/6;return[m+Math.cos(a)*R*v/10,m+Math.sin(a)*R*v/10]};
+  x.strokeStyle='rgba(201,168,76,.25)';
+  for(let r=2;r<=10;r+=2){x.beginPath();for(let k=0;k<12;k++){const[a,b]=pt(k,r);k?x.lineTo(a,b):x.moveTo(a,b)}x.closePath();x.stroke()}
+  for(let k=0;k<12;k++){const[a,b]=pt(k,10);x.beginPath();x.moveTo(m,m);x.lineTo(a,b);x.stroke()}
+  x.beginPath();sc.forEach((v,k)=>{const[a,b]=pt(k,v);k?x.lineTo(a,b):x.moveTo(a,b)});x.closePath();
+  x.fillStyle='rgba(201,168,76,.28)';x.fill();x.strokeStyle=gold;x.lineWidth=3;x.stroke();
+  x.fillStyle=gold;sc.forEach((v,k)=>{const[a,b]=pt(k,v);x.beginPath();x.arc(a,b,7,0,7);x.fill()});
+  x.fillStyle=txt;x.font='500 28px sans-serif';x.textAlign='center';x.textBaseline='middle';
+  for(let k=0;k<12;k++){const[a,b]=pt(k,11.3);x.fillText(String(k+1).padStart(2,'0'),a,b)}
+}
+</script>
+</body>
+</html>
