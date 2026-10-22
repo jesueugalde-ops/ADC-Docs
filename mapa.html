@@ -47,10 +47,18 @@
   .ctx-item{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--gris);}
   .ctx-item b{color:var(--oro-faded);font-size:15px;display:block;font-family:var(--sans);font-weight:600;margin-bottom:2px;}
 
-  .tabs-dim{display:flex;gap:2px;margin-top:46px;border:1px solid var(--gris-linea);}
-  .tab-dim{flex:1;padding:24px 20px 20px;background:var(--negro-2);border:none;cursor:pointer;text-align:center;
-    border-right:1px solid var(--gris-linea);transition:.2s;}
-  .tab-dim:last-child{border-right:none;}
+  .tabs-dim{display:flex;gap:14px;margin-top:46px;}
+  .tab-dim{flex:1;padding:24px 20px 18px;background:var(--negro-2);cursor:pointer;text-align:center;font:inherit;color:inherit;
+    border:1px solid var(--gris-linea);border:1px solid color-mix(in srgb,var(--dim-color,var(--oro)) 42%,transparent);
+    transition:transform .2s,box-shadow .2s,background .2s,border-color .2s;}
+  .tab-dim:hover:not(.active){transform:translateY(-3px);border-color:var(--dim-color,var(--oro));box-shadow:0 10px 24px -12px var(--dim-color,var(--oro));}
+  .tab-dim:focus-visible{outline:2px solid var(--dim-color,var(--oro));outline-offset:3px;}
+  .tab-dim .tcta{margin-top:16px;padding-top:12px;border-top:1px solid var(--gris-linea);font-family:var(--mono);font-size:10.5px;
+    letter-spacing:1.6px;text-transform:uppercase;color:var(--dim-color,var(--oro));}
+  .tab-dim .tcta i{font-style:normal;display:inline-block;transition:transform .2s;}
+  .tab-dim:hover .tcta i{transform:translateX(4px);}
+  .tab-dim.active{border-color:var(--dim-color,var(--oro));}
+  .tab-dim.active .tcta{border-top-color:var(--dim-color,var(--oro));}
   .tab-dim .tn{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gris);text-transform:uppercase;}
   .tab-dim .tl{font-family:var(--serif);font-size:22px;color:var(--hueso);margin-top:4px;}
   .tab-ico{display:flex;justify-content:center;margin-bottom:12px;color:var(--dim-color,var(--oro));opacity:.55;transition:.2s;}
@@ -77,6 +85,10 @@
   .espejo-explain{margin:30px auto 0;padding:18px 22px;background:var(--negro-2);border-left:2px solid var(--oro-faded);
     font-size:13px;color:var(--gris);line-height:1.6;max-width:760px;}
   .espejo-explain b{color:var(--oro-claro);font-weight:500;}
+  .espejo-explain .esp-title{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--oro-faded);margin-bottom:10px;}
+  .espejo-explain .esp-line{font-family:var(--serif);font-size:19px;line-height:1.45;color:var(--hueso);margin-bottom:6px;}
+  .espejo-explain .esp-line b{color:var(--oro-claro);}
+  .espejo-explain .esp-instr{margin-top:14px;padding-top:12px;border-top:1px solid var(--gris-linea);}
 
   .wrap{display:flex;gap:48px;margin-top:48px;align-items:flex-start;}
   .qpanel{flex:1.15;min-width:0;}
@@ -130,7 +142,7 @@
 
   .foot{margin-top:60px;padding-top:20px;border-top:1px solid var(--gris-linea);font-family:var(--mono);font-size:10px;color:#555;letter-spacing:1px;}
 
-  @media(max-width:880px){.wrap{flex-direction:column;}.rpanel{position:static;width:100%;}.tabs-dim{flex-direction:column;}.tab-dim{border-right:none;border-bottom:1px solid var(--gris-linea);}}
+  @media(max-width:880px){.wrap{flex-direction:column;}.rpanel{position:static;width:100%;}.tabs-dim{flex-direction:column;gap:10px;}.tab-dim{width:100%;}}
 
   @media print{
     body{background:#fff;color:#111;background-image:none;}
@@ -178,7 +190,11 @@
   </div>
 
   <div class="espejo-explain">
-    <b>Ley del Espejo:</b> cada área tiene una pareja. La 1 dialoga con la 12, la 2 con la 11, la 3 con la 10 — y así hasta cerrar el círculo en el centro, 6 con 7. La primera mitad (1–6) es tu arquitectura interna — <b>El Ser</b>. La segunda mitad (7–12) es cómo esa arquitectura se manifiesta hacia afuera — <b>La Ruta</b>. Cuando la brecha entre un par es de 3 puntos o más, hay una fractura de espejo: tu origen y tu resultado están yendo por caminos distintos.
+    <b class="esp-title">Ley del Espejo</b>
+    <p class="esp-line">La primera mitad de tu círculo es tu arquitectura interna: <b>El Ser.</b></p>
+    <p class="esp-line">La segunda mitad es cómo esa arquitectura se manifiesta hacia afuera: <b>La Ruta.</b></p>
+    <p class="esp-line">Siempre hay una fractura de espejo: tu origen y tu resultado están yendo por caminos distintos.</p>
+    <p class="esp-instr"><b>Cómo usarla:</b> califica tus 12 áreas y mira cada pareja: la 1 con la 12, la 2 con la 11, la 3 con la 10, y así hasta el centro, 6 con 7. Las áreas 1 a 6 son El Ser; las 7 a 12, La Ruta. Cuando una pareja se separa 3 puntos o más, tu radar te marca la fractura. Llévala a tu Sesión de Mapeo.</p>
   </div>
 
   <div class="wrap">
@@ -303,8 +319,10 @@ function buildTabs(){
     const d = DATA[key];
     const b = document.createElement("button");
     b.className = "tab-dim" + (key===currentDim ? " active":"");
+    b.type = "button";
+    b.setAttribute("aria-pressed", key===currentDim ? "true":"false");
     b.style.setProperty("--dim-color", d.hex);
-    b.innerHTML = `<div class="tab-ico">${ICONS[key]}</div><div class="tn">Dimensión</div><div class="tl">${d.label}</div>`;
+    b.innerHTML = `<div class="tab-ico">${ICONS[key]}</div><div class="tn">Dimensión</div><div class="tl">${d.label}</div><div class="tcta">${key===currentDim ? "● Estás calificando" : "Calificar <i>→</i>"}</div>`;
     b.onclick = ()=>switchDim(key);
     box.appendChild(b);
   });
