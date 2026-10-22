@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Framework Visual ADC · V8 · Abril 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F5E6C0;
+    --gold-dim: #8a6e2f;
+    --gold-glow: rgba(201,168,76,0.12);
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #161616;
+    --dark3: #1C1C1C;
+    --dark4: #2a2a2a;
+    --grey: #666;
+    --grey-mid: #888;
+    --grey-light: #ccc;
+    --white: #F5F0E8;
+    --blue: #7EB8C9;
+    --green: #4A9F6A;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; background:var(--black); color:var(--white); font-family:'Montserrat',sans-serif; overflow-x:hidden; }
+
+  /* ── HEADER ── */
+  header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 48px 18px;
+    border-bottom:1px solid #1e1e1e;
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,10,10,0.96);
+    backdrop-filter:blur(12px);
+  }
+  .logo-wrap { display:flex; align-items:center; gap:14px; }
+  .logo-mark {
+    width:34px; height:34px;
+    border:1px solid rgba(201,168,76,0.3);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cormorant Garamond',serif;
+    font-size:0.85rem; font-weight:700; color:var(--gold); letter-spacing:1px;
+  }
+  .logo { font-family:'Cormorant Garamond',serif; font-size:1.55rem; font-weight:700; color:var(--gold); letter-spacing:4px; }
+  .logo span { font-weight:300; color:var(--grey); font-size:0.68rem; display:block; letter-spacing:2px; margin-top:-2px; font-family:'Montserrat',sans-serif; }
+  .header-right { display:flex; align-items:center; gap:16px; }
+  .toggle-wrap { display:flex; gap:0; border:1px solid #252525; border-radius:2px; overflow:hidden; }
+  .toggle-btn {
+    padding:9px 20px; font-size:0.66rem; letter-spacing:1.5px; text-transform:uppercase;
+    cursor:pointer; transition:all 0.25s; background:transparent; color:var(--grey);
+    border:none; font-family:'Montserrat',sans-serif; font-weight:500;
+  }
+  .toggle-btn.active { background:var(--gold); color:var(--black); }
+  .iad-cta {
+    padding:9px 18px; font-size:0.66rem; letter-spacing:1.5px; text-transform:uppercase;
+    cursor:pointer; background:transparent; color:var(--gold);
+    border:1px solid rgba(201,168,76,0.28); font-family:'Montserrat',sans-serif; font-weight:600;
+    transition:all 0.25s; text-decoration:none; display:inline-flex; align-items:center; gap:7px;
+    border-radius:2px;
+  }
+  .iad-cta:hover { background:var(--gold-glow); border-color:var(--gold); }
+  .iad-cta::after { content:'→'; font-size:0.8rem; }
+
+  /* ── MAIN ── */
+  main { padding:44px 48px 80px; }
+
+  /* ══════════════════════════════════════
+     VIEW A: MODELO
+  ══════════════════════════════════════ */
+  #view-simple { display:flex; flex-direction:column; align-items:center; gap:0; }
+  .arch-container { position:relative; width:100%; max-width:840px; display:flex; flex-direction:column; gap:0; }
+
+  .arch-level { position:relative; display:flex; align-items:stretch; cursor:pointer; transition:transform 0.25s; }
+  .arch-level:hover { transform:translateX(5px); }
+
+  .level-bar {
+    flex:1; padding:26px 42px;
+    display:flex; align-items:center; justify-content:space-between;
+    transition:all 0.3s; position:relative; overflow:hidden;
+  }
+  .level-bar::after { content:''; position:absolute; inset:0; opacity:0; transition:opacity 0.3s; background:rgba(255,255,255,0.02); }
+  .arch-level:hover .level-bar::after { opacity:1; }
+
+  .level-4 .level-bar { background:#1d1d1d; border-left:3px solid var(--green); }
+  .level-3 .level-bar { background:#181818; border-left:3px solid var(--blue); }
+  .level-2 .level-bar { background:#151515; border-left:3px solid var(--gold-dim); }
+  .level-1 .level-bar { background:#121212; border-left:3px solid var(--gold); }
+
+  .level-num {
+    font-family:'Cormorant Garamond',serif; font-size:5.5rem; font-weight:300; line-height:1;
+    opacity:0.05; position:absolute; right:40px; top:50%; transform:translateY(-50%);
+    transition:opacity 0.3s; user-select:none;
+  }
+  .arch-level:hover .level-num { opacity:0.1; }
+
+  .level-content { position:relative; z-index:1; }
+  .level-tag { font-size:0.58rem; letter-spacing:3px; text-transform:uppercase; font-weight:600; margin-bottom:5px; }
+  .level-4 .level-tag { color:var(--green); }
+  .level-3 .level-tag { color:var(--blue); }
+  .level-2 .level-tag { color:var(--gold-dim); }
+  .level-1 .level-tag { color:var(--gold); }
+  .level-title { font-family:'Cormorant Garamond',serif; font-size:1.85rem; font-weight:600; color:var(--white); margin-bottom:6px; letter-spacing:1px; }
+  .level-desc { font-size:0.73rem; color:var(--grey-mid); line-height:1.65; max-width:450px; }
+  .level-items { display:flex; flex-wrap:wrap; gap:6px; margin-top:11px; }
+  .item-pill { font-size:0.63rem; padding:3px 10px; border-radius:20px; letter-spacing:0.4px; font-weight:500; }
+  .level-4 .item-pill { background:rgba(143,188,143,0.08); color:var(--green); border:1px solid rgba(143,188,143,0.18); }
+  .level-3 .item-pill { background:rgba(126,184,201,0.08); color:var(--blue); border:1px solid rgba(126,184,201,0.18); }
+  .level-2 .item-pill { background:rgba(138,110,47,0.10); color:#c4a060; border:1px solid rgba(201,168,76,0.16); }
+  .level-1 .item-pill { background:rgba(201,168,76,0.09); color:var(--gold); border:1px solid rgba(201,168,76,0.25); }
+
+  .arch-arrow { display:flex; justify-content:flex-start; align-items:center; height:26px; padding-left:42px; }
+  .arch-arrow::after { content:'↓'; font-size:0.82rem; color:#282828; animation:pulse-arrow 2.5s infinite; }
+  @keyframes pulse-arrow { 0%,100%{opacity:0.25} 50%{opacity:1} }
+
+  /* Insight panel */
+  .insight-panel {
+    max-width:840px; width:100%; margin-top:24px;
+    padding:16px 30px; background:var(--dark2); border-left:2px solid var(--gold);
+    min-height:50px; transition:all 0.3s; display:flex; align-items:center; gap:14px;
+  }
+  .insight-label { font-size:0.56rem; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold); white-space:nowrap; font-weight:600; }
+  .insight-text { font-size:0.78rem; color:var(--grey-light); line-height:1.65; font-style:italic; }
+
+  /* ── LEY DEL ESPEJO ── */
+  .espejo-block {
+    max-width:840px; width:100%; margin-top:24px;
+    border:1px solid #1c1c1c;
+    background:linear-gradient(135deg, #0e1100 0%, #131313 60%);
+    position:relative; overflow:hidden;
+  }
+  .espejo-block::before {
+    content:''; position:absolute; left:0; top:0; bottom:0; width:2px;
+    background:linear-gradient(to bottom, var(--gold) 0%, rgba(201,168,76,0.1) 100%);
+  }
+  .espejo-inner { padding:26px 34px; display:flex; gap:28px; align-items:flex-start; }
+  .espejo-icon { font-family:'Cormorant Garamond',serif; font-size:2.8rem; color:var(--gold); opacity:0.25; line-height:1; flex-shrink:0; user-select:none; margin-top:4px; }
+  .espejo-label { font-size:0.56rem; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:7px; }
+  .espejo-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--white); font-weight:600; margin-bottom:10px; letter-spacing:0.5px; }
+  .espejo-text { font-size:0.74rem; color:var(--grey-mid); line-height:1.75; }
+  .espejo-text strong { color:var(--grey-light); font-weight:600; }
+  .espejo-quote {
+    margin-top:14px; padding:11px 18px;
+    border-left:2px solid rgba(201,168,76,0.25);
+    font-family:'Cormorant Garamond',serif; font-size:0.98rem;
+    color:rgba(245,240,232,0.65); font-style:italic; line-height:1.6;
+  }
+  .espejo-quote em { color:var(--gold); font-style:normal; }
+
+  /* ══════════════════════════════════════
+     VIEW B: SISTEMA COMPLETO
+  ══════════════════════════════════════ */
+  #view-completo { display:none; }
+  .complete-wrap { max-width:1080px; margin:0 auto; }
+  .complete-header { margin-bottom:32px; }
+  .complete-header h2 { font-family:'Cormorant Garamond',serif; font-size:1.45rem; font-weight:300; color:var(--grey-mid); letter-spacing:2px; }
+  .complete-header p { font-size:0.7rem; color:var(--grey); margin-top:6px; line-height:1.7; max-width:540px; }
+
+  .complete-grid {
+    display:grid;
+    grid-template-columns:1fr 50px 1fr;
+    align-items:start;
+  }
+
+  /* Left column */
+  .cg-left-label { font-size:0.56rem; letter-spacing:3px; text-transform:uppercase; color:var(--grey); padding:0 0 16px 0; font-weight:600; }
+  .cg-level { padding:22px 26px; border:1px solid #1a1a1a; position:relative; overflow:hidden; transition:border-color 0.3s; }
+  .cg-level:hover { border-color:#242424; }
+  .cg-level + .cg-level { border-top:none; }
+  .cg-1 { border-left:3px solid var(--gold)!important; background:#0f0f0f; }
+  .cg-2 { border-left:3px solid var(--gold-dim)!important; background:#111111; }
+  .cg-3 { border-left:3px solid var(--blue)!important; background:#101418; }
+  .cg-4 { border-left:3px solid var(--green)!important; background:#0f1310; }
+  .cg-sublabel { font-size:0.56rem; letter-spacing:2px; text-transform:uppercase; color:var(--grey); margin-bottom:10px; font-weight:600; }
+  .cg-title { font-family:'Cormorant Garamond',serif; font-size:1.35rem; font-weight:600; margin-bottom:3px; }
+  .cg-1 .cg-title { color:var(--gold); }
+  .cg-2 .cg-title { color:#c4a060; }
+  .cg-3 .cg-title { color:var(--blue); }
+  .cg-4 .cg-title { color:var(--green); }
+  .cg-desc { font-size:0.69rem; color:var(--grey); margin-bottom:10px; line-height:1.5; }
+  .cg-items { display:flex; flex-wrap:wrap; gap:5px; }
+  .cg-pill { font-size:0.6rem; padding:2px 9px; border-radius:2px; font-weight:500; }
+  .cg-1 .cg-pill { background:rgba(201,168,76,0.08); color:var(--gold); }
+  .cg-2 .cg-pill { background:rgba(201,168,76,0.06); color:#c4a060; }
+  .cg-3 .cg-pill { background:rgba(126,184,201,0.07); color:var(--blue); }
+  .cg-4 .cg-pill { background:rgba(143,188,143,0.07); color:var(--green); }
+
+  /* Connector */
+  .cg-connector-col { display:flex; flex-direction:column; align-items:center; padding-top:56px; }
+  .conn-line { width:1px; height:72px; background:linear-gradient(to bottom,#1e1e1e,#2d2d2d,#1e1e1e); }
+  .conn-dot { width:5px; height:5px; border-radius:50%; background:var(--gold); opacity:0.2; margin:3px 0; }
+
+  /* Right column — instruments */
+  .cg-right-label { font-size:0.56rem; letter-spacing:3px; text-transform:uppercase; color:var(--grey); padding:0 0 16px 18px; font-weight:600; }
+  .cg-right { display:flex; flex-direction:column; gap:10px; }
+  .inst-card { padding:16px 18px 16px 20px; border:1px solid #1a1a1a; background:var(--dark2); position:relative; overflow:hidden; transition:border-color 0.3s; }
+  .inst-card:hover { border-color:#252525; }
+  .inst-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:var(--gold); opacity:0.35; }
+  .inst-card.blue::before { background:var(--blue); }
+  .inst-card.green::before { background:var(--green); }
+  .inst-tag { font-size:0.54rem; letter-spacing:2px; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:5px; }
+  .inst-card.blue .inst-tag { color:var(--blue); }
+  .inst-card.green .inst-tag { color:var(--green); }
+  .inst-name { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:600; color:var(--white); margin-bottom:4px; }
+  .inst-desc { font-size:0.67rem; color:var(--grey); line-height:1.5; }
+  .inst-levels { display:flex; gap:5px; flex-wrap:wrap; margin-top:8px; }
+  .inst-lvl { font-size:0.54rem; padding:2px 7px; border-radius:2px; font-weight:600; letter-spacing:0.5px; }
+  .inst-lvl.n1 { background:rgba(201,168,76,0.09); color:var(--gold); }
+  .inst-lvl.n2 { background:rgba(201,168,76,0.06); color:#c4a060; }
+  .inst-lvl.n3 { background:rgba(126,184,201,0.07); color:var(--blue); }
+  .inst-lvl.n4 { background:rgba(143,188,143,0.07); color:var(--green); }
+
+  /* Espejo card */
+  .espejo-mini { padding:16px 18px 16px 20px; border:1px solid #1c1c1c; background:linear-gradient(135deg,#0c0e00,#141414); position:relative; }
+  .espejo-mini::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:linear-gradient(to bottom,var(--gold),transparent); }
+  .espejo-mini-label { font-size:0.54rem; letter-spacing:2px; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:5px; }
+  .espejo-mini-title { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:600; color:var(--white); margin-bottom:4px; }
+  .espejo-mini-text { font-size:0.67rem; color:var(--grey); line-height:1.5; }
+
+  /* ── ECUACIÓN MAESTRA ── */
+  .equation-section { max-width:1080px; margin:44px auto 0; border-top:1px solid #181818; padding-top:32px; }
+  .eq-title { font-size:0.56rem; letter-spacing:3px; text-transform:uppercase; color:var(--grey); font-weight:600; margin-bottom:20px; text-align:center; }
+  .equation { display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; }
+  .eq-block { padding:13px 20px; border:1px solid #1a1a1a; text-align:center; min-width:144px; transition:all 0.25s; background:var(--dark2); }
+  .eq-block:hover { border-color:#252525; }
+  .eq-label { font-size:0.54rem; letter-spacing:2px; text-transform:uppercase; color:var(--grey); margin-bottom:3px; }
+  .eq-val { font-family:'Cormorant Garamond',serif; font-size:1.08rem; font-weight:600; color:var(--white); }
+  .eq-op { font-size:1.3rem; color:#252525; font-weight:300; }
+  .eq-result { border-color:rgba(201,168,76,0.18)!important; background:rgba(201,168,76,0.03)!important; }
+  .eq-result .eq-label { color:var(--gold); }
+  .eq-result .eq-val { color:var(--gold); font-size:1.15rem; }
+
+  /* ── FOOTER ── */
+  footer { text-align:center; padding:22px 48px; border-top:1px solid #141414; font-size:0.63rem; color:#2e2e2e; letter-spacing:1px; }
+
+  /* ── ANIMATIONS ── */
+  .arch-level { animation:fadeUp 0.4s ease both; }
+  .arch-level:nth-child(1){animation-delay:0s}
+  .arch-level:nth-child(3){animation-delay:0.07s}
+  .arch-level:nth-child(5){animation-delay:0.14s}
+  .arch-level:nth-child(7){animation-delay:0.21s}
+  .cg-level,.inst-card,.espejo-mini { animation:fadeUp 0.4s ease both; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:820px) {
+    header { padding:16px 22px; flex-direction:column; gap:12px; align-items:flex-start; }
+    .header-right { width:100%; justify-content:space-between; }
+    .iad-cta { display:none; }
+    main { padding:28px 18px 60px; }
+    .level-title { font-size:1.5rem; }
+    .level-bar { padding:20px 26px; }
+    .espejo-inner { flex-direction:column; gap:14px; }
+    .complete-grid { grid-template-columns:1fr; }
+    .cg-connector-col { display:none; }
+    .cg-right { margin-top:20px; }
+    .cg-right-label { padding-left:0; }
+    .equation { gap:10px; }
+    .eq-block { min-width:110px; }
+  }
+
+  /* ── ORO CEPILLADO ── */
+  .oro-cepillado {
+    background: repeating-linear-gradient(
+      108deg,
+      #C9A84C 0px, #E8C97A 1.5px, #A87B28 3px,
+      #C9A84C 5px, #D4AF60 7px, #B89040 9px,
+      #E2C46A 11px, #C9A84C 13px
+    );
+    background-size: 400% 100%;
+    animation: brush-sweep 6s ease-in-out infinite alternate;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  @keyframes brush-sweep {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  .oro-cepillado-border {
+    border-image: repeating-linear-gradient(
+      108deg,
+      #C9A84C 0px, #E8C97A 2px, #A87B28 4px,
+      #D4AF60 8px, #C9A84C 12px
+    ) 1;
+  }
+  /* ── SMART AGENT BUTTON ── */
+  .smart-agent-btn {
+    position: relative;
+    padding: 11px 22px;
+    font-size: 0.64rem; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer;
+    border: none; font-family: 'Montserrat',sans-serif; font-weight: 700;
+    background: linear-gradient(135deg, #C9A84C 0%, #E8C97A 40%, #A87B28 70%, #C9A84C 100%);
+    background-size: 300% 100%;
+    color: #0A0A0A;
+    border-radius: 2px;
+    transition: all 0.3s;
+    animation: agent-shimmer 4s ease-in-out infinite;
+    display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none; box-shadow: 0 0 20px rgba(201,168,76,0.25);
+  }
+  .smart-agent-btn::before {
+    content: '◈';
+    font-size: 0.75rem;
+    animation: rotate-icon 8s linear infinite;
+    display: inline-block;
+  }
+  .smart-agent-btn:hover {
+    box-shadow: 0 0 40px rgba(201,168,76,0.5);
+    transform: translateY(-1px);
+    background-size: 150% 100%;
+  }
+  @keyframes agent-shimmer {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes rotate-icon {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  /* ── CENTRAL AGENT PANEL ── */
+  .agent-panel {
+    max-width: 840px; width: 100%; margin: 28px auto 0;
+    background: linear-gradient(135deg, #0e0e0e 0%, #1a1400 60%, #0e0e0e 100%);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 28px 36px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative; overflow: hidden;
+    box-shadow: inset 0 0 60px rgba(201,168,76,0.03);
+  }
+  .agent-panel::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      108deg,
+      transparent 0px, transparent 8px,
+      rgba(201,168,76,0.015) 9px, transparent 10px
+    );
+    pointer-events: none;
+  }
+  .agent-panel-left { z-index: 1; }
+  .agent-panel-tag { font-size: 0.54rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(201,168,76,0.6); font-weight: 600; margin-bottom: 5px; }
+  .agent-panel-title { font-family: 'Cormorant Garamond',serif; font-size: 1.3rem; color: var(--white); font-weight: 600; letter-spacing: 1px; }
+  .agent-panel-desc { font-size: 0.7rem; color: var(--grey-mid); margin-top: 4px; }
+  .agent-diamond {
+    position: absolute; right: 180px; top: 50%; transform: translateY(-50%);
+    width: 60px; height: 60px; opacity: 0.06;
+  }
+  .agent-panel-right { z-index: 1; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <div class="logo-mark">ADC</div>
+    <div class="logo">
+      ADC
+      <span>Framework Visual · V8 · Abril 2026</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="toggle-wrap">
+      <button class="toggle-btn active" id="btn-simple" onclick="setView('simple')">Modelo</button>
+      <button class="toggle-btn" id="btn-completo" onclick="setView('completo')">Sistema Completo</button>
+    </div>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(201,168,76,0.55);display:none;" id="tagline-header">Ya no empuja — dirige.</span>
+    <a class="iad-cta" href="ADC_IAD_Campo.html">Biopsia IAD</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ══ VIEW A: MODELO ════════════════════════════════════ -->
+  <div id="view-simple">
+    <div class="arch-container">
+
+      <div class="arch-level level-1" onmouseenter="showInsight(1)" onmouseleave="clearInsight()">
+        <div class="level-bar">
+          <div class="level-content">
+            <div class="level-tag">Innovación Humana · N1 — ORIGEN</div>
+            <div class="level-title">Origen</div>
+            <div class="level-desc">El Director de Agencia. Todo sistema refleja a quien lo dirige.</div>
+            <div class="level-items">
+              <span class="item-pill">Identidad de liderazgo</span>
+              <span class="item-pill">Estabilidad emocional</span>
+              <span class="item-pill">Claridad profesional</span>
+              <span class="item-pill">Coherencia personal</span>
+              <span class="item-pill">Energía</span>
+            </div>
+          </div>
+          <div class="level-num">1</div>
+        </div>
+      </div>
+
+      <div class="arch-arrow"></div>
+
+      <div class="arch-level level-2" onmouseenter="showInsight(2)" onmouseleave="clearInsight()">
+        <div class="level-bar">
+          <div class="level-content">
+            <div class="level-tag">Innovación Humana · N2 — DISEÑO</div>
+            <div class="level-title">Arquitectura</div>
+            <div class="level-desc">El sistema que el Director construye para su agencia.</div>
+            <div class="level-items">
+              <span class="item-pill">Modelo de negocio</span>
+              <span class="item-pill">Sistema de reclutamiento</span>
+              <span class="item-pill">Desarrollo de gerentes</span>
+              <span class="item-pill">Experiencia del agente</span>
+              <span class="item-pill">Ritmo comercial</span>
+            </div>
+          </div>
+          <div class="level-num">2</div>
+        </div>
+      </div>
+
+      <div class="arch-arrow"></div>
+
+      <div class="arch-level level-3" onmouseenter="showInsight(3)" onmouseleave="clearInsight()">
+        <div class="level-bar">
+          <div class="level-content">
+            <div class="level-tag">Innovación Humana · N3 — SISTEMA</div>
+            <div class="level-title">Sistema</div>
+            <div class="level-desc">El ecosistema humano operando. Aquí vive la ejecución.</div>
+            <div class="level-items">
+              <span class="item-pill">Agentes</span>
+              <span class="item-pill">Gerentes</span>
+              <span class="item-pill">Reclutadores</span>
+              <span class="item-pill">Cultura de la agencia</span>
+              <span class="item-pill">Disciplina operativa</span>
+            </div>
+          </div>
+          <div class="level-num">3</div>
+        </div>
+      </div>
+
+      <div class="arch-arrow"></div>
+
+      <div class="arch-level level-4" onmouseenter="showInsight(4)" onmouseleave="clearInsight()">
+        <div class="level-bar">
+          <div class="level-content">
+            <div class="level-tag">Innovación Humana · N4 — SÍNTOMA</div>
+            <div class="level-title">Resultados</div>
+            <div class="level-desc">Lo que el mundo ve. Son consecuencia, no causa.</div>
+            <div class="level-items">
+              <span class="item-pill">Ventas</span>
+              <span class="item-pill">Crecimiento</span>
+              <span class="item-pill">Reputación</span>
+              <span class="item-pill">Experiencia del asegurado</span>
+              <span class="item-pill">Referencias</span>
+            </div>
+          </div>
+          <div class="level-num">4</div>
+        </div>
+      </div>
+
+      <div class="insight-panel" id="insight-panel">
+        <span class="insight-label">ADC</span>
+        <span class="insight-text" id="insight-text">Pasa el cursor sobre cada nivel para ver su lógica dentro del sistema.</span>
+      </div>
+
+      <!-- LEY DEL ESPEJO — elemento propio y prominente -->
+      <div class="espejo-block">
+        <div class="espejo-inner">
+          <div class="espejo-icon">◈</div>
+          <div class="espejo-content">
+            <div class="espejo-label">Principio Rector · ADC</div>
+            <div class="espejo-title">Ley del Espejo</div>
+            <div class="espejo-text">
+              La agencia no es una entidad separada del Director. Es su <strong>reflejo estructural exacto</strong>.
+              Su estabilidad emocional, su claridad de modelo, su nivel de compromiso — todo eso
+              ya opera en el sistema. No como metáfora. Como arquitectura real.
+            </div>
+            <div class="espejo-quote">
+              "Si hay un síntoma en el <em>Nivel 4</em>, la solución no está en el Nivel 4.<br>
+              Está en el <em>Origen</em>. Innovación Humana opera en el nivel donde vive la causa."
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ VIEW B: SISTEMA COMPLETO ════════════════════════ -->
+  <div id="view-completo">
+    <div class="complete-wrap">
+
+      <div class="complete-header">
+        <h2>El Sistema en su Totalidad</h2>
+        <p>Cuatro niveles jerárquicos en cascada + los instrumentos que intervienen cada capa. Columna izquierda: el modelo. Columna derecha: las herramientas.</p>
+      </div>
+
+      <div class="complete-grid">
+
+        <!-- Columna izquierda -->
+        <div>
+          <div class="cg-left-label">El Modelo · 4 Niveles en Cascada</div>
+          <div class="cg-level cg-1">
+            <div class="cg-sublabel">Nivel 1 · El Centro</div>
+            <div class="cg-title">ORIGEN</div>
+            <div class="cg-desc">Director de Agencia · El sistema refleja a quien lo dirige</div>
+            <div class="cg-items">
+              <span class="cg-pill">Identidad de liderazgo</span>
+              <span class="cg-pill">Estabilidad emocional</span>
+              <span class="cg-pill">Claridad profesional</span>
+              <span class="cg-pill">Coherencia</span>
+              <span class="cg-pill">Energía</span>
+            </div>
+          </div>
+          <div class="cg-level cg-2">
+            <div class="cg-sublabel">Nivel 2 · Lo que Diseña</div>
+            <div class="cg-title">ARQUITECTURA</div>
+            <div class="cg-desc">El sistema que el Director construye para su agencia</div>
+            <div class="cg-items">
+              <span class="cg-pill">Modelo de negocio</span>
+              <span class="cg-pill">Reclutamiento</span>
+              <span class="cg-pill">Desarrollo de gerentes</span>
+              <span class="cg-pill">Experiencia del agente</span>
+              <span class="cg-pill">Ritmo comercial</span>
+            </div>
+          </div>
+          <div class="cg-level cg-3">
+            <div class="cg-sublabel">Nivel 3 · El Ecosistema Vivo</div>
+            <div class="cg-title">SISTEMA</div>
+            <div class="cg-desc">El ecosistema humano operando · Aquí vive la ejecución</div>
+            <div class="cg-items">
+              <span class="cg-pill">Agentes</span>
+              <span class="cg-pill">Gerentes</span>
+              <span class="cg-pill">Reclutadores</span>
+              <span class="cg-pill">Cultura</span>
+              <span class="cg-pill">Disciplina operativa</span>
+              <span class="cg-pill">Atracción Digital</span>
+            </div>
+          </div>
+          <div class="cg-level cg-4">
+            <div class="cg-sublabel">Nivel 4 · La Expresión Visible</div>
+            <div class="cg-title">RESULTADOS</div>
+            <div class="cg-desc">Consecuencia del sistema · No se corrigen aquí</div>
+            <div class="cg-items">
+              <span class="cg-pill">Ventas</span>
+              <span class="cg-pill">Crecimiento</span>
+              <span class="cg-pill">Reputación</span>
+              <span class="cg-pill">Referencias del asegurado</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conector -->
+        <div class="cg-connector-col">
+          <div class="conn-dot"></div>
+          <div class="conn-line"></div>
+          <div class="conn-dot"></div>
+          <div class="conn-line"></div>
+          <div class="conn-dot"></div>
+          <div class="conn-line"></div>
+          <div class="conn-dot"></div>
+        </div>
+
+        <!-- Columna derecha: instrumentos -->
+        <div class="cg-right">
+          <div class="cg-right-label">Instrumentos del Sistema</div>
+
+          <div class="inst-card">
+            <div class="inst-tag">IAD · Índice de Arquitectura de Desempeño</div>
+            <div class="inst-name">Diagnóstico · Biopsia de Arquitectura</div>
+            <div class="inst-desc">12 indicadores · 6 roles · Ley del Espejo integrada. Mide el estado real de Origen, Arquitectura y Resultados.</div>
+            <div class="inst-levels">
+              <span class="inst-lvl n1">N1 Origen</span>
+              <span class="inst-lvl n2">N2 Arquitectura</span>
+              <span class="inst-lvl n4">N4 Resultados</span>
+            </div>
+          </div>
+
+          <div class="inst-card">
+            <div class="inst-tag">Espejo del Director · Corpus Arquitectónico</div>
+            <div class="inst-name">Perfil Clínico del Director</div>
+            <div class="inst-desc">5 dimensiones de lectura sistémica + 6 Arquetipos de Mando con fracturas probables. Define quién es el Director antes de que el IAD lo confirme. Alimenta el Cuestionario de Origen y el Laboratorio de Autoría.</div>
+            <div class="inst-levels">
+              <span class="inst-lvl n1">N1 Origen</span>
+            </div>
+          </div>
+
+          <div class="espejo-mini">
+            <div class="espejo-mini-label">Principio Rector</div>
+            <div class="espejo-mini-title">Ley del Espejo</div>
+            <div class="espejo-mini-text">Opera en el Origen. El sistema no es un problema externo — es el reflejo exacto de la arquitectura de liderazgo del Director.</div>
+          </div>
+
+          <div class="inst-card">
+            <div class="inst-tag">IHS · Índice de Honorabilidad Sistémica · Métrica Maestra</div>
+            <div class="inst-name">La Evidencia del Sistema</div>
+            <div class="inst-desc">IHS: porcentaje de acuerdos cumplidos — el semáforo humano del sistema. El IHS autoriza; el ADC Performance Index describe. Tres dimensiones: Human Performance + Process Architecture + Commercial Results.</div>
+            <div class="inst-levels">
+              <span class="inst-lvl n1">N1 Origen</span>
+              <span class="inst-lvl n3">N3 Sistema</span>
+              <span class="inst-lvl n4">N4 Resultados</span>
+            </div>
+          </div>
+
+          <div class="inst-card blue">
+            <div class="inst-tag">P21 · Director Experience &nbsp;/&nbsp; P30+P90 · Soberanía Sistémica &nbsp;/&nbsp; P99 · El Sistema Camina Solo</div>
+            <div class="inst-name">La Intervención · Tres Horizontes</div>
+            <div class="inst-desc">P21: 21 días · Kit de Emergencia Táctico · Laboratorio de Autoría del Director. P30: 30 días Laboratorio · 7 Blueprints · Bóveda v1. P90: 90 días Sprint + Custodia · Bóveda definitiva al cierre. P99: 99 días · PWA personalizada + Cortex propio calibrado + 60 Roles Premium + Licencia 3–5 años.</div>
+            <div class="inst-levels">
+              <span class="inst-lvl n2">N2 Arquitectura</span>
+              <span class="inst-lvl n3">N3 Sistema</span>
+            </div>
+          </div>
+
+          <!-- Los 7 Roles del Sistema -->
+          <div class="inst-card">
+            <div class="inst-tag">6 Roles · Ecosistema ADC V8</div>
+            <div class="inst-name">El Equipo del Sistema</div>
+            <div class="inst-desc">Director · Gerente de Desarrollo · EDAT / Reclutador · Agente Novel · Agente Consolidado · Arquitecto de Atracción Digital. Broker ADC Light = cliente externo de alianza, no rol interno.</div>
+            <div class="inst-levels">
+              <span class="inst-lvl n2">N2 Arquitectura</span>
+              <span class="inst-lvl n3">N3 Sistema</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Ecuación maestra — unificada con el Documento Maestro -->
+      <div class="equation-section">
+        <div class="eq-title">Fórmula Conceptual del Sistema · ADC V8 · Cortex ADC · Director Comercial Adjunto</div>
+        <div class="equation">
+          <div class="eq-block">
+            <div class="eq-label">Métrica Maestra · N1</div>
+            <div class="eq-val">IHS · Honorabilidad</div>
+          </div>
+          <div class="eq-op">×</div>
+          <div class="eq-block">
+            <div class="eq-label">Dimensión 1 · N1</div>
+            <div class="eq-val">Human Performance</div>
+          </div>
+          <div class="eq-op">+</div>
+          <div class="eq-block">
+            <div class="eq-label">Dimensión 2 · N2–N3</div>
+            <div class="eq-val">Process Architecture</div>
+          </div>
+          <div class="eq-op">+</div>
+          <div class="eq-block">
+            <div class="eq-label">Dimensión 3 · N3–N4</div>
+            <div class="eq-val">Commercial Results</div>
+          </div>
+          <div class="eq-op" style="color:rgba(201,168,76,0.6)">=</div>
+          <div class="eq-block eq-result">
+            <div class="eq-label">ADC Performance Index</div>
+            <div class="eq-val">Autonomía Operativa</div>
+          </div>
+        </div>
+      <div style="text-align:center;margin-top:18px;font-size:0.62rem;color:rgba(201,168,76,0.4);letter-spacing:2px;font-style:italic;">"El IHS autoriza. El ADC-PI describe. La Autonomía Operativa es la consecuencia."</div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Framework Visual ADC V8 · Fernando Ugalde · Fer U · Abril 2026 &nbsp;·&nbsp; "El origen siempre determina el resultado." &nbsp;·&nbsp; Recuerda… tú eres tiempo.
+</footer>
+
+<script>
+  const insights = {
+    1: "NIVEL 1 · ORIGEN — El primer nivel de Innovación Humana. El Director no es un cargo: es una arquitectura de conciencia. Aquí operan las 4 fuerzas fundacionales del líder — Conciencia, Dirección, Relación e Impacto. Este nivel no es psicología motivacional: es ingeniería de origen. Todo lo que emerge en los niveles 2, 3 y 4 es consecuencia directa de la calidad del origen. Cambiar el origen es la única intervención que cambia el sistema completo.",
+    2: "NIVEL 2 · DISEÑO — El segundo nivel de Innovación Humana. La Arquitectura es lo que el Director construye conscientemente. Un sistema de reclutamiento, un modelo de desarrollo, un ritmo comercial — todo esto es diseño arquitectónico, no operación. La diferencia entre una agencia que escala y una que depende eternamente del Director vive aquí: en la calidad del diseño que trasciende al creador.",
+    3: "NIVEL 3 · SISTEMA — El tercer nivel de Innovación Humana. El ecosistema humano vivo en operación: agentes, gerentes, cultura, disciplina. Este nivel no se interviene directamente — es consecuencia del Diseño del nivel 2. Cuando el diseño mejora, el sistema evoluciona de forma natural. Intentar corregir el sistema sin rediseñar la arquitectura es una intervención cosmética.",
+    4: "NIVEL 4 · SÍNTOMA — El cuarto nivel de Innovación Humana. Los resultados son síntomas, no causas — son la expresión visible de lo que ocurre en los tres niveles anteriores. Ventas bajas, rotación alta, dependencia del Director: no son problemas a resolver aquí. Son diagnósticos que apuntan hacia el Origen, el Diseño o el Sistema. ADC opera en los niveles 1 y 2 porque ahí está la causa real."
+  };
+
+  function showInsight(level) {
+    document.getElementById('insight-text').textContent = insights[level];
+  }
+  function clearInsight() {
+    document.getElementById('insight-text').textContent = 'Pasa el cursor sobre cada nivel para ver su lógica dentro del sistema.';
+  }
+
+  function setView(v) {
+    document.getElementById('view-simple').style.display = v === 'simple' ? 'flex' : 'none';
+    document.getElementById('view-completo').style.display = v === 'completo' ? 'block' : 'none';
+    document.getElementById('btn-simple').classList.toggle('active', v === 'simple');
+    document.getElementById('btn-completo').classList.toggle('active', v !== 'simple');
+  }
+
+  function openSmartAgent() {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);';
+    overlay.innerHTML = `
+      <div style="background:#111;border:1px solid rgba(201,168,76,0.4);max-width:520px;width:90%;padding:48px;position:relative;box-shadow:0 0 80px rgba(201,168,76,0.1);">
+        <button onclick="this.closest('[style]').remove()" style="position:absolute;top:16px;right:20px;background:none;border:none;color:#666;font-size:1.2rem;cursor:pointer;">✕</button>
+        <div style="font-size:0.54rem;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,0.7);margin-bottom:8px;font-family:'Montserrat',sans-serif;font-weight:600;">ADC V8 · Dirección Comercial 10.0</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:#F5F0E8;margin-bottom:4px;font-weight:600;letter-spacing:1px;">Cortex ADC</div>
+        <div style="font-size:0.7rem;color:#666;margin-bottom:28px;line-height:1.7;">Director Comercial Adjunto — 365 días. Lee indicadores sin emoción. Sostiene el origen del Director bajo presión. Acompaña cada decisión con la precisión de los mejores especialistas.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="padding:16px 20px;background:#161616;border:1px solid rgba(201,168,76,0.15);border-left:3px solid #C9A84C;">
+            <div style="font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;font-family:'Montserrat',sans-serif;font-weight:600;margin-bottom:4px;">N1 · Origen</div>
+            <div style="font-size:0.72rem;color:#aaa;">Diagnóstico del Director como sistema humano</div>
+          </div>
+          <div style="padding:16px 20px;background:#161616;border:1px solid rgba(201,168,76,0.1);">
+            <div style="font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:#8a6e2f;font-family:'Montserrat',sans-serif;font-weight:600;margin-bottom:4px;">N2 · Diseño</div>
+            <div style="font-size:0.72rem;color:#aaa;">Evaluación de Arquitectura construida</div>
+          </div>
+          <div style="padding:16px 20px;background:#161616;border:1px solid rgba(201,168,76,0.1);">
+            <div style="font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:#7EB8C9;font-family:'Montserrat',sans-serif;font-weight:600;margin-bottom:4px;">N3 · Sistema</div>
+            <div style="font-size:0.72rem;color:#aaa;">Lectura del ecosistema en operación</div>
+          </div>
+          <div style="padding:16px 20px;background:#161616;border:1px solid rgba(201,168,76,0.1);">
+            <div style="font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:#4A9F6A;font-family:'Montserrat',sans-serif;font-weight:600;margin-bottom:4px;">N4 · Síntoma</div>
+            <div style="font-size:0.72rem;color:#aaa;">Interpretación de resultados como diagnóstico</div>
+          </div>
+        </div>
+        <button onclick="this.closest('[style]').remove()" style="margin-top:28px;width:100%;padding:14px;background:linear-gradient(135deg,#C9A84C,#E8C97A,#A87B28);color:#0A0A0A;border:none;font-family:'Montserrat',sans-serif;font-size:0.64rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Próximamente · Versión Beta 2026</button>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', e => { if(e.target === overlay) overlay.remove(); });
+  }
+</script>
+</body>
+</html>
