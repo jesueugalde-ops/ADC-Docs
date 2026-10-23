@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Innovación Humana · Tu bitácora</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --negro:#0A0A0C;--negro-suave:#111114;--negro-card:#17171B;--negro-el:#1E1E23;
+  --oro:#C9A84C;--oro-vivo:#E8C97A;--oro-palido:#F5E8C0;--oro-dim:rgba(201,168,76,.06);--oro-borde:rgba(201,168,76,.22);
+  --blanco:#F2F2EE;--gris-claro:#AAAAAA;--gris:#7A7A7A;--linea:#2A2A2E;
+  --riesgo:#CC5555;--desarrollo:#C8993A;--solidez:#5588CC;--referencia:#4A9F6A;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Montserrat',system-ui,sans-serif;--mono:'JetBrains Mono','Courier New',monospace;
+  --dim:#C8993A;
+}
+html{scroll-behavior:smooth;font-size:16px;scroll-padding-top:70px;}
+body{background:var(--negro);color:var(--blanco);font-family:var(--sans);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(201,168,76,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;opacity:.5;z-index:0;}
+button{font:inherit;color:inherit;cursor:pointer;}
+[hidden]{display:none!important;}
+input,select,textarea{font:inherit;color:var(--blanco);}
+em{font-family:var(--serif);font-style:italic;color:var(--oro-vivo);}
+a{color:var(--oro-vivo);}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:12px 28px;background:rgba(10,10,12,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--oro-borde);}
+.nav-t{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gris);}
+.nav-t strong{color:var(--oro);font-weight:500;}
+.nav-l{display:flex;gap:6px;flex-wrap:wrap;}
+.nav-l a{font-family:var(--mono);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;text-decoration:none;color:var(--gris-claro);padding:7px 12px;border:1px solid var(--linea);transition:.2s;}
+.nav-l a:hover{border-color:var(--oro);color:var(--oro-vivo);}
+.ban{position:relative;z-index:2;background:#241d0c;border-bottom:1px solid var(--oro-borde);padding:12px 28px;font-size:13px;color:var(--oro-palido);display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center;text-align:center;}
+.ban[hidden]{display:none;}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 28px;}
+section{position:relative;z-index:1;padding:76px 0 24px;}
+.sec-n{font-family:var(--mono);font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:var(--oro);margin-bottom:12px;display:block;}
+h1,h2{font-family:var(--serif);font-weight:300;line-height:1.1;}
+h1{font-size:clamp(46px,8vw,84px);}
+h2{font-size:clamp(34px,5vw,52px);}
+.lede{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--gris-claro);max-width:640px;margin-top:14px;line-height:1.5;}
+.divider{width:56px;height:1px;background:var(--oro);margin:20px 0;}
+.desc{max-width:680px;color:var(--gris-claro);font-size:14px;}
+#portada{padding-top:70px;text-align:center;}
+#portada .lede,#portada .desc{margin-left:auto;margin-right:auto;}
+#portada .divider{margin:22px auto;}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:34px 0 6px;}
+.stat{background:var(--negro-card);border:1px solid var(--linea);padding:18px 12px;text-align:center;}
+.stat b{display:block;font-family:var(--serif);font-weight:400;font-size:40px;line-height:1;color:var(--oro-vivo);}
+.stat span{font-family:var(--mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gris);display:block;margin-top:8px;}
+/* cards, inputs */
+.card{background:var(--negro-card);border:1px solid var(--linea);padding:24px;margin-top:22px;}
+.card h3{font-family:var(--serif);font-weight:400;font-size:26px;margin-bottom:6px;}
+.lbl{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--oro);margin:16px 0 7px;}
+.inp,.sel,.txt{width:100%;background:var(--negro-suave);border:1px solid var(--linea);padding:11px 13px;font-size:14px;border-radius:0;}
+.inp:focus,.sel:focus,.txt:focus{outline:none;border-color:var(--oro);}
+.txt{min-height:96px;resize:vertical;line-height:1.6;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.btn{background:transparent;border:1px solid var(--oro-borde);padding:11px 18px;font-family:var(--mono);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--oro-vivo);transition:.2s;text-decoration:none;display:inline-block;}
+.btn:hover{border-color:var(--oro);background:var(--oro-dim);}
+.btn.pri{background:var(--oro);color:#1a1405;border-color:var(--oro);font-weight:500;}
+.btn.pri:hover{background:var(--oro-vivo);}
+.btn.sm{padding:7px 12px;font-size:10px;}
+.btn.danger{color:#d98a8a;border-color:rgba(204,85,85,.4);}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
+#portada .acts{justify-content:center;}
+.note{border-left:2px solid var(--oro);background:var(--oro-dim);padding:14px 18px;margin-top:20px;font-size:13px;color:var(--gris-claro);max-width:760px;}
+#portada .note{margin-left:auto;margin-right:auto;text-align:left;}
+.note b{color:var(--oro-vivo);font-weight:500;}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px;text-align:left;}
+.step{border:1px solid var(--linea);background:var(--negro-suave);padding:16px;font-size:13px;color:var(--gris-claro);}
+.step i{font-style:normal;font-family:var(--mono);font-size:10px;letter-spacing:1.6px;color:var(--oro);display:block;margin-bottom:6px;text-transform:uppercase;}
+/* segmented */
+.seg{display:flex;gap:8px;flex-wrap:wrap;}
+.seg button{flex:1;min-width:150px;padding:12px;background:var(--negro-suave);border:1px solid var(--linea);font-family:var(--mono);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gris-claro);transition:.2s;}
+.seg button[aria-pressed="true"]{border-color:var(--oro);color:var(--oro-vivo);background:var(--oro-dim);}
+/* number buttons */
+.nbs{display:flex;gap:5px;flex-wrap:wrap;}
+.nb{width:34px;height:34px;background:var(--negro-suave);border:1px solid var(--linea);font-family:var(--mono);font-size:12px;color:var(--gris-claro);transition:.15s;}
+.nb:hover{border-color:var(--c,var(--oro));color:var(--blanco);}
+.nb[aria-pressed="true"]{background:var(--c,var(--oro));border-color:var(--c,var(--oro));color:#111;font-weight:500;}
+.scale-h{font-size:11px;color:var(--gris);margin-top:6px;font-family:var(--mono);}
+/* comps */
+.clist{margin-top:10px;display:flex;flex-direction:column;gap:6px;}
+.citem{display:flex;gap:10px;align-items:center;background:var(--negro-suave);border:1px solid var(--linea);padding:8px 12px;font-size:13px;}
+.citem button.x{margin-left:auto;background:none;border:none;color:var(--gris);font-size:18px;line-height:1;}
+.crow{display:flex;gap:8px;margin-top:8px;}
+.crow .inp{flex:1;}
+/* entries */
+.entry{background:var(--negro-card);border:1px solid var(--linea);padding:20px 22px;margin-top:14px;display:grid;grid-template-columns:1fr auto;gap:8px 20px;}
+.entry h4{font-family:var(--serif);font-weight:400;font-size:24px;}
+.entry .meta{font-family:var(--mono);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gris);}
+.entry .rate{grid-row:1/3;grid-column:2;text-align:center;align-self:start;min-width:64px;}
+.entry .rate b{display:block;font-family:var(--serif);font-weight:400;font-size:44px;line-height:1;}
+.entry .rate span{font-family:var(--mono);font-size:9.5px;letter-spacing:1.2px;color:var(--gris);text-transform:uppercase;}
+.entry .body{grid-column:1/3;}
+.entry .nt{font-size:13.5px;color:var(--gris-claro);white-space:pre-wrap;margin:6px 0 10px;}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;padding:5px 0;cursor:pointer;}
+.chk input{margin-top:4px;accent-color:var(--oro);width:15px;height:15px;}
+.chk.done span{color:var(--gris);text-decoration:line-through;}
+.ea{display:flex;gap:8px;margin-top:10px;}
+.prog{height:6px;background:var(--linea);margin-top:10px;}
+.prog i{display:block;height:100%;background:var(--oro);}
+.empty{border:1px dashed var(--linea);padding:26px;text-align:center;color:var(--gris);font-size:13px;margin-top:14px;}
+/* dim buttons */
+.dims{display:flex;gap:12px;margin-top:26px;}
+.dimb{flex:1;padding:18px 16px 14px;background:var(--negro-card);border:1px solid var(--linea);border:1px solid color-mix(in srgb,var(--dc) 42%,transparent);text-align:center;transition:.2s;}
+.dimb:hover:not([aria-pressed="true"]){transform:translateY(-3px);border-color:var(--dc);box-shadow:0 10px 24px -12px var(--dc);}
+.dimb[aria-pressed="true"]{border-color:var(--dc);background:var(--negro-el);}
+.dimb:focus-visible,.cp:focus-visible,.btn:focus-visible,.nb:focus-visible,.seg button:focus-visible{outline:2px solid var(--oro-vivo);outline-offset:2px;}
+.dimb small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--dc);}
+.dimb b{display:block;font-family:var(--serif);font-weight:400;font-size:24px;}
+.dimb .cta{margin-top:10px;padding-top:9px;border-top:1px solid var(--linea);font-family:var(--mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--dc);}
+/* checkpoints */
+.cps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:22px;}
+.cp{background:var(--negro-card);border:1px solid var(--linea);border-top:3px solid var(--cc);padding:12px 10px;text-align:center;transition:.2s;}
+.cp:hover{transform:translateY(-2px);}
+.cp[aria-pressed="true"]{background:var(--negro-el);border-color:var(--cc);}
+.cp b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:1.6px;color:var(--cc);font-weight:500;}
+.cp span{display:block;font-size:11px;color:var(--gris);margin-top:3px;}
+.cp.on span{color:var(--gris-claro);}
+.hint{font-size:12px;color:var(--gris);margin-top:10px;}
+.ed{border:1px solid var(--oro-borde);background:var(--negro-suave);padding:20px;margin-top:16px;}
+.ed-h{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin-bottom:6px;}
+.ed-h h3{font-family:var(--serif);font-weight:400;font-size:26px;}
+.ed-h h3 i{font-style:normal;font-family:var(--mono);font-size:12px;letter-spacing:1.6px;}
+.areas{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin-top:14px;}
+.area{padding:10px 0;border-top:1px solid var(--linea);}
+.area .at{font-size:13px;margin-bottom:7px;}
+.area .at i{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--oro);margin-right:8px;}
+.area .nb{width:28px;height:28px;font-size:11px;}
+/* radar */
+.rgrid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:34px;margin-top:30px;align-items:start;}
+.rsvg{width:100%;height:auto;display:block;}
+.legend{margin-top:10px;display:flex;flex-direction:column;gap:6px;}
+.leg{display:flex;gap:12px;align-items:baseline;font-family:var(--mono);font-size:12px;}
+.leg b{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1;min-width:52px;}
+.leg span{letter-spacing:1.3px;text-transform:uppercase;}
+.leg em{font-family:var(--mono);font-style:normal;color:var(--gris);font-size:11px;}
+.tw{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+th{font-family:var(--mono);font-size:10px;letter-spacing:1.3px;text-transform:uppercase;text-align:left;color:var(--oro);padding:8px 6px;border-bottom:1px solid var(--oro-borde);font-weight:400;white-space:nowrap;}
+td{padding:7px 6px;border-bottom:1px solid var(--linea);vertical-align:middle;}
+td.v,th.v{text-align:center;font-family:var(--mono);font-weight:500;}
+td .zd{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px;}
+.dl.up{color:#6fcf8d;}.dl.dn{color:#e07a7a;}.dl.eq{color:var(--gris);}
+/* analysis */
+.acard{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:20px;}
+.m{background:var(--negro-card);border:1px solid var(--linea);border-top:3px solid var(--cc,var(--oro));padding:16px;text-align:center;}
+.m b{display:block;font-family:var(--serif);font-weight:400;font-size:42px;line-height:1;color:var(--cc,var(--oro-vivo));}
+.m span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--gris);margin-top:8px;}
+.m small{display:block;font-size:11px;color:var(--gris-claro);margin-top:4px;}
+.bars{margin-top:14px;display:flex;flex-direction:column;gap:10px;}
+.bar{display:grid;grid-template-columns:90px 1fr 110px;gap:10px;align-items:center;font-family:var(--mono);font-size:11px;color:var(--gris-claro);}
+.bar .t{height:8px;background:var(--linea);position:relative;}
+.bar .t i{position:absolute;left:0;top:0;bottom:0;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+ul.cl{list-style:none;margin-top:8px;}
+ul.cl li{padding:8px 0;border-bottom:1px solid var(--linea);font-size:13px;display:flex;justify-content:space-between;gap:12px;}
+.obs{margin-top:22px;border:1px solid var(--oro-borde);background:var(--oro-dim);padding:22px 24px;}
+.obs h4{font-family:var(--mono);font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--oro);font-weight:400;margin:14px 0 6px;}
+.obs h4:first-child{margin-top:0;}
+.obs li{margin:5px 0 5px 18px;font-size:13.5px;color:var(--blanco);}
+.obs p{font-size:13px;color:var(--gris-claro);}
+/* send */
+.prev{width:100%;min-height:210px;background:var(--negro-suave);border:1px solid var(--linea);padding:14px;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--gris-claro);resize:vertical;}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;margin-top:8px;}
+footer{position:relative;z-index:1;margin-top:90px;border-top:1px solid var(--oro-borde);padding:34px 0 50px;font-size:12px;color:var(--gris);}
+footer p{max-width:760px;margin-bottom:10px;}
+footer b{color:var(--oro-vivo);font-weight:500;}
+
+.ob-row{display:grid;grid-template-columns:2fr 1fr 1.6fr auto;gap:8px;margin-top:8px;align-items:center;}
+.ob-row .ob-x{padding:9px 12px;}
+.chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.6px;padding:2px 8px;border:1px solid var(--oro-borde);color:var(--oro-vivo);white-space:nowrap;}
+.tag{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:1px;text-transform:uppercase;padding:1px 7px;margin-right:8px;border:1px solid var(--linea);color:var(--gris);}
+.tag.tg{border-color:var(--oro-borde);color:var(--oro-vivo);}
+.cmp{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:7px 0;border-bottom:1px solid var(--linea);font-size:13px;}
+.cmp .ct{flex:1 1 220px;}
+.cmp .ct.c{color:var(--gris);text-decoration:line-through;text-decoration-color:#4A9F6A;}
+.cmp .ct.a{color:#E8C97A;}.cmp .ct.n{color:#e07a7a;}
+.sts{display:flex;gap:5px;flex-wrap:wrap;}
+.stb{padding:4px 10px;font-family:var(--mono);font-size:10px;letter-spacing:.8px;text-transform:uppercase;background:transparent;border:1px solid var(--linea);color:var(--gris-claro);transition:.15s;}
+.stb:hover{border-color:var(--sc,var(--oro));color:var(--blanco);}
+.stb[aria-pressed="true"]{background:var(--sc);border-color:var(--sc);color:#111;font-weight:500;}
+.stb.re{border-color:var(--oro-borde);color:var(--oro-vivo);}
+.stb:focus-visible{outline:2px solid var(--oro-vivo);outline-offset:2px;}
+.pal-top{display:flex;gap:22px;align-items:center;flex-wrap:wrap;}
+.pal-n{font-family:var(--serif);font-weight:300;font-size:64px;line-height:1;}
+.pal-z{font-family:var(--mono);font-size:12px;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:4px;}
+.stack{display:flex;gap:3px;height:12px;margin-top:14px;}
+.stack i{display:block;}
+.tbars{display:flex;gap:6px;align-items:flex-end;height:90px;margin-top:8px;}
+.tb{flex:1;max-width:46px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;}
+.tb i{display:block;width:100%;}
+.tb span{font-family:var(--mono);font-size:9.5px;color:var(--gris);height:12px;}
+.alert{margin-top:14px;border-left:2px solid #CC5555;background:rgba(204,85,85,.07);padding:11px 16px;font-size:13px;color:var(--gris-claro);}
+.alert b{color:#e9a5a5;font-weight:500;}
+@media(max-width:880px){.ob-row{grid-template-columns:1fr;}}
+@media print{.stb[aria-pressed="false"],.stb.re,.noprint{display:none!important;}.chip,.tag{border-color:#bbb!important;color:#555!important;}.cmp,.cmp .ct{color:#333!important;}.cmp .ct.c{text-decoration-color:#4A9F6A;}}
+@media(max-width:880px){
+  .stats{grid-template-columns:1fr 1fr;}.steps,.two,.g2,.g3,.opts{grid-template-columns:1fr;}
+  .rgrid{grid-template-columns:1fr;}.areas{grid-template-columns:1fr;}.dims{flex-direction:column;gap:10px;}
+  .cps{grid-template-columns:repeat(3,1fr);}.nav{padding:10px 16px;}.wrap{padding:0 18px;}
+}
+@media(max-width:520px){.cps{grid-template-columns:repeat(2,1fr);}.nb{width:30px;height:30px;}.bar{grid-template-columns:70px 1fr 56px;}}
+@media print{
+  body{background:#fff;color:#16140F;}body::before,.nav,.ban,.noprint,.acts,.steps,form,#enviar,.ed,.cps,.dims,.crow{display:none!important;}
+  section{padding:24px 0;break-inside:avoid-page;}
+  .card,.entry,.m,.stat,.obs{background:#fff!important;border-color:#bbb!important;}
+  h1,h2,.entry h4,.m b,.stat b,.leg b{color:#16140F!important;}em{color:#8a6d1f!important;}
+  td,th,.desc,.lede,.nt,.chk span,.entry .nt,.obs p,.obs li,.leg,.leg em{color:#333!important;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav noprint">
+  <div class="nav-t"><strong>Innovación Humana</strong> · Tu bitácora</div>
+  <div class="nav-l"><a href="#carta">§1 Mi carta</a><a href="#sesiones">§2 Sesiones</a><a href="#radar">§3 Radar</a><a href="#analisis">§4 Lo que dice</a><a href="#enviar">§5 Enviar</a></div>
+</nav>
+<div class="ban" id="banEj" hidden><span><b>Estás viendo un ejemplo con datos ficticios.</b> Nada de lo que hagas aquí se guarda.</span><button class="btn sm" id="btnSalirEj" type="button">Salir del ejemplo</button></div>
+
+<header id="portada"><div class="wrap">
+  <span class="sec-n">Innovación Humana · Arquitectura de Identidad</span>
+  <h1>Tu <em>bitácora.</em></h1>
+  <div class="divider"></div>
+  <p class="lede">Un espejo que se actualiza contigo: lo que viviste en cada sesión, lo que prometiste y cómo se mueve tu radar.</p>
+  <div class="stats" id="stats"></div>
+  <div class="card" style="text-align:left;">
+    <div class="g2">
+      <div><label class="lbl" for="codigo" style="margin-top:0">Tu código de caso <span style="color:var(--gris);text-transform:none;letter-spacing:0">(opcional · te lo da Fer U)</span></label><input class="inp" id="codigo" placeholder="IH-0000" maxlength="16" autocomplete="off"></div>
+      <div><label class="lbl" for="modalidad" style="margin-top:0">Tu modalidad</label>
+        <select class="sel" id="modalidad"><option value="">Elige…</option><option>Reconexión</option><option>Reinvención Básica</option><option>Reinvención Profunda</option><option>A medida</option></select></div>
+    </div>
+    <p class="hint">No necesitas escribir tu nombre aquí. Tu código es suficiente para que Fer U ubique tu bitácora.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><i>Después de cada sesión</i>Califica del 1 al 10 qué tan útil te resultó, mide el pulso de tus objetivos y registra tus acuerdos.</div>
+    <div class="step"><i>Cada acuerdo se cierra con un color</i>Cumplido, pospuesto o no cumplido. Lo pospuesto no se pierde: se puede re-acordar, sin deuda.</div>
+    <div class="step"><i>Cada 4 semanas, como mínimo</i>Actualiza tu radar: un color nuevo por checkpoint, de 3 a 5 en todo tu programa. Contra quien te comparas es contra ti.</div>
+  </div>
+  <div class="acts noprint">
+    <button class="btn pri" id="btnEj" type="button">Ver ejemplo con datos ficticios</button>
+    <button class="btn" id="btnResp" type="button">Guardar respaldo</button>
+    <label class="btn" for="fileImp" style="cursor:pointer">Importar respaldo</label><input type="file" id="fileImp" accept="application/json,.json" hidden>
+    <button class="btn" id="btnPrint" type="button">Imprimir o guardar PDF</button>
+    <button class="btn danger" id="btnBorrar" type="button">Borrar todo</button>
+  </div>
+  <div class="note"><b>Tu privacidad.</b> Lo que escribes se guarda solo en este navegador, en este dispositivo. Fer U lo recibe únicamente cuando tú lo envías. En un equipo compartido, guarda tu respaldo y usa “Borrar todo” al terminar.<span id="stNote" hidden> <b>Aviso:</b> tu navegador no permite guardar aquí; guarda tu respaldo para no perder lo que captures.</span></div>
+</div></header>
+
+<section id="carta"><div class="wrap">
+  <span class="sec-n">§1 · Mi carta</span>
+  <h2>Lo que <em>decidí.</em></h2><div class="divider"></div>
+  <p class="desc">El punto de partida de tu proceso: la fractura que nombramos juntos y los objetivos de tu Carta Compromiso. Cada objetivo se liga a un área de tu radar, para ver cómo se mueve.</p>
+  <div class="card">
+    <label class="lbl" for="fractura" style="margin-top:0">Mi fractura raíz, en mis palabras <span style="color:var(--gris);text-transform:none;letter-spacing:0">(opcional)</span></label>
+    <textarea class="txt" id="fractura" style="min-height:70px" placeholder="Lo que nombramos en mi Sesión de Mapeo, como yo lo diría…"></textarea>
+    <label class="lbl">Mis objetivos <span style="color:var(--gris);text-transform:none;letter-spacing:0">(hasta 4 · objetivo, dimensión y área del radar)</span></label>
+    <div id="objs"></div>
+    <div class="acts"><button class="btn" id="btnObj" type="button">+ Agregar objetivo</button></div>
+  </div>
+</div></section>
+
+<section id="sesiones"><div class="wrap">
+  <span class="sec-n">§2 · Mis sesiones</span>
+  <h2>Lo que <em>viví.</em></h2><div class="divider"></div>
+  <p class="desc">Una entrada por sesión, con la calificación al inicio. También puedes hacer entradas libres entre sesiones (journaling o bitácora diaria).</p>
+
+  <div class="card" id="formCard">
+    <h3 id="formTitulo">Nueva entrada</h3>
+    <label class="lbl">Tipo de entrada</label>
+    <div class="seg" id="segTipo"><button type="button" data-t="sesion" aria-pressed="true">Después de mi sesión</button><button type="button" data-t="libre" aria-pressed="false">Entrada libre</button></div>
+    <div class="g2">
+      <div><label class="lbl" for="fFecha">Fecha</label><input type="date" class="inp" id="fFecha"></div>
+      <div id="wrapN"><label class="lbl" for="fN">N.º de sesión</label><input type="number" min="1" class="inp" id="fN"></div>
+    </div>
+    <div id="wrapCal">
+      <label class="lbl">¿Qué tan útil te resultó esta sesión?</label>
+      <div class="nbs" id="fCal"></div>
+      <div class="scale-h">1 = nada útil · 10 = muy útil. Mide cómo la percibes, no un resultado de tu vida.</div>
+    </div>
+    <div id="wrapPulso" hidden>
+      <label class="lbl">Pulso de mis objetivos <span style="color:var(--gris);text-transform:none;letter-spacing:0">(opcional · cómo está hoy el área de cada objetivo)</span></label>
+      <div id="fPulso"></div>
+    </div>
+    <label class="lbl" for="fNotas">Lo que viví <span style="color:var(--gris);text-transform:none;letter-spacing:0">· privado, se queda en tu dispositivo</span></label>
+    <textarea class="txt" id="fNotas" placeholder="Lo que noté, lo que sentí, lo que me llevo…"></textarea>
+    <label class="lbl" for="fRes">Lo que quiero que Fer U sepa <span style="color:var(--gris);text-transform:none;letter-spacing:0">· resumen para compartir, sin intimidades</span></label>
+    <textarea class="txt" id="fRes" style="min-height:64px" placeholder="Una o dos líneas de lo esencial de esta sesión…"></textarea>
+    <label class="lbl" for="fAntes">Lo que quiero llevar a mi próxima sesión <span style="color:var(--gris);text-transform:none;letter-spacing:0">(opcional)</span></label>
+    <textarea class="txt" id="fAntes" style="min-height:64px"></textarea>
+    <p class="hint">Si algo te desborda, avísale a Fer U en sesión o por mensaje. Si te sientes en riesgo, llama a la Línea de la Vida: 800 911 2000 (24 h).</p>
+    <label class="lbl">Mis acuerdos y compromisos</label>
+    <div class="crow"><input class="inp" id="fComp" placeholder="Escribe un acuerdo y presiona Agregar"><select class="sel" id="fCompObj" style="max-width:240px" aria-label="Objetivo ligado" hidden></select><button class="btn" id="btnAddComp" type="button">Agregar</button></div>
+    <div class="clist" id="fComps"></div>
+    <div class="acts"><button class="btn pri" id="btnGuardar" type="button">Guardar entrada</button><button class="btn" id="btnCancel" type="button" hidden>Cancelar edición</button></div>
+  </div>
+
+  <div class="card"><h3>Mi palabra</h3><div id="palabra"></div><p class="hint" id="constancia"></p></div>
+  <div id="lista"></div>
+</div></section>
+
+<section id="radar" style="--dim:#C8993A"><div class="wrap">
+  <span class="sec-n">§3 · Mi radar · 12 áreas</span>
+  <h2>Dónde <em>estoy.</em></h2><div class="divider"></div>
+  <p class="desc">Es el mismo radar de tu Evaluación de Fracturas Raíz, pero a lo largo del tiempo: cada checkpoint se dibuja con un color distinto sobre la misma gráfica. Califica cada área del 1 al 10, como te veas hoy.</p>
+  <div class="dims" id="dims"></div>
+  <div class="cps" id="cps"></div>
+  <p class="hint">Toca un checkpoint para capturarlo o editarlo. PRE es tu punto de partida (puede venir de tu Evaluación); INICIO, MEDIO, MEDIO 2 y FINAL siguen tu programa. Usa los que necesites: de 3 a 5. Las áreas con ★ son las de tus objetivos.</p>
+  <div class="ed" id="ed" hidden>
+    <div class="ed-h"><h3 id="edT"></h3><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><label for="edF" class="lbl" style="margin:0">Fecha</label><input type="date" class="inp" id="edF" style="width:auto"><button class="btn sm danger" id="edDel" type="button">Borrar este checkpoint</button><button class="btn sm" id="edClose" type="button">Cerrar</button></div></div>
+    <div class="scale-h" id="edProg"></div>
+    <div class="areas" id="edAreas"></div>
+  </div>
+  <div class="rgrid">
+    <div><div id="radarBox"></div><div class="legend" id="legend"></div></div>
+    <div><div class="lbl" style="margin-top:0">Ruta · Calificación</div><div class="tw" id="tabla"></div>
+      <p class="hint">El punto de color es la zona de tu último checkpoint: <span style="color:var(--riesgo)">●</span> Riesgo (1–3) <span style="color:var(--desarrollo)">●</span> Desarrollo (4–6) <span style="color:var(--solidez)">●</span> Solidez (7–8) <span style="color:var(--referencia)">●</span> Referencia (9–10).</p></div>
+  </div>
+</div></section>
+
+<section id="analisis"><div class="wrap">
+  <span class="sec-n">§4 · Lo que dice tu bitácora</span>
+  <h2>Cruces y <em>espejos.</em></h2><div class="divider"></div>
+  <p class="desc">Con dos o más checkpoints completos de la dimensión que estás viendo, aquí aparecen tus avances, tus parejas de espejo y cómo se relacionan con tus sesiones y compromisos.</p>
+  <div id="an"></div>
+</div></section>
+
+<section id="enviar" class="noprint"><div class="wrap">
+  <span class="sec-n">§5 · Enviar a Fer U</span>
+  <h2>Lo que <em>comparto.</em></h2><div class="divider"></div>
+  <p class="desc">Tú eliges qué incluyes. Por defecto se comparte tu resumen, no tus notas privadas, porque pueden contener datos sensibles.</p>
+  <div class="card">
+    <div class="opts">
+      <label class="chk"><input type="checkbox" id="oObj" checked><span>Mis objetivos y su pulso</span></label>
+      <label class="chk"><input type="checkbox" id="oSes" checked><span>Mis calificaciones de sesión</span></label>
+      <label class="chk"><input type="checkbox" id="oCom" checked><span>Mi palabra (mis acuerdos y su estado)</span></label>
+      <label class="chk"><input type="checkbox" id="oRad" checked><span>Mi radar (último checkpoint de cada dimensión)</span></label>
+      <label class="chk"><input type="checkbox" id="oRes" checked><span>Mi resumen de cada sesión (“Lo que quiero que Fer U sepa”)</span></label>
+      <label class="chk"><input type="checkbox" id="oAntes" checked><span>Lo que quiero llevar a mi próxima sesión</span></label>
+      <label class="chk"><input type="checkbox" id="oNot"><span>Mis notas privadas “Lo que viví” (pueden incluir datos sensibles)</span></label>
+    </div>
+    <label class="lbl" for="prev">Vista previa</label>
+    <textarea class="prev" id="prev" readonly></textarea>
+    <div class="acts"><a class="btn pri" id="btnWa" target="_blank" rel="noopener">Enviar por WhatsApp</a><button class="btn" id="btnCopy" type="button">Copiar texto</button><button class="btn" id="btnMd" type="button">Descargar archivo (.md)</button></div>
+    <p class="hint">El archivo .md trae todo lo que marcaste y se puede enviar por WhatsApp como documento si el mensaje es muy largo.</p>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p><b>Si estás en crisis</b>, llama a la Línea de la Vida (800 911 2000, las 24 horas) o a tu número local de emergencias. Esta bitácora no es atención de crisis.</p>
+  <p>Es una herramienta de acompañamiento personal y profesional; no es un diagnóstico ni sustituye la atención médica o psicológica. Las calificaciones son autoevaluaciones: miden cómo te ves y cómo percibes tus sesiones, no un resultado objetivo.</p>
+  <p>Innovación Humana · Fer U · Bitácora de la persona · v1.0 México</p>
+</div></footer>
+
+<script>
+/* Fer U: para entregar una bitácora precargada, pega aquí el JSON de un respaldo. Déjalo en null para la plantilla vacía. */
+const SEED = null;
+
+const KEY='ih-bitacora-v1';
+const AREAS={
+ personal:['Salud Física y Energía','Relación con el Dinero / Paz Económica','Confianza en tus Propias Decisiones','Responsabilidad y Carácter','Espiritualidad y Propósito','Amor Propio y Autoestima','Comunicación','Sexualidad','Relación Familiar','Relación de Pareja','Autoexpresión','Hábitos Destructivos y Vicios'],
+ profesional:['Estabilidad Emocional bajo Presión','Seguridad y Autoridad Serena','Honorabilidad y Alineación con tu Palabra','Responsabilidad sobre tus Resultados','Claridad de Propósito y Objetivos','Gestión de tu Energía y tus Límites','Comunicación Asertiva con tu Equipo','Plan de Acción Diaria / Ejecución','Delegación Efectiva','Toma de Decisiones Estratégicas','Retorno de tu Inversión de Tiempo','Liderazgo y Retención de tu Equipo'],
+ comercial:['Postura ante el Dinero / Merecimiento','Confianza en el Valor de lo que Ofreces','Disposición Real ante el Rechazo y la Negociación','Responsabilidad sobre tus Resultados Comerciales','Claridad de tu Cliente Ideal','Dominio de tu Propuesta de Valor / Marca Personal','Estrategia de Marca y Modelo de Ventas','Prospección y Generación de Conversaciones','Reclutamiento de Talento Comercial','Cierre y Conversión','Satisfacción del Cliente y Referidos','Ingresos y Resultados de Venta']
+};
+const DIMS={personal:{l:'Personal',c:'#C8993A'},profesional:{l:'Profesional',c:'#5588CC'},comercial:{l:'Comercial',c:'#4A9F6A'}};
+const CPS=[
+ {id:'pre',l:'PRE',c:'#38BDF8',h:'Punto de partida'},
+ {id:'ini',l:'INICIO',c:'#B07CE8',h:'Al comenzar'},
+ {id:'med',l:'MEDIO',c:'#F05252',h:'A mitad del camino'},
+ {id:'med2',l:'MEDIO 2',c:'#F0A832',h:'Segundo punto medio'},
+ {id:'fin',l:'FINAL',c:'#5CD66A',h:'Cierre del programa'}
+];
+const ESP=[[0,11],[1,10],[2,9],[3,8],[4,7],[5,6]];
+const ZN=v=>v<=3?'Riesgo':v<=6?'Desarrollo':v<=8?'Solidez':'Referencia';
+const ZC={Riesgo:'#CC5555',Desarrollo:'#C8993A',Solidez:'#5588CC',Referencia:'#4A9F6A'};
+/* Zonas de "Mi palabra" (cumplimiento de acuerdos). Nombres y cortes editables aquí. */
+const ZP=[{m:40,n:'Deuda alta',c:'#CC5555'},{m:65,n:'Fractura',c:'#C8993A'},{m:85,n:'Integridad',c:'#5588CC'},{m:100,n:'Soberanía',c:'#4A9F6A'}];
+const zp=p=>p==null?null:ZP.find(z=>Math.round(p)<=z.m)||ZP[3];
+const STS={c:{l:'Cumplido',c:'#4A9F6A'},a:{l:'Pospuesto',c:'#C8993A'},n:{l:'No cumplido',c:'#CC5555'},p:{l:'Pendiente',c:'#7a7a7a'}};
+const HI_RADAR=7,HI_PALABRA=66; /* cortes "alto" del cruce radar × palabra */
+const QD={
+ hl:{n:'Fractura de Arquitectura',d:'Claridad sin coherencia: lo que ves en tu radar todavía no se refleja en tu palabra.',q:'¿Qué acuerdo, si lo cumplieras esta semana, haría visible lo que ya sabes?'},
+ lh:{n:'Potencial latente',d:'Cumples lo que prometes; la claridad de hacia dónde ir todavía se está formando.',q:'¿Qué quieres construir con la constancia que ya tienes?'},
+ hh:{n:'Soberanía activa',d:'Claridad y coherencia están caminando juntas.',q:'¿Dónde vas a poner a prueba lo que ya sostienes?'},
+ ll:{n:'Origen primero',d:'Ni la claridad ni la palabra están firmes todavía: el punto de entrada es lo más interno.',q:'¿Qué necesitas recuperar de ti antes de prometer más?'}
+};
+const WA='525643440676';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=v=>typeof v==='number'&&v>0;
+const avg=a=>{const x=a.filter(num);return x.length?x.reduce((p,c)=>p+c,0)/x.length:null;};
+const f1=v=>v==null?'–':v.toFixed(1);
+const pc=v=>v==null?'–':Math.round(v)+'%';
+const clone=o=>JSON.parse(JSON.stringify(o));
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const fmt=f=>{if(!f)return '';const d=new Date(f+'T00:00:00');return isNaN(d)?f:d.toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'});};
+const uid=()=>'e'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const q=s=>'“'+esc(s)+'”';
+const pl=(n,a,b)=>n+' '+(n===1?a:b);
+
+function blank(){return {v:2,codigo:'',modalidad:'',fractura:'',objs:[],entries:[],rad:{personal:{},profesional:{},comercial:{}},dim:'personal',cp:'ini'};}
+function normComp(c){return {id:c.id||uid(),t:String(c.t||''),st:c.st||(c.d?'c':'p'),oid:c.oid||'',from:c.from||'',re:!!c.re};}
+function norm(o){const b=blank();if(!o||typeof o!=='object')return b;
+  b.codigo=String(o.codigo||'').slice(0,16);b.modalidad=o.modalidad||'';b.fractura=String(o.fractura||'');
+  b.objs=Array.isArray(o.objs)?o.objs.slice(0,4).map(x=>({id:x.id||uid(),t:String(x.t||''),dim:DIMS[x.dim]?x.dim:'personal',ai:Math.min(11,Math.max(0,+x.ai||0))})):[];
+  b.entries=(Array.isArray(o.entries)?o.entries:[]).map(e=>({id:e.id||uid(),t:e.t==='libre'?'libre':'sesion',f:e.f||'',n:e.n||null,cal:+e.cal||0,notas:e.notas||'',res:e.res||'',antes:e.antes||'',pulso:e.pulso||{},comps:(e.comps||[]).map(normComp)}));
+  ['personal','profesional','comercial'].forEach(d=>{b.rad[d]=(o.rad&&o.rad[d])||{};});
+  b.dim=DIMS[o.dim]?o.dim:'personal';b.cp=CPS.some(c=>c.id===o.cp)?o.cp:'ini';return b;}
+let S=blank(),EJ=false,edId=null,edOpen=false;
+let draft={t:'sesion',cal:0,comps:[],pulso:{}};
+
+function save(){if(EJ)return;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){$('#stNote').hidden=false;}}
+function loadStore(){try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r);}catch(e){}return null;}
+
+/* ---------- ejemplo (datos ficticios) ---------- */
+function mkEjemplo(){
+  const iso=(m,d)=>new Date(Date.UTC(2026,m,d)).toISOString().slice(0,10);
+  const o1='o1',o2='o2',o3='o3';
+  const objs=[{id:o1,t:'Recuperar energía y rutinas que me sostengan',dim:'personal',ai:0},{id:o2,t:'Decir lo que pienso sin sentir culpa',dim:'personal',ai:6},{id:o3,t:'Delegar con confianza',dim:'profesional',ai:8}];
+  const notas=['Me costó empezar, pero nombrar lo que me detiene me aligeró.','Noté que pospongo las conversaciones difíciles.','Hablé con más claridad con mi equipo.','Semana pesada; aun así cumplí lo esencial.','Descansé mejor esta semana.','Me sorprendió lo que dije sobre mi forma de cobrar.','Empiezo a confiar más en mis decisiones.','Dije que no a algo sin sentir culpa.','Retomé una conversación pendiente.','Me siento más presente en lo que hago.','Veo con claridad lo que sigue.','Cierro con gratitud y con tareas claras.'];
+  const res=['Primera sesión: nombramos lo que me detiene.','Identifiqué mi patrón de posponer conversaciones.','Mejor comunicación en el equipo.','Semana pesada, cumplí lo esencial.','Mejor descanso.','Hablé de mi forma de cobrar.','Más confianza al decidir.','Aprendí a decir que no.','Retomé una conversación pendiente.','Más presencia.','Claridad de lo que sigue.','Cierre del programa.'];
+  const antes=['Quiero hablar de cómo delegar.','','Quiero revisar mi rutina de descanso.','','Quiero entender por qué se me atora un acuerdo.','','','Quiero practicar una conversación difícil.','','','Quiero definir mi siguiente etapa.',''];
+  const cal=[7,8,8,7,9,8,9,9,8,9,9,9];
+  const pool=[['Caminar 20 minutos, 4 días',o1],['Apagar el celular a las 10 pm',o1],['Tener la conversación pendiente',o2],['Delegar un pendiente de mi semana',o3],['Escribir tres líneas cada noche',o2],['Pedir la cita que vengo posponiendo',o3]];
+  const pul={o1:[4,4,5,5,6,6,7,7,7,8,8,8],o2:[4,4,4,5,5,6,6,7,7,7,8,8],o3:[3,3,4,4,4,5,5,6,6,7,7,7]};
+  const entries=cal.map((c,i)=>{
+    const comps=[0,1].map(k=>{const [t,oid]=pool[(i*2+k)%6];const ix=i*2+k;let st=(ix===3)?'a':(ix===6)?'n':'c';if(i===11)st='p';return {id:`c${i}-${k}`,t,st,oid,from:'',re:false};});
+    return {id:'ej'+i,t:'sesion',f:iso(6,21+7*i),n:i+1,cal:c,notas:notas[i],res:res[i],antes:antes[i]||'',pulso:{o1:pul.o1[i],o2:pul.o2[i],o3:pul.o3[i]},comps};});
+  /* un acuerdo que se pospone 3 ciclos seguidos */
+  entries[6].comps[0]={id:'x6',t:'Pedir la cita que vengo posponiendo',st:'a',oid:o3,from:'',re:true};
+  entries[7].comps[0]={id:'x7',t:'Pedir la cita que vengo posponiendo',st:'a',oid:o3,from:'x6',re:true};
+  entries[8].comps[0]={id:'x8',t:'Pedir la cita que vengo posponiendo',st:'a',oid:o3,from:'x7',re:false};
+  entries.push({id:'ejL',t:'libre',f:iso(8,2),n:null,cal:0,notas:'Entrada libre: hoy sentí que mi energía volvió a un ritmo que puedo sostener.',res:'',antes:'',pulso:{},comps:[]});
+  const R=(f,p,pr,co)=>({personal:{f,s:p},profesional:{f,s:pr},comercial:{f,s:co}});
+  const pre=R(iso(6,14),[6,5,4,6,3,3,5,4,6,5,4,2],[4,5,6,6,4,3,5,4,3,4,3,5],[3,5,4,6,4,4,3,3,2,5,4,4]);
+  const ini=R(iso(6,21),[6,5,5,6,4,4,5,5,6,5,5,3],[5,5,6,6,5,4,5,4,4,4,4,5],[4,5,5,6,5,4,4,3,3,5,4,4]);
+  const med=R(iso(7,25),[7,6,7,7,6,6,6,6,7,6,6,5],[6,6,7,7,6,6,6,6,5,6,5,6],[5,6,6,7,6,6,5,5,4,6,5,5]);
+  const fin=R(iso(9,13),[8,7,8,8,8,8,7,7,8,7,8,8],[7,8,8,8,8,7,7,8,7,7,6,7],[7,7,8,8,7,7,7,7,6,7,7,7]);
+  const rad={personal:{},profesional:{},comercial:{}};
+  [['pre',pre],['ini',ini],['med',med],['fin',fin]].forEach(([id,r])=>{['personal','profesional','comercial'].forEach(d=>{rad[d][id]=r[d];});});
+  return {v:2,codigo:'IH-EJEMPLO',modalidad:'Reinvención Básica',fractura:'Hago por todos y dejo mis propias decisiones para después.',objs,entries,rad,dim:'personal',cp:'med'};
+}
+
+/* ---------- cálculos ---------- */
+const complete=c=>c&&Array.isArray(c.s)&&c.s.length===12&&c.s.every(num);
+function cpsOf(dim){return CPS.filter(c=>complete(S.rad[dim][c.id])).map(c=>({...c,f:S.rad[dim][c.id].f||'',s:S.rad[dim][c.id].s,a:avg(S.rad[dim][c.id].s)}));}
+function sesiones(){return S.entries.filter(e=>e.t==='sesion'&&num(e.cal));}
+function pal(list){let c=0,a=0,n=0,p=0;list.forEach(e=>(e.comps||[]).forEach(k=>{if(k.st==='c')c++;else if(k.st==='a')a++;else if(k.st==='n')n++;else p++;}));const cl=c+a+n;return {c,a,n,p,cl,t:cl+p,pct:cl?100*c/cl:null};}
+function chron(){return [...S.entries].sort((a,b)=>(a.f||'').localeCompare(b.f||'')||((a.n||0)-(b.n||0)));}
+function sortedEntries(){return chron().reverse();}
+function trend(){return chron().map(e=>({e,p:pal([e])})).filter(x=>x.p.cl>0).map(x=>({f:x.e.f,n:x.e.n,pct:x.p.pct}));}
+function stuck(){
+  const all=[];S.entries.forEach(e=>e.comps.forEach(c=>all.push(c)));
+  const map={},hasChild={};all.forEach(c=>{map[c.id]=c;if(c.from)hasChild[c.from]=true;});
+  return all.filter(c=>(c.st==='a'||c.st==='n')&&!hasChild[c.id]).map(c=>{let d=1,x=c;while(x.from&&map[x.from]&&(map[x.from].st==='a'||map[x.from].st==='n')){d++;x=map[x.from];}return {c,d};}).filter(x=>x.d>=3);
+}
+function objOf(id){return S.objs.find(o=>o.id===id);}
+function areaName(o){return AREAS[o.dim][o.ai];}
+
+/* ---------- render ---------- */
+function renderStats(){
+  const ses=sesiones(),p=pal(S.entries),z=zp(p.pct);
+  const nCp=Math.max(0,...['personal','profesional','comercial'].map(d=>cpsOf(d).length));
+  $('#stats').innerHTML=[[ses.length,'Sesiones',''],[f1(avg(ses.map(e=>e.cal))),'Utilidad promedio',''],[pc(p.pct),'Mi palabra',z?z.c:''],[nCp,'Checkpoints','']]
+    .map(([v,l,c])=>`<div class="stat"><b${c?` style="color:${c}"`:''}>${v}</b><span>${l}</span></div>`).join('');
+}
+function renderCarta(){
+  $('#fractura').value!==S.fractura&&($('#fractura').value=S.fractura||'');
+  const dimOpts=(sel)=>Object.keys(DIMS).map(k=>`<option value="${k}" ${k===sel?'selected':''}>${DIMS[k].l}</option>`).join('');
+  $('#objs').innerHTML=S.objs.length?S.objs.map((o,i)=>`<div class="ob-row" data-o="${esc(o.id)}"><input class="inp ob-t" placeholder="Objetivo ${i+1}" value="${esc(o.t)}" maxlength="160" aria-label="Objetivo ${i+1}">
+    <select class="sel ob-d" aria-label="Dimensión">${dimOpts(o.dim)}</select>
+    <select class="sel ob-a" aria-label="Área de mi radar">${AREAS[o.dim].map((t,k)=>`<option value="${k}" ${k===o.ai?'selected':''}>${String(k+1).padStart(2,'0')} · ${esc(t)}</option>`).join('')}</select>
+    <button class="btn sm danger ob-x" type="button" aria-label="Quitar objetivo">×</button></div>`).join(''):'<div class="empty">Aún no hay objetivos. Agrega los de tu Carta Compromiso: cada uno se liga a un área de tu radar.</div>';
+  $('#btnObj').hidden=S.objs.length>=4;
+}
+function renderForm(){
+  $('#segTipo').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===draft.t));
+  $('#wrapCal').hidden=draft.t!=='sesion';$('#wrapN').hidden=draft.t!=='sesion';
+  $('#fCal').innerHTML=Array.from({length:10},(_,i)=>`<button type="button" class="nb" data-v="${i+1}" aria-pressed="${draft.cal===i+1}" aria-label="Calificación ${i+1}">${i+1}</button>`).join('');
+  $('#wrapPulso').hidden=!S.objs.length||draft.t!=='sesion';
+  $('#fPulso').innerHTML=S.objs.map(o=>`<div class="area"><div class="at"><i style="color:${DIMS[o.dim].c}">★</i>${esc(o.t||'Objetivo')} <span style="color:var(--gris)">· ${esc(areaName(o))}</span></div><div class="nbs">${Array.from({length:10},(_,k)=>`<button type="button" class="nb" style="--c:${DIMS[o.dim].c}" data-o="${esc(o.id)}" data-v="${k+1}" aria-pressed="${draft.pulso[o.id]===k+1}" aria-label="${esc(o.t)}: ${k+1}">${k+1}</button>`).join('')}</div></div>`).join('');
+  $('#fCompObj').innerHTML='<option value="">Sin objetivo ligado</option>'+S.objs.map(o=>`<option value="${esc(o.id)}">${esc((o.t||'Objetivo').slice(0,38))}</option>`).join('');
+  $('#fCompObj').hidden=!S.objs.length;
+  $('#fComps').innerHTML=draft.comps.map((c,i)=>`<div class="citem"><span>${esc(c.t)}</span>${c.from?'<em style="font-size:11px;font-family:var(--mono);font-style:normal;color:var(--desarrollo)">re-acuerdo</em>':''}${c.oid&&objOf(c.oid)?`<span class="chip">★ ${esc(areaName(objOf(c.oid)))}</span>`:''}<button class="x" type="button" data-i="${i}" aria-label="Quitar">×</button></div>`).join('');
+  $('#formTitulo').textContent=edId?'Editar entrada':'Nueva entrada';
+  $('#btnCancel').hidden=!edId;$('#btnGuardar').textContent=edId?'Guardar cambios':'Guardar entrada';
+}
+function resetDraft(){edId=null;draft={t:'sesion',cal:0,comps:[],pulso:{}};$('#fFecha').value=today();
+  const ns=S.entries.filter(e=>e.t==='sesion').map(e=>e.n||0);$('#fN').value=(ns.length?Math.max(...ns):0)+1;
+  ['#fNotas','#fRes','#fAntes','#fComp'].forEach(s=>$(s).value='');renderForm();}
+function renderConstancia(){
+  const ch=chron().filter(e=>e.f);if(!ch.length){$('#constancia').textContent='';return;}
+  const n=ch.length,d0=new Date(ch[0].f+'T00:00:00'),d1=new Date(ch[n-1].f+'T00:00:00');
+  const sem=Math.max(1,Math.round((d1-d0)/6048e5)+1);
+  let t=`${n} ${n===1?'entrada':'entradas'} en ${sem} ${sem===1?'semana':'semanas'}`;
+  if(!EJ){const dias=Math.round((new Date(today()+'T00:00:00')-d1)/864e5);t+=` · última hace ${dias} ${dias===1?'día':'días'}`;}
+  $('#constancia').textContent=t+'. Tu constancia también es un dato: se registra, no se juzga.';
+}
+function renderPalabra(){
+  const p=pal(S.entries),z=zp(p.pct),tr=trend(),st=stuck();
+  if(!p.t){$('#palabra').innerHTML='<p class="desc">Todavía no hay acuerdos. Se registran en cada entrada y se cierran con un color: cumplido, pospuesto o no cumplido.</p>';return;}
+  const seg=(n,c)=>n?`<i style="flex:${n};background:${c}" title="${n}"></i>`:'';
+  let h=`<div class="pal-top"><div class="pal-n" style="color:${z?z.c:'var(--gris)'}">${pc(p.pct)}</div><div><div class="pal-z" style="color:${z?z.c:'var(--gris)'}">${z?z.n:'Sin acuerdos cerrados todavía'}</div>
+    <div class="desc" style="font-size:13px">${pl(p.c,'cumplido','cumplidos')} · ${pl(p.a,'pospuesto','pospuestos')} · ${pl(p.n,'no cumplido','no cumplidos')}${p.p?` · ${pl(p.p,'pendiente','pendientes')}`:''}</div></div></div>
+    <div class="stack">${seg(p.c,STS.c.c)}${seg(p.a,STS.a.c)}${seg(p.n,STS.n.c)}${seg(p.p,STS.p.c)}</div>
+    <p class="hint">Mi palabra = acuerdos cumplidos ÷ acuerdos cerrados. Pospuesto no es abandono: sigue vivo y se puede re-acordar sin deuda. Marca el estado de cada acuerdo en tus entradas.</p>`;
+  if(tr.length>1)h+=`<div class="lbl">Entrada por entrada</div><div class="tbars">${tr.map(x=>`<div class="tb" title="${fmt(x.f)} · ${Math.round(x.pct)}%"><i style="height:${Math.max(4,x.pct)}%;background:${zp(x.pct).c}"></i><span>${x.n||''}</span></div>`).join('')}</div>`;
+  if(tr.length>=3){const a=tr[tr.length-3].pct,b=tr[tr.length-1].pct;if(a-b>=10)h+=`<div class="alert"><b>Señal para nombrar:</b> tu palabra bajó ${Math.round(a-b)} puntos en tres entradas (${Math.round(a)}% → ${Math.round(b)}%). Llévalo a tu próxima sesión.</div>`;}
+  st.forEach(x=>{h+=`<div class="alert"><b>Acuerdo atorado:</b> ${q(x.c.t)} lleva ${x.d} ciclos sin cumplirse. ¿Sigue siendo tuyo?</div>`;});
+  $('#palabra').innerHTML=h;
+}
+function renderLista(){
+  const L=sortedEntries();
+  if(!L.length){$('#lista').innerHTML='<div class="empty">Todavía no hay entradas. Después de tu próxima sesión, registra la primera arriba.</div>';return;}
+  $('#lista').innerHTML=L.map(e=>{
+    const z=num(e.cal)?ZC[ZN(e.cal)]:'var(--gris)';
+    const titulo=e.t==='sesion'?`Sesión ${e.n||''}`:'Entrada libre';
+    return `<article class="entry"><div><h4>${titulo}</h4><div class="meta">${fmt(e.f)}</div></div>
+      ${num(e.cal)?`<div class="rate"><b style="color:${z}">${e.cal}</b><span>de 10 · utilidad</span></div>`:''}
+      <div class="body">${e.notas?`<div class="nt"><span class="tag">Privado</span>${esc(e.notas)}</div>`:''}${e.res?`<div class="nt"><span class="tag tg">Para compartir</span>${esc(e.res)}</div>`:''}${e.antes?`<div class="nt"><span class="tag tg">Para mi próxima sesión</span>${esc(e.antes)}</div>`:''}
+      ${(e.comps||[]).map((c,i)=>`<div class="cmp"><span class="ct ${c.st}">${esc(c.t)}</span>${c.oid&&objOf(c.oid)?`<span class="chip">★ ${esc(areaName(objOf(c.oid)))}</span>`:''}<div class="sts noprint-x">${['c','a','n'].map(s=>`<button type="button" class="stb" style="--sc:${STS[s].c}" data-e="${esc(e.id)}" data-i="${i}" data-s="${s}" aria-pressed="${c.st===s}">${STS[s].l}</button>`).join('')}${(c.st==='a'||c.st==='n')&&!c.re?`<button type="button" class="stb re noprint" data-re="${esc(c.id)}">Re-acordar</button>`:''}</div></div>`).join('')}
+      <div class="ea noprint"><button class="btn sm" type="button" data-ed="${esc(e.id)}">Editar</button><button class="btn sm danger" type="button" data-del="${esc(e.id)}">Eliminar</button></div></div></article>`;}).join('');
+}
+
+/* radar */
+function pt(i,v,R,cx,cy){const a=-Math.PI/2+i*Math.PI/6;return [cx+R*v/10*Math.cos(a),cy+R*v/10*Math.sin(a)];}
+function radarSVG(dim){
+  const cx=210,cy=205,R=150;let g='';
+  [2,4,6,8,10].forEach(r=>{g+=`<polygon points="${Array.from({length:12},(_,i)=>pt(i,r,R,cx,cy).join(',')).join(' ')}" fill="none" stroke="#2f2f35" stroke-width="1"/>`;});
+  const objAreas=S.objs.filter(o=>o.dim===dim).map(o=>o.ai);
+  for(let i=0;i<12;i++){const [x,y]=pt(i,10,R,cx,cy),[lx,ly]=pt(i,11.7,R,cx,cy);const isO=objAreas.includes(i);
+    g+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${isO?'#6b5a2a':'#2f2f35'}"/><text x="${lx}" y="${ly+4}" text-anchor="middle" font-size="11" fill="${isO?'#E8C97A':'#8a8a8a'}" font-family="JetBrains Mono,monospace">${isO?'★':''}${i+1}</text>`;}
+  const cs=cpsOf(dim);
+  cs.forEach(c=>{const p=c.s.map((v,i)=>pt(i,v,R,cx,cy).join(',')).join(' ');
+    g+=`<polygon points="${p}" fill="${c.c}" fill-opacity=".06" stroke="${c.c}" stroke-width="2.6" stroke-linejoin="round"/>`;
+    c.s.forEach((v,i)=>{const [x,y]=pt(i,v,R,cx,cy);g+=`<circle cx="${x}" cy="${y}" r="3" fill="${c.c}"/>`;});});
+  if(!cs.length)g+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="12" fill="#6a6a6a" font-family="Montserrat,sans-serif">Captura tu primer checkpoint</text>`;
+  return `<svg class="rsvg" viewBox="0 0 420 410" role="img" aria-label="Radar de 12 áreas, dimensión ${DIMS[dim].l}">${g}</svg>`;
+}
+function renderRadar(){
+  const dim=S.dim;$('#radar').style.setProperty('--dim',DIMS[dim].c);
+  $('#dims').innerHTML=Object.keys(DIMS).map(k=>`<button type="button" class="dimb" data-d="${k}" style="--dc:${DIMS[k].c}" aria-pressed="${k===dim}"><small>Dimensión</small><b>${DIMS[k].l}</b><div class="cta">${k===dim?'● Estás viendo':'Ver →'}</div></button>`).join('');
+  $('#cps').innerHTML=CPS.map(c=>{const d=S.rad[dim][c.id];const n=d&&d.s?d.s.filter(num).length:0;const st=n===12?fmt(d.f)||'Completo':n?`${n}/12 áreas`:'Sin datos';
+    return `<button type="button" class="cp ${n?'on':''}" data-c="${c.id}" style="--cc:${c.c}" aria-pressed="${edOpen&&S.cp===c.id}"><b>${c.l}</b><span>${st}</span></button>`;}).join('');
+  $('#radarBox').innerHTML=radarSVG(dim);
+  const cs=cpsOf(dim);
+  $('#legend').innerHTML=cs.length?`<div class="lbl" style="margin:6px 0 2px">Promedio</div>`+cs.map(c=>`<div class="leg"><b style="color:${c.c}">${f1(c.a)}</b><span style="color:${c.c}">${c.l}</span><em>${fmt(c.f)}</em></div>`).join(''):'';
+  const last=cs[cs.length-1],first=cs[0];
+  const objAreas=S.objs.filter(o=>o.dim===dim).map(o=>o.ai);
+  let h=`<table><thead><tr><th>#</th><th>Área</th>${cs.map(c=>`<th class="v" style="color:${c.c}">${c.l}</th>`).join('')}${cs.length>1?'<th class="v">Δ</th>':''}</tr></thead><tbody>`;
+  AREAS[dim].forEach((t,i)=>{
+    const z=last?`<span class="zd" style="background:${ZC[ZN(last.s[i])]}"></span>`:'<span class="zd" style="background:#333"></span>';
+    const d=cs.length>1?last.s[i]-first.s[i]:0;
+    h+=`<tr><td style="font-family:var(--mono);color:var(--gris)">${String(i+1).padStart(2,'0')}</td><td>${z}${objAreas.includes(i)?'<span style="color:var(--oro-vivo)">★ </span>':''}${esc(t)}</td>${cs.map(c=>`<td class="v" style="color:${c.c}">${c.s[i]}</td>`).join('')}${cs.length>1?`<td class="v dl ${d>0?'up':d<0?'dn':'eq'}">${d>0?'+':''}${d}</td>`:''}</tr>`;});
+  $('#tabla').innerHTML=h+'</tbody></table>';
+  renderEditor();
+}
+function renderEditor(){
+  const ed=$('#ed');ed.hidden=!edOpen;if(!edOpen)return;
+  const c=CPS.find(x=>x.id===S.cp),dim=S.dim;const d=S.rad[dim][c.id]||{f:'',s:[]};
+  $('#edT').innerHTML=`Capturando <i style="color:${c.c}">${c.l}</i> · ${DIMS[dim].l}`;
+  if($('#edF').value!==(d.f||''))$('#edF').value=d.f||'';
+  $('#edProg').textContent=`${(d.s||[]).filter(num).length} de 12 áreas calificadas. El checkpoint aparece en la gráfica cuando están las 12.`;
+  $('#edAreas').innerHTML=AREAS[dim].map((t,i)=>`<div class="area"><div class="at"><i>${String(i+1).padStart(2,'0')}</i>${esc(t)}</div><div class="nbs">${Array.from({length:10},(_,k)=>`<button type="button" class="nb" style="--c:${c.c}" data-i="${i}" data-v="${k+1}" aria-pressed="${(d.s||[])[i]===k+1}" aria-label="${esc(t)}: ${k+1}">${k+1}</button>`).join('')}</div></div>`).join('');
+}
+
+/* sparkline */
+function spark(vals,color){const v=vals.filter(x=>x!=null);if(v.length<2)return '<span style="color:var(--gris);font-size:11px">–</span>';
+  const W=110,H=30,n=vals.length;const pts=vals.map((x,i)=>x==null?null:[4+i*(W-8)/Math.max(1,n-1),H-4-(x-1)*(H-8)/9]).filter(Boolean);
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round"/>${pts.length?`<circle cx="${pts[pts.length-1][0]}" cy="${pts[pts.length-1][1]}" r="3" fill="${color}"/>`:''}</svg>`;}
+
+/* análisis */
+function intervalEntries(a,b,lastIv){return S.entries.filter(e=>e.f&&e.f>=a.f&&(lastIv?e.f<=b.f:e.f<b.f));}
+function renderAn(){
+  const dim=S.dim,cs=cpsOf(dim),box=$('#an'),P=pal(S.entries);
+  let h=`<div class="lbl" style="margin-top:22px;color:${DIMS[dim].c}">Dimensión ${DIMS[dim].l} · cámbiala en §3</div>`;
+  const obs=[],pr=[];
+  const first=cs[0],last=cs[cs.length-1];
+  /* --- radar (≥2 checkpoints) --- */
+  if(cs.length<2){h+=`<div class="empty">Con un solo checkpoint completo todavía no hay comparación del radar. Captura al menos dos en §3 (${cs.length} de 2 por ahora).</div>`;}
+  else{
+    const ser=c=>avg(c.s.slice(0,6)),ruta=c=>avg(c.s.slice(6));
+    const deltas=AREAS[dim].map((t,i)=>({i,t,d:last.s[i]-first.s[i]}));
+    const asc=[...deltas].sort((a,b)=>a.d-b.d),desc=[...deltas].sort((a,b)=>b.d-a.d);
+    const fr=c=>ESP.filter(([a,b])=>Math.abs(c.s[a]-c.s[b])>=3);
+    h+=`<div class="acard">${cs.map(c=>`<div class="m" style="--cc:${c.c}"><b>${f1(c.a)}</b><span>${c.l}</span><small>${fmt(c.f)}</small></div>`).join('')}<div class="m"><b>${last.a-first.a>=0?'+':''}${f1(last.a-first.a)}</b><span>${first.l} → ${last.l}</span><small>tu cambio contra ti</small></div></div>`;
+    h+=`<div class="card"><h3>El Ser y La Ruta</h3><p class="desc">Áreas 1 a 6 (arquitectura interna) frente a 7 a 12 (cómo se manifiesta hacia afuera).</p><div class="bars">`+cs.map(c=>`<div class="bar"><span style="color:${c.c}">${c.l}</span><div class="t"><i style="width:${ser(c)*10}%;background:${c.c};height:4px"></i><i style="top:4px;width:${ruta(c)*10}%;background:${c.c};opacity:.55;height:4px"></i></div><span>${f1(ser(c))} · ${f1(ruta(c))}</span></div>`).join('')+`</div><p class="hint">Barra de arriba: El Ser. Barra de abajo: La Ruta.</p></div>`;
+    const li=a=>a.slice(0,3).map(x=>`<li><span>${String(x.i+1).padStart(2,'0')} · ${esc(x.t)}</span><b class="dl ${x.d>0?'up':x.d<0?'dn':'eq'}">${x.d>0?'+':''}${x.d}</b></li>`).join('');
+    h+=`<div class="two"><div class="card"><h3>Mayor avance</h3><ul class="cl">${li(desc)}</ul></div><div class="card"><h3>Menor avance</h3><ul class="cl">${li(asc)}</ul></div></div>`;
+    h+=`<div class="card"><h3>Parejas de espejo</h3><p class="desc">Cada pareja une un área de El Ser con una de La Ruta. Una brecha de 3 puntos o más marca una fractura de espejo.</p><div class="tw"><table><thead><tr><th>Pareja</th>${cs.map(c=>`<th class="v" style="color:${c.c}">${c.l}</th>`).join('')}</tr></thead><tbody>`+
+      ESP.map(([a,b])=>`<tr><td>${String(a+1).padStart(2,'0')} ↔ ${String(b+1).padStart(2,'0')}<br><span style="font-size:11px;color:var(--gris)">${esc(AREAS[dim][a])} · ${esc(AREAS[dim][b])}</span></td>${cs.map(c=>{const g=Math.abs(c.s[a]-c.s[b]);return `<td class="v" style="color:${g>=3?'#e07a7a':'var(--gris-claro)'}">${g}${g>=3?' ●':''}</td>`;}).join('')}</tr>`).join('')+`</tbody></table></div></div>`;
+    const top=desc[0],low=asc[0],fF=fr(first),fL=fr(last);
+    obs.push(`Tu promedio pasó de <b>${f1(first.a)}</b> (${first.l}) a <b>${f1(last.a)}</b> (${last.l}): se compara contigo, no con nadie más.`,
+      `El Ser: ${f1(ser(first))} → ${f1(ser(last))}. La Ruta: ${f1(ruta(first))} → ${f1(ruta(last))}.`,
+      `Mayor avance: ${q(top.t)} (${top.d>0?'+':''}${top.d}). Menor avance: ${q(low.t)} (${low.d>0?'+':''}${low.d}).`,
+      `Parejas con fractura de espejo: ${fF.length} en ${first.l} y ${fL.length} en ${last.l}.`);
+    pr.push(`¿Qué hizo posible que ${q(top.t)} avanzara?`,`¿Qué necesita ${q(low.t)} que todavía no le has dado?`);
+    if(fL.length){const [a,b]=fL[0];pr.push(`¿Por qué ${q(AREAS[dim][a])} y ${q(AREAS[dim][b])} siguen yendo por caminos distintos?`);}
+    else if(fF.length){const [a,b]=fF[0];pr.push(`¿Qué cambió para que ${q(AREAS[dim][a])} y ${q(AREAS[dim][b])} volvieran a caminar juntas?`);}
+  }
+  /* --- objetivos de la Carta --- */
+  if(S.objs.length){
+    const ents=chron();
+    h+=`<div class="card"><h3>Mis objetivos</h3><p class="desc">Cada objetivo de tu Carta, ligado a un área de tu radar: el pulso de cada sesión, el radar por checkpoint y el cumplimiento de los acuerdos que lo sostienen.</p><div class="tw"><table><thead><tr><th>Objetivo · área</th><th>Pulso por sesión</th><th class="v">Radar</th><th class="v">Mi palabra</th></tr></thead><tbody>`;
+    S.objs.forEach(o=>{
+      const pv=ents.filter(e=>e.t==='sesion').map(e=>e.pulso&&num(e.pulso[o.id])?e.pulso[o.id]:null);
+      const lastP=[...pv].reverse().find(x=>x!=null);
+      const cc=cpsOf(o.dim),rv=cc.map(c=>`<span style="color:${c.c}">${c.s[o.ai]}</span>`).join(' → ');
+      const dR=cc.length>1?cc[cc.length-1].s[o.ai]-cc[0].s[o.ai]:null;
+      const pl=pal(S.entries.map(e=>({comps:e.comps.filter(k=>k.oid===o.id)})));
+      h+=`<tr><td>${esc(o.t||'Objetivo')}<br><span style="font-size:11px;color:var(--gris)">${esc(areaName(o))} · ${DIMS[o.dim].l}</span></td><td>${spark(pv,DIMS[o.dim].c)}${lastP?`<span style="font-family:var(--mono);margin-left:6px">${lastP}</span>`:''}</td><td class="v" style="white-space:nowrap">${rv||'–'}${dR!=null?` <span class="dl ${dR>0?'up':dR<0?'dn':'eq'}">(${dR>0?'+':''}${dR})</span>`:''}</td><td class="v">${pl.cl?`<span style="color:${zp(pl.pct).c}">${pc(pl.pct)}</span><span style="color:var(--gris);font-weight:300"> (${pl.c}/${pl.cl})</span>`:'–'}</td></tr>`;});
+    h+=`</tbody></table></div></div>`;
+    const lag=S.objs.map(o=>({o,pl:pal(S.entries.map(e=>({comps:e.comps.filter(k=>k.oid===o.id)})))})).filter(x=>x.pl.cl>=2).sort((a,b)=>a.pl.pct-b.pl.pct)[0];
+    if(lag&&lag.pl.pct<66){obs.push(`El objetivo ${q(lag.o.t)} es el que tiene menos acuerdos cumplidos (${pc(lag.pl.pct)}).`);pr.push(`¿Qué acuerdo de ${q(lag.o.t)} se siente más pesado de cumplir, y por qué?`);}
+  }
+  /* --- mi palabra --- */
+  if(P.cl){
+    const z=zp(P.pct);
+    obs.push(`Mi palabra: <b>${pc(P.pct)}</b> (${z.n}): ${pl(P.c,'cumplido','cumplidos')}, ${pl(P.a,'pospuesto','pospuestos')}, ${pl(P.n,'no cumplido','no cumplidos')}.`);
+    const tr=trend();if(tr.length>=3){const a=tr[tr.length-3].pct,b=tr[tr.length-1].pct;if(a-b>=10){obs.push(`Mi palabra bajó ${Math.round(a-b)} puntos en tres entradas.`);pr.push('¿Qué cambió en tu semana cuando los acuerdos empezaron a moverse?');}}
+    stuck().forEach(x=>{obs.push(`El acuerdo ${q(x.c.t)} lleva ${x.d} ciclos sin cumplirse.`);pr.push(`¿Sigue siendo tuyo ${q(x.c.t)}? ¿Qué lo haría posible, o qué lo haría soltarlo?`);});
+  }
+  /* --- radar × palabra con movimiento --- */
+  if(cs.length>=1&&P.cl){
+    const path=[];
+    for(let k=1;k<cs.length;k++){const a=cs[k-1],b=cs[k];if(!a.f||!b.f)continue;const pl=pal(intervalEntries(a,b,k===cs.length-1));if(!pl.cl)continue;path.push({a,b,r:b.a,p:pl.pct,qd:(b.a>=HI_RADAR?'h':'l')+(pl.pct>=HI_PALABRA?'h':'l')});}
+    const cur=path.length?path[path.length-1]:{r:last.a,p:P.pct,qd:(last.a>=HI_RADAR?'h':'l')+(P.pct>=HI_PALABRA?'h':'l'),a:null,b:last};
+    const Q=QD[cur.qd];
+    h+=`<div class="card"><h3>Mi radar × mi palabra</h3><p class="desc">Cruzo qué tan claro está tu radar (promedio ≥ ${HI_RADAR}) con qué tanto cumples lo que prometes (≥ ${HI_PALABRA}%). Los cuadrantes no son veredictos: <b style="color:var(--oro-vivo)">lo importante es hacia dónde te mueves.</b></p>
+      <div class="obs" style="margin-top:12px"><h4>Hoy · ${f1(cur.r)} de radar · ${pc(cur.p)} de palabra</h4><p><b style="color:var(--oro-vivo);font-size:15px">${Q.n}</b><br>${Q.d}</p><h4>Pregunta</h4><p>${Q.q}</p></div>
+      ${path.length>1?`<p class="hint" style="margin-top:12px">Movimiento: ${path.map(x=>`<span style="color:${x.b.c}">${x.b.l}</span> ${QD[x.qd].n}`).join(' → ')}</p>`:''}</div>`;
+    pr.push(Q.q);
+  }
+  /* --- entre mis horizontes --- */
+  const dd=Object.keys(DIMS).map(d=>{const c=cpsOf(d);return c.length?{d,a:c[c.length-1].a,l:c[c.length-1].l}:null;}).filter(Boolean);
+  if(dd.length>=2){const sd=[...dd].sort((a,b)=>b.a-a.a),hi=sd[0],lo=sd[sd.length-1];
+    h+=`<div class="card"><h3>Entre mis horizontes</h3><div class="bars">${dd.map(x=>`<div class="bar"><span style="color:${DIMS[x.d].c}">${DIMS[x.d].l}</span><div class="t"><i style="width:${x.a*10}%;background:${DIMS[x.d].c}"></i></div><span>${f1(x.a)} · ${x.l}</span></div>`).join('')}</div></div>`;
+    if(hi.a-lo.a>=1.5){obs.push(`Mi horizonte más alto es ${DIMS[hi.d].l} (${f1(hi.a)}) y el más bajo, ${DIMS[lo.d].l} (${f1(lo.a)}).`);pr.push(`¿Qué de lo que ya sostienes en ${DIMS[hi.d].l} todavía no cruza hacia ${DIMS[lo.d].l}?`);}}
+  /* --- cruce con sesiones --- */
+  if(cs.length>=2){
+    let rows='';
+    for(let k=1;k<cs.length;k++){const a=cs[k-1],b=cs[k];
+      if(!a.f||!b.f){rows+=`<tr><td>${a.l} → ${b.l}</td><td class="v" colspan="3" style="color:var(--gris)">Agrega las fechas de ambos checkpoints para cruzar</td></tr>`;continue;}
+      const inr=intervalEntries(a,b,k===cs.length-1),ses=inr.filter(e=>e.t==='sesion'&&num(e.cal)),cc=pal(inr),dA=b.a-a.a;
+      rows+=`<tr><td><span style="color:${a.c}">${a.l}</span> → <span style="color:${b.c}">${b.l}</span></td><td class="v">${ses.length?f1(avg(ses.map(e=>e.cal))):'–'}<span style="color:var(--gris);font-weight:300"> (${ses.length})</span></td><td class="v">${cc.cl?`<span style="color:${zp(cc.pct).c}">${pc(cc.pct)}</span>`:'–'}<span style="color:var(--gris);font-weight:300"> (${cc.c}/${cc.cl})</span></td><td class="v dl ${dA>0?'up':dA<0?'dn':'eq'}">${dA>0?'+':''}${f1(dA)}</td></tr>`;}
+    h+=`<div class="card"><h3>Cruce con tus sesiones y tu palabra</h3><p class="desc">Entre cada par de checkpoints: cómo calificaste tus sesiones, cuánto cumpliste y cuánto se movió el promedio de tu radar.</p><div class="tw"><table><thead><tr><th>Tramo</th><th class="v">Utilidad prom. (sesiones)</th><th class="v">Mi palabra</th><th class="v">Δ radar</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  }
+  h+=`<div class="obs"><h4>Observado</h4><ul>${obs.map(x=>`<li>${x}</li>`).join('')||'<li>Aún no hay suficiente información para observar.</li>'}</ul><h4>Preguntas para tu sesión</h4><ul>${[...new Set(pr)].map(x=>`<li>${x}</li>`).join('')||'<li>Se generan al registrar checkpoints y acuerdos.</li>'}</ul><h4>Lo que no se puede concluir</h4><p>Son autoevaluaciones: miden cómo te ves tú y cómo percibes tus sesiones, no un resultado objetivo ni un diagnóstico. Con 3 a 5 checkpoints, los cruces muestran coincidencias, no causas. Los cuadrantes y las zonas son puntos de partida, no etiquetas sobre quién eres. La lectura la haces tú, con Fer U, en sesión.</p></div>`;
+  box.innerHTML=h;
+}
+
+/* envío */
+function textoEnvio(full){
+  const ses=sesiones(),P=pal(S.entries),L=[];
+  L.push('Hola Fer, esta es mi bitácora.');
+  if(S.codigo)L.push('Código: '+S.codigo);
+  if(S.modalidad)L.push('Modalidad: '+S.modalidad);
+  if($('#oObj').checked&&S.objs.length){L.push('');L.push('Mis objetivos:');
+    S.objs.forEach((o,i)=>{const pv=chron().filter(e=>e.t==='sesion'&&e.pulso&&num(e.pulso[o.id])).map(e=>e.pulso[o.id]);L.push(`${i+1}. ${o.t||'(sin texto)'} → ${DIMS[o.dim].l} · ${String(o.ai+1).padStart(2,'0')} ${areaName(o)}${pv.length?` · pulso ${full?pv.join(', '):pv[pv.length-1]}`:''}`);});
+    if(S.fractura&&full)L.push('Fractura nombrada: '+S.fractura);}
+  if($('#oSes').checked){L.push('');L.push(`Sesiones: ${ses.length} · Utilidad promedio: ${f1(avg(ses.map(e=>e.cal)))}/10`);
+    if(ses.length){const o=chron().filter(e=>e.t==='sesion'&&num(e.cal));L.push('Calificaciones: '+o.map(e=>`S${e.n||'?'}=${e.cal}`).join(', '));}}
+  if($('#oCom').checked&&P.t){L.push('');const z=zp(P.pct);L.push(`Mi palabra: ${pc(P.pct)}${z?' ('+z.n+')':''} · ${pl(P.c,'cumplido','cumplidos')}, ${pl(P.a,'pospuesto','pospuestos')}, ${pl(P.n,'no cumplido','no cumplidos')}${P.p?', '+pl(P.p,'pendiente','pendientes'):''}`);
+    if(full)sortedEntries().forEach(e=>(e.comps||[]).forEach(k=>L.push(`- [${STS[k.st].l}] ${k.t} (${fmt(e.f)})${k.oid&&objOf(k.oid)?' · ★ '+areaName(objOf(k.oid)):''}${k.from?' · re-acuerdo':''}`)));}
+  if($('#oRad').checked){Object.keys(DIMS).forEach(d=>{const cs=cpsOf(d);if(!cs.length)return;const l=cs[cs.length-1];
+    L.push('');L.push(`Radar ${DIMS[d].l} · ${l.l}${l.f?' ('+fmt(l.f)+')':''} · promedio ${f1(l.a)}`);
+    L.push(AREAS[d].map((t,i)=>`${String(i+1).padStart(2,'0')}=${l.s[i]}`).join(' '));
+    if(full&&cs.length>1)cs.forEach(x=>L.push(`  ${x.l}: ${x.s.join(', ')} (prom ${f1(x.a)})`));});}
+  if($('#oRes').checked){const n=chron().filter(e=>e.res);if(n.length){L.push('');L.push('Lo que quiero que sepas:');(full?n:n.slice(-2)).forEach(e=>L.push(`${fmt(e.f)}${e.t==='sesion'?' · Sesión '+(e.n||''):''}: ${e.res}`));}}
+  if($('#oAntes').checked){const a=chron().filter(e=>e.antes).slice(-1)[0];if(a){L.push('');L.push('Para mi próxima sesión: '+a.antes);}}
+  if($('#oNot').checked){const n=chron().filter(e=>e.notas);if(n.length){L.push('');L.push('Mis notas privadas:');n.forEach(e=>L.push(`${fmt(e.f)}${e.t==='sesion'?' · Sesión '+(e.n||''):''}: ${e.notas}`));}}
+  return L.join('\n');
+}
+function renderEnvio(){const t=textoEnvio(false);$('#prev').value=t;$('#btnWa').href=`https://wa.me/${WA}?text=${encodeURIComponent(t)}`;}
+function mdFile(){
+  const t=textoEnvio(true);
+  return `---\ncodigo: ${S.codigo||'sin-codigo'}\nmodalidad: ${S.modalidad||''}\ntipo: bitacora-persona\nexportada: ${today()}\n---\n\n# Bitácora de la persona\n\n`+t.replace(/^Hola Fer, esta es mi bitácora\.\n?/,'')+'\n';
+}
+function download(name,txt,mime){const b=new Blob([txt],{type:mime||'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},300);}
+
+function renderAll(){renderStats();renderCarta();renderConstancia();renderPalabra();renderLista();renderRadar();renderAn();renderForm();renderEnvio();
+  $('#codigo').value=S.codigo||'';$('#modalidad').value=S.modalidad||'';$('#banEj').hidden=!EJ;}
+function refreshData(){renderStats();renderPalabra();renderLista();renderAn();renderEnvio();}
+
+/* ---------- eventos ---------- */
+$('#codigo').addEventListener('input',e=>{if(EJ)return;S.codigo=e.target.value.trim();save();renderEnvio();});
+$('#modalidad').addEventListener('change',e=>{if(EJ)return;S.modalidad=e.target.value;save();renderEnvio();});
+$('#fractura').addEventListener('input',e=>{if(EJ)return;S.fractura=e.target.value;save();renderEnvio();});
+$('#btnObj').addEventListener('click',()=>{if(S.objs.length>=4)return;S.objs.push({id:uid(),t:'',dim:S.dim,ai:0});save();renderCarta();renderForm();});
+$('#objs').addEventListener('input',e=>{const r=e.target.closest('.ob-row');if(!r||!e.target.classList.contains('ob-t'))return;const o=objOf(r.dataset.o);if(!o)return;o.t=e.target.value;save();});
+$('#objs').addEventListener('change',e=>{const r=e.target.closest('.ob-row');if(!r)return;const o=objOf(r.dataset.o);if(!o)return;
+  if(e.target.classList.contains('ob-d')){o.dim=e.target.value;o.ai=0;}
+  if(e.target.classList.contains('ob-a'))o.ai=+e.target.value;
+  if(e.target.classList.contains('ob-t')){o.t=e.target.value;save();renderForm();refreshData();return;}
+  save();setTimeout(()=>{renderCarta();renderForm();refreshData();renderRadar();},0);});
+$('#objs').addEventListener('click',e=>{const b=e.target.closest('.ob-x');if(!b)return;const r=b.closest('.ob-row');if(!confirm('¿Quitar este objetivo? Los acuerdos ligados se conservan sin objetivo.'))return;
+  S.objs=S.objs.filter(o=>o.id!==r.dataset.o);S.entries.forEach(e=>e.comps.forEach(c=>{if(c.oid===r.dataset.o)c.oid='';}));save();renderCarta();renderForm();refreshData();renderRadar();});
+$('#segTipo').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;draft.t=b.dataset.t;renderForm();});
+$('#fCal').addEventListener('click',e=>{const b=e.target.closest('.nb');if(!b)return;draft.cal=+b.dataset.v;renderForm();});
+$('#fPulso').addEventListener('click',e=>{const b=e.target.closest('.nb');if(!b)return;const o=b.dataset.o,v=+b.dataset.v;if(draft.pulso[o]===v)delete draft.pulso[o];else draft.pulso[o]=v;renderForm();});
+function addComp(){const v=$('#fComp').value.trim();if(!v)return;draft.comps.push({id:uid(),t:v.slice(0,200),st:'p',oid:$('#fCompObj').value||'',from:'',re:false});$('#fComp').value='';renderForm();$('#fComp').focus();}
+$('#btnAddComp').addEventListener('click',addComp);
+$('#fComp').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addComp();}});
+$('#fComps').addEventListener('click',e=>{const b=e.target.closest('.x');if(!b)return;draft.comps.splice(+b.dataset.i,1);renderForm();});
+$('#btnGuardar').addEventListener('click',()=>{
+  if(draft.t==='sesion'&&!draft.cal){alert('Elige tu calificación del 1 al 10 antes de guardar.');return;}
+  if($('#fComp').value.trim())addComp();
+  const e={id:edId||uid(),t:draft.t,f:$('#fFecha').value||today(),n:draft.t==='sesion'?(+$('#fN').value||null):null,cal:draft.t==='sesion'?draft.cal:0,notas:$('#fNotas').value.trim(),res:$('#fRes').value.trim(),antes:$('#fAntes').value.trim(),pulso:draft.t==='sesion'?{...draft.pulso}:{},comps:draft.comps.map(c=>({...c}))};
+  const i=S.entries.findIndex(x=>x.id===e.id);if(i>=0)S.entries[i]=e;else S.entries.push(e);
+  save();resetDraft();refreshData();renderConstancia();});
+$('#btnCancel').addEventListener('click',resetDraft);
+$('#lista').addEventListener('click',e=>{
+  const sb=e.target.closest('.stb[data-s]'),re=e.target.closest('[data-re]'),ed=e.target.closest('[data-ed]'),de=e.target.closest('[data-del]');
+  if(sb){const en=S.entries.find(x=>x.id===sb.dataset.e);if(!en)return;const c=en.comps[+sb.dataset.i];c.st=(c.st===sb.dataset.s)?'p':sb.dataset.s;if(c.st==='c'||c.st==='p')c.re=false;save();refreshData();return;}
+  if(re){let src=null;S.entries.forEach(en=>en.comps.forEach(c=>{if(c.id===re.dataset.re)src=c;}));if(!src)return;
+    draft.comps.push({id:uid(),t:src.t,st:'p',oid:src.oid,from:src.id,re:false});src.re=true;save();renderForm();refreshData();$('#formCard').scrollIntoView({behavior:'smooth',block:'start'});return;}
+  if(ed){const en=S.entries.find(x=>x.id===ed.dataset.ed);if(!en)return;edId=en.id;draft={t:en.t,cal:en.cal||0,comps:clone(en.comps||[]),pulso:{...(en.pulso||{})}};$('#fFecha').value=en.f;$('#fN').value=en.n||'';$('#fNotas').value=en.notas||'';$('#fRes').value=en.res||'';$('#fAntes').value=en.antes||'';renderForm();$('#formCard').scrollIntoView({behavior:'smooth',block:'start'});}
+  if(de){if(!confirm('¿Eliminar esta entrada?'))return;S.entries=S.entries.filter(x=>x.id!==de.dataset.del);save();refreshData();renderConstancia();}});
+$('#dims').addEventListener('click',e=>{const b=e.target.closest('.dimb');if(!b)return;S.dim=b.dataset.d;save();renderRadar();renderAn();});
+$('#cps').addEventListener('click',e=>{const b=e.target.closest('.cp');if(!b)return;if(edOpen&&S.cp===b.dataset.c){edOpen=false;}else{S.cp=b.dataset.c;edOpen=true;}save();renderRadar();if(edOpen)$('#ed').scrollIntoView({behavior:'smooth',block:'nearest'});});
+$('#edAreas').addEventListener('click',e=>{const b=e.target.closest('.nb');if(!b)return;
+  const d=S.rad[S.dim][S.cp]||(S.rad[S.dim][S.cp]={f:'',s:[]});while(d.s.length<12)d.s.push(0);d.s[+b.dataset.i]=+b.dataset.v;if(!d.f)d.f=today();
+  save();const y=window.scrollY;renderRadar();renderAn();renderStats();renderEnvio();window.scrollTo(0,y);});
+$('#edF').addEventListener('change',e=>{const d=S.rad[S.dim][S.cp]||(S.rad[S.dim][S.cp]={f:'',s:[]});d.f=e.target.value;save();const y=window.scrollY;renderRadar();renderAn();window.scrollTo(0,y);});
+$('#edDel').addEventListener('click',()=>{if(!confirm('¿Borrar este checkpoint?'))return;delete S.rad[S.dim][S.cp];edOpen=false;save();renderAll();});
+$('#edClose').addEventListener('click',()=>{edOpen=false;renderRadar();});
+['oObj','oSes','oCom','oRad','oRes','oAntes','oNot'].forEach(i=>$('#'+i).addEventListener('change',renderEnvio));
+$('#btnCopy').addEventListener('click',async()=>{const t=$('#prev').value;try{await navigator.clipboard.writeText(t);}catch(e){$('#prev').select();document.execCommand&&document.execCommand('copy');}$('#btnCopy').textContent='Copiado';setTimeout(()=>$('#btnCopy').textContent='Copiar texto',1600);});
+$('#btnMd').addEventListener('click',()=>download(`bitacora_${S.codigo||'sin-codigo'}_${today()}.md`,mdFile(),'text/markdown'));
+$('#btnResp').addEventListener('click',()=>download(`bitacora_respaldo_${S.codigo||'sin-codigo'}_${today()}.json`,JSON.stringify(S),'application/json'));
+$('#fileImp').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=norm(JSON.parse(r.result));if(!confirm('Esto reemplaza lo que hay en esta bitácora. ¿Continuar?'))return;EJ=false;S=o;save();resetDraft();renderAll();}catch(x){alert('No pude leer ese archivo.');}};r.readAsText(f);e.target.value='';});
+$('#btnPrint').addEventListener('click',()=>window.print());
+$('#btnBorrar').addEventListener('click',()=>{if(EJ){exitEj();return;}if(!confirm('Se borrará todo lo que hay en esta bitácora, en este dispositivo. ¿Seguro? Guarda tu respaldo antes si lo necesitas.'))return;S=blank();try{localStorage.removeItem(KEY);}catch(e){}edOpen=false;resetDraft();renderAll();});
+let backup=null;
+function enterEj(dim){if(!EJ)backup=S;EJ=true;S=norm(mkEjemplo());if(dim&&DIMS[dim])S.dim=dim;edOpen=false;resetDraft();renderAll();}
+function exitEj(){EJ=false;S=backup||norm(loadStore())||blank();backup=null;edOpen=false;history.replaceState(null,'',location.pathname+location.search);resetDraft();renderAll();window.scrollTo(0,0);}
+$('#btnEj').addEventListener('click',()=>{enterEj();window.scrollTo({top:0,behavior:'smooth'});});
+$('#btnSalirEj').addEventListener('click',exitEj);
+
+(function init(){
+  const st=loadStore();S=norm(st||SEED||blank());
+  const h=(location.hash||'').slice(1);
+  if(h.indexOf('ejemplo')===0){enterEj(h.split('-')[1]);}
+  else{resetDraft();renderAll();}
+})();
+
+</script>
+</body>
+</html>
