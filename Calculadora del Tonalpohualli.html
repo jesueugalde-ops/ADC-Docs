@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Calculadora Tonalpohualli · Mapa del Ihiyotl</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#faf6ee;--fg:#2a2118;--mu:#7a6a58;--ca:#fffdf8;--bd:#e0d4bf;--ac:#a0432a;--ac2:#d9a441;--cell:#efe5d2}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1712;--fg:#efe6d6;--mu:#a8987f;--ca:#262019;--bd:#3d3326;--ac:#e0825f;--ac2:#d9a441;--cell:#342b20}}
+:root[data-theme="dark"]{--bg:#1c1712;--fg:#efe6d6;--mu:#a8987f;--ca:#262019;--bd:#3d3326;--ac:#e0825f;--ac2:#d9a441;--cell:#342b20}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg) url(img/fondo.jpg) center/cover fixed no-repeat;color:var(--fg);font:16px/1.5 Georgia,'Times New Roman',serif}
+main{max-width:760px;margin:0 auto;padding:20px 16px 48px;background:color-mix(in srgb,var(--bg) 82%,transparent)}
+h1{font-size:1.5rem;margin:.2em 0}h2{font-size:1.05rem;margin:1.4em 0 .5em;color:var(--ac)}
+.sub{color:var(--mu);font-size:.9rem;margin:0 0 1rem}
+.card{background:color-mix(in srgb,var(--ca) 94%,transparent);border:1px solid var(--bd);border-radius:12px;padding:14px 16px}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:.8rem;color:var(--mu)}
+input,select,button{font:inherit;width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--fg)}
+.full{grid-column:1/-1}.chk{display:flex;gap:8px;align-items:center;font-size:.85rem;color:var(--mu)}.chk input{width:auto}
+button{background:var(--ac);color:#fff;border:0;cursor:pointer;margin-top:4px}button.s{background:var(--cell);color:var(--fg);width:auto;padding:6px 12px}
+pre{white-space:pre-wrap;font:15px/1.55 Georgia,serif;margin:0}
+.note{font-size:.82rem;color:var(--mu);margin:.4em 0}.warn{color:var(--ac)}
+.strip{display:flex;gap:2px;margin:6px 0}.strip div{background:var(--cell);border-radius:3px;min-height:26px;font-size:.62rem;display:flex;align-items:center;justify-content:center;color:var(--mu);overflow:hidden}
+.strip .on{background:var(--ac);color:#fff;font-weight:bold}
+.tt{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cal{display:block;margin:4px auto 2px;width:min(210px,52%)}.tonal{display:block;margin:0 auto 12px;max-width:min(340px,100%);border-radius:10px}.btns{display:grid;gap:8px;margin-top:14px}a.btn{display:block;text-align:center;text-decoration:none;background:var(--ac);color:#fff;padding:10px;border-radius:8px}.sig{text-align:center;margin:22px 0 0;font-style:italic;color:var(--mu)}h1,.sub{text-align:center}
+@media(max-width:480px){.g{grid-template-columns:1fr}}
+</style></head><body><main>
+<img class="cal" src="img/calendario-azteca.png" alt="" onerror="this.remove()">
+<h1>Calculadora del Tonalpohualli</h1>
+<p class="sub">Correlación Arturo Meza.</p>
+<p class="sub">Mapa del Ihiyotl (tu primer aliento: fecha y hora de nacimiento)</p>
+<p class="sub">El Tonalpohualli es el calendario ritual mexica de 260 días. Escribe tu nombre, tu fecha y hora de nacimiento y tu lugar de nacimiento; si no sabes la hora, déjala vacía.</p>
+<div class="card"><div class="g">
+<div class="full"><label>Yolohtl – Corazón (nombre)</label><input id="nm" placeholder="Nombre"></div>
+<div class="full"><label>Fecha de nacimiento (día / mes / año)</label><div style="display:grid;grid-template-columns:1fr 1.6fr 1.2fr;gap:6px"><select id="dd"></select><select id="mm"></select><select id="yy"></select></div></div>
+<div class="full"><label>Hora de nacimiento (opcional)</label><input id="tm" type="time"></div>
+<div class="full"><label>Lugar de nacimiento</label><input id="pl" placeholder="Ciudad, estado o país"></div>
+<div class="full"><label>Región de nacimiento</label><select id="rg">
+<option value="c">Centro de México (CDMX, Edo. Méx. y la mayor parte del país)</option>
+<option value="b">Baja California (Tijuana)</option>
+<option value="o">Otro lugar de México (Sonora, Chihuahua, frontera, Q. Roo…)</option>
+<option value="f">Fuera de México</option></select></div>
+<div class="full chk" id="mw" hidden><input id="mn" type="checkbox"><span>Ese día había horario de verano en ese lugar (se resta 1 hora)</span></div>
+<div class="full"><button id="go">Calcular</button></div></div></div>
+<div id="out"></div>
+<p class="note">skill tonalpohualli-arturo-meza (sincronizados al 22-oct-2026).</p>
+<p class="sig">Mázatl Xamayari</p>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const MS=864e5,mod=(a,n)=>((a%n)+n)%n,L=s=>s.split(",");
+const S=L("Cipactli,Ehecatl,Calli,Cuetzpalli,Coatl,Miquiztli,Mazatl,Tochtli,Atl,Itzcuintli,Ozomahtli,Malinalli,Acatl,Ocelotl,Cuauhtli,Cozcacuauhtli,Ollin,Tekpatl,Quiahuitl,Xochitl"),
+TR=L("Cocodrilo,Viento,Casa,Lagartija,Serpiente,Muerte,Venado,Conejo,Agua,Perro,Mono,Hierba torcida,Caña,Jaguar,Águila,Zopilote,Movimiento,Pedernal,Lluvia,Flor"),
+AC=L("Tonacatecuhtli,Quetzalcoatl,Tepeyolohtli,Huehuecoyotl,Chalchiuhtlicue,Tecciztecatl,Tlalocantecuhtli,Mayahuel,Xiuhtecuhtli,Mictlantecuhtli,Xochipilli,Pahtecatl,Tezcatlipoca Ixquimilli,Tlazohteotl,Xipe Totec,Itzpapalotl,Xolotl,Chalchiuhtotolin,Tonatiuh,Xochiquetzalli"),
+NU=L("Ce,Ome,Yei,Nahui,Macuilli,Chicuace,Chicome,Chicueyi,Chicnahui,Matlactli,Matlactli huan ce,Matlactli huan ome,Matlactli huan yei"),
+PO=L("Tochtli,Acatl,Tekpatl,Calli"),ANC=[403,763,1123,43],
+TC=["Tonacatecuhtli, Tonacacihuatl","Quetzalcoatl","Tepeyolohtli, Tlazohteotl","Huehuecoyotl, Ixnextli","Chalchiuhtlicue y Tlazohteotl","Tonatiuh, Tecciztecatl","Tlaloc, Chicomecoatl","Mayahuel, Xochipilli Centeotl","Tlahuizcalpantecuhtli y Xiuhtecuhtli","Tonatiuh y Mictlantecuhtli","Pahtecatl y Cuauhtli Ocelotl","Itztlacoliuhqui","Ixcuinan y Tlazohteotl","Xipe Totec","Itzpapalotl","Xolotl","Chalchiuhtotolin","Chantico","Xochiquetzalli, Tezcatlipoca","Xiuhtecuhtli, Itztapaltotec y Xipe Totec"],
+RB=[["Tlahuiztlampa","Lugar del amanecer","Oriente","Amarillo","Quetzalcoatl"],["Huitztlampa","Lugar de las espinas","Sur","Azul","Huitzilopochtli"],["Cihuatlampa","Lugar de la esencia femenina","Poniente","Rojo","Xipe Tótec"],["Mictlampa","Lugar de la transformación","Norte","Blanco/Negro","Yayauqui"]],
+SD=[["Xiuhtecuhtli","Xiuhuitzitzilli — Colibrí azul turquesa","Tlahuizcalpantecuhtli"],["Tlaltecuhtli","Quetzalhuitzitzilli — Colibrí verde jade","Ixtlilton"],["Chalchiuhtlicue","Tohtli — Halcón","Xochipilli"],["Tonatiuh","Zollin — Codorniz","Xipe Totec"],["Tlazohteotl","Cacalotl — Cuervo","Yaotl"],["Mictlantecuhtli","Chicuauhtli — Lechuza","Uauantli, El Rayado"],["Xiuhtecuhtli y Centeotl","Tizapapaloti — Mariposa obscura","Xochipilli y Centeotl"],["Tlaloc","Cuauhtli — Águila","Tlaloc"],["Quetzalcoatl","Huexolotl — Guajolote","Tlaloc"],["Tezcatlipoca","Tecolotl — Búho","Tezcatlipoca"],["Mictlantecuhtli y Chalmecatecuhtli","Alotl — Guacamaya colorida","Xochipilli"],["Tlahuizcalpantecuhtli","Quetzaltototl — Quetzal","Centeotl"],["Citlalin i cue","Cochotl — Loro","Xochiquetzalli"]],
+SN=[["Xiuhtecuhtli","El señor del calor celeste","Colotl"],["Itztli","Tezcatlipoca en la obsidiana obscura","Tzinacatl"],["Piltzintecuhtli","El señor niño","Coyotl"],["Centeotl","El generador del sustento","Tocatl"],["Mictlantecuhtli","El señor del lugar del reposo y la quietud","Tecolotl"],["Chalchiuhtlicue","La señora de la falda adornada de jades","Coatl"],["Tlazohteotl","La señora que genera por medio del amor","Itzpapalotl"],["Tepeyolohtli","El corazón de los montes","Ocelotl"],["Tlalocantecuhtli","El señor del lugar de la lluvia","Petlazolcoatl"]],
+VE=[["Atlacahualo","Lo que dejaron las aguas","Tlaloc"],["Tlacaxipehualiztli","El cambio en las personas","Xipe Totec"],["Tozoztontli","La vigilia pequeña","Tlaloc"],["Ueitozoztli","La vigilia grande","Centeotl"],["Toxcatl","La fiesta de Tezcatlipoca y Huitzilopochtli","Tezcatlipoca y Huitzilopochtli"],["Etzalcualiztli","Comer Etzalli","Tlaloc"],["Tecuilhuitontli","La fiesta pequeña de los Principales","Uiztocihuatl"],["Ueitecuilhuitl","La fiesta grande de los Principales","Xilonen"],["Tlaxochimaco","Ofrendando las flores","Huitzilopochtli"],["Xocotl Uetzi","Los frutos caen","Xiuhtecuhtli"],["Ochpaniztli","Se barren los caminos","Teteo Inan"],["Teotleco","La presencia de generadores de la naturaleza","Huitzilopochtli"],["Tepeilhuitl","La fiesta de los cerros","Chalchiuhtlicue"],["Quecholli","Las aves de cuello de hule","Mixcoatl"],["Panquetzaliztli","Se levantan los estandartes","Huitzilopochtli"],["Atemoztli","El descenso de las aguas","Tlaloc"],["Titit","Encogimiento","Ilamatecuhtli"],["Izcalli","Resurgimiento","Xiuhtecuhtli"]],
+IM=L("Centeotl,Pahtecatl,Mictlantecuhtli,Quetzalcoatl,Xochipilli,Xochiquetzalli,Tlaloc,Mictlantecuhtli,Tlahuizcalpantecuhtli,Mixcoatl,Xochipilli,Tonatiuh,Tezcatlipoca,Xipe Totec,Macuilxochitl,Mayahuel,Tlazohteotl,Mictlancihuatl,Chalchiuhtlicue,Xochiquetzalli"),
+TP=[L("Mictlantecuhtli,Piltzintecuhtli,Tlalocantecuhtli,Tlazohteotl,Centeotl,Xiuhtecuhtli,Tepeyolohtli,Mictlantecuhtli,Piltzintecuhtli,Tlalocantecuhtli,Chalchiuhtlicue,Centeotl,Xiuhtecuhtli"),L("Tepeyolohtli,Mictlantecuhtli,Piltzintecuhtli,Tlalocantecuhtli,Chalchiuhtlicue,Centeotl,Xiuhtecuhtli,Tepeyolohtli,Mictlantecuhtli,Itztli,Tlalocantecuhtli,Chalchiuhtlicue,Centeotl"),L("Xiuhtecuhtli,Tlazohteotl,Mictlantecuhtli,Itztli,Tlalocantecuhtli,Chalchiuhtlicue,Piltzintecuhtli,Xiuhtecuhtli,Tlazohteotl,Mictlantecuhtli,Itztli,Tepeyolohtli,Chalchiuhtlicue"),L("Piltzintecuhtli,Xiuhtecuhtli,Tlazohteotl,Centeotl,Itztli,Tepeyolohtli,Chalchiuhtlicue,Piltzintecuhtli,Tlalocantecuhtli,Tlazohteotl,Centeotl,Itztli,Tepeyolohtli")],
+PAR={};"Cipactli-Ozomahtli,Ocelotl-Cuetzpalli,Mazatl-Ollin,Xochitl-Itzcuintli,Acatl-Calli,Miquiztli-Cozcacuauhtli,Quiahuitl-Atl,Malinalli-Ehecatl,Coatl-Cuauhtli,Tekpatl-Tochtli".split(",").forEach(p=>{const[a,b]=p.split("-");PAR[a]=b;PAR[b]=a});
+const D=(y,m,d)=>Date.UTC(y,m-1,d),
+sun=(y,m,n)=>{if(n>0){const o=(7-new Date(D(y,m,1)).getUTCDay())%7;return 1+o+7*(n-1)}const e=new Date(D(y,m+1,0));return e.getUTCDate()-e.getUTCDay()};
+function dstR(r,y){
+ if(r=="c"){if(y<1996||y>2022)return null;return y==2001?[D(y,5,sun(y,5,1)),D(y,9,sun(y,9,-1))]:[D(y,4,sun(y,4,1)),D(y,10,sun(y,10,-1))]}
+ if(r=="b"){if(y<1965||y>2025)return null;if(y==1974)return[D(y,1,6),D(y,10,27)];if(y==1975)return[D(y,2,23),D(y,10,26)];
+  if(y<=1986)return[D(y,4,sun(y,4,-1)),D(y,10,sun(y,10,-1))];if(y<=2009)return[D(y,4,sun(y,4,1)),D(y,10,sun(y,10,-1))];return[D(y,3,sun(y,3,2)),D(y,11,sun(y,11,1))]}
+ return null}
+function calc(v){
+ const N=[],o={notes:N};let min=v.min,ts=D(v.y,v.m,v.d)+(min||0)*6e4,dst=false;
+ const dm=D(v.y,v.m,v.d),rg=dstR(v.reg,v.y);
+ if(min!=null){
+  if(rg){dst=(dm>rg[0]&&dm<rg[1])||(dm==rg[0]&&min>=180)||(dm==rg[1]&&min<120);
+   if((dm==rg[0]||dm==rg[1])&&min>=60&&min<180)N.push("Nació en la hora del cambio de horario de verano (umbral): confirma con la persona cuál hora marcó el reloj.")}
+  else if(v.man)dst=true}
+ if(dst){ts-=36e5;N.push("Horario de verano vigente: hora usada = hora del reloj − 1 h.")}
+ const c=new Date(ts),G=c.getUTCFullYear(),cm=min==null?null:c.getUTCHours()*60+c.getUTCMinutes(),cd=D(G,c.getUTCMonth()+1,c.getUTCDate());
+ const lab=Y=>cd-(cm!=null&&cm<ANC[mod(Y-1610,4)]?MS:0);
+ let Y=G;if(lab(G)<D(G,3,12))Y=G-1;
+ const P=mod(Y-1610,4),idx=Math.round((lab(Y)-D(Y,3,12))/MS);
+ Object.assign(o,{Y,P,idx,cm,hasT:cm!=null,pd:c,dst});
+ if(Y<1610||Y>2051)N.push("Año fuera del rango verificado de la Tabla 7 (1610–2051).");
+ if(v.reg=="f")N.push("Nota: el lugar de nacimiento queda fuera de la zona que Meza señala para este sistema (recuerdo de Fer U, pendiente de confirmar contra el libro). El cálculo es mecánicamente válido; la interpretación se toma con esa reserva.");
+ if(idx>=365){o.reinicio=true;return o}
+ o.Nn=mod(Y-1610,13)+1;const p=mod(Y-1610,52);o.tb=p/13|0;o.row=p%13;
+ o.nem=idx>=360;
+ if(o.nem){o.s=5*P+(idx-360);o.nd=idx-360+1;N.push("Día de Nemontemi: el Numeral y el Señor de la Noche solo se obtienen por dictado directo (no hay fórmula). Rumbo, Trecena y Tezcatlipoca no existen en estos días (ausencia estructural).")}
+ else{o.v=idx/20|0;o.s=idx%20;o.n=mod((o.Nn-1)*9+(o.s+1)+o.v*7,13)||13;
+  const st=mod(o.s-(o.n-1),20);o.t0=mod(st*17,20);o.st=st;o.rb=RB[o.t0%4];o.nz=(o.s+2*o.v)%9}
+ if(cm!=null){const m=mod(cm-ANC[P],1440),g=m/18|0,r=m%18;o.m=m;o.g=g;o.im=g/4|0;o.ms=g%20;
+  if(r<=1||r>=16){const g2=mod(g+(r>=16?1:-1),80);o.um=[g,g2];N.push("Tu hora cae en un umbral entre dos Momentos: los dos lados cuentan, no se fuerza un solo valor.")}}
+ return o}
+const MES=L("enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre");
+const ms=g=>S[g%20]+" ("+TR[g%20]+") · "+IM[g/4|0];
+function text(v,o,man){
+ const f=String(v.d).padStart(2,"0")+"/"+String(v.m).padStart(2,"0")+"/"+v.y+(v.min!=null?", "+((v.min/60|0)%12||12)+":"+String(v.min%60).padStart(2,"0")+(v.min<720?" am":" pm"):"");
+ const l=["Yolohtl – Corazón: "+(v.nm||"—"),"Ihiyotl – Aliento: "+f+" · "+v.pl,""];
+ if(o.nem)l.push("Rumbo: no existe en Nemontemi","Tezcatlipoca – Espejo: no existe en Nemontemi");
+ else l.push("Rumbo: "+o.rb.slice(0,4).join(", "),"Tezcatlipoca – Espejo: "+o.rb[4]);
+ l.push("");
+ if(o.hasT){l.push("Momento: "+S[o.ms]+", "+TR[o.ms],"Hora: "+IM[o.im]);if(o.um)l.push("Umbral: "+ms(o.um[0])+"  ↔  "+ms(o.um[1]));l.push("")}
+ const n=o.nem?man.n:o.n,nz=o.nem?man.z:o.nz+1;
+ l.push("Numeral del día: "+(n?n+", "+NU[n-1]:"pendiente de dictado"),"Signo del día: "+S[o.s]+", "+TR[o.s],"Acompañante: "+AC[o.s],"Pareja complementaria: "+PAR[S[o.s]],"");
+ if(n){const d=SD[n-1];l.push("Tonalli – Día – Luz","Señor del día externo: "+d[0],"Animal volátil: "+d[1],"Acompañante interno: "+d[2],"")}
+ else l.push("Tonalli – Día – Luz","Señor del día: pendiente (se indexa al conocer el Numeral)","");
+ l.push("Yohualli – Noche – Obscuridad");
+ if(nz){const z=SN[nz-1];l.push("Señor de la noche: "+nz+", "+z[0]+", "+z[1],"Animal: "+z[2])}else l.push("Señor de la noche: pendiente de dictado");
+ l.push("");
+ if(o.nem)l.push("Trecena de días: no existe en Nemontemi","","Cempohualli – Veintena: Nemontemi (día "+o.nd+" de 5), Completar lo que se ha vivido","Acompañante: —");
+ else{const t=o.t0;l.push("Trecena de días: Ce "+S[o.st]+", "+TR[o.st],"Acompañante: "+TC[t],"","Cempohualli – Veintena: "+VE[o.v][0]+", "+VE[o.v][1]+" (veintena "+(o.v+1)+")","Acompañante: "+VE[o.v][2])}
+ l.push("","Número anual: "+o.Nn+", "+NU[o.Nn-1],"Xiuitl – Año: "+PO[o.P]+", "+TR[[7,12,17,2][o.P]],"Acompañante: "+TP[o.tb][o.row],"","Tlalpilli – Atado de años: "+PO[o.tb]+", "+TR[[7,12,17,2][o.tb]]+" (Numeral 1)","Acompañante: "+TP[o.tb][0]);
+ if(o.notes.length){l.push("","Notas:");o.notes.forEach(x=>l.push("· "+x))}
+ return l.join("\n")}
+/*UI*/
+const $=i=>document.getElementById(i),W="525644430676";let LT="";
+(function(){$("dd").innerHTML="<option value=''>Día</option>"+Array.from({length:31},(_,i)=>"<option>"+(i+1)+"</option>").join("");
+$("mm").innerHTML="<option value=''>Mes</option>"+MES.map((x,i)=>"<option value="+(i+1)+">"+x[0].toUpperCase()+x.slice(1)+"</option>").join("");
+let h="<option value=''>Año</option>";for(let a=new Date().getFullYear();a>=1900;a--)h+="<option>"+a+"</option>";$("yy").innerHTML=h})();
+const wa=t=>"https://wa.me/"+W+"?text="+encodeURIComponent(t).replace(/'/g,"%27");
+function strips(o){
+ let h="";
+ if(o.hasT){h+="<h2>Mapa del Ihiyotl · tu día de 24 h</h2><div class=strip>";
+  for(let i=0;i<20;i++)h+="<div class='"+(i==o.im?"on":"")+"' title='"+IM[i]+"' style='flex:1'>"+(i+1)+"</div>";
+  h+="</div><div class=strip>";
+  for(let j=0;j<4;j++){const g=o.im*4+j;h+="<div class='"+(g==o.g||(o.um&&g==o.um[1])?"on":"")+"' style='flex:1;padding:2px'>"+S[g%20]+"</div>"}
+  h+="</div>"}
+ h+="<h2>Mapa del Ihiyotl · tu lugar en el año</h2><div class=strip>";
+ for(let i=0;i<18;i++)h+="<div class='"+(!o.nem&&i==o.v?"on":"")+"' title='"+VE[i][0]+"' style='flex:20'>"+(i+1)+"</div>";
+ return h+"<div class='"+(o.nem?"on":"")+"' title='Nemontemi' style='flex:5'>N</div></div>"}
+function pdf(){const J=window.jspdf;if(!J){alert("No se pudo cargar el generador de PDF. Revisa tu conexión.");return}
+ const d=new J.jsPDF({unit:"mm",format:"letter"});d.setFont("times","normal");d.setFontSize(16);d.text("Tonalpohualli",15,18);d.setFontSize(10.5);
+ let y=28;for(const l of d.splitTextToSize(LT.replace(/↔/g,"/").replace(/−/g,"-"),180)){if(y>270){d.addPage();y=18}d.text(l,15,y);y+=5.2}
+ d.save("tonalpohualli.pdf")}
+function run(){
+ const out=$("out"),y=+$("yy").value,m=+$("mm").value,d=+$("dd").value;
+ if(!y||!m||!d){out.innerHTML="<p class=warn>Elige el día, el mes y el año de nacimiento.</p>";return}
+ if(new Date(Date.UTC(y,m-1,d)).getUTCMonth()!=m-1){out.innerHTML="<p class=warn>Esa fecha no existe.</p>";return}
+ if(!$("pl").value.trim()){out.innerHTML="<p class=warn>Escribe tu lugar de nacimiento: define el horario de verano.</p>";return}
+ const t=$("tm").value,min=t?(+t.slice(0,2))*60+(+t.slice(3,5)):null;
+ const v={y,m,d,min,reg:$("rg").value,man:$("mn").checked,nm:$("nm").value.trim(),pl:$("pl").value.trim()};
+ const o=calc(v);
+ if(o.reinicio){out.innerHTML="<h2>Tu Tonalpohualli</h2><div class=card><p class=warn>Ese día cae en el cuarto de día de cierre y reinicio del año (Acatl bisiesto) y no está tabulado. Consúltalo con tu maestro.</p></div>";return}
+ const man={n:+($("mnum")&&$("mnum").value)||0,z:+($("mnoc")&&$("mnoc").value)||0};
+ LT=text(v,o,man)+"\n\n— Mázatl Xamayari";
+ const img="img/tonal/"+String(o.s+1).padStart(2,"0")+"-"+S[o.s].toLowerCase()+".png";
+ let h="<h2>Tu Tonalpohualli</h2><div class=card><img class=tonal src='"+img+"' alt='"+S[o.s]+"' onerror='this.remove()'><pre id=tx></pre></div>";
+ if(o.nem){const op=(n,s)=>"<option value=''>—</option>"+Array.from({length:n},(_,i)=>"<option value="+(i+1)+(s==i+1?" selected":"")+">"+(i+1)+"</option>").join("");
+  h+="<div class=card style='margin-top:10px'><div class=g><div><label>Numeral dictado (1–13)</label><select id=mnum>"+op(13,man.n)+"</select></div><div><label>Señor de la Noche dictado (1–9)</label><select id=mnoc>"+op(9,man.z)+"</select></div></div></div>"}
+ h+=strips(o)+"<div class=btns><a class=btn target=_blank rel=noopener href='"+wa(LT)+"'>Enviar por WhatsApp</a><a class=btn target=_blank rel=noopener href='"+wa("Hola Mázatl, "+(v.nm?"soy "+v.nm+" y ":"")+"quiero agendar una sesión de interpretación de mi Tonalpohualli.")+"'>Agendar sesión de interpretación</a><button id=pf>Crear PDF</button></div><p class=note>La sesión se agenda por WhatsApp. Se pide una ofrenda económica como intercambio.</p>";
+ out.innerHTML=h;$("tx").textContent=LT;$("pf").onclick=pdf;
+ ["mnum","mnoc"].forEach(i=>$(i)&&$(i).addEventListener("change",run))}
+$("go").onclick=run;
+$("rg").onchange=()=>{$("mw").hidden=!"of".includes($("rg").value)};$("mw").hidden=true;
+</script></body></html>
