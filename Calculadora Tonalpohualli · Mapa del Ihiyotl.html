@@ -39,7 +39,7 @@ pre{white-space:pre-wrap;font:15px/1.55 Georgia,serif;margin:0}
 <div class="full chk" id="mw" hidden><input id="mn" type="checkbox"><span>El horario de verano estaba vigente allá (restar 1 h, según Tabla 14)</span></div>
 <div class="full"><button id="go">Calcular</button></div></div></div>
 <div id="out"></div>
-<p class="note">Datos: Tablas Meza V1.6 y skill tonalpohualli-arturo-meza (sincronizados al 22-oct-2026). Horario de verano: base IANA, no Meza; solo Centro y Baja California están codificados. Rumbos: versión operativa del skill (pendiente fe de erratas de Mictlampa). Rango de años de la Tabla 7: 1610–2051. Anclaje Tekpatl 18:43 por indicación de Fer U (22-oct-2026); Tochtli, Acatl y Calli siguen en :45.</p>
+<p class="note">Datos: Tablas Meza V1.6 y skill tonalpohualli-arturo-meza (sincronizados al 22-oct-2026). Horario de verano: base IANA, no Meza; solo Centro y Baja California están codificados. Rumbos: versión operativa del skill (pendiente fe de erratas de Mictlampa). Rango de años de la Tabla 7: 1610–2051. Anclajes :43 en los 4 años por indicación de Fer U (22-oct-2026). Umbral = a 2 min o menos de un límite de Momento.</p>
 </main>
 <script>
 const MS=864e5,mod=(a,n)=>((a%n)+n)%n,L=s=>s.split(",");
@@ -47,7 +47,7 @@ const S=L("Cipactli,Ehecatl,Calli,Cuetzpalli,Coatl,Miquiztli,Mazatl,Tochtli,Atl,
 TR=L("Cocodrilo,Viento,Casa,Lagartija,Serpiente,Muerte,Venado,Conejo,Agua,Perro,Mono,Hierba torcida,Caña,Jaguar,Águila,Zopilote,Movimiento,Pedernal,Lluvia,Flor"),
 AC=L("Tonacatecuhtli,Quetzalcoatl,Tepeyolohtli,Huehuecoyotl,Chalchiuhtlicue,Tecciztecatl,Tlalocantecuhtli,Mayahuel,Xiuhtecuhtli,Mictlantecuhtli,Xochipilli,Pahtecatl,Tezcatlipoca Ixquimilli,Tlazohteotl,Xipe Totec,Itzpapalotl,Xolotl,Chalchiuhtotolin,Tonatiuh,Xochiquetzalli"),
 NU=L("Ce,Ome,Yei,Nahui,Macuilli,Chicuace,Chicome,Chicueyi,Chicnahui,Matlactli,Matlactli huan ce,Matlactli huan ome,Matlactli huan yei"),
-PO=L("Tochtli,Acatl,Tekpatl,Calli"),ANC=[405,765,1123,45],
+PO=L("Tochtli,Acatl,Tekpatl,Calli"),ANC=[403,763,1123,43],
 TC=["Tonacatecuhtli, Tonacacihuatl","Quetzalcoatl","Tepeyolohtli, Tlazohteotl","Huehuecoyotl, Ixnextli","Chalchiuhtlicue y Tlazohteotl","Tonatiuh, Tecciztecatl","Tlaloc, Chicomecoatl","Mayahuel, Xochipilli Centeotl","Tlahuizcalpantecuhtli y Xiuhtecuhtli","Tonatiuh y Mictlantecuhtli","Pahtecatl y Cuauhtli Ocelotl","Itztlacoliuhqui","Ixcuinan y Tlazohteotl","Xipe Totec","Itzpapalotl","Xolotl","Chalchiuhtotolin","Chantico","Xochiquetzalli, Tezcatlipoca","Xiuhtecuhtli, Itztapaltotec y Xipe Totec"],
 RB=[["Tlahuiztlampa","Lugar del amanecer","Oriente","Amarillo","Quetzalcoatl"],["Huitztlampa","Lugar de las espinas","Sur","Azul","Huitzilopochtli"],["Cihuatlampa","Lugar de la esencia femenina","Poniente","Rojo","Xipe Tótec"],["Mictlampa","Lugar de la transformación","Norte","Blanco/Negro","Yayauqui"]],
 SD=[["Xiuhtecuhtli","Xiuhuitzitzilli — Colibrí azul turquesa","Tlahuizcalpantecuhtli"],["Tlaltecuhtli","Quetzalhuitzitzilli — Colibrí verde jade","Ixtlilton"],["Chalchiuhtlicue","Tohtli — Halcón","Xochipilli"],["Tonatiuh","Zollin — Codorniz","Xipe Totec"],["Tlazohteotl","Cacalotl — Cuervo","Yaotl"],["Mictlantecuhtli","Chicuauhtli — Lechuza","Uauantli, El Rayado"],["Xiuhtecuhtli y Centeotl","Tizapapaloti — Mariposa obscura","Xochipilli y Centeotl"],["Tlaloc","Cuauhtli — Águila","Tlaloc"],["Quetzalcoatl","Huexolotl — Guajolote","Tlaloc"],["Tezcatlipoca","Tecolotl — Búho","Tezcatlipoca"],["Mictlantecuhtli y Chalmecatecuhtli","Alotl — Guacamaya colorida","Xochipilli"],["Tlahuizcalpantecuhtli","Quetzaltototl — Quetzal","Centeotl"],["Citlalin i cue","Cochotl — Loro","Xochiquetzalli"]],
@@ -85,7 +85,7 @@ function calc(v){
  else{o.v=idx/20|0;o.s=idx%20;o.n=mod((o.Nn-1)*9+(o.s+1)+o.v*7,13)||13;
   const st=mod(o.s-(o.n-1),20);o.t0=mod(st*17,20);o.st=st;o.rb=RB[o.t0%4];o.nz=(o.s+2*o.v)%9}
  if(cm!=null){const m=mod(cm-ANC[P],1440),g=m/18|0,r=m%18;o.m=m;o.g=g;o.im=g/4|0;o.ms=g%20;
-  if(r==0||r==17){const g2=mod(g+(r==17?1:-1),80);o.um=[g,g2];N.push("Umbral de Momento/Imantli: no se fuerza un solo valor; nombra ambos lados y pregunta si la persona tiene lectura personal del tránsito.")}}
+  if(r<=1||r>=16){const g2=mod(g+(r>=16?1:-1),80);o.um=[g,g2];N.push("Umbral de Momento/Imantli: no se fuerza un solo valor; nombra ambos lados y pregunta si la persona tiene lectura personal del tránsito.")}}
  return o}
 const MES=L("enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre");
 const ms=g=>S[g%20]+" ("+TR[g%20]+") · "+IM[g/4|0];
