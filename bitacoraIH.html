@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Bitácora · Innovación Humana</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,2 30,16 16,30 2,16' fill='none' stroke='%23C9A84C' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3.5' fill='%23C9A84C'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#050607;--card:#0E1012;--card2:#15171B;--line:rgba(201,168,76,.24);--line2:#24272C;
+  --oro:#C9A84C;--oro-v:#E8C97A;--txt:#F6F6F2;--txt2:#E9E1D0;--mut:#BBBBB6;--mut2:#8E8E8A;
+  --riesgo:#CC5555;--desarrollo:#C8993A;--solidez:#5588CC;--referencia:#4A9F6A;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Montserrat',system-ui,sans-serif;--f:12px;
+}
+html{scroll-behavior:smooth;scroll-padding-top:76px;}
+body{background:var(--bg);color:var(--txt2);font-family:var(--sans);font-weight:300;font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  padding-bottom:env(safe-area-inset-bottom,0px);}
+button,input,select,textarea{font:inherit;color:inherit;}
+button{cursor:pointer;}
+[hidden]{display:none!important;}
+em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--oro-v);}
+.lucide-icon{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;}
+a{color:var(--oro-v);}
+:focus-visible{outline:2px solid var(--oro-v);outline-offset:3px;}
+.wrap{max-width:1040px;margin:0 auto;padding:0 clamp(18px,4vw,32px);}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px clamp(16px,4vw,32px);padding-top:calc(12px + env(safe-area-inset-top,0px));background:rgba(5,6,7,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.nav-brand{display:flex;align-items:center;gap:10px;font-weight:500;font-size:12.5px;letter-spacing:.2em;color:var(--txt);text-decoration:none;text-transform:uppercase;}
+.nav-isotipo{width:28px;height:28px;}
+.nav-actions{display:flex;gap:8px;align-items:center;}
+.chipst{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);background:transparent;color:var(--mut);padding:8px 12px;font-size:11.5px;border-radius:999px;}
+.chipst i{width:8px;height:8px;border-radius:50%;background:var(--mut2);display:block;}
+.chipst.ok i{background:var(--referencia);}.chipst.warn i{background:var(--desarrollo);}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(201,168,76,.55);background:transparent;color:var(--oro-v);padding:9px 16px;font-size:11.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;transition:.2s;}
+.nav-cta:hover{background:rgba(201,168,76,.1);}
+.ban{background:#211a09;border-bottom:1px solid var(--line);padding:10px 20px;font-size:13px;color:#F2E3B8;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;text-align:center;padding:clamp(54px,9vw,104px) 0 clamp(40px,6vw,64px);background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.11),transparent 62%);}
+.hero-iso{position:absolute;left:50%;top:50%;width:min(620px,92vw);transform:translate(-50%,-50%);opacity:.055;pointer-events:none;}
+.hero-content{position:relative;max-width:720px;margin:0 auto;padding:0 clamp(18px,4vw,32px);}
+.hero-kicker{font-size:12px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--oro);}
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(46px,9vw,92px);line-height:1.02;color:var(--txt);margin-top:18px;}
+.h1-sub{display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(24px,3.6vw,38px);line-height:1.2;color:var(--txt2);margin-top:12px;}
+.linea{width:64px;height:1px;background:var(--oro);margin:26px auto;}
+.hero-intro{font-size:16.5px;color:var(--mut);max-width:34em;margin:0 auto;}
+.hero-cta-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px;}
+.hero-nota{margin-top:20px;font-size:13.5px;color:var(--mut);}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#C9A84C,#E8C97A);color:#0A0A0C;border:0;padding:16px 28px;font-weight:600;font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;
+  clip-path:polygon(var(--f) 0,100% 0,100% calc(100% - var(--f)),calc(100% - var(--f)) 100%,0 100%,0 var(--f));transition:filter .2s,transform .2s;}
+.cta-btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
+.btn-secundario{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid rgba(201,168,76,.5);color:var(--oro-v);padding:13px 22px;font-weight:500;font-size:12px;letter-spacing:.1em;text-transform:uppercase;border-radius:8px;text-decoration:none;transition:.2s;}
+.btn-secundario:hover{background:rgba(201,168,76,.1);border-color:var(--oro);}
+.btn-secundario.sm{padding:8px 14px;font-size:11px;}
+.btn-secundario.rojo{color:#e59a9a;border-color:rgba(204,85,85,.45);}
+.btn-secundario.rojo:hover{background:rgba(204,85,85,.1);}
+
+/* SECCIONES */
+.blk{padding:clamp(40px,6vw,72px) 0 8px;}
+.eyebrow{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--oro);}
+h2{font-family:var(--serif);font-weight:300;font-size:clamp(34px,5.4vw,56px);line-height:1.06;color:var(--txt);margin-top:10px;}
+.sub{color:var(--mut);max-width:40em;margin-top:10px;font-size:14.5px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(18px,3vw,28px);box-shadow:0 18px 50px rgba(0,0,0,.35);margin-top:20px;}
+.card h3{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--txt);line-height:1.15;}
+.lbl{display:block;font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--oro);margin:20px 0 8px;}
+.lbl small{text-transform:none;letter-spacing:0;font-weight:300;color:var(--mut2);font-size:12px;}
+.hint{font-size:12.5px;color:var(--mut2);margin-top:8px;}
+.inp,.sel,.txt{width:100%;background:#0A0B0D;border:1px solid var(--line2);border-radius:8px;padding:12px 14px;color:var(--txt);font-size:14.5px;}
+.inp:focus,.sel:focus,.txt:focus{outline:none;border-color:var(--oro);}
+.txt{min-height:78px;resize:vertical;line-height:1.55;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.empty{border:1px dashed var(--line2);border-radius:10px;padding:20px;text-align:center;color:var(--mut2);font-size:13.5px;margin-top:12px;}
+
+/* dim seg */
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;background:#0A0B0D;margin-top:22px;flex-wrap:wrap;}
+.seg button{background:transparent;border:0;border-radius:999px;padding:10px 18px;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);transition:.2s;}
+.seg button[aria-pressed="true"]{background:var(--dc,var(--oro));color:#0A0A0C;}
+.seg.full{display:flex;width:100%;}
+.seg.full button{flex:1;}
+
+/* radar */
+.rgrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(18px,4vw,44px);align-items:center;margin-top:8px;}
+.rsvg{width:100%;height:auto;display:block;}
+.legend{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:6px;}
+.leg b{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1;}
+.leg span{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;}
+.sumc{display:grid;gap:12px;}
+.sum{background:var(--card2);border:1px solid var(--line2);border-radius:12px;padding:16px 18px;}
+.sum b{display:block;font-family:var(--serif);font-weight:400;font-size:40px;line-height:1;color:var(--oro-v);}
+.sum span{display:block;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2);margin-top:6px;}
+.sum small{display:block;font-size:12.5px;color:var(--mut);margin-top:2px;}
+.due{font-size:13.5px;color:var(--mut);margin-top:16px;}
+.due b{color:var(--oro-v);font-weight:500;}
+.cps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:6px;}
+.cp{background:var(--card2);border:1px solid var(--line2);border-top:3px solid var(--cc);border-radius:10px;padding:12px 8px;text-align:center;transition:.2s;}
+.cp:hover{transform:translateY(-2px);}
+.cp[aria-pressed="true"]{border-color:var(--cc);background:#1B1E23;}
+.cp b{display:block;font-size:11.5px;letter-spacing:.14em;font-weight:600;color:var(--cc);}
+.cp span{display:block;font-size:11.5px;color:var(--mut2);margin-top:2px;}
+.cp.on span{color:var(--mut);}
+.ed{border:1px solid var(--line);border-radius:12px;background:#0A0B0D;padding:20px;margin-top:16px;}
+.areas{display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;margin-top:10px;}
+.area{padding:10px 0;border-top:1px solid var(--line2);}
+.area .at{font-size:13.5px;margin-bottom:8px;color:var(--txt2);}
+.area .at i{font-style:normal;font-size:11px;color:var(--oro);margin-right:8px;font-weight:500;}
+.nbs{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;}
+.nb{height:40px;background:#0A0B0D;border:1px solid var(--line2);border-radius:8px;font-size:13px;font-weight:500;color:var(--mut);transition:.15s;font-variant-numeric:tabular-nums;}
+.nb:hover{border-color:var(--c,var(--oro));color:var(--txt);}
+.nb[aria-pressed="true"]{background:var(--c,var(--oro));border-color:var(--c,var(--oro));color:#0A0A0C;}
+.area .nb{height:34px;font-size:12px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;text-align:left;color:var(--oro);padding:9px 6px;border-bottom:1px solid var(--line);font-weight:500;white-space:nowrap;}
+td{padding:8px 6px;border-bottom:1px solid var(--line2);vertical-align:middle;}
+td.v,th.v{text-align:center;font-weight:500;font-variant-numeric:tabular-nums;}
+.tw{overflow-x:auto;}
+.zd{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px;}
+.up{color:#6fcf8d;}.dn{color:#e07a7a;}.eq{color:var(--mut2);}
+
+/* hoy */
+.hoy{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;}
+.stat3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;}
+.stat3 div{background:var(--card2);border:1px solid var(--line2);border-radius:10px;padding:12px;text-align:center;}
+.stat3 b{display:block;font-family:var(--serif);font-weight:400;font-size:32px;line-height:1;color:var(--oro-v);}
+.stat3 span{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:var(--mut2);margin-top:6px;}
+
+/* acordeón */
+.acc{border:1px solid var(--line);border-radius:14px;background:var(--card);margin-top:12px;overflow:hidden;}
+.acc-h{width:100%;display:flex;align-items:center;gap:14px;padding:18px clamp(16px,3vw,24px);background:none;border:0;text-align:left;color:var(--txt);}
+.acc-h:hover{background:rgba(201,168,76,.04);}
+.acc-t{font-family:var(--serif);font-size:clamp(23px,3.4vw,28px);font-weight:400;line-height:1.1;}
+.acc-s{margin-left:auto;font-size:12.5px;color:var(--mut);text-align:right;max-width:46%;}
+.acc-c{color:var(--oro);transition:transform .2s;}
+.acc-h[aria-expanded="true"] .acc-c{transform:rotate(180deg);}
+.acc-p{padding:6px clamp(16px,3vw,24px) 26px;border-top:1px solid var(--line2);}
+
+/* acuerdos */
+.cmp{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line2);font-size:14px;}
+.cmp .ct{flex:1 1 220px;}
+.cmp .ct.c{color:var(--mut2);text-decoration:line-through;text-decoration-color:#4A9F6A;}
+.cmp .ct.a{color:var(--oro-v);}.cmp .ct.n{color:#e59a9a;}
+.sts{display:flex;gap:6px;flex-wrap:wrap;}
+.stb{padding:7px 12px;font-size:11px;font-weight:500;letter-spacing:.04em;background:transparent;border:1px solid var(--line2);border-radius:999px;color:var(--mut);transition:.15s;}
+.stb:hover{border-color:var(--sc,var(--oro));color:var(--txt);}
+.stb[aria-pressed="true"]{background:var(--sc);border-color:var(--sc);color:#0A0A0C;}
+.stb.re{border-color:var(--line);color:var(--oro-v);}
+.chip{display:inline-block;font-size:10.5px;padding:2px 9px;border:1px solid var(--line);border-radius:999px;color:var(--oro-v);white-space:nowrap;}
+.pal-top{display:flex;gap:22px;align-items:center;flex-wrap:wrap;}
+.pal-n{font-family:var(--serif);font-weight:300;font-size:64px;line-height:1;}
+.pal-z{font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;margin-bottom:4px;}
+.stack{display:flex;gap:3px;height:10px;margin-top:14px;border-radius:5px;overflow:hidden;}
+.stack i{display:block;}
+.tbars{display:flex;gap:6px;align-items:flex-end;height:84px;margin-top:8px;}
+.tb{flex:1;max-width:44px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;}
+.tb i{display:block;width:100%;border-radius:3px 3px 0 0;}
+.tb span{font-size:10px;color:var(--mut2);height:12px;}
+.alert{margin-top:14px;border-left:2px solid #CC5555;background:rgba(204,85,85,.07);padding:11px 16px;font-size:13.5px;color:var(--mut);border-radius:0 8px 8px 0;}
+.alert b{color:#ecaaaa;font-weight:500;}
+.ob-row{display:grid;grid-template-columns:2fr 1fr 1.6fr auto;gap:8px;margin-top:8px;align-items:center;}
+
+/* sesiones / feedback */
+details.ent{border:1px solid var(--line2);border-radius:12px;background:var(--card2);margin-top:10px;}
+details.ent summary{list-style:none;cursor:pointer;display:flex;gap:12px;align-items:center;padding:14px 16px;font-size:14px;}
+details.ent summary::-webkit-details-marker{display:none;}
+details.ent summary b{font-family:var(--serif);font-weight:400;font-size:21px;color:var(--txt);}
+details.ent summary .r{margin-left:auto;font-family:var(--serif);font-size:26px;line-height:1;}
+.ent-b{padding:0 16px 16px;font-size:14px;}
+.nt{margin:8px 0;color:var(--mut);white-space:pre-wrap;}
+.tag{display:inline-block;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;margin-right:8px;border:1px solid var(--line2);border-radius:999px;color:var(--mut2);}
+.tag.g{border-color:var(--line);color:var(--oro-v);}
+.fbl{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line2);font-size:14px;}
+.fbl span{flex:1;}
+.fbbox{border-left:2px solid var(--oro);background:rgba(201,168,76,.06);padding:12px 16px;margin-top:10px;border-radius:0 10px 10px 0;}
+.fbbox h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:4px;}
+
+/* avance */
+.acard{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:18px;}
+.m{background:var(--card2);border:1px solid var(--line2);border-top:3px solid var(--cc,var(--oro));border-radius:10px;padding:14px;text-align:center;}
+.m b{display:block;font-family:var(--serif);font-weight:400;font-size:38px;line-height:1;color:var(--cc,var(--oro-v));}
+.m span{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:var(--mut2);margin-top:6px;}
+.m small{display:block;font-size:11.5px;color:var(--mut);}
+.sub-card{background:var(--card2);border:1px solid var(--line2);border-radius:12px;padding:18px;margin-top:14px;}
+.sub-card h3{font-size:23px;}
+.bars{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
+.bar{display:grid;grid-template-columns:90px 1fr 110px;gap:10px;align-items:center;font-size:12px;color:var(--mut);}
+.bar .t{height:8px;background:var(--line2);position:relative;border-radius:4px;overflow:hidden;}
+.bar .t i{position:absolute;left:0;top:0;bottom:0;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+ul.cl{list-style:none;margin-top:8px;}
+ul.cl li{padding:8px 0;border-bottom:1px solid var(--line2);font-size:13.5px;display:flex;justify-content:space-between;gap:12px;}
+.obs{margin-top:18px;border:1px solid var(--line);background:rgba(201,168,76,.05);border-radius:12px;padding:20px 22px;}
+.obs h4{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--oro);font-weight:500;margin:14px 0 6px;}
+.obs h4:first-child{margin-top:0;}
+.obs li{margin:6px 0 6px 18px;font-size:14px;color:var(--txt2);}
+.obs p{font-size:13.5px;color:var(--mut);}
+
+/* enviar */
+.bigbtns{display:grid;gap:10px;margin-top:16px;}
+.prev{width:100%;min-height:190px;background:#0A0B0D;border:1px solid var(--line2);border-radius:8px;padding:14px;font-size:12.5px;line-height:1.6;color:var(--mut);resize:vertical;font-family:ui-monospace,Menlo,Consolas,monospace;}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;padding:6px 0;cursor:pointer;}
+.chk input{margin-top:4px;accent-color:var(--oro);width:16px;height:16px;}
+.pasos{counter-reset:p;list-style:none;margin-top:12px;}
+.pasos li{counter-increment:p;display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line2);font-size:14px;color:var(--txt2);}
+.pasos li::before{content:counter(p);font-family:var(--serif);font-size:26px;line-height:1;color:var(--oro-v);min-width:20px;}
+details.mini{margin-top:14px;}
+details.mini>summary{cursor:pointer;color:var(--oro-v);font-size:13px;font-weight:500;letter-spacing:.04em;list-style:none;}
+details.mini>summary::-webkit-details-marker{display:none;}
+details.mini>summary::before{content:'+ ';}
+details.mini[open]>summary::before{content:'– ';}
+
+/* pausa + footer */
+.pausa{text-align:center;padding:clamp(56px,9vw,100px) 24px 12px;}
+.pausa-rombo{display:block;width:12px;height:12px;margin:0 auto 24px;transform:rotate(45deg);background:#C9A84C;border:1px solid #E8C97A;}
+.pausa-txt{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(28px,4vw,46px);line-height:1.2;color:var(--txt);max-width:17em;margin:0 auto;text-wrap:balance;}
+.firma{display:block;margin:22px auto 0;width:150px;height:auto;opacity:.9;}
+.foot{margin-top:56px;border-top:1px solid var(--line);padding:34px 20px calc(48px + env(safe-area-inset-bottom,0px));text-align:center;font-size:12.5px;color:var(--mut2);}
+.foot svg{width:30px;height:30px;margin-bottom:10px;}
+.foot div{font-size:11.5px;letter-spacing:.2em;font-weight:500;color:var(--mut);}
+.foot p{max-width:46em;margin:12px auto 0;}
+.foot b{color:var(--oro-v);font-weight:500;}
+
+/* dialog */
+dialog{width:min(660px,calc(100% - 24px));max-height:92vh;margin:auto;background:var(--card);color:var(--txt2);border:1px solid var(--line);border-radius:16px;padding:0;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);}
+dialog::backdrop{background:rgba(0,0,0,.74);backdrop-filter:blur(3px);}
+.dl-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:20px 22px 14px;border-bottom:1px solid var(--line2);}
+.dl-h h3{font-family:var(--serif);font-weight:400;font-size:30px;color:var(--txt);line-height:1.1;}
+.dl-h small{display:block;font-size:12.5px;color:var(--mut2);margin-top:2px;}
+.dl-x{background:none;border:1px solid var(--line2);color:var(--mut);width:38px;height:38px;border-radius:50%;font-size:16px;}
+.dl-b{padding:6px 22px 8px;overflow-y:auto;max-height:calc(92vh - 170px);}
+.dl-f{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:14px 22px calc(16px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line2);background:var(--card);}
+.err{color:#ecaaaa;font-size:13px;margin-top:10px;}
+.step{margin-top:18px;}
+.step>.lbl{margin-top:0;}
+.step .no{font-family:var(--serif);color:var(--oro-v);font-size:20px;margin-right:6px;letter-spacing:0;}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:100;background:#1B1E23;border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;max-width:min(560px,calc(100% - 24px));font-size:13.5px;box-shadow:0 14px 40px rgba(0,0,0,.55);}
+.toast button{background:none;border:1px solid var(--line);color:var(--oro-v);border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:500;}
+
+@media(max-width:820px){
+  .rgrid,.two,.g2{grid-template-columns:1fr;}.areas{grid-template-columns:1fr;}.ob-row{grid-template-columns:1fr;}
+  .sumc{grid-template-columns:repeat(3,1fr);}.hoy{grid-template-columns:1fr;}.acc-s{display:none;}
+  .nav-brand span{display:none;}
+}
+@media(max-width:560px){
+  .nbs{grid-template-columns:repeat(5,1fr);}.nb{height:46px;}.area .nb{height:42px;}
+  .cps{grid-template-columns:repeat(3,1fr);}.sumc{grid-template-columns:1fr;}.stat3 b{font-size:28px;}
+  dialog{margin:auto 0 0;width:100%;max-width:100%;border-radius:18px 18px 0 0;max-height:95vh;}.dl-b{max-height:calc(95vh - 170px);}
+  .chipst{padding:7px 10px;}.nav-cta span{display:none;}.bar{grid-template-columns:70px 1fr 90px;}
+}
+@media print{
+  body{background:#fff;color:#16140F;}.nav,.ban,.hero-cta-group,.hero-iso,.nav-actions,dialog,.toast,.bigbtns,.btn-secundario,.cta-btn,.stb.re,.seg,.ed,.cps,.pausa{display:none!important;}
+  .acc-p{display:block!important;}.acc,.card,.sub-card,.sum,.m,.obs{background:#fff!important;border-color:#bbb!important;box-shadow:none!important;}
+  h1,h2,.acc-t,.card h3,.pal-n,.sum b,.m b,.stat3 b{color:#16140F!important;}.acc-s,.sub,.hero-intro,td,th,.nt,.obs p,.obs li,.cmp,.cmp .ct{color:#333!important;}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-rombo-mark" viewBox="0 0 24 24"><path d="M12 5 19 12 12 19 5 12Z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/></symbol>
+<symbol id="i-message-circle" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+<symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+</defs></svg>
+
+<nav class="nav">
+  <a href="#" class="nav-brand" aria-label="Innovación Humana">
+    <svg class="nav-isotipo" viewBox="0 0 32 32" fill="none" aria-hidden="true"><polygon points="16,2 30,16 16,30 2,16" stroke="#C9A84C" stroke-width="1.5"/><polygon points="16,6 26,16 16,26 6,16" stroke="#E8C97A" stroke-width="1" stroke-opacity="0.6"/><circle cx="16" cy="16" r="3.5" fill="#C9A84C"/></svg>
+    <span>Innovación Humana</span>
+  </a>
+  <div class="nav-actions">
+    <button class="chipst" id="navChip" type="button" aria-label="Estado de mi copia"><i></i><span id="navChipT">Sin copia guardada</span></button>
+    <button class="nav-cta" id="navEnviar" type="button"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-message-circle"/></svg><span>Enviar a Fer U</span></button>
+  </div>
+</nav>
+<div class="ban" id="banEj" hidden><span><b>Estoy viendo un ejemplo con datos ficticios.</b> Nada de lo que haga aquí se guarda.</span><button class="btn-secundario sm" id="btnSalirEj" type="button">Salir del ejemplo</button></div>
+
+<header class="hero">
+  <svg class="hero-iso" viewBox="0 0 32 32" fill="none" aria-hidden="true"><polygon points="16,2 30,16 16,30 2,16" stroke="#C9A84C" stroke-width=".5"/><polygon points="16,6 26,16 16,26 6,16" stroke="#E8C97A" stroke-width=".4"/><circle cx="16" cy="16" r="3.5" fill="#C9A84C"/></svg>
+  <div class="hero-content">
+    <p class="hero-kicker">Bitácora · Arquitectura de Identidad</p>
+    <h1>Yo soy el <em>origen.</em><span class="h1-sub">Me leo, me ajusto y avanzo.</span></h1>
+    <div class="linea" aria-hidden="true"></div>
+    <p class="hero-intro">Dos minutos al día para leerme con honestidad: lo que viví, lo que prometí y cómo se mueve mi radar.</p>
+    <div class="hero-cta-group">
+      <button class="cta-btn" id="heroCta" type="button"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg><span id="heroCtaT">Registrar mi día · 2 min</span></button>
+      <button class="btn-secundario" id="btnEj" type="button">Ver un ejemplo</button>
+    </div>
+    <p class="hero-nota" id="heroNota"></p>
+  </div>
+</header>
+
+<section class="blk" id="radar"><div class="wrap">
+  <div class="eyebrow"><svg class="lucide-icon" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Mi radar</div>
+  <h2>Dónde <em>estoy.</em></h2>
+  <div class="seg" id="dims" role="group" aria-label="Dimensión de mi radar"></div>
+  <div class="card">
+    <div class="rgrid">
+      <div><div id="radarBox"></div><div class="legend" id="legend"></div></div>
+      <div class="sumc" id="radarSum"></div>
+    </div>
+    <p class="due" id="radarDue"></p>
+    <div class="row" style="margin-top:16px"><button class="btn-secundario" id="btnRadarDet" type="button" aria-expanded="false" aria-controls="radarDet">Ver detalle y actualizar mi radar</button></div>
+    <div id="radarDet" hidden>
+      <div class="lbl">Mis mediciones <small>· cada 4 semanas, como mínimo</small></div>
+      <div class="cps" id="cps"></div>
+      <p class="hint">Toco una medición para capturarla o editarla. PRE es mi punto de partida; INICIO, MEDIO, MEDIO 2 y FINAL siguen mi programa. Uso las que necesite, de 3 a 5. Las áreas con ★ son las de mis objetivos.</p>
+      <div class="ed" id="ed" hidden>
+        <div class="row" style="justify-content:space-between">
+          <h3 id="edT" style="font-family:var(--serif);font-weight:400;font-size:26px;color:var(--txt)"></h3>
+          <div class="row"><label for="edF" class="lbl" style="margin:0">Fecha</label><input type="date" class="inp" id="edF" style="width:auto"><button class="btn-secundario sm rojo" id="edDel" type="button">Borrar esta medición</button><button class="btn-secundario sm" id="edClose" type="button">Cerrar</button></div>
+        </div>
+        <p class="hint" id="edProg"></p>
+        <div class="areas" id="edAreas"></div>
+      </div>
+      <div class="lbl">Ruta · Calificación</div>
+      <div class="tw" id="tabla"></div>
+      <p class="hint">El punto de color es la zona de mi última medición: <span style="color:var(--riesgo)">●</span> Riesgo (1–3) <span style="color:var(--desarrollo)">●</span> Desarrollo (4–6) <span style="color:var(--solidez)">●</span> Solidez (7–8) <span style="color:var(--referencia)">●</span> Referencia (9–10).</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="blk" id="hoy"><div class="wrap">
+  <div class="eyebrow"><svg class="lucide-icon" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Bitácora de hoy</div>
+  <h2>Mi <em>día.</em></h2>
+  <div class="card">
+    <div class="hoy">
+      <div><h3 id="hoyT">Todavía no registro mi día</h3><p class="sub" id="hoyD" style="margin-top:6px"></p></div>
+      <button class="cta-btn" id="btnDia" type="button"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pen"/></svg><span id="btnDiaT">Registrar mi día · 2 min</span></button>
+    </div>
+    <div class="stat3" id="stats"></div>
+    <p class="hint" id="constancia"></p>
+  </div>
+</div></section>
+
+<section class="blk" id="proceso"><div class="wrap">
+  <div class="eyebrow"><svg class="lucide-icon" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Mi proceso</div>
+  <h2>Lo abro cuando lo <em>necesito.</em></h2>
+
+  <div class="acc" id="a-acuerdos"><button class="acc-h" type="button" data-acc="acuerdos" aria-expanded="false" aria-controls="p-acuerdos"><span class="acc-t">Mis acuerdos</span><span class="acc-s" id="s-acuerdos"></span><svg class="lucide-icon acc-c" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+    <div class="acc-p" id="p-acuerdos" hidden><p class="sub">Cada acuerdo se cierra con un color: cumplido, pospuesto o no cumplido. Lo pospuesto no se pierde: lo re-acuerdo, sin deuda.</p><div id="palabra"></div><div id="acLista"></div></div></div>
+
+  <div class="acc" id="a-feedback"><button class="acc-h" type="button" data-acc="feedback" aria-expanded="false" aria-controls="p-feedback"><span class="acc-t">Feedback de Fer U</span><span class="acc-s" id="s-feedback"></span><svg class="lucide-icon acc-c" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+    <div class="acc-p" id="p-feedback" hidden><p class="sub">Cuando Fer U me responde por WhatsApp, pego aquí su feedback y convierto lo que me sirve en acuerdos con un toque.</p>
+      <label class="lbl" for="fbSel">Su feedback es sobre</label><select class="sel" id="fbSel"></select>
+      <label class="lbl" for="fbTxt">Pego aquí lo que Fer U me responde</label><textarea class="txt" id="fbTxt" placeholder="Pego su mensaje tal cual. Una idea por renglón."></textarea>
+      <div class="row" style="margin-top:12px"><button class="btn-secundario" id="btnFb" type="button">Guardar feedback</button></div>
+      <div id="fbLista"></div></div></div>
+
+  <div class="acc" id="a-objetivos"><button class="acc-h" type="button" data-acc="objetivos" aria-expanded="false" aria-controls="p-objetivos"><span class="acc-t">Mis objetivos</span><span class="acc-s" id="s-objetivos"></span><svg class="lucide-icon acc-c" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+    <div class="acc-p" id="p-objetivos" hidden><p class="sub">Mi punto de partida: la fractura que nombré en mi Mapeo y los objetivos de mi Carta Compromiso. Cada objetivo se liga a un área de mi radar.</p>
+      <div class="g2"><div><label class="lbl" for="codigo">Mi código de caso <small>(opcional · me lo da Fer U)</small></label><input class="inp" id="codigo" placeholder="IH-0000" maxlength="16" autocomplete="off"></div>
+      <div><label class="lbl" for="modalidad">Mi modalidad</label><select class="sel" id="modalidad"><option value="">Elijo…</option><option>Reconexión</option><option>Reinvención Básica</option><option>Reinvención Profunda</option><option>A medida</option></select></div></div>
+      <p class="hint">No escribo mi nombre aquí: mi código basta para que Fer U ubique mi bitácora.</p>
+      <label class="lbl" for="fractura">Mi fractura raíz, en mis palabras <small>(opcional)</small></label><textarea class="txt" id="fractura" style="min-height:64px" placeholder="Lo que nombré en mi Sesión de Mapeo, como yo lo diría…"></textarea>
+      <label class="lbl">Mis objetivos <small>(hasta 4 · objetivo, dimensión y área de mi radar)</small></label>
+      <div id="objs"></div><div class="row" style="margin-top:12px"><button class="btn-secundario sm" id="btnObj" type="button">+ Agregar objetivo</button></div></div></div>
+
+  <div class="acc" id="a-sesiones"><button class="acc-h" type="button" data-acc="sesiones" aria-expanded="false" aria-controls="p-sesiones"><span class="acc-t">Mis sesiones</span><span class="acc-s" id="s-sesiones"></span><svg class="lucide-icon acc-c" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+    <div class="acc-p" id="p-sesiones" hidden><div id="sesLista"></div></div></div>
+
+  <div class="acc" id="a-avance"><button class="acc-h" type="button" data-acc="avance" aria-expanded="false" aria-controls="p-avance"><span class="acc-t">Mi avance</span><span class="acc-s" id="s-avance"></span><svg class="lucide-icon acc-c" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+    <div class="acc-p" id="p-avance" hidden><div id="an"></div></div></div>
+
+  <div class="acc" id="a-enviar"><button class="acc-h" type="button" data-acc="enviar" aria-expanded="false" aria-controls="p-enviar"><span class="acc-t">Guardar y enviar</span><span class="acc-s" id="s-enviar"></span><svg class="lucide-icon acc-c" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+    <div class="acc-p" id="p-enviar" hidden>
+      <p class="sub" id="stSave"></p>
+      <p class="err" id="stWarn" hidden>Mi navegador no me deja guardar aquí. Descargo mi bitácora (archivo) para no perder lo que capture.</p>
+      <div class="bigbtns">
+        <button class="cta-btn" id="btnResp" type="button"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-download"/></svg>1 · Guardar mi bitácora (archivo)</button>
+        <a class="cta-btn" id="btnWa" target="_blank" rel="noopener"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-message-circle"/></svg>2 · Enviar a Fer U por WhatsApp</a>
+      </div>
+      <p class="hint">Si mi mensaje es muy largo o quiero mandar todo, descargo el reporte y lo adjunto en el chat de WhatsApp.</p>
+      <div class="row" style="margin-top:12px"><button class="btn-secundario" id="btnMd" type="button">Descargar reporte para Fer U (.md)</button><label class="btn-secundario" for="fileImp" style="cursor:pointer">Abrir una bitácora guardada</label><input type="file" id="fileImp" accept="application/json,.json" hidden></div>
+      <details class="mini"><summary>Elegir qué comparto con Fer U</summary>
+        <div style="margin-top:8px">
+          <label class="chk"><input type="checkbox" id="oObj" checked><span>Mis objetivos y su pulso</span></label>
+          <label class="chk"><input type="checkbox" id="oSes" checked><span>Mis calificaciones de sesión</span></label>
+          <label class="chk"><input type="checkbox" id="oCom" checked><span>Mi palabra (mis acuerdos y su estado)</span></label>
+          <label class="chk"><input type="checkbox" id="oRad" checked><span>Mi radar (última medición de cada dimensión)</span></label>
+          <label class="chk"><input type="checkbox" id="oRes" checked><span>Lo que quiero que Fer U sepa de cada sesión</span></label>
+          <label class="chk"><input type="checkbox" id="oAntes" checked><span>Lo que llevo a mi próxima sesión</span></label>
+          <label class="chk"><input type="checkbox" id="oNot"><span>Mis notas privadas (pueden incluir datos sensibles)</span></label>
+        </div>
+        <label class="lbl" for="prev">Vista previa de mi mensaje</label><textarea class="prev" id="prev" readonly></textarea>
+      </details>
+      <div class="row" style="margin-top:22px"><button class="btn-secundario sm" id="btnPrint" type="button">Imprimir o guardar en PDF</button><button class="btn-secundario sm rojo" id="btnBorrar" type="button">Borrar mi bitácora de este dispositivo</button></div>
+    </div></div>
+
+  <div class="acc" id="a-como"><button class="acc-h" type="button" data-acc="como" aria-expanded="false" aria-controls="p-como"><span class="acc-t">Cómo funciona</span><span class="acc-s">1 min</span><svg class="lucide-icon acc-c" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+    <div class="acc-p" id="p-como" hidden>
+      <ol class="pasos">
+        <li><span>Registro mi día en 2 minutos: si hubo sesión, la califico; cierro mis acuerdos con un toque y dejo una línea para Fer U.</span></li>
+        <li><span>Cada 4 semanas, como mínimo, actualizo mi radar: un color nuevo por medición, de 3 a 5 en todo mi programa.</span></li>
+        <li><span>Guardo mi bitácora en un archivo y se la envío a Fer U por WhatsApp.</span></li>
+        <li><span>Pego su feedback y convierto en acuerdos lo que me sirve.</span></li>
+      </ol>
+      <p class="hint">Lo que escribo se guarda solo en este navegador, en este dispositivo. Fer U lo recibe únicamente cuando yo se lo envío, y mis notas privadas solo si yo lo elijo. En un equipo compartido, guardo mi archivo y borro mi bitácora al terminar. Si abro la bitácora desde WhatsApp o Instagram, mejor la abro en Safari o Chrome para que se guarde bien.</p>
+      <p class="hint">Mis calificaciones son autoevaluaciones: miden cómo me veo y cómo percibo mis sesiones, no un resultado objetivo ni un diagnóstico. Me comparo conmigo, no con nadie más.</p>
+    </div></div>
+</div></section>
+
+<div class="pausa"><span class="pausa-rombo" aria-hidden="true"></span><p class="pausa-txt">El origen determina el resultado.</p><img class="firma" src="img/firma-feru.webp" alt="Firma de Fer U" width="361" height="92" onerror="this.remove()"></div>
+
+<footer class="foot">
+  <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><polygon points="16,2 30,16 16,30 2,16" stroke="#C9A84C" stroke-width="1.5"/><polygon points="16,6 26,16 16,26 6,16" stroke="#E8C97A" stroke-width="1" stroke-opacity="0.6"/><circle cx="16" cy="16" r="3.5" fill="#C9A84C"/></svg>
+  <div>INNOVACIÓN HUMANA · ARQUITECTURA DE IDENTIDAD</div>
+  <p><b>Si estoy en crisis</b>, llamo a la Línea de la Vida (800 911 2000, las 24 horas) o a mi número local de emergencias. Esta bitácora no es atención de crisis.</p>
+  <p>Innovación Humana ofrece acompañamiento personal y profesional. No constituye terapia ni atención médica o psicológica. Los resultados varían de una persona a otra.</p>
+  <p>Bitácora de la persona · v2.0 México</p>
+</footer>
+
+<dialog id="dlgDia" aria-labelledby="diaT">
+  <div class="dl-h"><div><h3 id="diaT">Bitácora de hoy</h3><small id="diaFecha"></small></div><button class="dl-x" id="btnDiaX" type="button" aria-label="Cerrar">✕</button></div>
+  <div class="dl-b">
+    <div class="step"><div class="lbl"><span class="no">1</span>Hoy <small>· en total, unos 2 minutos</small></div>
+      <div class="seg full" id="diaSeg" role="group" aria-label="¿Tuve sesión hoy?"><button type="button" data-t="libre">Hoy no tuve sesión</button><button type="button" data-t="sesion">Hoy tuve sesión</button></div>
+      <div id="diaSes" hidden><div class="lbl" style="margin-top:18px">¿Qué tan útil me resultó la sesión? <small>1 = nada · 10 = mucho</small></div><div class="nbs" id="diaCal"></div></div></div>
+    <div class="step"><div class="lbl"><span class="no">2</span>Mis acuerdos</div><div id="diaCierre"></div>
+      <div class="row" style="margin-top:12px"><input class="inp" id="diaNew" placeholder="Un acuerdo nuevo (opcional)" style="flex:1 1 200px" maxlength="200"><select class="sel" id="diaNewObj" style="flex:0 1 200px" aria-label="Objetivo ligado" hidden></select><button class="btn-secundario sm" id="btnDiaAdd" type="button">+ Agregar</button></div><div id="diaNewList"></div></div>
+    <div class="step"><div class="lbl"><span class="no">3</span>Lo que quiero que Fer U sepa</div><textarea class="txt" id="diaRes" style="min-height:64px" placeholder="Una o dos líneas: lo esencial de hoy…"></textarea></div>
+    <details class="mini" id="diaPulsoD"><summary>Cómo va cada objetivo hoy <span id="diaPulsoB" style="color:var(--mut2)"></span></summary><div id="diaPulso"></div></details>
+    <details class="mini" id="diaMasD"><summary>Agregar una nota privada o lo que llevo a mi próxima sesión</summary>
+      <label class="lbl" for="diaNot">Mi nota privada <small>· se queda en mi dispositivo</small></label><textarea class="txt" id="diaNot" placeholder="Lo que noté, lo que sentí, lo que me llevo…"></textarea>
+      <label class="lbl" for="diaAntes">Lo que llevo a mi próxima sesión</label><textarea class="txt" id="diaAntes" style="min-height:64px"></textarea></details>
+    <details class="mini" id="diaFD"><summary>Cambiar la fecha o el número de sesión</summary>
+      <div class="g2" style="margin-top:8px"><div><label class="lbl" for="diaF">Fecha</label><input type="date" class="inp" id="diaF"></div><div><label class="lbl" for="diaN">N.º de sesión</label><input type="number" min="1" class="inp" id="diaN"></div></div></details>
+    <p class="hint" style="margin-top:16px">Si algo me desborda, se lo digo a Fer U. Si estoy en riesgo, llamo a la Línea de la Vida: 800 911 2000 (24 h).</p>
+    <p class="err" id="diaErr" role="alert" hidden></p>
+  </div>
+  <div class="dl-f"><button class="btn-secundario" id="btnDiaCancel" type="button">Cancelar</button><button class="cta-btn" id="btnDiaSave" type="button">Guardar mi día</button></div>
+</dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+<script>
+/* Fer U: para entregar una bitácora precargada, pega aquí el JSON de un respaldo. Déjalo en null para la plantilla vacía. */
+const SEED = null;
+
+const KEY='ih-bitacora-v1';
+const AREAS={
+ personal:['Salud Física y Energía','Relación con el Dinero / Paz Económica','Confianza en tus Propias Decisiones','Responsabilidad y Carácter','Espiritualidad y Propósito','Amor Propio y Autoestima','Comunicación','Sexualidad','Relación Familiar','Relación de Pareja','Autoexpresión','Hábitos Destructivos y Vicios'],
+ profesional:['Estabilidad Emocional bajo Presión','Seguridad y Autoridad Serena','Honorabilidad y Alineación con tu Palabra','Responsabilidad sobre tus Resultados','Claridad de Propósito y Objetivos','Gestión de tu Energía y tus Límites','Comunicación Asertiva con tu Equipo','Plan de Acción Diaria / Ejecución','Delegación Efectiva','Toma de Decisiones Estratégicas','Retorno de tu Inversión de Tiempo','Liderazgo y Retención de tu Equipo'],
+ comercial:['Postura ante el Dinero / Merecimiento','Confianza en el Valor de lo que Ofreces','Disposición Real ante el Rechazo y la Negociación','Responsabilidad sobre tus Resultados Comerciales','Claridad de tu Cliente Ideal','Dominio de tu Propuesta de Valor / Marca Personal','Estrategia de Marca y Modelo de Ventas','Prospección y Generación de Conversaciones','Reclutamiento de Talento Comercial','Cierre y Conversión','Satisfacción del Cliente y Referidos','Ingresos y Resultados de Venta']
+};
+const DIMS={personal:{l:'Personal',c:'#C8993A'},profesional:{l:'Profesional',c:'#5588CC'},comercial:{l:'Comercial',c:'#4A9F6A'}};
+const CPS=[
+ {id:'pre',l:'PRE',c:'#38BDF8'},{id:'ini',l:'INICIO',c:'#B07CE8'},{id:'med',l:'MEDIO',c:'#F05252'},{id:'med2',l:'MEDIO 2',c:'#F0A832'},{id:'fin',l:'FINAL',c:'#5CD66A'}
+];
+const ESP=[[0,11],[1,10],[2,9],[3,8],[4,7],[5,6]];
+const ZN=v=>v<=3?'Riesgo':v<=6?'Desarrollo':v<=8?'Solidez':'Referencia';
+const ZC={Riesgo:'#CC5555',Desarrollo:'#C8993A',Solidez:'#5588CC',Referencia:'#4A9F6A'};
+/* Zonas de "Mi palabra" (cumplimiento de acuerdos). Nombres y cortes editables aquí. */
+const ZP=[{m:40,n:'Deuda alta',c:'#CC5555'},{m:65,n:'Fractura',c:'#C8993A'},{m:85,n:'Integridad',c:'#5588CC'},{m:100,n:'Soberanía',c:'#4A9F6A'}];
+const zp=p=>p==null?null:ZP.find(z=>Math.round(p)<=z.m)||ZP[3];
+const STS={c:{l:'Cumplido',c:'#4A9F6A'},a:{l:'Pospuesto',c:'#C8993A'},n:{l:'No cumplido',c:'#CC5555'},p:{l:'Pendiente',c:'#7a7a7a'}};
+const HI_RADAR=7,HI_PALABRA=66;
+const QD={
+ hl:{n:'Fractura de Arquitectura',d:'Tengo claridad, pero mi palabra todavía no la acompaña.',q:'¿Qué acuerdo, si lo cumplo esta semana, haría visible lo que ya sé?'},
+ lh:{n:'Potencial latente',d:'Cumplo lo que prometo; la claridad de hacia dónde voy se está formando.',q:'¿Qué quiero construir con la constancia que ya tengo?'},
+ hh:{n:'Soberanía activa',d:'Mi claridad y mi coherencia caminan juntas.',q:'¿Dónde voy a poner a prueba lo que ya sostengo?'},
+ ll:{n:'Origen primero',d:'Ni mi claridad ni mi palabra están firmes todavía: empiezo por lo más interno.',q:'¿Qué necesito recuperar de mí antes de prometer más?'}
+};
+const WA='525643440676';
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=v=>typeof v==='number'&&v>0;
+const avg=a=>{const x=a.filter(num);return x.length?x.reduce((p,c)=>p+c,0)/x.length:null;};
+const f1=v=>v==null?'–':v.toFixed(1);
+const pc=v=>v==null?'–':Math.round(v)+'%';
+const clone=o=>JSON.parse(JSON.stringify(o));
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const fmt=f=>{if(!f)return '';const d=new Date(f+'T00:00:00');return isNaN(d)?f:d.toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'});};
+const uid=()=>'e'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const q=s=>'“'+esc(s)+'”';
+const pl=(n,a,b)=>n+' '+(n===1?a:b);
+const daysBetween=(a,b)=>Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/864e5);
+const rel=ts=>{if(!ts)return '';const d=daysBetween(new Date(ts).toISOString().slice(0,10),new Date().toISOString().slice(0,10));return d<=0?'hoy':d===1?'ayer':'hace '+d+' días';};
+
+function blank(){return {v:3,codigo:'',modalidad:'',fractura:'',objs:[],entries:[],rad:{personal:{},profesional:{},comercial:{}},dim:'personal',cp:'ini',t:{chg:0,sav:0,snd:0}};}
+function normComp(c){return {id:c.id||uid(),t:String(c.t||''),st:c.st||(c.d?'c':'p'),oid:c.oid||'',from:c.from||'',re:!!c.re};}
+function norm(o){const b=blank();if(!o||typeof o!=='object')return b;
+  b.codigo=String(o.codigo||'').slice(0,16);b.modalidad=o.modalidad||'';b.fractura=String(o.fractura||'');
+  b.objs=Array.isArray(o.objs)?o.objs.slice(0,4).map(x=>({id:x.id||uid(),t:String(x.t||''),dim:DIMS[x.dim]?x.dim:'personal',ai:Math.min(11,Math.max(0,+x.ai||0))})):[];
+  b.entries=(Array.isArray(o.entries)?o.entries:[]).map(e=>({id:e.id||uid(),t:e.t==='libre'?'libre':'sesion',f:e.f||'',n:e.n||null,cal:+e.cal||0,notas:e.notas||'',res:e.res||'',antes:e.antes||'',fb:e.fb||'',pulso:e.pulso||{},comps:(e.comps||[]).map(normComp)}));
+  ['personal','profesional','comercial'].forEach(d=>{b.rad[d]=(o.rad&&o.rad[d])||{};});
+  b.dim=DIMS[o.dim]?o.dim:'personal';b.cp=CPS.some(c=>c.id===o.cp)?o.cp:'ini';
+  b.t=Object.assign({chg:0,sav:0,snd:0},o.t||{});return b;}
+let S=blank(),EJ=false,edOpen=false,dr=null,heroAct='dia';
+
+function persist(){if(EJ)return;try{localStorage.setItem(KEY,JSON.stringify(S));$('#stWarn').hidden=true;}catch(e){$('#stWarn').hidden=false;}}
+function save(){if(!EJ)S.t.chg=Date.now();persist();}
+function loadStore(){try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r);}catch(e){}return null;}
+
+/* ---------- ejemplo (datos ficticios) ---------- */
+function mkEjemplo(){
+  const iso=(m,d)=>new Date(Date.UTC(2026,m,d)).toISOString().slice(0,10);
+  const o1='o1',o2='o2',o3='o3';
+  const objs=[{id:o1,t:'Recuperar energía y rutinas que me sostengan',dim:'personal',ai:0},{id:o2,t:'Decir lo que pienso sin sentir culpa',dim:'personal',ai:6},{id:o3,t:'Delegar con confianza',dim:'profesional',ai:8}];
+  const notas=['Me costó empezar, pero nombrar lo que me detiene me aligeró.','Noté que pospongo las conversaciones difíciles.','Hablé con más claridad con mi equipo.','Semana pesada; aun así cumplí lo esencial.','Descansé mejor esta semana.','Me sorprendió lo que dije sobre mi forma de cobrar.','Empiezo a confiar más en mis decisiones.','Dije que no a algo sin sentir culpa.','Retomé una conversación pendiente.','Me siento más presente en lo que hago.','Veo con claridad lo que sigue.','Cierro con gratitud y con tareas claras.'];
+  const res=['Primera sesión: nombramos lo que me detiene.','Identifiqué mi patrón de posponer conversaciones.','Mejor comunicación en el equipo.','Semana pesada, cumplí lo esencial.','Mejor descanso.','Hablé de mi forma de cobrar.','Más confianza al decidir.','Aprendí a decir que no.','Retomé una conversación pendiente.','Más presencia.','Claridad de lo que sigue.','Cierre del programa.'];
+  const antes=['Quiero hablar de cómo delegar.','','Quiero revisar mi rutina de descanso.','','Quiero entender por qué se me atora un acuerdo.','','','Quiero practicar una conversación difícil.','','','Quiero definir mi siguiente etapa.',''];
+  const cal=[7,8,8,7,9,8,9,9,8,9,9,9];
+  const pool=[['Caminar 20 minutos, 4 días',o1],['Apagar el celular a las 10 pm',o1],['Tener la conversación pendiente',o2],['Delegar un pendiente de mi semana',o3],['Escribir tres líneas cada noche',o2],['Pedir la cita que vengo posponiendo',o3]];
+  const pul={o1:[4,4,5,5,6,6,7,7,7,8,8,8],o2:[4,4,4,5,5,6,6,7,7,7,8,8],o3:[3,3,4,4,4,5,5,6,6,7,7,7]};
+  const fbs={5:'Vas bien con tu comunicación: hoy ya nombras lo que piensas.\nEsta semana ensaya la conversación difícil con una sola frase corta.\nProtege 20 minutos de caminata, aunque sea en días pesados.',8:'Fíjate en el acuerdo que se repite: ¿sigue siendo tuyo?\nSi lo es, hazlo más pequeño: una cita, no un plan.'};
+  const entries=cal.map((c,i)=>{
+    const comps=[0,1].map(k=>{const [t,oid]=pool[(i*2+k)%6];const ix=i*2+k;let st=(ix===3)?'a':(ix===6)?'n':'c';if(i===11)st='p';return {id:`c${i}-${k}`,t,st,oid,from:'',re:false};});
+    return {id:'ej'+i,t:'sesion',f:iso(6,21+7*i),n:i+1,cal:c,notas:notas[i],res:res[i],antes:antes[i]||'',fb:fbs[i]||'',pulso:{o1:pul.o1[i],o2:pul.o2[i],o3:pul.o3[i]},comps};});
+  entries[6].comps[0]={id:'x6',t:'Pedir la cita que vengo posponiendo',st:'a',oid:o3,from:'',re:true};
+  entries[7].comps[0]={id:'x7',t:'Pedir la cita que vengo posponiendo',st:'a',oid:o3,from:'x6',re:true};
+  entries[8].comps[0]={id:'x8',t:'Pedir la cita que vengo posponiendo',st:'a',oid:o3,from:'x7',re:false};
+  entries.push({id:'ejL',t:'libre',f:iso(8,2),n:null,cal:0,notas:'Hoy sentí que mi energía volvió a un ritmo que puedo sostener.',res:'',antes:'',fb:'',pulso:{},comps:[]});
+  const R=(f,p,pr,co)=>({personal:{f,s:p},profesional:{f,s:pr},comercial:{f,s:co}});
+  const pre=R(iso(6,14),[6,5,4,6,3,3,5,4,6,5,4,2],[4,5,6,6,4,3,5,4,3,4,3,5],[3,5,4,6,4,4,3,3,2,5,4,4]);
+  const ini=R(iso(6,21),[6,5,5,6,4,4,5,5,6,5,5,3],[5,5,6,6,5,4,5,4,4,4,4,5],[4,5,5,6,5,4,4,3,3,5,4,4]);
+  const med=R(iso(7,25),[7,6,7,7,6,6,6,6,7,6,6,5],[6,6,7,7,6,6,6,6,5,6,5,6],[5,6,6,7,6,6,5,5,4,6,5,5]);
+  const fin=R(iso(9,13),[8,7,8,8,8,8,7,7,8,7,8,8],[7,8,8,8,8,7,7,8,7,7,6,7],[7,7,8,8,7,7,7,7,6,7,7,7]);
+  const rad={personal:{},profesional:{},comercial:{}};
+  [['pre',pre],['ini',ini],['med',med],['fin',fin]].forEach(([id,r])=>{['personal','profesional','comercial'].forEach(d=>{rad[d][id]=r[d];});});
+  return {v:3,codigo:'IH-EJEMPLO',modalidad:'Reinvención Básica',fractura:'Hago por todos y dejo mis propias decisiones para después.',objs,entries,rad,dim:'personal',cp:'med'};
+}
+
+/* ---------- cálculos ---------- */
+const complete=c=>c&&Array.isArray(c.s)&&c.s.length===12&&c.s.every(num);
+function cpsOf(dim){return CPS.filter(c=>complete(S.rad[dim][c.id])).map(c=>({...c,f:S.rad[dim][c.id].f||'',s:S.rad[dim][c.id].s,a:avg(S.rad[dim][c.id].s)}));}
+function sesiones(){return S.entries.filter(e=>e.t==='sesion'&&num(e.cal));}
+function pal(list){let c=0,a=0,n=0,p=0;list.forEach(e=>(e.comps||[]).forEach(k=>{if(k.st==='c')c++;else if(k.st==='a')a++;else if(k.st==='n')n++;else p++;}));const cl=c+a+n;return {c,a,n,p,cl,t:cl+p,pct:cl?100*c/cl:null};}
+function chron(){return [...S.entries].sort((a,b)=>(a.f||'').localeCompare(b.f||'')||((a.n||0)-(b.n||0)));}
+function trend(){return chron().map(e=>({e,p:pal([e])})).filter(x=>x.p.cl>0).map(x=>({f:x.e.f,n:x.e.n,pct:x.p.pct}));}
+function allComps(){const r=[];chron().forEach(e=>e.comps.forEach((c,i)=>r.push({c,e,i})));return r;}
+function stuck(){
+  const all=allComps().map(x=>x.c),map={},hasChild={};all.forEach(c=>{map[c.id]=c;if(c.from)hasChild[c.from]=true;});
+  return all.filter(c=>(c.st==='a'||c.st==='n')&&!hasChild[c.id]).map(c=>{let d=1,x=c;while(x.from&&map[x.from]&&(map[x.from].st==='a'||map[x.from].st==='n')){d++;x=map[x.from];}return {c,d};}).filter(x=>x.d>=3);
+}
+const objOf=id=>S.objs.find(o=>o.id===id);
+const areaName=o=>AREAS[o.dim][o.ai];
+function lastRadar(){const ds=[];Object.keys(DIMS).forEach(d=>cpsOf(d).forEach(c=>c.f&&ds.push(c.f)));return ds.length?ds.sort().pop():null;}
+function radarDays(){const l=lastRadar();return l?daysBetween(l,today()):null;}
+function pulsoDue(){if(!S.objs.length)return false;const l=chron().filter(e=>e.pulso&&Object.keys(e.pulso).length).pop();return !l||daysBetween(l.f,today())>=7;}
+function nextStep(){
+  const hasCp=Object.keys(DIMS).some(d=>cpsOf(d).length),te=S.entries.find(e=>e.f===today()),rd=radarDays();
+  if(!S.objs.length&&!S.entries.length)return {id:'obj',l:'Escribir mis objetivos',n:'Empiezo por mi punto de partida: los objetivos de mi Carta Compromiso.'};
+  if(!hasCp)return {id:'radar',l:'Capturar mi primera medición',n:'Mi radar es mi punto de partida: 12 áreas, unos 5 minutos.'};
+  if(rd!=null&&rd>=28)return {id:'radar',l:'Actualizar mi radar',n:`Mi última medición fue hace ${rd} días: me toca actualizar mi radar.`};
+  if(!te)return {id:'dia',l:'Registrar mi día · 2 min',n:'Hoy todavía no registro mi día.'};
+  if(!EJ&&S.t.snd<S.t.chg)return {id:'enviar',l:'Enviar a Fer U',n:'Tengo cambios que Fer U todavía no recibe.'};
+  return {id:'dia',l:'Editar mi día',n:'Hoy ya registré mi día. Todo al día.'};
+}
+
+/* ---------- UI helpers ---------- */
+let toastT=null;
+function toast(msg,acts){const t=$('#toast');t.innerHTML=`<span>${esc(msg)}</span>`+(acts||[]).map((a,i)=>`<button type="button" data-ta="${i}">${esc(a.l)}</button>`).join('');t.hidden=false;t._a=acts||[];clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true;},acts&&acts.length?9000:3600);}
+$('#toast').addEventListener('click',e=>{const b=e.target.closest('[data-ta]');if(!b)return;const a=$('#toast')._a[+b.dataset.ta];$('#toast').hidden=true;a&&a.fn();});
+function openAcc(id,open=true,scroll=false){const b=$(`.acc-h[data-acc="${id}"]`),p=$('#p-'+id);if(!b||!p)return;b.setAttribute('aria-expanded',open);p.hidden=!open;if(open&&scroll)setTimeout(()=>b.scrollIntoView({behavior:'smooth',block:'start'}),30);}
+function setRadarDet(open,scroll){$('#radarDet').hidden=!open;const b=$('#btnRadarDet');b.setAttribute('aria-expanded',open);b.textContent=open?'Ocultar el detalle':'Ver detalle y actualizar mi radar';if(open&&scroll)setTimeout(()=>$('#radarDet').scrollIntoView({behavior:'smooth',block:'start'}),30);}
+function act(id){
+  if(id==='obj')openAcc('objetivos',true,true);
+  else if(id==='radar'){setRadarDet(true,true);}
+  else if(id==='enviar')openAcc('enviar',true,true);
+  else openDia();
+}
+
+/* ---------- radar ---------- */
+function pt(i,v,R,cx,cy){const a=-Math.PI/2+i*Math.PI/6;return [cx+R*v/10*Math.cos(a),cy+R*v/10*Math.sin(a)];}
+function radarSVG(dim){
+  const cx=210,cy=205,R=150;let g='';
+  [2,4,6,8,10].forEach(r=>{g+=`<polygon points="${Array.from({length:12},(_,i)=>pt(i,r,R,cx,cy).join(',')).join(' ')}" fill="none" stroke="#2a2d33" stroke-width="1"/>`;});
+  const oa=S.objs.filter(o=>o.dim===dim).map(o=>o.ai);
+  for(let i=0;i<12;i++){const [x,y]=pt(i,10,R,cx,cy),[lx,ly]=pt(i,11.7,R,cx,cy);const isO=oa.includes(i);
+    g+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${isO?'#6b5a2a':'#2a2d33'}"/><text x="${lx}" y="${ly+4}" text-anchor="middle" font-size="11" fill="${isO?'#E8C97A':'#8E8E8A'}" font-family="Montserrat,sans-serif" font-weight="500">${isO?'★':''}${i+1}</text>`;}
+  const cs=cpsOf(dim);
+  cs.forEach(c=>{const p=c.s.map((v,i)=>pt(i,v,R,cx,cy).join(',')).join(' ');
+    g+=`<polygon points="${p}" fill="${c.c}" fill-opacity=".06" stroke="${c.c}" stroke-width="2.6" stroke-linejoin="round"/>`;
+    c.s.forEach((v,i)=>{const [x,y]=pt(i,v,R,cx,cy);g+=`<circle cx="${x}" cy="${y}" r="3" fill="${c.c}"/>`;});});
+  if(!cs.length)g+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="12.5" fill="#8E8E8A" font-family="Montserrat,sans-serif">Mi primera medición aparece aquí</text>`;
+  return `<svg class="rsvg" viewBox="0 0 420 410" role="img" aria-label="Mi radar de 12 áreas, dimensión ${DIMS[dim].l}">${g}</svg>`;
+}
+function renderRadar(){
+  const dim=S.dim,cs=cpsOf(dim),first=cs[0],last=cs[cs.length-1];
+  $('#dims').innerHTML=Object.keys(DIMS).map(k=>`<button type="button" style="--dc:${DIMS[k].c}" data-d="${k}" aria-pressed="${k===dim}">${DIMS[k].l}</button>`).join('');
+  $('#radarBox').innerHTML=radarSVG(dim);
+  $('#legend').innerHTML=cs.map(c=>`<div class="leg"><b style="color:${c.c}">${f1(c.a)}</b><span style="color:${c.c}">${c.l}</span></div>`).join('');
+  const fr=c=>ESP.filter(([a,b])=>Math.abs(c.s[a]-c.s[b])>=3).length;
+  $('#radarSum').innerHTML=cs.length?
+    `<div class="sum"><b>${f1(last.a)}</b><span>Mi promedio hoy</span><small>${last.l}${last.f?' · '+fmt(last.f):''}</small></div>
+     <div class="sum"><b class="${cs.length>1?(last.a-first.a>0?'up':last.a-first.a<0?'dn':'eq'):''}" style="${cs.length>1?'':'color:var(--mut2)'}">${cs.length>1?((last.a-first.a>=0?'+':'')+f1(last.a-first.a)):'–'}</b><span>Mi cambio contra mí</span><small>${cs.length>1?'desde mi '+first.l:'con dos mediciones lo veo'}</small></div>
+     <div class="sum"><b>${fr(last)}<small style="display:inline;font-family:var(--sans);font-size:14px;color:var(--mut2)"> de 6</small></b><span>Espejos en fractura</span><small>parejas con brecha de 3 o más</small></div>`
+    :`<div class="sum"><b style="color:var(--mut2)">–</b><span>Mi promedio</span><small>Todavía no tengo mediciones. La primera me toma unos 5 minutos.</small></div>`;
+  const rd=radarDays();
+  $('#radarDue').innerHTML=rd==null?'<b>Mi primera medición</b> es mi punto de partida.':rd>=28?`<b>Me toca actualizar mi radar:</b> mi última medición fue hace ${rd} días.`:`Mi próxima medición: en ${28-rd} días (cada 4 semanas, como mínimo).`;
+  $('#cps').innerHTML=CPS.map(c=>{const d=S.rad[dim][c.id];const n=d&&d.s?d.s.filter(num).length:0;const st=n===12?(fmt(d.f)||'Completa'):n?`${n}/12 áreas`:'Sin datos';
+    return `<button type="button" class="cp ${n?'on':''}" data-c="${c.id}" style="--cc:${c.c}" aria-pressed="${edOpen&&S.cp===c.id}"><b>${c.l}</b><span>${st}</span></button>`;}).join('');
+  const oa=S.objs.filter(o=>o.dim===dim).map(o=>o.ai);
+  let h=`<table><thead><tr><th>#</th><th>Área</th>${cs.map(c=>`<th class="v" style="color:${c.c}">${c.l}</th>`).join('')}${cs.length>1?'<th class="v">Δ</th>':''}</tr></thead><tbody>`;
+  AREAS[dim].forEach((t,i)=>{
+    const z=last?`<span class="zd" style="background:${ZC[ZN(last.s[i])]}"></span>`:'<span class="zd" style="background:#333"></span>';
+    const d=cs.length>1?last.s[i]-first.s[i]:0;
+    h+=`<tr><td style="color:var(--mut2)">${String(i+1).padStart(2,'0')}</td><td>${z}${oa.includes(i)?'<span style="color:var(--oro-v)">★ </span>':''}${esc(t)}</td>${cs.map(c=>`<td class="v" style="color:${c.c}">${c.s[i]}</td>`).join('')}${cs.length>1?`<td class="v ${d>0?'up':d<0?'dn':'eq'}">${d>0?'+':''}${d}</td>`:''}</tr>`;});
+  $('#tabla').innerHTML=h+'</tbody></table>';
+  renderEditor();
+}
+function renderEditor(){
+  const ed=$('#ed');ed.hidden=!edOpen;if(!edOpen)return;
+  const c=CPS.find(x=>x.id===S.cp),dim=S.dim;const d=S.rad[dim][c.id]||{f:'',s:[]};
+  $('#edT').innerHTML=`Capturando <span style="color:${c.c}">${c.l}</span> · ${DIMS[dim].l}`;
+  if($('#edF').value!==(d.f||''))$('#edF').value=d.f||'';
+  $('#edProg').textContent=`${(d.s||[]).filter(num).length} de 12 áreas calificadas. Mi medición aparece en la gráfica cuando están las 12. Me califico como me veo hoy.`;
+  $('#edAreas').innerHTML=AREAS[dim].map((t,i)=>`<div class="area"><div class="at"><i>${String(i+1).padStart(2,'0')}</i>${esc(t)}</div><div class="nbs">${Array.from({length:10},(_,k)=>`<button type="button" class="nb" style="--c:${c.color||c.c}" data-i="${i}" data-v="${k+1}" aria-pressed="${(d.s||[])[i]===k+1}" aria-label="${esc(t)}: ${k+1}">${k+1}</button>`).join('')}</div></div>`).join('');
+}
+
+/* ---------- hero, hoy, resúmenes ---------- */
+function renderHero(){const s=nextStep();heroAct=s.id;$('#heroCtaT').textContent=s.l;$('#heroNota').textContent=s.n;}
+function renderHoy(){
+  const te=S.entries.find(e=>e.f===today()),ses=sesiones(),p=pal(S.entries),z=zp(p.pct);
+  $('#hoyT').textContent=te?'Hoy ya registré mi día':'Todavía no registro mi día';
+  $('#hoyD').textContent=te?'Puedo editarlo cuando quiera.':'Dos minutos: cierro mis acuerdos, dejo una línea para Fer U y listo.';
+  $('#btnDiaT').textContent=te?'Editar mi día':'Registrar mi día · 2 min';
+  $('#stats').innerHTML=[[ses.length,'Sesiones',''],[f1(avg(ses.map(e=>e.cal))),'Utilidad promedio',''],[pc(p.pct),'Mi palabra',z?z.c:'']].map(([v,l,c])=>`<div><b${c?` style="color:${c}"`:''}>${v}</b><span>${l}</span></div>`).join('');
+  const ch=chron().filter(e=>e.f);
+  if(!ch.length){$('#constancia').textContent='';return;}
+  const n=ch.length,sem=Math.max(1,Math.round(daysBetween(ch[0].f,ch[n-1].f)/7)+1);
+  let t=`${pl(n,'entrada','entradas')} en ${pl(sem,'semana','semanas')}`;
+  if(!EJ)t+=` · la última, ${rel(new Date(ch[n-1].f+'T12:00:00').getTime())}`;
+  $('#constancia').textContent=t+'. Mi constancia también es un dato: se registra, no se juzga.';
+}
+function renderSums(){
+  const p=pal(S.entries),z=zp(p.pct),ses=sesiones(),fbn=S.entries.filter(e=>e.fb).length,open=allComps().filter(x=>x.c.st==='p').length;
+  $('#s-acuerdos').textContent=p.t?`${pc(p.pct)}${z?' · '+z.n:''}${open?' · '+pl(open,'abierto','abiertos'):''}`:'Sin acuerdos todavía';
+  $('#s-feedback').textContent=fbn?pl(fbn,'recibido','recibidos'):'Pegar el que reciba';
+  $('#s-objetivos').textContent=S.objs.length?pl(S.objs.length,'objetivo','objetivos'):'Escribir mis objetivos';
+  $('#s-sesiones').textContent=ses.length?`${pl(ses.length,'sesión','sesiones')} · utilidad ${f1(avg(ses.map(e=>e.cal)))}`:'Sin sesiones todavía';
+  const cs=cpsOf(S.dim);$('#s-avance').textContent=cs.length>1?`Radar ${cs[cs.length-1].a-cs[0].a>=0?'+':''}${f1(cs[cs.length-1].a-cs[0].a)} contra mí`:'Se activa con 2 mediciones';
+  const dirty=S.t.chg>S.t.sav;$('#s-enviar').textContent=EJ?'Ejemplo':!S.t.sav?'Sin copia guardada':dirty?'Cambios sin guardar':'Copia guardada '+rel(S.t.sav);
+  const chip=$('#navChip');chip.className='chipst '+(EJ?'':(!S.t.sav?'':dirty?'warn':'ok'));$('#navChipT').textContent=EJ?'Ejemplo':!S.t.sav?'Sin copia guardada':dirty?'Cambios sin guardar':'Copia guardada';
+  $('#stSave').textContent=EJ?'Esto es un ejemplo: no se guarda ni se envía nada.':(S.t.sav?`Última copia guardada: ${rel(S.t.sav)}.`:'Todavía no guardo una copia en archivo.')+(dirty&&S.t.sav?' Tengo cambios sin guardar.':'')+(S.t.snd?` Último envío a Fer U: ${rel(S.t.snd)}.`:'');
+}
+
+/* ---------- acuerdos ---------- */
+function stBtns(c,eid,i){return ['c','a','n'].map(s=>`<button type="button" class="stb" style="--sc:${STS[s].c}" data-e="${esc(eid)}" data-i="${i}" data-s="${s}" aria-pressed="${c.st===s}">${STS[s].l}</button>`).join('');}
+function cmpRow(x,withRe){const {c,e,i}=x;return `<div class="cmp"><span class="ct ${c.st}">${esc(c.t)}</span>${c.oid&&objOf(c.oid)?`<span class="chip">★ ${esc(areaName(objOf(c.oid)))}</span>`:''}<div class="sts">${stBtns(c,e.id,i)}${withRe&&(c.st==='a'||c.st==='n')&&!c.re?`<button type="button" class="stb re" data-re="${esc(c.id)}">Re-acordar</button>`:''}</div></div>`;}
+function renderAcuerdos(){
+  const p=pal(S.entries),z=zp(p.pct),tr=trend(),st=stuck();
+  if(!p.t){$('#palabra').innerHTML='';$('#acLista').innerHTML='<div class="empty">Todavía no tengo acuerdos. Los agrego cuando registro mi día.</div>';return;}
+  const seg=(n,c)=>n?`<i style="flex:${n};background:${c}" title="${n}"></i>`:'';
+  let h=`<div class="card" style="margin-top:16px"><h3>Mi palabra</h3><div class="pal-top" style="margin-top:8px"><div class="pal-n" style="color:${z?z.c:'var(--mut2)'}">${pc(p.pct)}</div><div><div class="pal-z" style="color:${z?z.c:'var(--mut2)'}">${z?z.n:'Sin acuerdos cerrados'}</div>
+    <div class="hint" style="margin:0">${pl(p.c,'cumplido','cumplidos')} · ${pl(p.a,'pospuesto','pospuestos')} · ${pl(p.n,'no cumplido','no cumplidos')}${p.p?` · ${pl(p.p,'pendiente','pendientes')}`:''}</div></div></div>
+    <div class="stack">${seg(p.c,STS.c.c)}${seg(p.a,STS.a.c)}${seg(p.n,STS.n.c)}${seg(p.p,STS.p.c)}</div>
+    <p class="hint">Mi palabra = acuerdos cumplidos ÷ acuerdos cerrados.</p>`;
+  if(tr.length>1)h+=`<div class="lbl">Entrada por entrada</div><div class="tbars">${tr.map(x=>`<div class="tb" title="${fmt(x.f)} · ${Math.round(x.pct)}%"><i style="height:${Math.max(4,x.pct)}%;background:${zp(x.pct).c}"></i><span>${x.n||''}</span></div>`).join('')}</div>`;
+  if(tr.length>=3){const a=tr[tr.length-3].pct,b=tr[tr.length-1].pct;if(a-b>=10)h+=`<div class="alert"><b>Para nombrar:</b> mi palabra bajó ${Math.round(a-b)} puntos en tres entradas (${Math.round(a)}% → ${Math.round(b)}%). Lo llevo a mi próxima sesión.</div>`;}
+  st.forEach(x=>{h+=`<div class="alert"><b>Acuerdo atorado:</b> ${q(x.c.t)} lleva ${x.d} ciclos sin cumplirse. ¿Sigue siendo mío?</div>`;});
+  $('#palabra').innerHTML=h+'</div>';
+  const all=allComps().reverse(),ab=all.filter(x=>x.c.st==='p'),po=all.filter(x=>x.c.st==='a'||x.c.st==='n'),ce=all.filter(x=>x.c.st==='c');
+  let l='';
+  l+=`<div class="lbl">Abiertos</div>${ab.length?ab.map(x=>cmpRow(x,false)).join(''):'<div class="empty">No tengo acuerdos abiertos.</div>'}`;
+  if(po.length)l+=`<div class="lbl">Pospuestos y no cumplidos</div>${po.map(x=>cmpRow(x,true)).join('')}`;
+  if(ce.length)l+=`<details class="mini"><summary>Cumplidos (${ce.length})</summary>${ce.map(x=>cmpRow(x,false)).join('')}</details>`;
+  $('#acLista').innerHTML=l;
+}
+
+/* ---------- objetivos ---------- */
+function renderObjetivos(){
+  if($('#fractura').value!==S.fractura)$('#fractura').value=S.fractura||'';
+  if($('#codigo').value!==S.codigo)$('#codigo').value=S.codigo||'';
+  $('#modalidad').value=S.modalidad||'';
+  const dimOpts=sel=>Object.keys(DIMS).map(k=>`<option value="${k}" ${k===sel?'selected':''}>${DIMS[k].l}</option>`).join('');
+  $('#objs').innerHTML=S.objs.length?S.objs.map((o,i)=>`<div class="ob-row" data-o="${esc(o.id)}"><input class="inp ob-t" placeholder="Mi objetivo ${i+1}" value="${esc(o.t)}" maxlength="160" aria-label="Objetivo ${i+1}">
+    <select class="sel ob-d" aria-label="Dimensión">${dimOpts(o.dim)}</select>
+    <select class="sel ob-a" aria-label="Área de mi radar">${AREAS[o.dim].map((t,k)=>`<option value="${k}" ${k===o.ai?'selected':''}>${String(k+1).padStart(2,'0')} · ${esc(t)}</option>`).join('')}</select>
+    <button class="btn-secundario sm rojo ob-x" type="button" aria-label="Quitar objetivo">✕</button></div>`).join(''):'<div class="empty">Todavía no tengo objetivos. Escribo los de mi Carta Compromiso: cada uno se liga a un área de mi radar.</div>';
+  $('#btnObj').hidden=S.objs.length>=4;
+}
+
+/* ---------- sesiones ---------- */
+function renderSesiones(){
+  const L=chron().reverse();
+  if(!L.length){$('#sesLista').innerHTML='<div class="empty">Todavía no registro nada. Mi primera entrada empieza con “Registrar mi día”.</div>';return;}
+  $('#sesLista').innerHTML=L.map(e=>{
+    const z=num(e.cal)?ZC[ZN(e.cal)]:'var(--mut2)';
+    return `<details class="ent"><summary><b>${e.t==='sesion'?'Sesión '+(e.n||''):'Entrada del día'}</b><span style="color:var(--mut2)">${fmt(e.f)}</span>${num(e.cal)?`<span class="r" style="color:${z}">${e.cal}<small style="font-size:12px;color:var(--mut2)">/10</small></span>`:''}</summary>
+    <div class="ent-b">${e.res?`<div class="nt"><span class="tag g">Para Fer U</span>${esc(e.res)}</div>`:''}${e.notas?`<div class="nt"><span class="tag">Privado</span>${esc(e.notas)}</div>`:''}${e.antes?`<div class="nt"><span class="tag g">Para mi próxima sesión</span>${esc(e.antes)}</div>`:''}
+    ${e.fb?`<div class="fbbox"><h4>Feedback de Fer U</h4>${esc(e.fb).replace(/\n/g,'<br>')}</div>`:''}
+    ${(e.comps||[]).map((c,i)=>cmpRow({c,e,i},true)).join('')}
+    <div class="row" style="margin-top:12px"><button class="btn-secundario sm" type="button" data-ed="${esc(e.id)}">Editar</button><button class="btn-secundario sm rojo" type="button" data-del="${esc(e.id)}">Eliminar</button></div></div></details>`;}).join('');
+}
+
+/* ---------- feedback ---------- */
+function renderFeedback(){
+  const L=chron().reverse();
+  const cur=$('#fbSel').value;
+  $('#fbSel').innerHTML=L.length?L.map(e=>`<option value="${esc(e.id)}">${fmt(e.f)} · ${e.t==='sesion'?'Sesión '+(e.n||''):'Entrada del día'}</option>`).join(''):'<option value="">Primero registro mi día</option>';
+  if(cur&&L.some(e=>e.id===cur))$('#fbSel').value=cur;
+  const fl=L.filter(e=>e.fb);
+  $('#fbLista').innerHTML=fl.length?fl.map(e=>`<div class="fbbox"><h4>${fmt(e.f)} · ${e.t==='sesion'?'Sesión '+(e.n||''):'Entrada del día'}</h4>${e.fb.split('\n').map(s=>s.replace(/^[\s\-•*·]+/,'').trim()).filter(Boolean).map((s,i)=>`<div class="fbl"><span>${esc(s)}</span><button class="stb re" type="button" data-fbe="${esc(e.id)}" data-fbi="${i}">Hacer acuerdo</button></div>`).join('')}</div>`).join(''):'<div class="empty">Todavía no pego feedback. Cuando Fer U me responda, lo guardo aquí.</div>';
+}
+
+/* ---------- avance ---------- */
+function intervalEntries(a,b,lastIv){return S.entries.filter(e=>e.f&&e.f>=a.f&&(lastIv?e.f<=b.f:e.f<b.f));}
+function spark(vals,color){const v=vals.filter(x=>x!=null);if(v.length<2)return '<span style="color:var(--mut2)">–</span>';
+  const W=110,H=30,n=vals.length;const pts=vals.map((x,i)=>x==null?null:[4+i*(W-8)/Math.max(1,n-1),H-4-(x-1)*(H-8)/9]).filter(Boolean);
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round"/><circle cx="${pts[pts.length-1][0]}" cy="${pts[pts.length-1][1]}" r="3" fill="${color}"/></svg>`;}
+function renderAn(){
+  const dim=S.dim,cs=cpsOf(dim),box=$('#an'),P=pal(S.entries);
+  let h=`<div class="lbl" style="margin-top:14px;color:${DIMS[dim].c}">Dimensión ${DIMS[dim].l} · la cambio arriba, en mi radar</div>`;
+  const obs=[],pr=[],first=cs[0],last=cs[cs.length-1];
+  if(cs.length<2)h+=`<div class="empty">Con una sola medición completa todavía no comparo mi radar. Capturo al menos dos (${cs.length} de 2 por ahora).</div>`;
+  else{
+    const ser=c=>avg(c.s.slice(0,6)),ruta=c=>avg(c.s.slice(6));
+    const deltas=AREAS[dim].map((t,i)=>({i,t,d:last.s[i]-first.s[i]}));
+    const asc=[...deltas].sort((a,b)=>a.d-b.d),desc=[...deltas].sort((a,b)=>b.d-a.d);
+    const fr=c=>ESP.filter(([a,b])=>Math.abs(c.s[a]-c.s[b])>=3);
+    h+=`<div class="acard">${cs.map(c=>`<div class="m" style="--cc:${c.c}"><b>${f1(c.a)}</b><span>${c.l}</span><small>${fmt(c.f)}</small></div>`).join('')}<div class="m"><b>${last.a-first.a>=0?'+':''}${f1(last.a-first.a)}</b><span>${first.l} → ${last.l}</span><small>mi cambio contra mí</small></div></div>`;
+    h+=`<div class="sub-card"><h3>El Ser y La Ruta</h3><p class="hint">Áreas 1 a 6 (mi arquitectura interna) frente a 7 a 12 (cómo se manifiesta hacia afuera).</p><div class="bars">`+cs.map(c=>`<div class="bar"><span style="color:${c.c}">${c.l}</span><div class="t"><i style="width:${ser(c)*10}%;background:${c.c};height:4px"></i><i style="top:4px;width:${ruta(c)*10}%;background:${c.c};opacity:.55;height:4px"></i></div><span>${f1(ser(c))} · ${f1(ruta(c))}</span></div>`).join('')+`</div><p class="hint">Barra de arriba: El Ser. Barra de abajo: La Ruta.</p></div>`;
+    const li=a=>a.slice(0,3).map(x=>`<li><span>${String(x.i+1).padStart(2,'0')} · ${esc(x.t)}</span><b class="${x.d>0?'up':x.d<0?'dn':'eq'}">${x.d>0?'+':''}${x.d}</b></li>`).join('');
+    h+=`<div class="two"><div class="sub-card"><h3>Mi mayor avance</h3><ul class="cl">${li(desc)}</ul></div><div class="sub-card"><h3>Mi menor avance</h3><ul class="cl">${li(asc)}</ul></div></div>`;
+    h+=`<div class="sub-card"><h3>Mis parejas de espejo</h3><p class="hint">Cada pareja une un área de El Ser con una de La Ruta. Una brecha de 3 puntos o más marca una fractura de espejo.</p><div class="tw"><table><thead><tr><th>Pareja</th>${cs.map(c=>`<th class="v" style="color:${c.c}">${c.l}</th>`).join('')}</tr></thead><tbody>`+
+      ESP.map(([a,b])=>`<tr><td>${String(a+1).padStart(2,'0')} ↔ ${String(b+1).padStart(2,'0')}<br><span style="font-size:11.5px;color:var(--mut2)">${esc(AREAS[dim][a])} · ${esc(AREAS[dim][b])}</span></td>${cs.map(c=>{const g=Math.abs(c.s[a]-c.s[b]);return `<td class="v" style="color:${g>=3?'#e07a7a':'var(--mut)'}">${g}${g>=3?' ●':''}</td>`;}).join('')}</tr>`).join('')+`</tbody></table></div></div>`;
+    const top=desc[0],low=asc[0],fF=fr(first),fL=fr(last);
+    obs.push(`Mi promedio pasó de <b>${f1(first.a)}</b> (${first.l}) a <b>${f1(last.a)}</b> (${last.l}): me comparo conmigo, no con nadie más.`,`El Ser: ${f1(ser(first))} → ${f1(ser(last))}. La Ruta: ${f1(ruta(first))} → ${f1(ruta(last))}.`,`Mi mayor avance: ${q(top.t)} (${top.d>0?'+':''}${top.d}). Mi menor avance: ${q(low.t)} (${low.d>0?'+':''}${low.d}).`,`Parejas con fractura de espejo: ${fF.length} en ${first.l} y ${fL.length} en ${last.l}.`);
+    pr.push(`¿Qué hice para que ${q(top.t)} avanzara?`,`¿Qué necesita ${q(low.t)} que todavía no le doy?`);
+    if(fL.length){const [a,b]=fL[0];pr.push(`¿Por qué ${q(AREAS[dim][a])} y ${q(AREAS[dim][b])} siguen por caminos distintos en mí?`);}
+    else if(fF.length){const [a,b]=fF[0];pr.push(`¿Qué cambió para que ${q(AREAS[dim][a])} y ${q(AREAS[dim][b])} volvieran a caminar juntas?`);}
+  }
+  if(S.objs.length){
+    const ents=chron();
+    h+=`<div class="sub-card"><h3>Mis objetivos</h3><p class="hint">Cada objetivo de mi Carta, ligado a un área de mi radar: su pulso por sesión, mi radar por medición y los acuerdos que lo sostienen.</p><div class="tw"><table><thead><tr><th>Objetivo · área</th><th>Pulso</th><th class="v">Radar</th><th class="v">Mi palabra</th></tr></thead><tbody>`;
+    S.objs.forEach(o=>{
+      const pv=ents.map(e=>e.pulso&&num(e.pulso[o.id])?e.pulso[o.id]:null).filter((x,i,a)=>true);
+      const lastP=[...pv].reverse().find(x=>x!=null);
+      const cc=cpsOf(o.dim),rv=cc.map(c=>`<span style="color:${c.c}">${c.s[o.ai]}</span>`).join(' → ');
+      const dR=cc.length>1?cc[cc.length-1].s[o.ai]-cc[0].s[o.ai]:null;
+      const pp=pal(S.entries.map(e=>({comps:e.comps.filter(k=>k.oid===o.id)})));
+      h+=`<tr><td>${esc(o.t||'Objetivo')}<br><span style="font-size:11.5px;color:var(--mut2)">${esc(areaName(o))} · ${DIMS[o.dim].l}</span></td><td>${spark(pv,DIMS[o.dim].c)}${lastP?`<b style="margin-left:6px;font-weight:500">${lastP}</b>`:''}</td><td class="v" style="white-space:nowrap">${rv||'–'}${dR!=null?` <span class="${dR>0?'up':dR<0?'dn':'eq'}">(${dR>0?'+':''}${dR})</span>`:''}</td><td class="v">${pp.cl?`<span style="color:${zp(pp.pct).c}">${pc(pp.pct)}</span> <span style="color:var(--mut2);font-weight:300">(${pp.c}/${pp.cl})</span>`:'–'}</td></tr>`;});
+    h+=`</tbody></table></div></div>`;
+    const lag=S.objs.map(o=>({o,pp:pal(S.entries.map(e=>({comps:e.comps.filter(k=>k.oid===o.id)})))})).filter(x=>x.pp.cl>=2).sort((a,b)=>a.pp.pct-b.pp.pct)[0];
+    if(lag&&lag.pp.pct<66){obs.push(`El objetivo ${q(lag.o.t)} es el que tiene menos acuerdos cumplidos (${pc(lag.pp.pct)}).`);pr.push(`¿Qué acuerdo de ${q(lag.o.t)} se me hace más pesado de cumplir, y por qué?`);}
+  }
+  if(P.cl){
+    const z=zp(P.pct);
+    obs.push(`Mi palabra: <b>${pc(P.pct)}</b> (${z.n}): ${pl(P.c,'cumplido','cumplidos')}, ${pl(P.a,'pospuesto','pospuestos')}, ${pl(P.n,'no cumplido','no cumplidos')}.`);
+    const tr=trend();if(tr.length>=3){const a=tr[tr.length-3].pct,b=tr[tr.length-1].pct;if(a-b>=10){obs.push(`Mi palabra bajó ${Math.round(a-b)} puntos en tres entradas.`);pr.push('¿Qué cambió en mi semana cuando mis acuerdos empezaron a moverse?');}}
+    stuck().forEach(x=>{obs.push(`El acuerdo ${q(x.c.t)} lleva ${x.d} ciclos sin cumplirse.`);pr.push(`¿Sigue siendo mío ${q(x.c.t)}? ¿Qué lo haría posible, o qué me haría soltarlo?`);});
+  }
+  if(cs.length>=1&&P.cl){
+    const path=[];
+    for(let k=1;k<cs.length;k++){const a=cs[k-1],b=cs[k];if(!a.f||!b.f)continue;const pp=pal(intervalEntries(a,b,k===cs.length-1));if(!pp.cl)continue;path.push({a,b,r:b.a,p:pp.pct,qd:(b.a>=HI_RADAR?'h':'l')+(pp.pct>=HI_PALABRA?'h':'l')});}
+    const cur=path.length?path[path.length-1]:{r:last.a,p:P.pct,qd:(last.a>=HI_RADAR?'h':'l')+(P.pct>=HI_PALABRA?'h':'l')};
+    const Q=QD[cur.qd];
+    h+=`<div class="sub-card"><h3>Mi radar × mi palabra</h3><p class="hint">Cruzo qué tan claro está mi radar (promedio ≥ ${HI_RADAR}) con qué tanto cumplo lo que prometo (≥ ${HI_PALABRA}%). Los cuadrantes no son veredictos: <b style="color:var(--oro-v);font-weight:500">lo importante es hacia dónde me muevo.</b></p>
+      <div class="obs"><h4>Hoy · ${f1(cur.r)} de radar · ${pc(cur.p)} de palabra</h4><p><b style="color:var(--oro-v);font-size:16px;font-weight:500">${Q.n}</b><br>${Q.d}</p><h4>Pregunta</h4><p>${Q.q}</p></div>
+      ${path.length>1?`<p class="hint">Mi movimiento: ${path.map(x=>`<span style="color:${x.b.c}">${x.b.l}</span> ${QD[x.qd].n}`).join(' → ')}</p>`:''}</div>`;
+    pr.push(Q.q);
+  }
+  const dd=Object.keys(DIMS).map(d=>{const c=cpsOf(d);return c.length?{d,a:c[c.length-1].a,l:c[c.length-1].l}:null;}).filter(Boolean);
+  if(dd.length>=2){const sd=[...dd].sort((a,b)=>b.a-a.a),hi=sd[0],lo=sd[sd.length-1];
+    h+=`<div class="sub-card"><h3>Entre mis horizontes</h3><div class="bars">${dd.map(x=>`<div class="bar"><span style="color:${DIMS[x.d].c}">${DIMS[x.d].l}</span><div class="t"><i style="width:${x.a*10}%;background:${DIMS[x.d].c}"></i></div><span>${f1(x.a)} · ${x.l}</span></div>`).join('')}</div></div>`;
+    if(hi.a-lo.a>=1.5){obs.push(`Mi horizonte más alto es ${DIMS[hi.d].l} (${f1(hi.a)}) y el más bajo, ${DIMS[lo.d].l} (${f1(lo.a)}).`);pr.push(`¿Qué de lo que ya sostengo en ${DIMS[hi.d].l} todavía no cruza hacia ${DIMS[lo.d].l}?`);}}
+  if(cs.length>=2){
+    let rows='';
+    for(let k=1;k<cs.length;k++){const a=cs[k-1],b=cs[k];
+      if(!a.f||!b.f){rows+=`<tr><td>${a.l} → ${b.l}</td><td class="v" colspan="3" style="color:var(--mut2)">Agrego las fechas de ambas mediciones para cruzar</td></tr>`;continue;}
+      const inr=intervalEntries(a,b,k===cs.length-1),ses=inr.filter(e=>e.t==='sesion'&&num(e.cal)),cc=pal(inr),dA=b.a-a.a;
+      rows+=`<tr><td><span style="color:${a.c}">${a.l}</span> → <span style="color:${b.c}">${b.l}</span></td><td class="v">${ses.length?f1(avg(ses.map(e=>e.cal))):'–'} <span style="color:var(--mut2);font-weight:300">(${ses.length})</span></td><td class="v">${cc.cl?`<span style="color:${zp(cc.pct).c}">${pc(cc.pct)}</span>`:'–'} <span style="color:var(--mut2);font-weight:300">(${cc.c}/${cc.cl})</span></td><td class="v ${dA>0?'up':dA<0?'dn':'eq'}">${dA>0?'+':''}${f1(dA)}</td></tr>`;}
+    h+=`<div class="sub-card"><h3>Mis sesiones y mi palabra entre mediciones</h3><div class="tw"><table><thead><tr><th>Tramo</th><th class="v">Utilidad prom.</th><th class="v">Mi palabra</th><th class="v">Δ radar</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  }
+  h+=`<div class="obs"><h4>Observado</h4><ul>${obs.map(x=>`<li>${x}</li>`).join('')||'<li>Todavía no hay suficiente información para observar.</li>'}</ul><h4>Preguntas para mi próxima sesión</h4><ul>${[...new Set(pr)].map(x=>`<li>${x}</li>`).join('')||'<li>Aparecen cuando registro mediciones y acuerdos.</li>'}</ul><h4>Lo que no puedo concluir de esto</h4><p>Son autoevaluaciones: miden cómo me veo y cómo percibo mis sesiones, no un resultado objetivo ni un diagnóstico. Con 3 a 5 mediciones, los cruces muestran coincidencias, no causas. Los cuadrantes y las zonas son puntos de partida, no etiquetas sobre quién soy. La lectura la hago yo, con Fer U, en sesión.</p></div>`;
+  box.innerHTML=h;
+}
+
+/* ---------- enviar ---------- */
+function textoEnvio(full){
+  const ses=sesiones(),P=pal(S.entries),L=[];
+  L.push('Hola Fer, esta es mi bitácora.');
+  if(S.codigo)L.push('Código: '+S.codigo);
+  if(S.modalidad)L.push('Modalidad: '+S.modalidad);
+  if($('#oObj').checked&&S.objs.length){L.push('');L.push('Mis objetivos:');
+    S.objs.forEach((o,i)=>{const pv=chron().filter(e=>e.pulso&&num(e.pulso[o.id])).map(e=>e.pulso[o.id]);L.push(`${i+1}. ${o.t||'(sin texto)'} → ${DIMS[o.dim].l} · ${String(o.ai+1).padStart(2,'0')} ${areaName(o)}${pv.length?` · pulso ${full?pv.join(', '):pv[pv.length-1]}`:''}`);});
+    if(S.fractura&&full)L.push('Mi fractura nombrada: '+S.fractura);}
+  if($('#oSes').checked){L.push('');L.push(`Sesiones: ${ses.length} · Utilidad promedio: ${f1(avg(ses.map(e=>e.cal)))}/10`);
+    if(ses.length){const o=chron().filter(e=>e.t==='sesion'&&num(e.cal));L.push('Calificaciones: '+o.map(e=>`S${e.n||'?'}=${e.cal}`).join(', '));}}
+  if($('#oCom').checked&&P.t){L.push('');const z=zp(P.pct);L.push(`Mi palabra: ${pc(P.pct)}${z?' ('+z.n+')':''} · ${pl(P.c,'cumplido','cumplidos')}, ${pl(P.a,'pospuesto','pospuestos')}, ${pl(P.n,'no cumplido','no cumplidos')}${P.p?', '+pl(P.p,'pendiente','pendientes'):''}`);
+    if(full)chron().reverse().forEach(e=>(e.comps||[]).forEach(k=>L.push(`- [${STS[k.st].l}] ${k.t} (${fmt(e.f)})${k.oid&&objOf(k.oid)?' · ★ '+areaName(objOf(k.oid)):''}${k.from?' · re-acuerdo':''}`)));}
+  if($('#oRad').checked){Object.keys(DIMS).forEach(d=>{const cs=cpsOf(d);if(!cs.length)return;const l=cs[cs.length-1];
+    L.push('');L.push(`Mi radar ${DIMS[d].l} · ${l.l}${l.f?' ('+fmt(l.f)+')':''} · promedio ${f1(l.a)}`);
+    L.push(AREAS[d].map((t,i)=>`${String(i+1).padStart(2,'0')}=${l.s[i]}`).join(' '));
+    if(full&&cs.length>1)cs.forEach(x=>L.push(`  ${x.l}: ${x.s.join(', ')} (prom ${f1(x.a)})`));});}
+  if($('#oRes').checked){const n=chron().filter(e=>e.res);if(n.length){L.push('');L.push('Lo que quiero que sepas:');(full?n:n.slice(-2)).forEach(e=>L.push(`${fmt(e.f)}${e.t==='sesion'?' · Sesión '+(e.n||''):''}: ${e.res}`));}}
+  if($('#oAntes').checked){const a=chron().filter(e=>e.antes).slice(-1)[0];if(a){L.push('');L.push('Para mi próxima sesión: '+a.antes);}}
+  if($('#oNot').checked){const n=chron().filter(e=>e.notas);if(n.length){L.push('');L.push('Mis notas privadas:');n.forEach(e=>L.push(`${fmt(e.f)}${e.t==='sesion'?' · Sesión '+(e.n||''):''}: ${e.notas}`));}}
+  return L.join('\n');
+}
+function renderEnvio(){const t=textoEnvio(false);$('#prev').value=t;$('#btnWa').href=`https://wa.me/${WA}?text=${encodeURIComponent(t)}`;}
+function mdFile(){const t=textoEnvio(true);return `---\ncodigo: ${S.codigo||'sin-codigo'}\nmodalidad: ${S.modalidad||''}\ntipo: bitacora-persona\nexportada: ${today()}\n---\n\n# Bitácora de la persona\n\n`+t.replace(/^Hola Fer, esta es mi bitácora\.\n?/,'')+'\n';}
+function download(name,txt,mime){const b=new Blob([txt],{type:mime||'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},300);}
+function doSave(){if(EJ){toast('Es un ejemplo: no se guarda nada.');return;}S.t.sav=Date.now();persist();download(`bitacora_${S.codigo||'sin-codigo'}_${today()}.json`,JSON.stringify(S),'application/json');renderSums();toast('Guardé mi bitácora. Ahora puedo enviársela a Fer U.',[{l:'Enviar a Fer U',fn:()=>openAcc('enviar',true,true)}]);}
+
+/* ---------- diálogo del día ---------- */
+function todayEntry(){return S.entries.find(e=>e.f===today());}
+function ensureToday(){let e=todayEntry();if(!e){e={id:uid(),t:'libre',f:today(),n:null,cal:0,notas:'',res:'',antes:'',fb:'',pulso:{},comps:[]};S.entries.push(e);}return e;}
+function openDia(id){
+  const e=id?S.entries.find(x=>x.id===id):todayEntry();
+  const ns=S.entries.filter(x=>x.t==='sesion').map(x=>x.n||0);
+  dr={id:e?e.id:null,t:e?e.t:'libre',f:e?e.f:today(),n:e?(e.n||(ns.length?Math.max(...ns):0)+1):(ns.length?Math.max(...ns):0)+1,cal:e?e.cal:0,pulso:e?{...e.pulso}:{},close:{},add:[]};
+  $('#diaRes').value=e?e.res:'';$('#diaNot').value=e?e.notas:'';$('#diaAntes').value=e?e.antes:'';$('#diaNew').value='';$('#diaF').value=dr.f;$('#diaN').value=dr.n;
+  $('#diaT').textContent=e?'Bitácora de hoy · edito':'Bitácora de hoy';
+  $('#diaFecha').textContent=new Date(dr.f+'T12:00:00').toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'});
+  $('#diaErr').hidden=true;
+  $('#diaPulsoD').hidden=!S.objs.length;$('#diaPulsoD').open=!!(S.objs.length&&(pulsoDue()||(e&&Object.keys(e.pulso||{}).length)));
+  $('#diaMasD').open=!!(e&&(e.notas||e.antes));$('#diaFD').open=false;
+  renderDia();
+  const d=$('#dlgDia');if(!d.open)d.showModal();
+}
+function renderDia(){
+  $$('#diaSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===dr.t));
+  $('#diaSes').hidden=dr.t!=='sesion';
+  $('#diaCal').innerHTML=Array.from({length:10},(_,i)=>`<button type="button" class="nb" data-v="${i+1}" aria-pressed="${dr.cal===i+1}" aria-label="Utilidad ${i+1}">${i+1}</button>`).join('');
+  const ab=allComps().filter(x=>x.c.st==='p').reverse().slice(0,10);
+  $('#diaCierre').innerHTML=ab.length?ab.map(x=>{const cur=dr.close[x.c.id]||'p';return `<div class="cmp"><span class="ct ${cur==='p'?'':cur}">${esc(x.c.t)}</span>${x.c.oid&&objOf(x.c.oid)?`<span class="chip">★ ${esc(areaName(objOf(x.c.oid)))}</span>`:''}<div class="sts">${['c','a','n'].map(s=>`<button type="button" class="stb" style="--sc:${STS[s].c}" data-cl="${esc(x.c.id)}" data-s="${s}" aria-pressed="${cur===s}">${STS[s].l}</button>`).join('')}</div></div>`;}).join(''):'<p class="hint" style="margin-top:0">No tengo acuerdos abiertos por cerrar.</p>';
+  $('#diaNewObj').hidden=!S.objs.length;
+  $('#diaNewObj').innerHTML='<option value="">Sin objetivo ligado</option>'+S.objs.map(o=>`<option value="${esc(o.id)}">${esc((o.t||'Objetivo').slice(0,34))}</option>`).join('');
+  $('#diaNewList').innerHTML=dr.add.map((c,i)=>`<div class="cmp"><span class="ct">${esc(c.t)}</span>${c.from?'<span class="chip">re-acuerdo</span>':''}${c.oid&&objOf(c.oid)?`<span class="chip">★ ${esc(areaName(objOf(c.oid)))}</span>`:''}<button type="button" class="stb" data-rm="${i}">Quitar</button></div>`).join('');
+  $('#diaPulso').innerHTML=S.objs.map(o=>`<div class="area"><div class="at"><i style="color:${DIMS[o.dim].c}">★</i>${esc(o.t||'Objetivo')} <span style="color:var(--mut2)">· ${esc(areaName(o))}</span></div><div class="nbs">${Array.from({length:10},(_,k)=>`<button type="button" class="nb" style="--c:${DIMS[o.dim].c}" data-o="${esc(o.id)}" data-v="${k+1}" aria-pressed="${dr.pulso[o.id]===k+1}" aria-label="${esc(o.t)}: ${k+1}">${k+1}</button>`).join('')}</div></div>`).join('');
+  $('#diaPulsoB').textContent=pulsoDue()?'· toca esta semana':'';
+}
+function addDraftComp(){const v=$('#diaNew').value.trim();if(!v)return;dr.add.push({id:uid(),t:v.slice(0,200),st:'p',oid:$('#diaNewObj').value||'',from:'',re:false});$('#diaNew').value='';renderDia();$('#diaNew').focus();}
+function saveDia(){
+  if(dr.t==='sesion'&&!dr.cal){const er=$('#diaErr');er.textContent='Antes de guardar, elijo qué tan útil me resultó la sesión (1 a 10).';er.hidden=false;$('#diaSes').scrollIntoView({block:'center'});return;}
+  if($('#diaNew').value.trim())addDraftComp();
+  Object.keys(dr.close).forEach(id=>{allComps().forEach(x=>{if(x.c.id===id){x.c.st=dr.close[id];if(x.c.st==='c')x.c.re=false;}});});
+  let e=dr.id?S.entries.find(x=>x.id===dr.id):null;
+  if(!e){e={id:uid(),comps:[]};S.entries.push(e);}
+  const f=$('#diaF').value||today();
+  Object.assign(e,{t:dr.t,f,n:dr.t==='sesion'?(+$('#diaN').value||dr.n||null):null,cal:dr.t==='sesion'?dr.cal:0,res:$('#diaRes').value.trim(),notas:$('#diaNot').value.trim(),antes:$('#diaAntes').value.trim(),pulso:dr.t==='sesion'||Object.keys(dr.pulso).length?{...dr.pulso}:{},fb:e.fb||''});
+  dr.add.forEach(c=>e.comps.push({...c}));
+  save();$('#dlgDia').close();refreshAll();
+  toast('Listo, ya registré mi día.',[{l:'Guardar mi archivo',fn:doSave},{l:'Enviar a Fer U',fn:()=>openAcc('enviar',true,true)}]);
+}
+
+/* ---------- render global ---------- */
+function refreshAll(){renderHero();renderHoy();renderSums();renderRadar();renderAcuerdos();renderObjetivos();renderSesiones();renderFeedback();renderAn();renderEnvio();$('#banEj').hidden=!EJ;}
+
+/* ---------- eventos ---------- */
+$('#heroCta').addEventListener('click',()=>act(heroAct));
+$('#btnDia').addEventListener('click',()=>openDia());
+$('#navEnviar').addEventListener('click',()=>openAcc('enviar',true,true));
+$('#navChip').addEventListener('click',()=>openAcc('enviar',true,true));
+$('#btnEj').addEventListener('click',()=>{enterEj();window.scrollTo({top:0,behavior:'smooth'});});
+$('#btnSalirEj').addEventListener('click',exitEj);
+$('#btnRadarDet').addEventListener('click',()=>setRadarDet($('#radarDet').hidden,false));
+$$('.acc-h').forEach(b=>b.addEventListener('click',()=>openAcc(b.dataset.acc,b.getAttribute('aria-expanded')!=='true')));
+$('#dims').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.dim=b.dataset.d;if(!EJ)persist();renderRadar();renderAn();renderSums();});
+$('#cps').addEventListener('click',e=>{const b=e.target.closest('.cp');if(!b)return;if(edOpen&&S.cp===b.dataset.c)edOpen=false;else{S.cp=b.dataset.c;edOpen=true;}persist();renderRadar();if(edOpen)$('#ed').scrollIntoView({behavior:'smooth',block:'nearest'});});
+$('#edAreas').addEventListener('click',e=>{const b=e.target.closest('.nb');if(!b)return;
+  const d=S.rad[S.dim][S.cp]||(S.rad[S.dim][S.cp]={f:'',s:[]});while(d.s.length<12)d.s.push(0);d.s[+b.dataset.i]=+b.dataset.v;if(!d.f)d.f=today();
+  save();const y=window.scrollY;renderRadar();renderAn();renderHero();renderSums();renderEnvio();window.scrollTo(0,y);});
+$('#edF').addEventListener('change',e=>{const d=S.rad[S.dim][S.cp]||(S.rad[S.dim][S.cp]={f:'',s:[]});d.f=e.target.value;save();const y=window.scrollY;renderRadar();renderAn();renderHero();window.scrollTo(0,y);});
+$('#edDel').addEventListener('click',()=>{if(!confirm('¿Borro esta medición?'))return;delete S.rad[S.dim][S.cp];edOpen=false;save();refreshAll();});
+$('#edClose').addEventListener('click',()=>{edOpen=false;renderRadar();});
+/* objetivos */
+$('#codigo').addEventListener('input',e=>{if(EJ)return;S.codigo=e.target.value.trim();save();renderEnvio();});
+$('#modalidad').addEventListener('change',e=>{if(EJ)return;S.modalidad=e.target.value;save();renderEnvio();});
+$('#fractura').addEventListener('input',e=>{if(EJ)return;S.fractura=e.target.value;save();});
+$('#btnObj').addEventListener('click',()=>{if(S.objs.length>=4)return;S.objs.push({id:uid(),t:'',dim:S.dim,ai:0});save();renderObjetivos();renderSums();renderHero();});
+$('#objs').addEventListener('input',e=>{const r=e.target.closest('.ob-row');if(!r||!e.target.classList.contains('ob-t'))return;const o=objOf(r.dataset.o);if(!o)return;o.t=e.target.value;save();});
+$('#objs').addEventListener('change',e=>{const r=e.target.closest('.ob-row');if(!r)return;const o=objOf(r.dataset.o);if(!o)return;
+  if(e.target.classList.contains('ob-t')){o.t=e.target.value;save();renderHero();return;}
+  if(e.target.classList.contains('ob-d')){o.dim=e.target.value;o.ai=0;}
+  if(e.target.classList.contains('ob-a'))o.ai=+e.target.value;
+  save();setTimeout(()=>{renderObjetivos();renderRadar();renderAn();renderEnvio();},0);});
+$('#objs').addEventListener('click',e=>{const b=e.target.closest('.ob-x');if(!b)return;const r=b.closest('.ob-row');if(!confirm('¿Quito este objetivo? Los acuerdos ligados se conservan sin objetivo.'))return;
+  S.objs=S.objs.filter(o=>o.id!==r.dataset.o);S.entries.forEach(en=>en.comps.forEach(c=>{if(c.oid===r.dataset.o)c.oid='';}));save();refreshAll();});
+/* acuerdos / sesiones (estados, re-acordar, editar, eliminar) */
+function onStateClick(e){
+  const sb=e.target.closest('.stb[data-e]'),re=e.target.closest('[data-re]'),ed=e.target.closest('[data-ed]'),de=e.target.closest('[data-del]');
+  if(sb){const en=S.entries.find(x=>x.id===sb.dataset.e);if(!en)return;const c=en.comps[+sb.dataset.i];c.st=(c.st===sb.dataset.s)?'p':sb.dataset.s;if(c.st==='c'||c.st==='p')c.re=false;save();renderAcuerdos();renderSesiones();renderHoy();renderSums();renderAn();renderEnvio();renderHero();return true;}
+  if(re){let src=null;allComps().forEach(x=>{if(x.c.id===re.dataset.re)src=x.c;});if(!src)return;const te=ensureToday();te.comps.push({id:uid(),t:src.t,st:'p',oid:src.oid,from:src.id,re:false});src.re=true;save();refreshAll();toast('Re-acordé este acuerdo para hoy. Sin deuda.');return true;}
+  if(ed){openDia(ed.dataset.ed);return true;}
+  if(de){if(!confirm('¿Elimino esta entrada?'))return true;S.entries=S.entries.filter(x=>x.id!==de.dataset.del);save();refreshAll();return true;}
+}
+$('#acLista').addEventListener('click',onStateClick);$('#sesLista').addEventListener('click',onStateClick);
+/* feedback */
+$('#btnFb').addEventListener('click',()=>{const id=$('#fbSel').value,t=$('#fbTxt').value.trim();if(!id||!t){toast('Elijo una entrada y pego el feedback.');return;}const e=S.entries.find(x=>x.id===id);if(!e)return;e.fb=(e.fb?e.fb+'\n':'')+t;$('#fbTxt').value='';save();renderFeedback();renderSums();renderSesiones();toast('Guardé el feedback. Puedo convertir cada idea en un acuerdo.');});
+$('#fbLista').addEventListener('click',e=>{const b=e.target.closest('[data-fbe]');if(!b)return;const en=S.entries.find(x=>x.id===b.dataset.fbe);if(!en)return;
+  const lines=en.fb.split('\n').map(s=>s.replace(/^[\s\-•*·]+/,'').trim()).filter(Boolean);const t=lines[+b.dataset.fbi];if(!t)return;
+  const te=ensureToday();te.comps.push({id:uid(),t:t.slice(0,200),st:'p',oid:'',from:'',re:false});save();refreshAll();toast('Lo convertí en un acuerdo para hoy.',[{l:'Ver mis acuerdos',fn:()=>openAcc('acuerdos',true,true)}]);});
+/* diálogo */
+$('#btnDiaX').addEventListener('click',()=>$('#dlgDia').close());
+$('#btnDiaCancel').addEventListener('click',()=>$('#dlgDia').close());
+$('#btnDiaSave').addEventListener('click',saveDia);
+$('#diaSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;dr.t=b.dataset.t;$('#diaErr').hidden=true;renderDia();});
+$('#diaCal').addEventListener('click',e=>{const b=e.target.closest('.nb');if(!b)return;dr.cal=+b.dataset.v;$('#diaErr').hidden=true;renderDia();});
+$('#diaCierre').addEventListener('click',e=>{const b=e.target.closest('[data-cl]');if(!b)return;const id=b.dataset.cl,s=b.dataset.s;if(dr.close[id]===s)delete dr.close[id];else dr.close[id]=s;renderDia();});
+$('#diaPulso').addEventListener('click',e=>{const b=e.target.closest('.nb');if(!b)return;const o=b.dataset.o,v=+b.dataset.v;if(dr.pulso[o]===v)delete dr.pulso[o];else dr.pulso[o]=v;renderDia();});
+$('#btnDiaAdd').addEventListener('click',addDraftComp);
+$('#diaNew').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addDraftComp();}});
+$('#diaNewList').addEventListener('click',e=>{const b=e.target.closest('[data-rm]');if(!b)return;dr.add.splice(+b.dataset.rm,1);renderDia();});
+/* enviar */
+['oObj','oSes','oCom','oRad','oRes','oAntes','oNot'].forEach(i=>$('#'+i).addEventListener('change',renderEnvio));
+$('#btnResp').addEventListener('click',doSave);
+$('#btnWa').addEventListener('click',()=>{if(EJ)return;S.t.snd=Date.now();persist();setTimeout(()=>{renderSums();renderHero();},0);});
+$('#btnMd').addEventListener('click',()=>{download(`bitacora_${S.codigo||'sin-codigo'}_${today()}.md`,mdFile(),'text/markdown');if(!EJ){S.t.snd=Date.now();persist();renderSums();renderHero();}});
+$('#fileImp').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=norm(JSON.parse(r.result));if(!confirm('Esto reemplaza lo que hay ahora en mi bitácora. ¿Continúo?'))return;EJ=false;S=o;S.t.sav=S.t.chg=Date.now();persist();edOpen=false;refreshAll();toast('Abrí mi bitácora guardada.');}catch(x){toast('No pude leer ese archivo.');}};r.readAsText(f);e.target.value='';});
+$('#btnPrint').addEventListener('click',()=>window.print());
+$('#btnBorrar').addEventListener('click',()=>{if(EJ){exitEj();return;}if(!confirm('Se borra todo lo que hay en esta bitácora, en este dispositivo. ¿Seguro? Antes guardo mi archivo si lo necesito.'))return;S=blank();try{localStorage.removeItem(KEY);}catch(e){}edOpen=false;refreshAll();});
+let backup=null;
+function enterEj(dim){if(!EJ)backup=S;EJ=true;S=norm(mkEjemplo());if(dim&&DIMS[dim])S.dim=dim;edOpen=false;setRadarDet(false);refreshAll();}
+function exitEj(){EJ=false;S=backup||norm(loadStore())||blank();backup=null;edOpen=false;history.replaceState(null,'',location.pathname+location.search);refreshAll();window.scrollTo(0,0);}
+function fromHash(){const h=(location.hash||'').slice(1);
+  if(h.indexOf('ejemplo')===0){enterEj(h.split('-')[1]);return;}
+  if(['acuerdos','feedback','objetivos','sesiones','avance','enviar','como'].includes(h))openAcc(h,true,true);}
+window.addEventListener('hashchange',fromHash);
+(function init(){S=norm(loadStore()||SEED||blank());refreshAll();fromHash();})();
+
+</script>
+</body>
+</html>
