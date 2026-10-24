@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08080A">
+<title>Calculadora Tonalpohualli · Mapa del Ihiyotl</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══ TOKENS ═══ */
+:root{
+  color-scheme:dark;box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --abismo:#030304;--negro-deep:#060608;--negro:#08080A;--negro-suave:#0D0D10;
+  --oro:#C9A84C;--oro-vivo:#E8C97A;--oro-puro:#FFE08A;
+  --oro-borde:rgba(201,168,76,.18);--oro-borde-med:rgba(201,168,76,.38);
+  --blanco:#F6F6F2;--gris-cl:#BBBBBB;--gris:#8E8E8A;--riesgo:#D96666;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Montserrat',system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);--t-fast:.3s var(--ease);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);font-size:16px}
+[hidden]{display:none!important}
+body{background:var(--negro);color:var(--blanco);font-family:var(--sans);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased;font-variant-numeric:lining-nums;position:relative;overflow-x:hidden}
+/* Aura dorada continua */
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 50% 0%,rgba(201,168,76,.07) 0%,transparent 70%);pointer-events:none;z-index:0}
+main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 22px 40px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--negro-deep)}::-webkit-scrollbar-thumb{background:var(--oro-borde);border-radius:4px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--oro-puro);outline-offset:3px}
+
+/* Línea de progreso dorada */
+.progreso{position:fixed;top:0;left:0;right:0;height:2px;z-index:1000;pointer-events:none;
+  background:linear-gradient(90deg,var(--oro),var(--oro-vivo) 70%,var(--oro-puro));
+  box-shadow:0 0 10px rgba(232,201,122,.45);transform-origin:0 50%;transform:scaleX(var(--p,0))}
+
+/* ═══ ENCABEZADO ═══ */
+.hero{text-align:center;padding:clamp(44px,8vw,84px) 0 clamp(36px,6vw,56px)}
+.cal{display:block;margin:0 auto 30px;width:min(190px,48%);filter:drop-shadow(0 0 28px rgba(201,168,76,.28))}
+.eyebrow{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(18px,1.2vw + 12px,21px);line-height:1;letter-spacing:.2px;color:var(--oro);margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:12px}
+.eyebrow::before,.eyebrow::after{content:'';width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--oro))}
+.eyebrow::after{transform:scaleX(-1)}
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(40px,7.4vw,66px);line-height:1.05;letter-spacing:-.5px;margin-bottom:28px;text-wrap:balance}
+h1 em{font-style:italic;font-weight:400;color:var(--oro-vivo)}
+.linea{width:min(220px,50%);height:1px;margin:0 auto 28px;background:linear-gradient(90deg,transparent,var(--oro-vivo),transparent);box-shadow:0 0 14px rgba(232,201,122,.5);transform-origin:center;animation:dibuja 1.4s .3s var(--ease) both}
+@keyframes dibuja{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+.promesa{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(21px,1.6vw + 14px,25px);line-height:1.35;color:var(--oro-vivo);max-width:540px;margin:0 auto;text-wrap:balance}
+.intro{font-family:var(--serif);font-weight:300;font-size:clamp(19px,1vw + 14px,21px);line-height:1.7;color:var(--gris-cl);max-width:620px;margin:18px auto 0;text-wrap:pretty}
+
+/* ═══ TARJETAS ═══ */
+.card{position:relative;background:linear-gradient(180deg,rgba(232,201,122,.05),rgba(20,20,25,.5) 45%);border:1px solid rgba(201,168,76,.16);border-radius:16px;padding:clamp(24px,4.5vw,44px);backdrop-filter:blur(16px)}
+.card::before{content:'';position:absolute;top:0;left:clamp(24px,4.5vw,44px);width:120px;height:1px;background:linear-gradient(90deg,var(--oro-vivo),transparent)}
+.card+.card{margin-top:16px}
+
+/* ═══ FORMULARIO ═══ */
+.g{display:grid;grid-template-columns:1fr 1fr;gap:26px 20px}
+.full{grid-column:1/-1}
+label{display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:19px;line-height:1.25;color:var(--oro);margin-bottom:9px}
+input,select{font:300 16px/1.4 var(--sans);width:100%;min-height:50px;padding:12px 16px;background:rgba(3,3,4,.55);color:var(--blanco);border:1px solid var(--oro-borde);border-radius:10px;transition:border-color var(--t-fast),background var(--t-fast)}
+input::placeholder{color:var(--gris);opacity:1}
+input:hover,select:hover{border-color:var(--oro-borde-med)}
+input:focus,select:focus{border-color:var(--oro-vivo);background:rgba(3,3,4,.8)}
+select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:42px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center}
+option{background:var(--negro-suave);color:var(--blanco)}
+.fecha{display:grid;grid-template-columns:1fr 1.6fr 1.2fr;gap:10px}
+.fecha select{padding-left:14px;padding-right:34px;background-position:right 12px center}
+select{text-overflow:ellipsis}
+.chk{display:flex;gap:12px;align-items:flex-start}
+.chk input{width:18px;min-height:0;height:18px;margin-top:4px;flex:none;accent-color:var(--oro)}
+.chk label{font-family:var(--sans);font-style:normal;font-weight:300;font-size:14.5px;line-height:1.6;color:var(--gris-cl);margin:0;cursor:pointer}
+.acciones{display:flex;justify-content:center;margin-top:6px}
+
+/* ═══ BOTONES ═══ */
+.cta-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:18px 44px;background:linear-gradient(135deg,var(--oro-vivo) 0%,var(--oro) 100%);color:#0A0806;font:600 12px/1.3 var(--sans);letter-spacing:.2em;text-transform:uppercase;text-align:center;text-decoration:none;border-radius:999px;box-shadow:0 10px 30px rgba(201,168,76,.22);transition:transform var(--t-fast),box-shadow var(--t-fast);cursor:pointer;border:none}
+.cta-btn:hover{transform:translateY(-3px);box-shadow:0 16px 44px rgba(201,168,76,.38)}
+.btn-secundario{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;background:transparent;color:var(--oro-vivo);border:1px solid var(--oro-borde-med);padding:13px 28px;font:500 11px/1.3 var(--sans);letter-spacing:.16em;text-transform:uppercase;text-align:center;text-decoration:none;border-radius:999px;cursor:pointer;transition:background var(--t-fast),border-color var(--t-fast),color var(--t-fast)}
+.btn-secundario:hover{background:rgba(201,168,76,.10);border-color:var(--oro);color:var(--blanco)}
+
+/* ═══ RESULTADOS ═══ */
+#out{margin-top:clamp(52px,8vw,88px)}
+#out.nuevo>*{animation:aparece .55s var(--ease) both}
+@keyframes aparece{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#out>h2.tit{display:block;text-align:center;font-family:var(--serif);font-style:normal;font-weight:300;font-size:clamp(38px,6vw,54px);line-height:1.05;letter-spacing:-.5px;color:var(--blanco);margin:0 0 36px}
+#out>h2.tit::before{display:none}
+#out>h2.tit::after{content:'';display:block;width:96px;height:1px;margin:20px auto 0;background:linear-gradient(90deg,transparent,var(--oro-vivo),transparent)}
+h2{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(20px,1.2vw + 14px,23px);line-height:1.2;color:var(--oro);margin:52px 0 14px}
+h2::before{content:'';flex:none;width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--oro))}
+
+.tonal{display:block;margin:6px auto 44px;width:min(300px,80%);height:auto;border:1px solid var(--oro-borde-med);border-radius:10px;outline:1px solid var(--oro-borde);outline-offset:8px}
+
+/* Ficha: la lectura del Tonalpohualli, por grupos */
+.grupo+.grupo{margin-top:34px}
+.grupo h3{font-family:var(--serif);font-style:italic;font-weight:400;font-size:23px;line-height:1.2;color:var(--oro-vivo);margin-bottom:4px}
+.fila{display:grid;grid-template-columns:minmax(150px,.62fr) 1.5fr;column-gap:28px;align-items:baseline;padding:15px 0;background:linear-gradient(90deg,rgba(201,168,76,.22),transparent 75%) bottom/100% 1px no-repeat}
+.fila dt{font:400 13.5px/1.5 var(--sans);letter-spacing:.02em;color:var(--gris)}
+.fila dd{font-family:var(--serif);font-weight:400;font-size:21px;line-height:1.4;color:var(--blanco);overflow-wrap:anywhere;font-variant-numeric:lining-nums}
+.grupo.uno .fila dd{font-size:24px}
+.nota-lista{list-style:none;margin-top:6px}
+.nota-lista li{position:relative;padding:14px 0 14px 28px;font:300 14.5px/1.7 var(--sans);color:var(--gris-cl);background:linear-gradient(90deg,rgba(201,168,76,.2),transparent 80%) bottom/100% 1px no-repeat}
+.nota-lista li::before{content:'';position:absolute;left:4px;top:24px;width:6px;height:6px;transform:rotate(45deg);background:var(--oro)}
+
+/* Mapa del Ihiyotl */
+.strip{display:flex;gap:3px;margin:6px 0}
+.strip div{flex:1;min-width:0;background:rgba(201,168,76,.05);border:1px solid var(--oro-borde);border-radius:4px;min-height:36px;font:500 10.5px/1.15 var(--sans);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--gris-cl);overflow:hidden;overflow-wrap:anywhere}
+.strip div[title=Nemontemi]{flex:none;min-width:26px}
+.strip .on{background:linear-gradient(135deg,var(--oro-vivo),var(--oro));border-color:var(--oro-vivo);color:#0A0806;font-weight:600;box-shadow:0 0 14px rgba(232,201,122,.35)}
+
+/* Acciones del resultado */
+.btns{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:52px}
+.btns>*{width:100%;max-width:440px}
+.nota{font:300 12.5px/1.7 var(--sans);color:var(--gris);text-align:center;max-width:52ch;margin:22px auto 0}
+
+/* Avisos */
+.warn{font-family:var(--serif);font-style:italic;font-weight:400;font-size:20px;line-height:1.45;color:var(--riesgo);text-align:center;margin-top:24px}
+.card .warn{margin-top:0}
+
+/* ═══ PIE ═══ */
+.foot{position:relative;margin-top:clamp(64px,9vw,96px);padding:44px 0 12px;text-align:center}
+.foot::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--oro-borde-med),transparent)}
+.foot::after{content:'';position:absolute;top:-4px;left:50%;width:8px;height:8px;transform:translateX(-50%) rotate(45deg);background:var(--negro-deep);border:1px solid var(--oro)}
+.sig{font-family:var(--serif);font-style:italic;font-weight:400;font-size:24px;line-height:1.2;color:var(--oro-vivo)}
+.foot .nota{margin-top:16px}
+
+/* ═══ RESPONSIVO ═══ */
+@media(max-width:560px){
+  main{padding:0 18px 32px}
+  .g{grid-template-columns:1fr;gap:24px}
+  .fecha{grid-template-columns:1fr 1.5fr 1.2fr;gap:8px}
+  input,select{padding-left:13px}
+  .fecha select{padding-left:12px;padding-right:30px;background-position:right 10px center}
+  .fila{grid-template-columns:1fr;row-gap:2px;padding:14px 0}
+  .grupo.uno .fila dd{font-size:22px}
+  .cta-btn{width:100%;padding:16px 22px;font-size:11px;letter-spacing:.14em}
+  .acciones .cta-btn{max-width:none}
+  .strip div{font-size:9.5px;min-height:34px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style></head><body>
+<span class="progreso" aria-hidden="true"></span>
+<main>
+<header class="hero">
+<img class="cal" src="img/calendario-azteca.png" alt="" onerror="this.remove()">
+<p class="eyebrow">Correlación Arturo Meza</p>
+<h1>Calculadora del <em>Tonalpohualli</em></h1>
+<div class="linea"></div>
+<p class="promesa">Mapa del Ihiyotl (tu primer aliento: fecha y hora de nacimiento)</p>
+<p class="intro">El Tonalpohualli es el calendario ritual mexica de 260 días. Escribe tu nombre, tu fecha y hora de nacimiento y tu lugar de nacimiento; si no sabes la hora, déjala vacía.</p>
+</header>
+
+<div class="card"><div class="g">
+<div class="full"><label for="nm">Yolohtl – Corazón (nombre)</label><input id="nm" placeholder="Nombre" autocomplete="name"></div>
+<div class="full"><label for="dd">Fecha de nacimiento (día / mes / año)</label><div class="fecha"><select id="dd" aria-label="Día"></select><select id="mm" aria-label="Mes"></select><select id="yy" aria-label="Año"></select></div></div>
+<div><label for="tm">Hora de nacimiento (opcional)</label><input id="tm" type="time"></div>
+<div><label for="pl">Lugar de nacimiento</label><input id="pl" placeholder="Ciudad, estado o país"></div>
+<div class="full"><label for="rg">Región de nacimiento</label><select id="rg">
+<option value="c">Centro de México (CDMX, Edo. Méx. y la mayor parte del país)</option>
+<option value="b">Baja California (Tijuana)</option>
+<option value="o">Otro lugar de México (Sonora, Chihuahua, frontera, Q. Roo…)</option>
+<option value="f">Fuera de México</option></select></div>
+<div class="full chk" id="mw" hidden><input id="mn" type="checkbox"><label for="mn">Ese día había horario de verano en ese lugar (se resta 1 hora)</label></div>
+<div class="full acciones"><button id="go" class="cta-btn" type="button">Calcular</button></div></div></div>
+
+<div id="out" aria-live="polite"></div>
+
+<footer class="foot">
+<p class="sig">Mázatl Xamayari</p>
+<p class="nota">skill tonalpohualli-arturo-meza (sincronizados al 22-oct-2026).</p>
+</footer>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const MS=864e5,mod=(a,n)=>((a%n)+n)%n,L=s=>s.split(",");
+const S=L("Cipactli,Ehecatl,Calli,Cuetzpalli,Coatl,Miquiztli,Mazatl,Tochtli,Atl,Itzcuintli,Ozomahtli,Malinalli,Acatl,Ocelotl,Cuauhtli,Cozcacuauhtli,Ollin,Tekpatl,Quiahuitl,Xochitl"),
+TR=L("Cocodrilo,Viento,Casa,Lagartija,Serpiente,Muerte,Venado,Conejo,Agua,Perro,Mono,Hierba torcida,Caña,Jaguar,Águila,Zopilote,Movimiento,Pedernal,Lluvia,Flor"),
+AC=L("Tonacatecuhtli,Quetzalcoatl,Tepeyolohtli,Huehuecoyotl,Chalchiuhtlicue,Tecciztecatl,Tlalocantecuhtli,Mayahuel,Xiuhtecuhtli,Mictlantecuhtli,Xochipilli,Pahtecatl,Tezcatlipoca Ixquimilli,Tlazohteotl,Xipe Totec,Itzpapalotl,Xolotl,Chalchiuhtotolin,Tonatiuh,Xochiquetzalli"),
+NU=L("Ce,Ome,Yei,Nahui,Macuilli,Chicuace,Chicome,Chicueyi,Chicnahui,Matlactli,Matlactli huan ce,Matlactli huan ome,Matlactli huan yei"),
+PO=L("Tochtli,Acatl,Tekpatl,Calli"),ANC=[403,763,1123,43],
+TC=["Tonacatecuhtli, Tonacacihuatl","Quetzalcoatl","Tepeyolohtli, Tlazohteotl","Huehuecoyotl, Ixnextli","Chalchiuhtlicue y Tlazohteotl","Tonatiuh, Tecciztecatl","Tlaloc, Chicomecoatl","Mayahuel, Xochipilli Centeotl","Tlahuizcalpantecuhtli y Xiuhtecuhtli","Tonatiuh y Mictlantecuhtli","Pahtecatl y Cuauhtli Ocelotl","Itztlacoliuhqui","Ixcuinan y Tlazohteotl","Xipe Totec","Itzpapalotl","Xolotl","Chalchiuhtotolin","Chantico","Xochiquetzalli, Tezcatlipoca","Xiuhtecuhtli, Itztapaltotec y Xipe Totec"],
+RB=[["Tlahuiztlampa","Lugar del amanecer","Oriente","Amarillo","Quetzalcoatl"],["Huitztlampa","Lugar de las espinas","Sur","Azul","Huitzilopochtli"],["Cihuatlampa","Lugar de la esencia femenina","Poniente","Rojo","Xipe Tótec"],["Mictlampa","Lugar de la transformación","Norte","Blanco/Negro","Yayauqui"]],
+SD=[["Xiuhtecuhtli","Xiuhuitzitzilli — Colibrí azul turquesa","Tlahuizcalpantecuhtli"],["Tlaltecuhtli","Quetzalhuitzitzilli — Colibrí verde jade","Ixtlilton"],["Chalchiuhtlicue","Tohtli — Halcón","Xochipilli"],["Tonatiuh","Zollin — Codorniz","Xipe Totec"],["Tlazohteotl","Cacalotl — Cuervo","Yaotl"],["Mictlantecuhtli","Chicuauhtli — Lechuza","Uauantli, El Rayado"],["Xiuhtecuhtli y Centeotl","Tizapapaloti — Mariposa obscura","Xochipilli y Centeotl"],["Tlaloc","Cuauhtli — Águila","Tlaloc"],["Quetzalcoatl","Huexolotl — Guajolote","Tlaloc"],["Tezcatlipoca","Tecolotl — Búho","Tezcatlipoca"],["Mictlantecuhtli y Chalmecatecuhtli","Alotl — Guacamaya colorida","Xochipilli"],["Tlahuizcalpantecuhtli","Quetzaltototl — Quetzal","Centeotl"],["Citlalin i cue","Cochotl — Loro","Xochiquetzalli"]],
+SN=[["Xiuhtecuhtli","El señor del calor celeste","Colotl"],["Itztli","Tezcatlipoca en la obsidiana obscura","Tzinacatl"],["Piltzintecuhtli","El señor niño","Coyotl"],["Centeotl","El generador del sustento","Tocatl"],["Mictlantecuhtli","El señor del lugar del reposo y la quietud","Tecolotl"],["Chalchiuhtlicue","La señora de la falda adornada de jades","Coatl"],["Tlazohteotl","La señora que genera por medio del amor","Itzpapalotl"],["Tepeyolohtli","El corazón de los montes","Ocelotl"],["Tlalocantecuhtli","El señor del lugar de la lluvia","Petlazolcoatl"]],
+VE=[["Atlacahualo","Lo que dejaron las aguas","Tlaloc"],["Tlacaxipehualiztli","El cambio en las personas","Xipe Totec"],["Tozoztontli","La vigilia pequeña","Tlaloc"],["Ueitozoztli","La vigilia grande","Centeotl"],["Toxcatl","La fiesta de Tezcatlipoca y Huitzilopochtli","Tezcatlipoca y Huitzilopochtli"],["Etzalcualiztli","Comer Etzalli","Tlaloc"],["Tecuilhuitontli","La fiesta pequeña de los Principales","Uiztocihuatl"],["Ueitecuilhuitl","La fiesta grande de los Principales","Xilonen"],["Tlaxochimaco","Ofrendando las flores","Huitzilopochtli"],["Xocotl Uetzi","Los frutos caen","Xiuhtecuhtli"],["Ochpaniztli","Se barren los caminos","Teteo Inan"],["Teotleco","La presencia de generadores de la naturaleza","Huitzilopochtli"],["Tepeilhuitl","La fiesta de los cerros","Chalchiuhtlicue"],["Quecholli","Las aves de cuello de hule","Mixcoatl"],["Panquetzaliztli","Se levantan los estandartes","Huitzilopochtli"],["Atemoztli","El descenso de las aguas","Tlaloc"],["Titit","Encogimiento","Ilamatecuhtli"],["Izcalli","Resurgimiento","Xiuhtecuhtli"]],
+IM=L("Centeotl,Pahtecatl,Mictlantecuhtli,Quetzalcoatl,Xochipilli,Xochiquetzalli,Tlaloc,Mictlantecuhtli,Tlahuizcalpantecuhtli,Mixcoatl,Xochipilli,Tonatiuh,Tezcatlipoca,Xipe Totec,Macuilxochitl,Mayahuel,Tlazohteotl,Mictlancihuatl,Chalchiuhtlicue,Xochiquetzalli"),
+TP=[L("Mictlantecuhtli,Piltzintecuhtli,Tlalocantecuhtli,Tlazohteotl,Centeotl,Xiuhtecuhtli,Tepeyolohtli,Mictlantecuhtli,Piltzintecuhtli,Tlalocantecuhtli,Chalchiuhtlicue,Centeotl,Xiuhtecuhtli"),L("Tepeyolohtli,Mictlantecuhtli,Piltzintecuhtli,Tlalocantecuhtli,Chalchiuhtlicue,Centeotl,Xiuhtecuhtli,Tepeyolohtli,Mictlantecuhtli,Itztli,Tlalocantecuhtli,Chalchiuhtlicue,Centeotl"),L("Xiuhtecuhtli,Tlazohteotl,Mictlantecuhtli,Itztli,Tlalocantecuhtli,Chalchiuhtlicue,Piltzintecuhtli,Xiuhtecuhtli,Tlazohteotl,Mictlantecuhtli,Itztli,Tepeyolohtli,Chalchiuhtlicue"),L("Piltzintecuhtli,Xiuhtecuhtli,Tlazohteotl,Centeotl,Itztli,Tepeyolohtli,Chalchiuhtlicue,Piltzintecuhtli,Tlalocantecuhtli,Tlazohteotl,Centeotl,Itztli,Tepeyolohtli")],
+PAR={};"Cipactli-Ozomahtli,Ocelotl-Cuetzpalli,Mazatl-Ollin,Xochitl-Itzcuintli,Acatl-Calli,Miquiztli-Cozcacuauhtli,Quiahuitl-Atl,Malinalli-Ehecatl,Coatl-Cuauhtli,Tekpatl-Tochtli".split(",").forEach(p=>{const[a,b]=p.split("-");PAR[a]=b;PAR[b]=a});
+const D=(y,m,d)=>Date.UTC(y,m-1,d),
+sun=(y,m,n)=>{if(n>0){const o=(7-new Date(D(y,m,1)).getUTCDay())%7;return 1+o+7*(n-1)}const e=new Date(D(y,m+1,0));return e.getUTCDate()-e.getUTCDay()};
+function dstR(r,y){
+ if(r=="c"){if(y<1996||y>2022)return null;return y==2001?[D(y,5,sun(y,5,1)),D(y,9,sun(y,9,-1))]:[D(y,4,sun(y,4,1)),D(y,10,sun(y,10,-1))]}
+ if(r=="b"){if(y<1965||y>2025)return null;if(y==1974)return[D(y,1,6),D(y,10,27)];if(y==1975)return[D(y,2,23),D(y,10,26)];
+  if(y<=1986)return[D(y,4,sun(y,4,-1)),D(y,10,sun(y,10,-1))];if(y<=2009)return[D(y,4,sun(y,4,1)),D(y,10,sun(y,10,-1))];return[D(y,3,sun(y,3,2)),D(y,11,sun(y,11,1))]}
+ return null}
+function calc(v){
+ const N=[],o={notes:N};let min=v.min,ts=D(v.y,v.m,v.d)+(min||0)*6e4,dst=false;
+ const dm=D(v.y,v.m,v.d),rg=dstR(v.reg,v.y);
+ if(min!=null){
+  if(rg){dst=(dm>rg[0]&&dm<rg[1])||(dm==rg[0]&&min>=180)||(dm==rg[1]&&min<120);
+   if((dm==rg[0]||dm==rg[1])&&min>=60&&min<180)N.push("Nació en la hora del cambio de horario de verano (umbral): confirma con la persona cuál hora marcó el reloj.")}
+  else if(v.man)dst=true}
+ if(dst){ts-=36e5;N.push("Horario de verano vigente: hora usada = hora del reloj − 1 h.")}
+ const c=new Date(ts),G=c.getUTCFullYear(),cm=min==null?null:c.getUTCHours()*60+c.getUTCMinutes(),cd=D(G,c.getUTCMonth()+1,c.getUTCDate());
+ const lab=Y=>cd-(cm!=null&&cm<ANC[mod(Y-1610,4)]?MS:0);
+ let Y=G;if(lab(G)<D(G,3,12))Y=G-1;
+ const P=mod(Y-1610,4),idx=Math.round((lab(Y)-D(Y,3,12))/MS);
+ Object.assign(o,{Y,P,idx,cm,hasT:cm!=null,pd:c,dst});
+ if(Y<1610||Y>2051)N.push("Año fuera del rango verificado de la Tabla 7 (1610–2051).");
+ if(v.reg=="f")N.push("Nota: el lugar de nacimiento queda fuera de la zona que Meza señala para este sistema (recuerdo de Fer U, pendiente de confirmar contra el libro). El cálculo es mecánicamente válido; la interpretación se toma con esa reserva.");
+ if(idx>=365){o.reinicio=true;return o}
+ o.Nn=mod(Y-1610,13)+1;const p=mod(Y-1610,52);o.tb=p/13|0;o.row=p%13;
+ o.nem=idx>=360;
+ if(o.nem){o.s=5*P+(idx-360);o.nd=idx-360+1;N.push("Día de Nemontemi: el Numeral y el Señor de la Noche solo se obtienen por dictado directo (no hay fórmula). Rumbo, Trecena y Tezcatlipoca no existen en estos días (ausencia estructural).")}
+ else{o.v=idx/20|0;o.s=idx%20;o.n=mod((o.Nn-1)*9+(o.s+1)+o.v*7,13)||13;
+  const st=mod(o.s-(o.n-1),20);o.t0=mod(st*17,20);o.st=st;o.rb=RB[o.t0%4];o.nz=(o.s+2*o.v)%9}
+ if(cm!=null){const m=mod(cm-ANC[P],1440),g=m/18|0,r=m%18;o.m=m;o.g=g;o.im=g/4|0;o.ms=g%20;
+  if(r<=1||r>=16){const g2=mod(g+(r>=16?1:-1),80);o.um=[g,g2];N.push("Tu hora cae en un umbral entre dos Momentos: los dos lados cuentan, no se fuerza un solo valor.")}}
+ return o}
+const MES=L("enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre");
+const ms=g=>S[g%20]+" ("+TR[g%20]+") · "+IM[g/4|0];
+function text(v,o,man){
+ const f=String(v.d).padStart(2,"0")+"/"+String(v.m).padStart(2,"0")+"/"+v.y+(v.min!=null?", "+((v.min/60|0)%12||12)+":"+String(v.min%60).padStart(2,"0")+(v.min<720?" am":" pm"):"");
+ const l=["Yolohtl – Corazón: "+(v.nm||"—"),"Ihiyotl – Aliento: "+f+" · "+v.pl,""];
+ if(o.nem)l.push("Rumbo: no existe en Nemontemi","Tezcatlipoca – Espejo: no existe en Nemontemi");
+ else l.push("Rumbo: "+o.rb.slice(0,4).join(", "),"Tezcatlipoca – Espejo: "+o.rb[4]);
+ l.push("");
+ if(o.hasT){l.push("Momento: "+S[o.ms]+", "+TR[o.ms],"Hora: "+IM[o.im]);if(o.um)l.push("Umbral: "+ms(o.um[0])+"  ↔  "+ms(o.um[1]));l.push("")}
+ const n=o.nem?man.n:o.n,nz=o.nem?man.z:o.nz+1;
+ l.push("Numeral del día: "+(n?n+", "+NU[n-1]:"pendiente de dictado"),"Signo del día: "+S[o.s]+", "+TR[o.s],"Acompañante: "+AC[o.s],"Pareja complementaria: "+PAR[S[o.s]],"");
+ if(n){const d=SD[n-1];l.push("Tonalli – Día – Luz","Señor del día externo: "+d[0],"Animal volátil: "+d[1],"Acompañante interno: "+d[2],"")}
+ else l.push("Tonalli – Día – Luz","Señor del día: pendiente (se indexa al conocer el Numeral)","");
+ l.push("Yohualli – Noche – Obscuridad");
+ if(nz){const z=SN[nz-1];l.push("Señor de la noche: "+nz+", "+z[0]+", "+z[1],"Animal: "+z[2])}else l.push("Señor de la noche: pendiente de dictado");
+ l.push("");
+ if(o.nem)l.push("Trecena de días: no existe en Nemontemi","","Cempohualli – Veintena: Nemontemi (día "+o.nd+" de 5), Completar lo que se ha vivido","Acompañante: —");
+ else{const t=o.t0;l.push("Trecena de días: Ce "+S[o.st]+", "+TR[o.st],"Acompañante: "+TC[t],"","Cempohualli – Veintena: "+VE[o.v][0]+", "+VE[o.v][1]+" (veintena "+(o.v+1)+")","Acompañante: "+VE[o.v][2])}
+ l.push("","Número anual: "+o.Nn+", "+NU[o.Nn-1],"Xiuitl – Año: "+PO[o.P]+", "+TR[[7,12,17,2][o.P]],"Acompañante: "+TP[o.tb][o.row],"","Tlalpilli – Atado de años: "+PO[o.tb]+", "+TR[[7,12,17,2][o.tb]]+" (Numeral 1)","Acompañante: "+TP[o.tb][0]);
+ if(o.notes.length){l.push("","Notas:");o.notes.forEach(x=>l.push("· "+x))}
+ return l.join("\n")}
+/*UI*/
+const $=i=>document.getElementById(i),W="525644430676";let LT="";
+(function(){$("dd").innerHTML="<option value=''>Día</option>"+Array.from({length:31},(_,i)=>"<option>"+(i+1)+"</option>").join("");
+$("mm").innerHTML="<option value=''>Mes</option>"+MES.map((x,i)=>"<option value="+(i+1)+">"+x[0].toUpperCase()+x.slice(1)+"</option>").join("");
+let h="<option value=''>Año</option>";for(let a=new Date().getFullYear();a>=1900;a--)h+="<option>"+a+"</option>";$("yy").innerHTML=h})();
+const wa=t=>"https://wa.me/"+W+"?text="+encodeURIComponent(t).replace(/'/g,"%27");
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+/* Ficha: convierte el mismo texto LT (el que va a WhatsApp y al PDF) en grupos legibles. No calcula nada. */
+function ficha(t){
+ const gs=[];let g=null;
+ t.split("\n").forEach(l=>{
+  if(!l.trim()){g=null;return}
+  if(l.startsWith("— "))return;
+  if(!g){g={h:"",r:[],n:[]};gs.push(g)}
+  if(l.startsWith("· ")){g.n.push(l.slice(2));return}
+  const m=l.match(/^([^:]+):\s(.*)$/);
+  if(m)g.r.push([m[1],m[2]]);else g.h=l.replace(/:$/,"")});
+ return gs.map((g,i)=>"<section class='grupo"+(i==0?" uno":"")+"'>"+(g.h?"<h3>"+esc(g.h)+"</h3>":"")+
+  (g.r.length?"<dl>"+g.r.map(r=>"<div class=fila><dt>"+esc(r[0])+"</dt><dd>"+esc(r[1])+"</dd></div>").join("")+"</dl>":"")+
+  (g.n.length?"<ul class=nota-lista>"+g.n.map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>":"")+"</section>").join("")}
+function strips(o){
+ let h="";
+ if(o.hasT){h+="<h2>Mapa del Ihiyotl · tu día de 24 h</h2><div class=strip>";
+  for(let i=0;i<20;i++)h+="<div class='"+(i==o.im?"on":"")+"' title='"+IM[i]+"' style='flex:1'>"+(i+1)+"</div>";
+  h+="</div><div class=strip>";
+  for(let j=0;j<4;j++){const g=o.im*4+j;h+="<div class='"+(g==o.g||(o.um&&g==o.um[1])?"on":"")+"' style='flex:1;padding:2px'>"+S[g%20]+"</div>"}
+  h+="</div>"}
+ h+="<h2>Mapa del Ihiyotl · tu lugar en el año</h2><div class=strip>";
+ for(let i=0;i<18;i++)h+="<div class='"+(!o.nem&&i==o.v?"on":"")+"' title='"+VE[i][0]+"' style='flex:20'>"+(i+1)+"</div>";
+ return h+"<div class='"+(o.nem?"on":"")+"' title='Nemontemi' style='flex:5'>N</div></div>"}
+function pdf(){const J=window.jspdf;if(!J){alert("No se pudo cargar el generador de PDF. Revisa tu conexión.");return}
+ const d=new J.jsPDF({unit:"mm",format:"letter"});d.setFont("times","normal");d.setFontSize(16);d.text("Tonalpohualli",15,18);d.setFontSize(10.5);
+ let y=28;for(const l of d.splitTextToSize(LT.replace(/↔/g,"/").replace(/−/g,"-"),180)){if(y>270){d.addPage();y=18}d.text(l,15,y);y+=5.2}
+ d.save("tonalpohualli.pdf")}
+function run(){
+ const out=$("out"),y=+$("yy").value,m=+$("mm").value,d=+$("dd").value;
+ if(!y||!m||!d){out.innerHTML="<p class=warn>Elige el día, el mes y el año de nacimiento.</p>";return}
+ if(new Date(Date.UTC(y,m-1,d)).getUTCMonth()!=m-1){out.innerHTML="<p class=warn>Esa fecha no existe.</p>";return}
+ if(!$("pl").value.trim()){out.innerHTML="<p class=warn>Escribe tu lugar de nacimiento: define el horario de verano.</p>";return}
+ const t=$("tm").value,min=t?(+t.slice(0,2))*60+(+t.slice(3,5)):null;
+ const v={y,m,d,min,reg:$("rg").value,man:$("mn").checked,nm:$("nm").value.trim(),pl:$("pl").value.trim()};
+ const o=calc(v);
+ if(o.reinicio){out.innerHTML="<h2 class=tit>Tu Tonalpohualli</h2><div class=card><p class=warn>Ese día cae en el cuarto de día de cierre y reinicio del año (Acatl bisiesto) y no está tabulado. Consúltalo con tu maestro.</p></div>";return}
+ const man={n:+($("mnum")&&$("mnum").value)||0,z:+($("mnoc")&&$("mnoc").value)||0};
+ LT=text(v,o,man)+"\n\n— Mázatl Xamayari";
+ const img="img/tonal/"+String(o.s+1).padStart(2,"0")+"-"+S[o.s].toLowerCase()+".png";
+ let h="<h2 class=tit>Tu Tonalpohualli</h2><div class=card><img class=tonal src='"+img+"' alt='"+S[o.s]+"' onerror='this.remove()'>"+ficha(LT)+"</div>";
+ if(o.nem){const op=(n,s)=>"<option value=''>—</option>"+Array.from({length:n},(_,i)=>"<option value="+(i+1)+(s==i+1?" selected":"")+">"+(i+1)+"</option>").join("");
+  h+="<div class=card><div class=g><div><label for=mnum>Numeral dictado (1–13)</label><select id=mnum>"+op(13,man.n)+"</select></div><div><label for=mnoc>Señor de la Noche dictado (1–9)</label><select id=mnoc>"+op(9,man.z)+"</select></div></div></div>"}
+ h+=strips(o)+"<div class=btns><a class=cta-btn target=_blank rel=noopener href='"+wa("Hola Mázatl, "+(v.nm?"soy "+v.nm+" y ":"")+"quiero agendar una sesión de interpretación de mi Tonalpohualli.")+"'>Agendar sesión de interpretación</a><a class=btn-secundario target=_blank rel=noopener href='"+wa(LT)+"'>Enviar por WhatsApp</a><button id=pf class=btn-secundario type=button>Crear PDF</button></div><p class=nota>La sesión se agenda por WhatsApp. Se pide una ofrenda económica como intercambio.</p>";
+ out.innerHTML=h;$("pf").onclick=pdf;
+ ["mnum","mnoc"].forEach(i=>$(i)&&$(i).addEventListener("change",()=>{$("out").classList.remove("nuevo");run()}))}
+$("go").onclick=()=>{const o=$("out");o.classList.remove("nuevo");run();void o.offsetWidth;o.classList.add("nuevo")};
+$("rg").onchange=()=>{$("mw").hidden=!"of".includes($("rg").value)};$("mw").hidden=true;
+/* Línea de progreso */
+(function(){const b=document.querySelector(".progreso");if(!b)return;let k=false;
+ const u=()=>{const m=document.documentElement.scrollHeight-innerHeight;b.style.setProperty("--p",(m>0?Math.min(1,Math.max(0,scrollY/m)):0).toFixed(4));k=false};
+ addEventListener("scroll",()=>{if(!k){k=true;requestAnimationFrame(u)}},{passive:true});addEventListener("resize",u);u()})();
+</script></body></html>
