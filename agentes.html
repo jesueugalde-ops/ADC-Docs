@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu cartera solo crece cuando tú te mueves · Innovación Humana · Fer U</title>
+<meta name="description" content="Acompañamiento para agentes de seguros, noveles y consolidados: entiende cuál es realmente el problema, vuelve a confiar en ti y recupera tu camino comercial. Evaluación gratis de 5 minutos.">
+<meta name="theme-color" content="#060608">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Tu cartera solo crece cuando tú te mueves · Innovación Humana · Fer U">
+<meta property="og:description" content="Acompañamiento para agentes de seguros, noveles y consolidados: entiende cuál es realmente el problema, vuelve a confiar en ti y recupera tu camino comercial. Evaluación gratis de 5 minutos.">
+<meta property="og:image" content="https://jesueugalde-ops.github.io/ADC-Docs/img/og-rombo.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,2 30,16 16,30 2,16' fill='none' stroke='%23C9A84C' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3.5' fill='%23C9A84C'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/ih.css?v=50">
+<style>
+/* Solo lo propio de esta landing; todo lo demás viene de ih.css */
+.lm-foto{margin:0;border:1px solid var(--oro-borde-med);border-radius:10px;outline:1px solid var(--oro-borde);outline-offset:8px;overflow:hidden;background:var(--negro-suave)}
+.lm-foto img{width:100%;height:100%;object-fit:cover;display:block}
+.lm-par{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,5vw,72px);align-items:center}
+.lm-par.inv{grid-template-columns:.9fr 1.1fr}
+.lm-prueba{display:flex;flex-wrap:wrap;gap:6px 26px;margin-top:30px;font-size:13.5px;color:var(--gris-cl);list-style:none}
+.lm-prueba li::before{content:'';display:inline-block;width:7px;height:7px;background:var(--oro);transform:rotate(45deg);margin-right:10px}
+.lm-link{margin-top:18px;font-size:14px;color:var(--gris-cl)}
+.lm-link a{color:var(--oro-vivo);text-decoration:underline;text-underline-offset:4px}
+.lm-espejo{display:grid;grid-template-columns:1fr 1fr;gap:0 56px;margin-top:40px}
+.lm-espejo div{border-top:1px solid var(--oro-borde);padding:24px 0 28px}
+.lm-espejo h3{font:italic 300 29px/1.2 var(--serif);color:var(--blanco);margin-bottom:6px}
+.lm-espejo p,.lm-ciclo p,.lm-caso p,.lm-lista li{font-size:15.5px;color:var(--gris-cl);line-height:1.7}
+.lm-cierra{margin-top:30px;font:italic 300 28px var(--serif);color:var(--oro-vivo)}
+.lm-ciclo{list-style:none;counter-reset:c;display:grid;grid-template-columns:1fr 1fr;gap:34px 56px;margin:40px 0 32px}
+.lm-ciclo li{counter-increment:c;position:relative;padding-left:62px}
+.lm-ciclo li::before{content:counter(c);position:absolute;left:0;top:-8px;font:300 52px/1 var(--serif);color:var(--oro)}
+.lm-ciclo h3{font:300 28px/1.15 var(--serif);color:var(--blanco);margin-bottom:6px}
+.lm-frase{font:italic 300 24px/1.4 var(--serif);color:var(--blanco);max-width:34em}
+.lm-det{border-top:1px solid var(--oro-borde);border-bottom:1px solid var(--oro-borde);margin:32px 0;padding:16px 0}
+.lm-det summary{cursor:pointer;list-style:none;display:flex;gap:12px;align-items:center;font-size:14.5px;font-weight:500;color:var(--oro-vivo)}
+.lm-det summary::-webkit-details-marker{display:none}
+.lm-det summary::before{content:'';width:8px;height:8px;background:var(--oro);transform:rotate(45deg);transition:transform .2s}
+.lm-det[open] summary::before{transform:rotate(135deg)}
+.lm-det ul{margin:16px 0 4px 20px}
+.lm-det li{margin-bottom:8px;font-size:15.5px;color:var(--gris-cl)}
+.lm-franja{padding-bottom:clamp(40px,6vw,72px)}
+.lm-ctl{display:flex;gap:10px;margin:-6px 0 22px}
+.lm-ctl button{width:44px;height:44px;border:1px solid var(--oro-borde-med);background:transparent;color:var(--oro-vivo);font-size:20px;cursor:pointer;border-radius:50%}
+.lm-ctl button:hover{background:rgba(201,168,76,.12)}
+.lm-rail{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:max(24px,calc((100vw - 1100px)/2));padding:4px max(24px,calc((100vw - 1100px)/2)) 22px;scrollbar-width:thin;scrollbar-color:var(--oro) transparent}
+.lm-rail .t-card{flex:0 0 min(380px,84vw);scroll-snap-align:start;margin:0}
+.lm-ref{margin-top:18px;font-size:13.5px;color:var(--gris-cl)}
+.lm-casos{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:36px}
+.lm-caso{border-left:2px solid var(--oro);padding-left:22px}
+.lm-caso h3{font:300 28px var(--serif);color:var(--blanco);margin-bottom:6px}
+.lm-nota{font-size:12.5px;color:var(--gris);margin-top:26px;line-height:1.6}
+.lm-lista{list-style:none;margin-top:8px}
+.lm-lista li{padding:13px 0 13px 28px;border-top:1px solid var(--oro-borde);position:relative}
+.lm-lista li::before{content:'';position:absolute;left:3px;top:23px;width:8px;height:8px;background:var(--oro);transform:rotate(45deg)}
+.lm-precio b{display:block;font:300 56px/1 var(--serif);color:var(--blanco);margin-bottom:10px}
+.lm-precio small{display:block;margin-bottom:26px;font-size:14px;color:var(--gris-cl)}
+.lm-suyas{margin-top:56px;border-top:1px solid var(--oro-borde);padding-top:32px}
+.lm-suyas p{font:italic 300 27px/1.35 var(--serif);color:var(--oro-vivo);margin:0 0 10px}
+.lm-suyas small{display:block;margin-top:16px;font-size:13px;color:var(--gris)}
+.lm-suyas a,.lm-quien a,.lm-acceso a{color:var(--oro-vivo);text-decoration:underline;text-underline-offset:4px}
+.lm-desde{margin-top:28px;font:300 32px var(--serif);color:var(--blanco)}
+.lm-quien .lm-foto{aspect-ratio:4/5;max-width:420px}
+.lm-firma{width:150px;height:auto;margin-top:22px;opacity:.9}
+.lm-cred{font-size:14px;color:var(--gris-cl);margin-top:18px}
+@media(max-width:900px){.lm-par,.lm-par.inv{grid-template-columns:1fr}.lm-casos{grid-template-columns:1fr}.lm-pano{aspect-ratio:16/9}}
+@media(max-width:640px){.lm-espejo,.lm-ciclo{grid-template-columns:1fr}.cta-final-acciones a{width:100%;justify-content:center}}
+
+.lm-h1{max-width:15em;font-size:clamp(38px,5.6vw,68px)}
+.lm-wide{aspect-ratio:2.4/1;margin-top:clamp(34px,5vw,56px)}
+.lm-scroll{overflow-x:auto}
+.lm-tab{width:100%;border-collapse:collapse;margin-top:30px;font-size:15px;min-width:560px}
+.lm-tab th{font:600 12px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--oro-vivo);text-align:left;padding:12px 16px 12px 0;border-bottom:1px solid var(--oro-borde-med)}
+.lm-tab td{padding:15px 16px 15px 0;border-bottom:1px solid var(--oro-borde);color:var(--gris-cl);vertical-align:top;line-height:1.55}
+.lm-tab td:first-child{color:var(--blanco);font:italic 300 23px/1.25 var(--serif)}
+.lm-exp{display:grid;gap:28px;margin-top:36px}
+.lm-exp.dos{grid-template-columns:1fr 1fr}
+.lm-exp article{border:1px solid var(--oro-borde-med);padding:32px 28px}
+.lm-exp h3{font:300 32px/1.1 var(--serif);color:var(--blanco);margin-bottom:4px}
+.lm-exp dt{font:600 11.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--oro-vivo);margin-top:18px}
+.lm-exp dd{font-size:15px;color:var(--gris-cl);line-height:1.65;margin-top:4px}
+.lm-exp .cta{margin-top:24px}
+.lm-dos{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:30px}
+.lm-dos h3{font:300 28px var(--serif);color:var(--blanco);margin-bottom:6px}
+.lm-cifras{list-style:none;margin-top:30px;max-width:46em}
+.lm-cifras li{padding:20px 0;border-top:1px solid var(--oro-borde);font-size:16px;color:var(--gris-cl);line-height:1.7}
+.lm-cifras b{display:block;font:300 27px/1.2 var(--serif);color:var(--blanco);margin-bottom:4px}
+.lm-cruce{margin-top:44px;font-size:14px;color:var(--gris-cl)}
+.lm-cruce a{color:var(--oro-vivo);text-decoration:underline;text-underline-offset:4px}
+.lm-rol{margin:6px 0 0;font-size:15.5px;color:var(--gris-cl);line-height:1.7}
+.lm-rol b{color:var(--blanco);font-weight:500}
+@media(max-width:900px){.lm-exp.dos,.lm-dos{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-brand" aria-label="Innovación Humana, página principal"><svg class="nav-isotipo" viewBox="0 0 32 32" fill="none" aria-hidden="true"><polygon points="16,2 30,16 16,30 2,16" stroke="#C9A84C" stroke-width="1.5"/><polygon points="16,6 26,16 16,26 6,16" stroke="#E8C97A" stroke-width="1" stroke-opacity="0.6"/><circle cx="16" cy="16" r="3.5" fill="#C9A84C"/></svg> INNOVACIÓN HUMANA</a>
+  <div class="nav-actions"><a href="#experiencias" class="nav-cta"><span class="nav-cta-full">Hacer mi Evaluación</span><span class="nav-cta-short">Evaluación</span></a></div>
+</nav>
+<main>
+
+<!-- 1 · Hero -->
+<section class="section" id="hero">
+  <div class="wrap">
+    <div class="lm-par">
+      <div>
+        <h1 class="sec-title lm-h1">Tu cartera solo crece cuando tú te mueves.</h1>
+        <p class="sec-desc">Acompaño a agentes de seguros a entender cuál es realmente el problema, a volver a confiar en sí mismos y a recuperar su camino comercial. Tú eliges lo que quieres lograr y enfrentar.</p>
+        <div class="cta"><a href="evaluacion-agencia.html?rol=novel" class="cta-btn">Evaluación como Agente Novel</a><a href="evaluacion-agencia.html?rol=consolidado" class="btn-secundario">Evaluación como Agente Consolidado</a></div>
+        <p class="lm-link">5 minutos, gratis y privada. ¿Ya lo tienes claro? <a href="https://calendly.com/jesueugalde/descubrimiento" target="_blank" rel="noopener">Agenda tu Sesión de Mapeo</a>.</p>
+        <ul class="lm-prueba"><li>14 años de campo</li><li>6 años en el sector asegurador</li><li>200+ procesos 1 a 1</li></ul>
+      </div>
+      <figure class="lm-foto" style="aspect-ratio:4/3"><img src="img/hero-fer-roberto.webp" width="1500" height="1125" fetchpriority="high" decoding="async" alt="Sesión 1 a 1: Fer, a la izquierda, señala la pantalla de una laptop con una mano sobre el hombro de Roberto, gerente de desarrollo comercial y agente de seguros, que observa atento"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · Espejo -->
+<section class="section alt">
+  <div class="wrap">
+    <h2 class="sec-title">Quizá te suene familiar</h2>
+    <div class="lm-espejo">
+      <div><h3>¿Sabes qué hacer y lo pospones?</h3><p>Preparándote, analizando, esperando el momento.</p></div>
+      <div><h3>¿Evitas el rechazo?</h3><p>Prospectar se siente como exponerte.</p></div>
+      <div><h3>¿Tu cartera te da comodidad, pero no crece?</h3><p>“Con lo que tengo me va bien”, hasta que ya no.</p></div>
+      <div><h3>¿Por qué no llegan los referidos?</h3><p>Lo vemos juntos, sin juicio.</p></div>
+    </div>
+    <p class="lm-cierra">Si te reconociste en alguna, esto es para ti.</p>
+    <div class="lm-casos" style="margin-top:34px">
+      <div class="lm-caso"><h3>Estoy arrancando</h3><p>Tu camino pasa por prospectar, enfrentar el rechazo y pedir tus primeros referidos. <a href="#novel">Ver Experiencia para Agente Novel</a></p></div>
+      <div class="lm-caso"><h3>Ya tengo cartera</h3><p>Tu camino pasa por definir tu nicho, cuidar tu cartera y crecer con ella. <a href="#consolidado">Ver Experiencia para Agente Consolidado</a></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · Lo que vives adentro se ve afuera -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec-title">Lo que vives adentro se ve afuera</h2>
+    <p class="sec-desc" style="max-width:40em">Tu Evaluación tiene 12 indicadores: seis de lo que vives adentro y seis de cómo opera tu negocio. Están espejados: lo que se mueve en uno se mueve en el otro.</p>
+    <div class="lm-scroll"><table class="lm-tab"><thead><tr><th>Lo que vives adentro</th><th>Se ve en tu resultado si estás arrancando</th><th>Se ve en tu resultado si ya tienes cartera</th></tr></thead><tbody><tr><td>Estabilidad emocional</td><td>Solicitud de referidos</td><td>Estrategia de referidos</td></tr><tr><td>Seguridad y confianza</td><td>Cierre y pago</td><td>Cierre consultivo complejo</td></tr><tr><td>Disposición y entrega</td><td>Presentación de propuesta</td><td>Propuesta multi-solución</td></tr><tr><td>Responsabilidad</td><td>Detección de necesidades</td><td>Diagnóstico financiero integral</td></tr><tr><td>Estrategia</td><td>Primer contacto</td><td>Contacto proactivo y expansión</td></tr><tr><td>Dominio</td><td>Cartera de prospectos</td><td>Auditoría de cartera y mapa de expansión</td></tr></tbody></table></div>
+    <p class="lm-nota">Es una autoevaluación y tiende a salir más alta que la realidad. En el Mapeo la calibramos juntos.</p>
+  </div>
+</section>
+
+<!-- 4 · Camino -->
+<section class="section alt">
+  <div class="wrap">
+    <div class="lm-par">
+      <div>
+        <h2 class="sec-title">Tu camino no está escrito. Lo construimos juntos.</h2>
+        <p class="sec-desc">Construir una cartera no es un destino al que llegas: es un camino que se experimenta toda la vida. Lo que sí tiene principio y fin es nuestro trabajo juntos, en ciclos de introspección y creación.</p>
+      </div>
+      <figure class="lm-foto" style="aspect-ratio:3/2"><img src="img/metodo-miro.webp" width="640" height="427" loading="lazy" decoding="async" alt="Tablero de Miro con el mapa de Ikigai en pantalla y, al fondo, un participante escribiendo en el pizarrón"></figure>
+    </div>
+    <ol class="lm-ciclo">
+      <li><h3>Mapeamos</h3><p>En tu Sesión de Mapeo ves lo que normalmente no puedes o evitas ver de tu negocio y de ti, y decidimos por dónde empezar.</p></li>
+      <li><h3>Identificamos</h3><p>De forma continua vemos qué te limita en tu pensamiento, tu identidad, tus relaciones, tus estrategias, tus decisiones y tus resultados comerciales.</p></li>
+      <li><h3>Acuerdas y experimentas</h3><p>De cada hallazgo sale un acuerdo contigo mismo que pruebas en tu día de trabajo: prospectar, pedir un referido, cerrar y pedir el pago.</p></li>
+      <li><h3>Medimos y ajustamos</h3><p>Revisas tu mapa como brújula. Lo que cambió ajusta el siguiente ciclo: el programa se arma sobre la marcha, a tu necesidad.</p></li>
+    </ol>
+    <p class="lm-frase">Primero llega el cambio personal; los resultados del negocio vienen entre 3 y 6 meses después.</p>
+  </div>
+</section>
+
+<!-- 5 · Experiencias -->
+<section class="section" id="experiencias">
+  <div class="wrap">
+    <h2 class="sec-title">Dos Experiencias, según dónde estés</h2>
+    <div class="lm-exp dos">
+      <article class="cham" id="novel">
+        <h3>Experiencia para Agente Novel</h3>
+        <dl>
+          <dt>Para quién</dt><dd>Quien está arrancando su negocio de seguros.</dd>
+          <dt>Qué trabajas</dt><dd>Prospección, enfrentar el rechazo, tu promesa de marca y pedir referidos. La ruta es la de tu Evaluación: cartera de prospectos, primer contacto, detección de necesidades, presentación de propuesta, cierre y pago, y referidos.</dd>
+          <dt>Qué te llevas</dt><dd>Tu Manual operativo y tu Blueprint estratégico.</dd>
+        </dl>
+        <div class="cta"><a href="evaluacion-agencia.html?rol=novel" class="cta-btn">Hacer mi Evaluación</a></div>
+      </article>
+      <article class="cham" id="consolidado">
+        <h3>Experiencia para Agente Consolidado</h3>
+        <dl>
+          <dt>Para quién</dt><dd>Quien ya tiene cartera y quiere hacerla crecer.</dd>
+          <dt>Qué trabajas</dt><dd>Tu nicho, tu marca, tu identidad y la experiencia del asegurado y del referido; un camino multi-producto, multi-aseguradora y de perfil consultor. La ruta: auditoría de cartera, contacto proactivo, diagnóstico financiero integral, propuesta multi-solución, cierre consultivo y estrategia de referidos.</dd>
+          <dt>Qué te llevas</dt><dd>Tu Manual operativo y tu Blueprint estratégico.</dd>
+        </dl>
+        <div class="cta"><a href="evaluacion-agencia.html?rol=consolidado" class="cta-btn">Hacer mi Evaluación</a></div>
+      </article>
+    </div>
+    <p class="lm-nota">Formato: individual en Innovación Humana, o en grupo patrocinado por tu agencia o por un programa de tu aseguradora. La inversión se define contigo en la Sesión de Mapeo.</p>
+    <p class="lm-link"><a href="https://calendly.com/jesueugalde/descubrimiento" target="_blank" rel="noopener">Agendar mi Sesión de Mapeo</a></p>
+  </div>
+</section>
+
+<!-- 6 · Evidencia y voz -->
+<section class="section alt" id="voces">
+  <div class="wrap">
+    <h2 class="sec-title">Lo que dicen quienes ya lo hicieron</h2>
+    <div class="lm-par" style="margin-top:34px;align-items:start">
+      <div class="t-grid" style="display:block"><figure class="t-card"><blockquote class="t-quote">“Me siento <strong>empoderado internamente</strong>. Ser vulnerable con alguien como Fernando fue verdaderamente hermoso.”</blockquote><figcaption class="t-attr">— <b>Roberto</b> · Gerente de Desarrollo Comercial y Agente de Seguros, CDMX</figcaption></figure></div>
+      <ul class="lm-cifras" style="margin-top:0"><li><b>Agentes independientes, 12 semanas</b>Doce personas calificaron el programa con 5/5. Primero llegó el cambio personal; los resultados del negocio vinieron entre 3 y 6 meses después.</li></ul>
+    </div>
+    <p class="lm-nota">Casos documentados, no promedios. Los resultados varían de una persona a otra.</p>
+  </div>
+</section>
+
+<!-- 7 · Confidencialidad y para quién -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec-title">Lo que compartes es privado</h2>
+    <p class="sec-desc" style="max-width:42em">Si tu agencia o tu aseguradora patrocina, recibe tendencias por rol, nunca lo que dices tú. Participar es voluntario y das tu consentimiento por escrito.</p>
+    <div class="lm-dos">
+      <div><h3>Es para ti si…</h3><ul class="lm-lista"><li>Sabes qué hacer y quieres dejar de posponerlo.</li><li>Quieres dirigirte como dueño de tu tiempo.</li></ul></div>
+      <div><h3>No es para ti si…</h3><ul class="lm-lista"><li>Buscas solo capacitación técnica de producto: eso lo cubre tu aseguradora.</li><li>Necesitas atención clínica: esto no sustituye la terapia, la psiquiatría ni la atención de emergencia.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="section lm-quien">
+  <div class="wrap">
+    <div class="lm-par inv">
+      <figure class="lm-foto"><img src="img/autor-fer.webp" width="640" height="800" loading="lazy" decoding="async" alt="Retrato de Fer Ugalde, Yei Mázatl Xamayari"></figure>
+      <div>
+        <h2 class="sec-title">Fer U, sin intermediarios</h2>
+        <p class="sec-desc">Una raíz metodológica probada durante catorce años se afinó durante seis años en la vertical aseguradora, atendiendo el ecosistema completo de una dirección de agencia: el Director, sus Gerentes de Desarrollo Comercial, los reclutadores de talento y los agentes, noveles y consolidados. Sin franquiciados ni intermediarios.</p>
+        <img class="lm-firma" src="img/firma-feru.webp" loading="lazy" decoding="async" alt="Firma de Fer U">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · Cierre -->
+<section class="section cta-final alt">
+  <div class="wrap">
+    <h2 class="sec-title" style="margin-left:auto;margin-right:auto">¿Cuándo será tu momento?</h2>
+    <p class="sec-desc" style="margin:0 auto 34px">Empieza con tu Evaluación: 5 minutos, gratis y privada. Después, tu Sesión de Mapeo.</p>
+    <div class="cta-final-acciones"><a href="evaluacion-agencia.html?rol=novel" class="cta-btn">Evaluación como Agente Novel</a><a href="evaluacion-agencia.html?rol=consolidado" class="btn-secundario">Evaluación como Agente Consolidado</a></div>
+    <p class="lm-link" style="text-align:center"><a href="https://calendly.com/jesueugalde/descubrimiento" target="_blank" rel="noopener">Agendar mi Sesión de Mapeo</a></p>
+    <p class="lm-cruce">¿Diriges una agencia? <a href="agencias.html">Ve a la página para Directores.</a></p>
+  </div>
+</section>
+</main>
+<footer class="foot">
+  <svg class="foot-isotipo" viewBox="0 0 32 32" fill="none" aria-hidden="true"><polygon points="16,2 30,16 16,30 2,16" stroke="#C9A84C" stroke-width="1.5"/><polygon points="16,6 26,16 16,26 6,16" stroke="#E8C97A" stroke-width="1" stroke-opacity="0.6"/><circle cx="16" cy="16" r="3.5" fill="#C9A84C"/></svg>
+  <div>INNOVACIÓN HUMANA · ARQUITECTURA DE IDENTIDAD</div>
+  <p class="foot-aviso">Innovación Humana ofrece acompañamiento personal y profesional. No constituye terapia ni atención médica o psicológica, y el servicio no está acreditado como una profesión de la salud. Los resultados varían de una persona a otra. Si estás en crisis, llama a la Línea de la Vida (800 911 2000, las 24 horas).</p>
+  <a class="foot-link" href="index.html#aviso-privacidad">Aviso de privacidad</a>
+</footer>
+</body>
+</html>
