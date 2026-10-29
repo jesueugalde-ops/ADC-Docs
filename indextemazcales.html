@@ -62,6 +62,8 @@ header span{font-family:var(--serif);font-size:1.1rem;flex:1;line-height:1.1}
 .num b{font-family:var(--serif);font-size:2.4rem;font-weight:400}
 .info strong{display:block;font-size:1.1rem}
 .info .hora{color:var(--c);font-weight:700}
+.fecha.sin-glifo{grid-template-columns:64px 1fr}
+.info .tonal{display:block;color:var(--suave);font-size:.95rem}
 .info .btn{margin-top:.5rem}
 .t-mujeres{--c:var(--cihua)}.t-hombres{--c:var(--turq)}.t-mixto,.t-mixto-nocturno{--c:var(--cempa)}
 
@@ -71,7 +73,7 @@ header span{font-family:var(--serif);font-size:1.1rem;flex:1;line-height:1.1}
 .luna h2 em{font-style:normal;color:var(--cihua)}
 .luna-grid{display:grid;gap:1.8rem;align-items:center;margin-bottom:2.2rem}
 .luna-foto{margin:0}
-.luna-foto img{width:100%;aspect-ratio:720/1070;object-fit:cover;object-position:50% 0;border-radius:14px;border:2px solid rgba(223,230,242,.35);box-shadow:0 0 50px rgba(223,230,242,.12)}
+.luna-foto img{width:100%;aspect-ratio:612/1070;object-fit:cover;object-position:100% 0;border-radius:14px;border:2px solid rgba(223,230,242,.35);box-shadow:0 0 50px rgba(223,230,242,.12)}
 .luna-foto figcaption{color:var(--suave);font-size:.9rem;margin-top:.6rem}
 .luna h3.sub{font-size:1.5rem;color:var(--luna);margin:0 0 .9rem}
 .luna-fechas{list-style:none;padding:0;display:grid;gap:.8rem;margin-bottom:2.4rem}
@@ -137,7 +139,7 @@ footer{text-align:center;padding:2rem 1.25rem;color:var(--suave);font-size:.95re
 @media(min-width:760px){
 .dos{grid-template-columns:1fr 1fr}.tipos{grid-template-columns:repeat(3,1fr)}.cols{grid-template-columns:1fr 1fr}
 .luna-grid{grid-template-columns:5fr 6fr}.acts{grid-template-columns:repeat(3,1fr);align-items:start}.luna-fechas{grid-template-columns:repeat(3,1fr)}
-.galeria{grid-template-columns:repeat(4,1fr)}.fecha{grid-template-columns:72px 80px 1fr auto}.info{display:contents}
+.galeria{grid-template-columns:repeat(4,1fr)}.fecha{grid-template-columns:72px 80px 1fr auto}.fecha.sin-glifo{grid-template-columns:80px 1fr auto}.info{display:contents}
 .info>div{}.fecha .btn{margin:0}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -216,7 +218,7 @@ footer{text-align:center;padding:2rem 1.25rem;color:var(--suave);font-size:.95re
     <p>Puedes acudir a las instalaciones para conocer la experiencia de la Danza de Luna. Escríbele a Angeles y coordinamos tu llegada.</p>
     <button class="masinfo" type="button" aria-expanded="false" aria-controls="d-apoyo">Más información</button>
     <div class="detalle" id="d-apoyo" hidden>
-      <p><strong>Único requisito:</strong> ponerte al servicio, para mantener limpio el Calpulli y apoyar con la comida para todos los participantes.</p>
+      <p><strong>Único requisito:</strong> ponerte al servicio y mantener limpio el Calpulli.</p>
     </div>
     <div><a class="btn" data-wa="1" data-msg="Hola Angeles, quiero ir como apoyo a la preparación de la Danza de Luna." href="#">Escribir a Angeles</a></div>
   </div>
@@ -359,11 +361,13 @@ const CONTACTO = { 1:'525560886496', 2:'525643440676', 3:'525616132673' }; // 1 
 const GRUPOS = { mujeres:'', hombres:'', mixtos:'' };
 // Danza de Luna · domingos de preparación
 const DANZA = { mes:'noviembre', fechas:[ {dia:'Domingo', n:8}, {dia:'Domingo', n:15}, {dia:'Domingo', n:22} ] };
-const MES = { nombre:'Octubre', veintenas:'Ochopaniztli y Teotlehco' };
+const MES = { nombre:'Noviembre', veintenas:'' };
 const TIPOS = { mujeres:'Temazcal para mujeres', hombres:'Temazcal para hombres', mixto:'Temazcal mixto', 'mixto-nocturno':'Temazcal mixto nocturno' };
-// glifo: imagen del tonal del día (img/glifos/)
+// tonal: nombre del tonal del día · glifo: nombre del archivo en img/glifos/ (déjalo vacío si aún no hay imagen) · hora: opcional
 const FECHAS = [
-  { dia:'Domingo', n:25, hora:'12:00 pm', tipo:'hombres',        glifo:'25' }
+  { dia:'Domingo', n:8,  tipo:'mixto', tonal:'Ehecatl',       glifo:'', hora:'' },
+  { dia:'Domingo', n:15, tipo:'mixto', tonal:'Atl',           glifo:'', hora:'' },
+  { dia:'Domingo', n:22, tipo:'mixto', tonal:'Cozcacuauhtli', glifo:'', hora:'' }
 ];
 /* ================================ */
 const wa = (num, txt) => 'https://wa.me/' + num + (txt ? '?text=' + encodeURIComponent(txt) : '');
@@ -371,10 +375,12 @@ document.getElementById('mes-nombre').textContent = MES.nombre;
 document.getElementById('mes-veintenas').textContent = MES.veintenas;
 document.getElementById('fechas').innerHTML = FECHAS.map(f => {
   const t = TIPOS[f.tipo];
-  const msg = 'Hola, quiero apartar mi lugar para el ' + t.toLowerCase() + ' del ' + f.dia.toLowerCase() + ' ' + f.n + ' de ' + MES.nombre.toLowerCase() + '.';
-  return '<li class="fecha t-' + f.tipo + '"><img src="img/glifos/' + f.glifo + '.png" alt="Glifo del tonal del día ' + f.n + '">' +
+  const msg = 'Hola, quiero apartar mi lugar para el tekiu y ' + t.toLowerCase().replace('temazcal ', 'temazcalito ') + ' del ' + f.dia.toLowerCase() + ' ' + f.n + ' de ' + MES.nombre.toLowerCase() + '.';
+  const img = f.glifo ? '<img src="img/glifos/' + f.glifo + '.png" alt="Glifo del tonal ' + f.tonal + '">' : '';
+  const hora = f.hora ? '<span class="hora">' + f.hora + '</span>' : '';
+  return '<li class="fecha t-' + f.tipo + (f.glifo ? '' : ' sin-glifo') + '">' + img +
     '<div class="num"><small>' + f.dia + '</small><b>' + f.n + '</b></div>' +
-    '<div class="info"><div><span class="hora">' + f.hora + '</span><strong>' + t + '</strong></div>' +
+    '<div class="info"><div>' + hora + '<strong>Tekiu · Temazcalito ' + f.tipo + '</strong><span class="tonal">Tonal ' + f.tonal + '</span></div>' +
     '<a class="btn mini" href="' + wa(CONTACTO[1], msg) + '" target="_blank" rel="noopener">Apartar</a></div></li>';
 }).join('');
 document.getElementById('luna-fechas').innerHTML = DANZA.fechas.map(f => {
