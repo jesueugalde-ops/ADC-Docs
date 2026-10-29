@@ -97,10 +97,10 @@ const Z=v=>v<=3?'Riesgo':v<=6?'Desarrollo':v<=8?'Solidez':'Referencia';
 const avg=a=>a.reduce((x,y)=>x+y,0)/a.length;
 const f1=v=>(Math.round(v*10)/10).toFixed(1);
 let role,i,sc;
-const p=new URLSearchParams(location.search).get('rol');
-ORD.filter(r=>!RD[p]||r===p).forEach(r=>{
+const p=new URLSearchParams(location.search).get('rol'); const PS=(p||'').split(',').map(x=>x.trim()).filter(x=>RD[x]); const back=(PS.length&&PS.every(x=>x==='novel'||x==='consolidado'))?'agentes.html':'agencias.html'; document.querySelectorAll('a[href$="agencias.html"]').forEach(l=>{l.href=l.href.replace('agencias.html',back)});
+ORD.filter(r=>!PS.length||PS.includes(r)).forEach(r=>{
   const b=document.createElement('button');
-  b.textContent=(RD[p]?'Empezar como ':'')+RD[r].label;
+  b.textContent=(PS.length?'Empezar como ':'')+RD[r].label;
   b.onclick=()=>start(r);$('roles').appendChild(b);
 });
 function show(id){['intro','quiz','res'].forEach(s=>$(s).hidden=s!==id);scrollTo(0,0)}
