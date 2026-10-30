@@ -114,6 +114,16 @@
 @media(max-width:700px){.proceso-editorial-grid.g4{grid-template-columns:1fr}}
 @media(max-width:560px){.nav-brand{font-size:10.5px!important;letter-spacing:.12em!important}.nav-isotipo{width:24px;height:24px}}
 </style>
+<style id="ux-directores">
+.lm-sub{font:300 clamp(26px,3vw,32px)/1.2 var(--serif);color:var(--blanco);margin:46px 0 10px}
+.lm-flujo{display:flex;flex-wrap:wrap;gap:12px 0;list-style:none;margin:34px 0 8px;padding:0}
+.lm-flujo li{position:relative;padding:11px 20px;border:1px solid var(--oro-borde-med);font:500 13.5px var(--sans);color:var(--blanco)}
+.lm-flujo li+li{margin-left:26px}
+.lm-flujo li+li::before{content:'';position:absolute;left:-17px;top:50%;width:8px;height:8px;margin-top:-4px;background:var(--oro);transform:rotate(45deg)}
+.lm-exp article.full{grid-column:1/-1}
+.lm-exp.tres{grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.lm-exp.tres{grid-template-columns:1fr}.lm-flujo li+li{margin-left:0}.lm-flujo li+li::before{display:none}}
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-rombo-mark" viewBox="0 0 24 24"><path d="M12 5 19 12 12 19 5 12Z" fill="currentColor" stroke="none"/></symbol></defs></svg>
@@ -184,19 +194,29 @@
   </div>
 </section>
 
-<!-- 5 · Escalera -->
-<section class="section" id="escalera">
+<!-- 5 · Servicios según tu momento -->
+<section class="section" id="servicios">
   <div class="wrap">
     <div class="lm-par inv" style="margin-bottom:clamp(30px,5vw,52px)">
-      <figure class="lm-foto" style="aspect-ratio:3/2;"><img src="img/metodo-pizarra.webp" width="1600" height="1066" loading="lazy" decoding="async" alt="Fer U sentado junto a un exalumno frente a un pizarrón con un Ikigai: Pasado a la izquierda y Futuro a la derecha"></figure>
+      <figure class="lm-foto" style="aspect-ratio:3/2"><img src="img/metodo-pizarra.webp" width="1600" height="1066" loading="lazy" decoding="async" alt="Fer U sentado junto a un exalumno frente a un pizarrón con un Ikigai: Pasado a la izquierda y Futuro a la derecha"></figure>
       <div>
-        <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Escalera</div>
-        <h2 class="sec-title">Empieza donde estés <em>y sube</em></h2>
-        <p class="sec-desc">No tienes que empezar por lo más grande. Cada escalón se arma contigo y subes cuando estés listo.</p>
+        <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Servicios</div>
+        <h2 class="sec-title">Elige según <em>tu momento</em></h2>
+        <p class="sec-desc">Mis servicios no van en escalera. Dependen de tu capacidad económica, del tiempo que puedes dedicar y del esfuerzo que estás dispuesto a poner para crear el cambio. Siempre empezamos por una Sesión de Mapeo y, desde ahí, lo armamos a tu medida.</p>
       </div>
     </div>
-    <div class="proceso-editorial-grid g4"><div class="paso-editorial"><div class="paso-num">1</div><h4>Sesión de Mapeo</h4><p>60 minutos. Ves dónde estás en 12 áreas de tu vida y decidimos por dónde empezar.</p></div><div class="paso-editorial"><div class="paso-num">2</div><h4>Reconexión</h4><p>Para cuando cargas un problema y no sabes cómo resolverlo. Lo comprendemos y lo enfrentamos juntos.</p></div><div class="paso-editorial"><div class="paso-num">3</div><h4>Innovación Humana Básica</h4><p>Una transformación personal en 12 semanas, con menos herramientas y más accesible.</p></div><div class="paso-editorial"><div class="paso-num">4</div><h4>Innovación Humana Profunda</h4><p>Tu transformación personal, profesional y comercial, como marca personal. Aquí viven las dos Experiencias para agentes.</p></div></div>
-    <p class="lm-nota">La inversión de cada escalón se define contigo en la Sesión de Mapeo. <a href="https://calendly.com/jesueugalde/descubrimiento?utm_source=landing-agentes&amp;utm_medium=web" target="_blank" rel="noopener" style="color:var(--oro-vivo)">Agendar mi Sesión de Mapeo</a></p>
+    <div class="lm-exp tres">
+      <article class="cham"><h3>Reconexión</h3><dl><dt>Cuándo elegirlo</dt><dd>Cuando cargas un problema y no sabes cómo resolverlo. Lo comprendemos y lo enfrentamos juntos.</dd></dl></article>
+      <article class="cham"><h3>Innovación Humana Básica</h3><dl><dt>Cuándo elegirlo</dt><dd>Cuando quieres una transformación personal, con estructura de 12 semanas y las herramientas esenciales.</dd></dl></article>
+      <article class="cham"><h3>Innovación Humana Profunda</h3><dl><dt>Cuándo elegirlo</dt><dd>Cuando quieres transformar lo personal, lo profesional y lo comercial, como marca personal. Aquí viven las dos Experiencias para agentes.</dd></dl></article>
+    </div>
+    <h3 class="lm-sub">Pensado para que cualquier agente pueda empezar</h3>
+    <ul class="lm-lista" style="max-width:46em">
+      <li>Tu programa se define en el Mapeo, según tu tiempo y tu presupuesto.</li>
+      <li>Pagas por anticipo o en transferencias semanales o mensuales.</li>
+      <li>Si necesitas cancelar por razones económicas, no hay problema.</li>
+    </ul>
+    <p class="lm-link" style="margin-top:28px"><a href="https://calendly.com/jesueugalde/descubrimiento?utm_source=landing-agentes&amp;utm_medium=web" target="_blank" rel="noopener">Agendar mi Sesión de Mapeo</a></p>
   </div>
 </section>
 
@@ -205,7 +225,7 @@
   <div class="wrap">
     <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Servicio</div>
         <h2 class="sec-title">Innovación Humana Profunda, en <em>dos Experiencias</em> para agentes</h2>
-    <p class="sec-desc" style="max-width:40em">Es el último escalón: personal, profesional y comercial. Elige según dónde estés.</p>
+    <p class="sec-desc" style="max-width:40em">Es la opción para transformar lo personal, lo profesional y lo comercial al mismo tiempo. Elige según dónde estés.</p>
     <div class="lm-exp dos">
       <article class="cham" id="novel">
         <h3>Experiencia para Agente Novel</h3>
@@ -248,8 +268,8 @@
 <section class="section">
   <div class="wrap">
     <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Confidencialidad</div>
-        <h2 class="sec-title">Lo que compartes <em>es privado</em></h2>
-    <p class="sec-desc" style="max-width:42em">Si tu agencia o tu aseguradora patrocina, recibe tendencias por rol, nunca lo que dices tú. Participar es voluntario y das tu consentimiento por escrito.</p>
+        <h2 class="sec-title">Lo que compartes <em>es tuyo</em></h2>
+    <p class="sec-desc" style="max-width:42em">Tu proceso es privado. Nadie en tu agencia ni en tu aseguradora ve tus respuestas ni lo que me cuentas en tus sesiones. Antes de empezar te pido tu consentimiento por escrito, no vendo tus datos y lo que compartes, lo decides tú.</p>
     <div class="lm-dos">
       <div><h3>Es para ti si…</h3><ul class="lm-lista"><li>Sabes qué hacer y quieres dejar de posponerlo.</li><li>Quieres dirigirte como dueño de tu tiempo.</li></ul></div>
       <div><h3>No es para ti si…</h3><ul class="lm-lista"><li>Buscas solo capacitación técnica de producto: eso lo cubre tu aseguradora.</li><li>Necesitas atención clínica: esto no sustituye la terapia, la psiquiatría ni la atención de emergencia.</li></ul></div>
