@@ -97,8 +97,27 @@
 @media(max-width:900px){.lm-exp.dos,.lm-dos,.lm-ciclo.tres{grid-template-columns:1fr}}
 .lm-iso{width:1.05em;height:1.05em;vertical-align:-.15em;margin-right:.55em;flex:none}
 </style>
+<style id="estilo-ih">
+.nav-brand{font-family:var(--sans)!important;font-weight:500!important;font-size:12.5px!important;letter-spacing:.2em!important;color:var(--blanco)!important;text-transform:uppercase;gap:10px!important}
+.nav-isotipo{width:28px;height:28px}
+.hero.solo{display:flex;flex-direction:column;align-items:center;text-align:center}
+.hero.solo .hero-content{align-items:center;max-width:860px}
+.hero.solo .linea{margin:0 auto 30px;background:linear-gradient(90deg,transparent,var(--oro-vivo),transparent)}
+.hero.solo .cta,.hero.solo .lm-prueba{justify-content:center}
+.hero .cta{margin-top:26px}
+.hero .lm-link,.hero .lm-prueba{max-width:none}
+.proceso-editorial-grid.g4{grid-template-columns:repeat(2,1fr)}
+.lm-galeria{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:36px}
+.lm-galeria figure{margin:0}
+.lm-galeria .lm-foto{aspect-ratio:4/5;outline-offset:6px}
+.lm-galeria figcaption{margin-top:14px;font:400 13.5px/1.5 var(--sans);color:var(--gris-cl)}
+@media(max-width:900px){.lm-galeria{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.proceso-editorial-grid.g4{grid-template-columns:1fr}}
+@media(max-width:560px){.nav-brand{font-size:10.5px!important;letter-spacing:.12em!important}.nav-isotipo{width:24px;height:24px}}
+</style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-rombo-mark" viewBox="0 0 24 24"><path d="M12 5 19 12 12 19 5 12Z" fill="currentColor" stroke="none"/></symbol></defs></svg>
 <nav class="nav">
   <a href="index.html" class="nav-brand" aria-label="Innovación Humana, página principal"><svg class="nav-isotipo" viewBox="0 0 32 32" fill="none" aria-hidden="true"><polygon points="16,2 30,16 16,30 2,16" stroke="#C9A84C" stroke-width="1.5"/><polygon points="16,6 26,16 16,26 6,16" stroke="#E8C97A" stroke-width="1" stroke-opacity="0.6"/><circle cx="16" cy="16" r="3.5" fill="#C9A84C"/></svg> INNOVACIÓN HUMANA</a>
   <div class="nav-actions"><a href="https://jesueugalde-ops.github.io/ADC-Docs/evaluacion-agencia.html?rol=director" class="nav-cta"><span class="nav-cta-full">Evaluación de mi Agencia</span><span class="nav-cta-short">Evaluación</span></a></div>
@@ -106,21 +125,30 @@
 <main>
 
 <!-- 1 · Hero -->
-<section class="section" id="hero">
-  <div class="wrap">
-    <h1 class="sec-title lm-h1">Tu agencia solo funciona cuando tú estás.</h1>
-    <p class="sec-desc" style="max-width:40em">Acompaño a Directores de agencia a entender cuál es realmente el problema, a volver a confiar en sí mismos y a recuperar su camino. Tu agencia ya los forma en lo técnico; ¿quién les trabaja lo humano? Tú eliges lo que quieres lograr y enfrentar.</p>
+<section class="hero solo" id="hero">
+  <div class="hero-content">
+    <p class="hero-kicker">Innovación Humana para Directores de agencia</p>
+    <h1>Tu agencia solo funciona <em>cuando tú estás</em>.</h1>
+    <div class="linea" aria-hidden="true"></div>
+    <p class="hero-intro">Acompaño a Directores de agencia a entender cuál es realmente el problema, a volver a confiar en sí mismos y a recuperar su camino. Tu agencia ya los forma en lo técnico; ¿quién les trabaja lo humano? Tú eliges lo que quieres lograr y enfrentar.</p>
     <div class="cta"><a href="https://jesueugalde-ops.github.io/ADC-Docs/evaluacion-agencia.html?rol=director" class="cta-btn">Hacer la Evaluación de mi Agencia (5 min, gratis)</a></div>
     <p class="lm-link">¿Ya lo tienes claro? <a href="https://calendly.com/jesueugalde/descubrimiento?utm_source=landing-directores&amp;utm_medium=web" target="_blank" rel="noopener">Agenda tu Mapeo de Agencia</a>. ¿Dudas? <a href="https://wa.me/525643440676?text=Hola%20Fer,%20soy%20Director%20de%20agencia%20y%20quisiera%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener"><svg class="lm-iso" viewBox="0 0 32 32" fill="none" aria-hidden="true"><polygon points="16,2 30,16 16,30 2,16" stroke="#C9A84C" stroke-width="2.4"/><circle cx="16" cy="16" r="3.8" fill="#C9A84C"/></svg>Más información por WhatsApp</a>.</p>
     <ul class="lm-prueba"><li>14 años de campo</li><li>6 años en el sector asegurador</li><li>200+ procesos 1 a 1</li></ul>
-    <figure class="lm-foto lm-wide"><img src="img/dim-comercial.webp" width="1279" height="533" fetchpriority="high" decoding="async" alt="Grupo de directores y equipo comercial de una agencia de seguros tras un cierre de programa de formación"></figure>
+  </div>
+</section>
+<section class="section" id="en-accion">
+  <div class="wrap">
+    <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> En acción</div>
+    <h2 class="sec-title">Así se ve <em>el trabajo</em></h2>
+    <div class="lm-galeria"><figure><div class="lm-foto"><img src="img/galeria-taller-en-vivo.webp" width="640" height="800" loading="lazy" decoding="async" alt="Fer U impartiendo un taller grupal en vivo"></div><figcaption>Taller grupal en vivo</figcaption></figure><figure><div class="lm-foto"><img src="img/galeria-sesion-1a1.webp" width="575" height="719" loading="lazy" decoding="async" alt="Captura de pantalla de una sesión 1 a 1 con un exalumno, Director de agencia"></div><figcaption>Sesión 1 a 1 con un Director de agencia</figcaption></figure><figure><div class="lm-foto"><img src="img/galeria-cx-design.webp" width="575" height="719" loading="lazy" decoding="async" alt="Captura de pantalla de una sesión de CX Design con un exalumno, Director de agencia"></div><figcaption>Sesión de CX Design con un Director</figcaption></figure><figure><div class="lm-foto"><img src="img/galeria-workshop.webp" width="640" height="800" loading="lazy" decoding="async" alt="Un exalumno y su asistente sentados en su sala de juntas durante un workshop"></div><figcaption>Workshop en la sala de juntas del Director</figcaption></figure></div>
   </div>
 </section>
 
 <!-- 2 · Espejo -->
 <section class="section alt">
   <div class="wrap">
-    <h2 class="sec-title">Quizá te suene familiar</h2>
+    <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Reconocerte</div>
+        <h2 class="sec-title">Quizá te suene <em>familiar</em></h2>
     <div class="lm-espejo">
       <div><h3>¿Sientes que todo pasa por ti?</h3><p>Tu agencia funciona mientras estás tú.</p></div>
       <div><h3>¿Tus agentes saben qué hacer y no lo hacen?</h3><p>Lo técnico ya se lo enseña la aseguradora. Lo humano, nadie.</p></div>
@@ -134,7 +162,8 @@
 <!-- 3 · Lo que vives adentro se ve afuera -->
 <section class="section">
   <div class="wrap">
-    <h2 class="sec-title">Lo que vives adentro se ve afuera</h2>
+    <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Ley del Espejo</div>
+        <h2 class="sec-title">Lo que vives adentro <em>se ve afuera</em></h2>
     <p class="sec-desc" style="max-width:40em">La claridad de tu estrategia, el cumplimiento de tu palabra y el liderazgo que transmites son el reflejo del desempeño de tu equipo. Tu agencia ya tiene una identidad, la hayas definido o no: se forma en la compatibilidad entre tú, tus reclutadores, tus gerentes, tus agentes y tus asegurados.</p>
     <div class="lm-scroll"><table class="lm-tab"><thead><tr><th>Lo que vives adentro</th><th>La pregunta de tu Evaluación</th><th>Se refleja en tu agencia</th></tr></thead><tbody><tr><td>Estabilidad emocional</td><td>¿Tu agencia opera con ritmo constante, sin importar tu estado de ánimo?</td><td>Legado y sucesión</td></tr><tr><td>Seguridad y confianza</td><td>¿Decides desde tu criterio o todavía buscas validación externa?</td><td>Ritmo comercial y campañas</td></tr><tr><td>Disposición y entrega</td><td>¿Estás presente con la misma energía en los meses difíciles que en los de campaña?</td><td>Sistema del agente consolidado</td></tr><tr><td>Responsabilidad</td><td>¿Asumes los resultados de la agencia completa como propios?</td><td>Sistema del agente novel</td></tr><tr><td>Estrategia</td><td>¿Tienes un plan claro de cómo crece la agencia este año?</td><td>Sistema de formación de agentes</td></tr><tr><td>Dominio</td><td>¿Puedes leer tu agencia como sistema, sin confundir síntoma con causa?</td><td>Sistema de reclutamiento activo</td></tr></tbody></table></div>
     <p class="lm-nota">Es una autoevaluación y tiende a salir más alta que la realidad. En el Mapeo de Agencia la calibramos juntos.</p>
@@ -144,7 +173,8 @@
 <!-- 3b · Tu equipo -->
 <section class="section alt" id="equipo">
   <div class="wrap">
-    <h2 class="sec-title">Lo que gana cada persona de tu equipo</h2>
+    <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Tu equipo</div>
+        <h2 class="sec-title">Lo que gana cada persona de <em>tu equipo</em></h2>
     <p class="sec-desc" style="max-width:40em">Cada rol dice algo distinto, y cada explicación cubre una parte. Ninguna explica por qué se repite.</p>
     <div class="lm-exp dos">
       <article class="cham"><h3>Reclutador (EDAT)</h3><dl><dt>Lo que dice</dt><dd>“Busco los mejores perfiles.”</dd><dt>Suele revelar</dt><dd>Perfiles con mentalidad de empleado, poco preparados para emprender, tolerar la incertidumbre y autogestionarse, y una propuesta como la de todas las agencias, sin valor diferenciador.</dd><dt>Lo que buscamos que cambie</dt><dd>Reclutar desde la identidad de tu agencia, con un arquetipo de agente compatible: emprendedores, no empleados.</dd></dl></article>
@@ -161,17 +191,13 @@
   <div class="wrap">
     <div class="lm-par">
       <div>
-        <h2 class="sec-title">Tu camino no está escrito. Lo construimos juntos.</h2>
+        <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Cómo Trabajamos</div>
+        <h2 class="sec-title">Tu camino no está escrito. <em>Lo construimos juntos.</em></h2>
         <p class="sec-desc">Dirigir una agencia no es un destino al que llegas: es un camino que se experimenta toda la vida. Lo que sí tiene principio y fin es nuestro trabajo juntos, en ciclos de introspección y creación.</p>
       </div>
-      <figure class="lm-foto" style="aspect-ratio:3/2"><img src="img/metodo-miro.webp" width="640" height="427" loading="lazy" decoding="async" alt="Tablero de Miro con el mapa de Ikigai en pantalla y, al fondo, un participante escribiendo en el pizarrón"></figure>
+      <figure class="lm-foto" style="aspect-ratio:3/2;"><img src="img/metodo-pizarra.webp" width="1600" height="1066" loading="lazy" decoding="async" alt="Fer U sentado junto a un exalumno frente a un pizarrón con un Ikigai: Pasado a la izquierda y Futuro a la derecha"></figure>
     </div>
-    <ol class="lm-ciclo">
-      <li><h3>Mapeamos</h3><p>En tu Sesión de Mapeo ves lo que normalmente no puedes o evitas ver de tu negocio y de ti, y decidimos por dónde empezar.</p></li>
-      <li><h3>Identificamos</h3><p>De forma continua vemos qué te limita en tu pensamiento, tu identidad, tus relaciones, tus estrategias, tus decisiones y tus resultados comerciales.</p></li>
-      <li><h3>Acuerdas y experimentas</h3><p>De cada hallazgo sale un acuerdo contigo mismo que pruebas en tu día de trabajo: delegar, tener esa conversación pendiente, soltar una decisión.</p></li>
-      <li><h3>Medimos y ajustamos</h3><p>Revisas tu mapa como brújula. Lo que cambió ajusta el siguiente ciclo: el programa se arma sobre la marcha, a tu necesidad.</p></li>
-    </ol>
+    <div class="proceso-editorial-grid g4"><div class="paso-editorial"><div class="paso-num">1</div><h4>Mapeamos</h4><p>En tu Sesión de Mapeo ves lo que normalmente no puedes o evitas ver de tu negocio y de ti, y decidimos por dónde empezar.</p></div><div class="paso-editorial"><div class="paso-num">2</div><h4>Identificamos</h4><p>De forma continua vemos qué te limita en tu pensamiento, tu identidad, tus relaciones, tus estrategias, tus decisiones y tus resultados comerciales.</p></div><div class="paso-editorial"><div class="paso-num">3</div><h4>Acuerdas y experimentas</h4><p>De cada hallazgo sale un acuerdo contigo mismo que pruebas en tu día de trabajo: delegar, tener esa conversación pendiente, soltar una decisión.</p></div><div class="paso-editorial"><div class="paso-num">4</div><h4>Medimos y ajustamos</h4><p>Revisas tu mapa como brújula. Lo que cambió ajusta el siguiente ciclo: el programa se arma sobre la marcha, a tu necesidad.</p></div></div>
     <p class="lm-frase">Es autoconocimiento, intención y acción continua: cómo piensas, cómo te ves y cuánta autonomía tienes para decidir.</p>
   </div>
 </section>
@@ -179,23 +205,18 @@
 <!-- 5 · Experiencia para Director -->
 <section class="section" id="experiencia">
   <div class="wrap">
-    <h2 class="sec-title">Experiencia para Director</h2>
-    <p class="sec-desc" style="max-width:40em">Empezamos por quien dirige. Después, si quieres, sumamos a tu equipo.</p>
-    <ol class="lm-ciclo tres">
-      <li><h3>Evaluación</h3><p>5 minutos, gratis y privada. Ves tu agencia desde tu rol.</p></li>
-      <li><h3>Mapeo de Agencia</h3><p>60 minutos para ver tu agencia y calibrar tu autoevaluación.</p></li>
-      <li><h3>Tu programa</h3><p>Armado contigo, en ciclos, sobre lo que aparezca en el Mapeo.</p></li>
-    </ol>
-    <p class="sec-desc" style="max-width:40em">Dos formatos: individual, tu Reinvención Profunda (personal, profesional y comercial), o con tu equipo, el programa A medida.</p>
-    <details class="lm-det">
-      <summary>Cuando quieras sumar a tu equipo</summary>
+    <div class="lm-par"><div><div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Servicio</div>
+        <h2 class="sec-title">Experiencia para <em>Director</em></h2><p class="sec-desc" style="max-width:40em">Empezamos por quien dirige. Después, si quieres, sumamos a tu equipo.</p></div><figure class="lm-foto" style="aspect-ratio:3/2;"><img src="img/metodo-miro.webp" width="640" height="427" loading="lazy" decoding="async" alt="Tablero de Miro con el mapa de Ikigai en pantalla y, al fondo, un participante escribiendo en el pizarrón"></figure></div>
+    <div class="proceso-editorial-grid"><div class="paso-editorial"><div class="paso-num">1</div><h4>Evaluación</h4><p>5 minutos, gratis y privada. Ves tu agencia desde tu rol.</p></div><div class="paso-editorial"><div class="paso-num">2</div><h4>Mapeo de Agencia</h4><p>60 minutos para ver tu agencia y calibrar tu autoevaluación.</p></div><div class="paso-editorial"><div class="paso-num">3</div><h4>Tu programa</h4><p>Armado contigo, en ciclos, sobre lo que aparezca en el Mapeo.</p></div></div>
+    <p class="sec-desc" style="max-width:40em">Dos formatos: individual, tu Innovación Humana Profunda (personal, profesional y comercial), o con tu equipo, el programa A medida.</p>
+    <details class="acordeon-item"><summary class="acordeon-header">Cuando quieras sumar a tu equipo</summary><div class="acordeon-body">
       <ul>
         <li>Cada persona de tu equipo hace su Evaluación en privado; tú no recibes sus respuestas. Tú compartes los enlaces de cada rol.</li>
         <li>Quick Scan anónimo de 10 minutos y lectura por rol, con el mapa de la cadena reclutador, novel, gerente y consolidado y 3 hipótesis.</li>
         <li>Gerentes y reclutadores no compran: los patrocinas tú, dentro de tu Experiencia.</li>
         <li>Para tus agentes, Experiencia para Agente Novel y Experiencia para Agente Consolidado, patrocinadas por tu agencia o por un programa de tu aseguradora. <a href="agentes.html">Ver la página para agentes.</a></li>
       </ul>
-    </details>
+    </div></details>
     <p class="lm-nota" style="margin-top:0">La inversión se define contigo en el Mapeo de Agencia.</p>
     <div class="cta"><a href="https://jesueugalde-ops.github.io/ADC-Docs/evaluacion-agencia.html?rol=director" class="cta-btn">Hacer la Evaluación de mi Agencia</a><a href="https://calendly.com/jesueugalde/descubrimiento?utm_source=landing-directores&amp;utm_medium=web" class="btn-secundario" target="_blank" rel="noopener">Agendar mi Mapeo de Agencia</a></div>
   </div>
@@ -204,7 +225,8 @@
 <!-- 6 · Caminos distintos -->
 <section class="section alt">
   <div class="wrap">
-    <h2 class="sec-title" style="font-size:clamp(34px,4.4vw,52px)">Mismo acompañamiento, caminos distintos</h2>
+    <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Casos</div>
+        <h2 class="sec-title" style="font-size:clamp(34px,4.4vw,52px)">Mismo acompañamiento, <em>caminos distintos</em></h2>
     <div class="lm-casos">
       <div class="lm-caso"><h3>Carlos</h3><p>Director de agencia. Llegó con casi nada de producción y sin estructura. En el camino decidió dejar su agencia. Lo acompañé sin empujarlo hacia ningún lado: el éxito no siempre es vender más; a veces es recuperar tu vida.</p></div>
       <div class="lm-caso"><h3>Ernesto</h3><p>Director que heredó su agencia. Por fuera todo funcionaba; por dentro estaba desconectado de su rol. Recuperó el rumbo y la claridad para dirigir.</p></div>
@@ -222,7 +244,8 @@
 <!-- 7 · Voces -->
 <section class="section" id="voces">
   <div class="wrap">
-    <h2 class="sec-title">Lo que dicen quienes ya lo hicieron</h2>
+    <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Evidencia</div>
+        <h2 class="sec-title">Lo que dicen quienes <em>ya lo hicieron</em></h2>
     <div class="lm-ctl"><button type="button" id="rail-prev" aria-label="Testimonios anteriores">←</button><button type="button" id="rail-next" aria-label="Más testimonios">→</button></div>
   </div>
   <div class="lm-rail" id="rail" tabindex="0" aria-label="Testimonios de directores">
@@ -237,8 +260,10 @@
 <!-- 8 · Confidencialidad y para quién -->
 <section class="section alt">
   <div class="wrap">
-    <h2 class="sec-title">Lo que tu equipo comparte es privado</h2>
+    <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Confidencialidad</div>
+        <h2 class="sec-title">Lo que tu equipo comparte <em>es privado</em></h2>
     <p class="sec-desc" style="max-width:42em">Puede pagarlo tú, tu agencia o un programa de tu aseguradora, pero cada persona decide participar y da su consentimiento por escrito. Quien patrocina recibe tendencias por rol, nunca lo que dice cada persona; si un rol tiene menos de 5 personas, se reporta combinado. Participar es voluntario, y pido a quien patrocina, por escrito, no condicionar a nadie por participar o retirarse.</p>
+    <figure class="lm-foto" style="aspect-ratio:2.4/1;margin:30px 0 8px"><img src="img/dim-comercial.webp" width="1279" height="533" loading="lazy" decoding="async" alt="Grupo de directores y equipo comercial de una agencia de seguros tras un cierre de programa de formación"></figure>
     <div class="lm-dos">
       <div><h3>Es para ti si…</h3><ul class="lm-lista"><li>Diriges un equipo comercial y sabes que el problema no es de capacidad técnica.</li><li>Quieres agentes que se dirijan como dueños de su tiempo.</li></ul></div>
       <div><h3>No es para ti si…</h3><ul class="lm-lista"><li>Quieres que tu equipo cambie sin que tú cambies.</li><li>Buscas solo capacitación técnica de producto: eso lo cubre tu aseguradora.</li><li>Necesitas atención clínica: esto no sustituye la terapia, la psiquiatría ni la atención de emergencia.</li></ul></div>
@@ -251,7 +276,8 @@
     <div class="lm-par inv">
       <figure class="lm-foto"><img src="img/autor-fer.webp" width="640" height="800" loading="lazy" decoding="async" alt="Retrato de Fer Ugalde, Yei Mázatl Xamayari"></figure>
       <div>
-        <h2 class="sec-title">Fer U, sin intermediarios</h2>
+        <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Acompañamiento &amp; Guía</div>
+        <h2 class="sec-title">Fer U, <em>sin intermediarios</em></h2>
         <p class="sec-desc">Una raíz metodológica probada durante catorce años se afinó durante seis años en la vertical aseguradora, atendiendo el ecosistema completo de una dirección de agencia: el Director, sus Gerentes de Desarrollo Comercial, los reclutadores de talento y los agentes, noveles y consolidados. Sin franquiciados ni intermediarios.</p>
         <img class="lm-firma" src="img/firma-feru.webp" loading="lazy" decoding="async" alt="Firma de Fer U">
       </div>
@@ -262,7 +288,8 @@
 <!-- 10 · Cierre -->
 <section class="section cta-final alt">
   <div class="wrap">
-    <h2 class="sec-title" style="margin-left:auto;margin-right:auto">Empieza por ver tu agencia.</h2>
+    <div class="eyebrow centrado"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Tu siguiente paso</div>
+        <h2 class="sec-title centrado" style="margin-left:auto;margin-right:auto">Empieza por ver <em>tu agencia</em>.</h2>
     <p class="sec-desc" style="margin:0 auto 34px">Tu Evaluación toma 5 minutos, es gratis y es privada. Después, tu Mapeo de Agencia.</p>
     <div class="cta-final-acciones"><a href="https://jesueugalde-ops.github.io/ADC-Docs/evaluacion-agencia.html?rol=director" class="cta-btn">Hacer la Evaluación de mi Agencia</a><a href="https://calendly.com/jesueugalde/descubrimiento?utm_source=landing-directores&amp;utm_medium=web" class="btn-secundario" target="_blank" rel="noopener">Agendar mi Mapeo de Agencia</a></div>
     <p class="lm-link" style="text-align:center;margin-top:26px">¿Prefieres escribirme? <a href="https://wa.me/525643440676?text=Hola%20Fer,%20soy%20Director%20de%20agencia%20y%20quisiera%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener"><svg class="lm-iso" viewBox="0 0 32 32" fill="none" aria-hidden="true"><polygon points="16,2 30,16 16,30 2,16" stroke="#C9A84C" stroke-width="2.4"/><circle cx="16" cy="16" r="3.8" fill="#C9A84C"/></svg>Más información por WhatsApp</a></p>
