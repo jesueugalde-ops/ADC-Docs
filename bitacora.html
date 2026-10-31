@@ -592,6 +592,32 @@ function renderMomento(qd,r,p){const pi=S.pi;if(!pi||!ROLES[pi.rol])return '';co
   if(E[R.k])h+=`<div class="obs"><h4>Por dónde entra mi conversación · ${QD[qd].n}</h4><p>${E[R.k]}</p><h4>Mismo resultado, otro origen</h4><ul>${Object.keys(LENS).filter(k=>k!==R.k).map(k=>`<li><b>${LENS[k].n}:</b> ${E[k]}</li>`).join('')}</ul></div>`;
   return h+'</div>';}
 
+
+/* ---------- gráficas: palabra semana a semana y trayectoria radar × palabra ---------- */
+const ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function wkMon(f){const d=new Date(f+'T00:00:00');d.setDate(d.getDate()-((d.getDay()+6)%7));return ymd(d);}
+function ihsSVG(cs){const wk={};S.entries.forEach(e=>{if(!e.f||!(e.comps||[]).length)return;const k=wkMon(e.f),w=wk[k]||(wk[k]={c:0,a:0,n:0,p:0});e.comps.forEach(c=>{w[c.st]++;});});
+  const ks=Object.keys(wk).sort();if(ks.length<2)return '';
+  const L=34,Rt=408,T=12,H=118,B=210,BH=52,t0=new Date(ks[0]),t1=new Date(ks[ks.length-1]),sp=(t1-t0)||1,X=k=>L+14+Math.min(1,Math.max(0,(new Date(k)-t0)/sp))*(Rt-L-28),Y=v=>T+H*(1-v/100);
+  let g='',lo=0;ZP.forEach(z=>{g+=`<rect x="${L}" y="${Y(z.m)}" width="${Rt-L}" height="${Y(lo)-Y(z.m)}" fill="${z.c}" fill-opacity=".1"/>`;lo=z.m;});
+  [40,65,85].forEach(v=>{g+=`<text x="${L-4}" y="${Y(v)+3}" text-anchor="end" font-size="9" fill="#8E8E8A" font-family="Montserrat,sans-serif">${v}</text>`;});
+  cs.forEach(c=>{if(!c.f)return;const x=X(wkMon(c.f));g+=`<line x1="${x}" y1="${T}" x2="${x}" y2="${B}" stroke="${c.c}" stroke-dasharray="3 3" stroke-opacity=".8"/><text x="${x}" y="${T-2}" text-anchor="middle" font-size="9" fill="${c.c}" font-family="Montserrat,sans-serif" font-weight="500">${c.l}</text>`;});
+  const mx=Math.max(...ks.map(k=>wk[k].c+wk[k].a+wk[k].n+wk[k].p)),bw=Math.max(6,Math.min(18,(Rt-L)/ks.length*.5)),pts=[];
+  ks.forEach(k=>{const w=wk[k],x=X(k),cl=w.c+w.a+n0(w);let y=B;['c','a','n','p'].forEach(st=>{const h=w[st]/mx*BH;if(h>0){y-=h;g+=`<rect x="${x-bw/2}" y="${y}" width="${bw}" height="${h}" fill="${STS[st].c}"/>`;}});
+    if(cl)pts.push([x,Y(100*w.c/cl),100*w.c/cl]);});
+  if(pts.length>1)g+=`<polyline points="${pts.map(q=>q[0]+','+q[1]).join(' ')}" fill="none" stroke="#F6F6F2" stroke-opacity=".8" stroke-width="1.6" stroke-linejoin="round"/>`;
+  pts.forEach(q=>{g+=`<circle cx="${q[0]}" cy="${q[1]}" r="3.4" fill="${zp(q[2]).c}" stroke="#0E1012" stroke-width="1"/>`;});
+  return `<div class="sub-card"><h3>Mi palabra semana a semana</h3><p class="hint">Cada barra es una semana (corte el lunes). La línea es mi porcentaje sobre las zonas de mi palabra; las líneas punteadas marcan mis mediciones de radar.</p><svg viewBox="0 0 420 222" style="width:100%;height:auto" role="img" aria-label="Mi palabra por semana">${g}</svg><div class="legend">${['c','a','n'].map(k=>`<div class="leg"><span style="color:${STS[k].c}">■ ${STS[k].l}</span></div>`).join('')}</div></div>`;}
+const n0=w=>w.n;
+function trajSVG(path){if(!path.length)return '';const X0=38,X1=404,Y0=16,Y1=252,xr=r=>X0+(Math.min(10,Math.max(1,r))-1)/9*(X1-X0),yp=p=>Y1-p/100*(Y1-Y0),tx=xr(HI_RADAR),ty=yp(HI_PALABRA);
+  const ql=(x,y,w,h,c,k,al)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}" fill-opacity=".07"/><text x="${al==='e'?x+w-6:x+6}" y="${y>ty-1?y+h-7:y+14}" text-anchor="${al==='e'?'end':'start'}" font-size="9.5" fill="#8E8E8A" font-family="Montserrat,sans-serif">${QD[k].n}</text>`;
+  let g=ql(X0,Y0,tx-X0,ty-Y0,'#5588CC','lh','s')+ql(tx,Y0,X1-tx,ty-Y0,'#4A9F6A','hh','e')+ql(X0,ty,tx-X0,Y1-ty,'#CC5555','ll','s')+ql(tx,ty,X1-tx,Y1-ty,'#C8993A','hl','e');
+  g+=`<line x1="${tx}" y1="${Y0}" x2="${tx}" y2="${Y1}" stroke="#6b5a2a" stroke-dasharray="4 4"/><line x1="${X0}" y1="${ty}" x2="${X1}" y2="${ty}" stroke="#6b5a2a" stroke-dasharray="4 4"/><text x="${(X0+X1)/2}" y="${Y1+14}" text-anchor="middle" font-size="10" fill="#BBBBB6" font-family="Montserrat,sans-serif">Mi radar (promedio) →</text><text x="12" y="${(Y0+Y1)/2}" text-anchor="middle" font-size="10" fill="#BBBBB6" font-family="Montserrat,sans-serif" transform="rotate(-90 12 ${(Y0+Y1)/2})">Mi palabra →</text>`;
+  const P=path.map(x=>[xr(x.r),yp(x.p),x.b]);
+  if(P.length>1)g+=`<polyline points="${P.map(q=>q[0]+','+q[1]).join(' ')}" fill="none" stroke="#E8C97A" stroke-opacity=".7" stroke-width="1.6" stroke-dasharray="5 3"/>`;
+  P.forEach((q,i)=>{const e=i===P.length-1,cx=Math.min(392,Math.max(24,q[0]));g+=`<circle cx="${q[0]}" cy="${q[1]}" r="${e?8:6}" fill="${q[2].c}" stroke="#0E1012" stroke-width="1.5"/>${e?`<circle cx="${q[0]}" cy="${q[1]}" r="12" fill="none" stroke="${q[2].c}" stroke-opacity=".6"/>`:''}<text x="${cx}" y="${q[1]-(e?17:11)}" text-anchor="middle" font-size="10" font-weight="500" fill="${q[2].c}" font-family="Montserrat,sans-serif">${q[2].l}</text>`;});
+  return `<div class="sub-card"><h3>Mi trayectoria</h3><p class="hint">Cada punto cruza mi radar de esa medición con mi palabra del tramo que la precede. Mi punto de partida no tiene palabra todavía.</p><svg viewBox="0 0 420 276" style="width:100%;height:auto" role="img" aria-label="Mi trayectoria entre radar y palabra">${g}</svg></div>`;}
+
 /* ---------- cálculos ---------- */
 const complete=c=>c&&Array.isArray(c.s)&&c.s.length===12&&c.s.every(num);
 function cpsOf(dim){return CPS.filter(c=>complete(S.rad[dim][c.id])).map(c=>({...c,f:S.rad[dim][c.id].f||'',s:S.rad[dim][c.id].s,a:avg(S.rad[dim][c.id].s)}));}
@@ -822,6 +848,7 @@ function renderAn(){
       <div class="obs"><h4>Hoy · ${f1(cur.r)} de radar · ${pc(cur.p)} de palabra</h4><p><b style="color:var(--oro-v);font-size:16px;font-weight:500">${Q.n}</b><br>${Q.d}</p><h4>Pregunta</h4><p>${Q.q}</p></div>
       ${path.length>1?`<p class="hint">Mi movimiento: ${path.map(x=>`<span style="color:${x.b.c}">${x.b.l}</span> ${QD[x.qd].n}`).join(' → ')}</p>`:''}</div>`;
     pr.push(Q.q);
+    h+=trajSVG(path)+ihsSVG(cs);
     h+=renderMomento(cur.qd,cur.r,cur.p);
   }
   const dd=Object.keys(DIMS).map(d=>{const c=cpsOf(d);return c.length?{d,a:c[c.length-1].a,l:c[c.length-1].l}:null;}).filter(Boolean);
