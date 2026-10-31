@@ -559,7 +559,8 @@ director:{l:'Director de Agencia',c:'DIRECTOR',k:'C',mod:'Reinvención Básica',
  pool:[['Sesión 1 a 1 con cada Gerente',2],['Delegar un pendiente de mi semana',0],['Decidir con la información que ya tengo',1],['Revisar el IHS de mi grupo cada lunes',2],['Documentar un proceso que hoy solo yo sé',2],['Escribir tres líneas cada noche',1]],
  ch:['Delegar la revisión semanal a un Gerente',0],a:[3],n:[],
  rad:{personal:[[6,6,7,7,6,6,6,5,7,6,6,5],[8,7,8,8,7,7,7,6,8,7,7,7]],profesional:[[6,6,6,7,6,6,5,6,4,6,5,5],[8,8,8,8,8,7,7,7,6,8,7,7]],comercial:[[5,6,6,7,6,6,5,5,5,6,5,5],[7,7,8,8,7,7,7,7,7,7,7,7]]},
- rows:[['Sesiones 1 a 1 con mis Gerentes','4 de 4','≥ 1 por Gerente',1],['Mi palabra (IHS personal)','ihs','≥ 86%'],['Incorporaciones al sistema','2','según la fase',1],['Mis objetivos estratégicos cumplidos','88%','≥ 80%',1],['Tiempo a la primera venta del grupo','31 días','≤ 22 días',0],['Tiempo a certificación del grupo','24 días','≤ 25 días',1],['Palabra del grupo (IHS)','61%','≥ 86%',0],['Conversión del grupo','8%','≥ 10%',0]],
+ rows:[[0,'Sesiones 1 a 1 con mis Gerentes · meta ≥ 1 por Gerente',100,100,0,'4 de 4'],[0,'Mi palabra (IHS personal) · meta ≥ 86%','ihs',86,0,''],[0,'Mis objetivos estratégicos cumplidos · meta ≥ 80%',88,80,0,'88%'],[1,'Tiempo a la primera venta del grupo · meta ≤ 22 d',31,22,1,'31 días'],[1,'Tiempo a certificación del grupo · meta ≤ 25 d',24,25,1,'24 días'],[1,'Palabra del grupo (IHS) · meta ≥ 86%',61,86,0,'61%'],[1,'Conversión del grupo · meta ≥ 10%',8,10,0,'8%']],
+ grp:[52,50,54,53,57,55,58,57,60,59,61],
  pat:['Motor sin sistema','Yo produzco y cumplo, pero mi grupo no sigue mi ritmo: el sistema todavía no vive sin mí.']}
 };
 const LENS={D:{n:'Dominancia',d:'Impacto',v:'Conciencia',p:'sesiones 1 a 1, documentación y feedback individual'},I:{n:'Influencia',d:'Relación',v:'Dirección',p:'el seguimiento de lo que declaro con entusiasmo'},S:{n:'Estabilidad',d:'Dirección',v:'Impacto',p:'conversaciones difíciles y correcciones directas'},C:{n:'Concienzudo',d:'Conciencia',v:'Relación',p:'decisiones con incertidumbre y arranques sin certeza total'}};
@@ -574,14 +575,17 @@ function mkRol(rol){const R=ROLES[rol],o=mkEjemplo(),oid=['o1','o2','o3'],iso=(m
   o.rad={};Object.keys(DIMS).forEach(d=>{o.rad[d]={};const [a0,b]=R.rad[d],a=a0.map(v=>Math.max(1,v-2));Object.keys(F).forEach(id=>{o.rad[d][id]={f:F[id],s:a.map((v,i)=>Math.min(10,Math.max(1,Math.round(v+(b[i]-v)*W[id]))))};});});
   o.pi={rol};return o;}
 function renderMomento(qd,r,p){const pi=S.pi;if(!pi||!ROLES[pi.rol])return '';const R=ROLES[pi.rol],P=pal(S.entries),ok=b=>`<b style="color:${b?'#4A9F6A':'#C8993A'}">${b?'●':'○'}</b>`,row=(a,b,c,d)=>`<tr><td>${a}</td><td class="v">${b}</td><td class="v">${c}</td><td class="v">${d}</td></tr>`,th=(a)=>`<div class="tw"><table><thead><tr><th>${a}</th><th class="v">Mi cifra</th><th class="v">Meta</th><th class="v"></th></tr></thead><tbody>`;
-  let h=`<div class="sub-card"><h3>Mi producción · ${R.l}</h3><p class="hint">${R.h}</p>`+th('Paso'),low=false,weak=null;
-  if(R.sem){const n=R.sem.length,sm=R.steps.map((x,i)=>R.sem.reduce((a,w)=>a+w[i],0)),av=sm.map(x=>x/n);
-    R.steps.forEach((x,i)=>{h+=row(x[0],av[i].toFixed(1),'≥ '+x[1]+' / sem',ok(av[i]>=x[1]));});
-    low=av.filter((a,i)=>a>=R.steps[i][1]).length<R.steps.length/2;h+='</tbody></table></div>'+th('Mi conversión (acumulada)');
-    R.conv.forEach(c=>{const v=100*sm[c[2]]/sm[c[1]];if(!c[4]&&(!weak||v/c[3]<weak.q))weak={q:v/c[3],l:c[0],v,m:c[3]};h+=row(c[0],Math.round(v)+'%','≥ '+c[3]+'%',ok(v>=c[3]));});
-    R.days.forEach(d=>{h+=row(d[0],d[1]+' d','≤ '+d[2]+' d',ok(d[1]<=d[2]));});
-  }else{let g=0;R.rows.forEach(x=>{const ih=x[1]==='ihs',v=ih?pc(P.pct):x[1],o=ih?P.pct>=86:!!x[3];if(o)g++;h+=row(x[0],v,x[2],ok(o));});low=g<R.rows.length/2;}
-  h+='</tbody></table></div>'+(R.nt?`<p class="hint">${R.nt}</p>`:'');
+  let h=`<div class="sub-card"><h3>Mi producción · ${R.l}</h3><p class="hint">${R.h} La marca dorada es la meta${R.sem?'; la línea pequeña, mis 4 semanas':''}.</p>`,low=false,weak=null;
+  if(R.sem){const n=R.sem.length,sm=R.steps.map((x,i)=>R.sem.reduce((a,w)=>a+w[i],0)),av=sm.map(x=>x/n),B=[];
+    low=av.filter((a,i)=>a>=R.steps[i][1]).length<R.steps.length/2;
+    h+='<div class="lbl" style="margin-top:14px">Mi semana, paso a paso</div>'+bulletSVG(R.steps.map((x,i)=>({l:x[0]+' · meta ≥ '+x[1]+' / sem',v:av[i],m:x[1],s:R.sem.map(w=>w[i]),t:av[i].toFixed(1)})));
+    R.conv.forEach(c=>{const v=100*sm[c[2]]/sm[c[1]];if(!c[4]&&(!weak||v/c[3]<weak.q))weak={q:v/c[3],l:c[0],v,m:c[3]};B.push({l:c[0]+' · meta ≥ '+c[3]+'%',v,m:c[3],t:Math.round(v)+'%'});});
+    R.days.forEach(d=>B.push({l:d[0]+' · meta ≤ '+d[2]+' d',v:d[1],m:d[2],inv:1,t:d[1]+' d'}));
+    h+='<div class="lbl" style="margin-top:14px">Mi conversión y mi velocidad</div>'+bulletSVG(B);
+  }else{const mk=a=>a.map(x=>{const ih=x[2]==='ihs';return {l:x[1],v:ih?P.pct:x[2],m:x[3],inv:x[4],t:ih?pc(P.pct):x[5]};}),g0=mk(R.rows.filter(x=>x[0]===0));
+    low=g0.filter(b=>b.inv?b.v<=b.m:b.v>=b.m).length<g0.length/2;
+    h+='<div class="lbl" style="margin-top:14px">Mi desempeño como líder</div>'+bulletSVG(g0)+'<div class="lbl" style="margin-top:14px">Mi grupo</div>'+bulletSVG(mk(R.rows.filter(x=>x[0]===1)))+dirGrupoSVG(R.grp);}
+  h+=(R.nt?`<p class="hint">${R.nt}</p>`:'');
   let f=r>=7&&p>=66&&low?'Mi producción está por debajo de lo que mi claridad y mi palabra permiten: algo externo la está frenando.':r>=7&&p<66&&!low?'Estoy produciendo por inercia: lo que prometo todavía no sostiene lo que produzco, y esa deuda me va a alcanzar.':'';
   if(weak)h+=`<div class="obs"><h4>Dónde se detiene mi proceso</h4><p>${weak.l}: <b style="color:var(--oro-v);font-weight:500">${Math.round(weak.v)}%</b> (meta ≥ ${weak.m}%).</p></div>`;
   if(R.pat)h+=`<div class="obs"><h4>Mi patrón</h4><p><b style="color:var(--oro-v);font-weight:500">${R.pat[0]}</b><br>${R.pat[1]}</p></div>`;
@@ -617,6 +621,24 @@ function trajSVG(path){if(!path.length)return '';const X0=38,X1=404,Y0=16,Y1=252
   if(P.length>1)g+=`<polyline points="${P.map(q=>q[0]+','+q[1]).join(' ')}" fill="none" stroke="#E8C97A" stroke-opacity=".7" stroke-width="1.6" stroke-dasharray="5 3"/>`;
   P.forEach((q,i)=>{const e=i===P.length-1,cx=Math.min(392,Math.max(24,q[0]));g+=`<circle cx="${q[0]}" cy="${q[1]}" r="${e?8:6}" fill="${q[2].c}" stroke="#0E1012" stroke-width="1.5"/>${e?`<circle cx="${q[0]}" cy="${q[1]}" r="12" fill="none" stroke="${q[2].c}" stroke-opacity=".6"/>`:''}<text x="${cx}" y="${q[1]-(e?17:11)}" text-anchor="middle" font-size="10" font-weight="500" fill="${q[2].c}" font-family="Montserrat,sans-serif">${q[2].l}</text>`;});
   return `<div class="sub-card"><h3>Mi trayectoria</h3><p class="hint">Cada punto cruza mi radar de esa medición con mi palabra del tramo que la precede. Mi punto de partida no tiene palabra todavía.</p><svg viewBox="0 0 420 276" style="width:100%;height:auto" role="img" aria-label="Mi trayectoria entre radar y palabra">${g}</svg></div>`;}
+
+
+/* ---------- gráficas de producción: bala con meta alineada · palabra del Director vs su grupo ---------- */
+function bulletSVG(rows){const RH=42;let g='';rows.forEach((r,i)=>{const y=i*RH,sv=r.s||[],mx=Math.max(r.m/.7,r.v/.97,...sv.map(x=>x/.97),1),bw=285,ok=r.inv?r.v<=r.m:r.v>=r.m,c=ok?'#4A9F6A':'#C8993A',tx=r.m/mx*bw,F='font-family="Montserrat,sans-serif"';
+  g+=`<text x="0" y="${y+11}" font-size="11" fill="#E9E1D0" ${F}>${r.l}</text><rect x="0" y="${y+18}" width="${bw}" height="11" fill="#24272C"/><rect x="0" y="${y+18}" width="${Math.max(2,r.v/mx*bw)}" height="11" fill="${c}"/><rect x="${tx-1.5}" y="${y+14}" width="3" height="19" fill="#E8C97A"/><text x="${bw+10}" y="${y+28}" font-size="12" font-weight="500" fill="${c}" ${F}>${r.t}</text>`;
+  if(sv.length>1){const pts=sv.map((v,k)=>[352+k*60/(sv.length-1),y+31-v/mx*20]);g+=`<polyline points="${pts.map(q=>q.join(',')).join(' ')}" fill="none" stroke="${c}" stroke-width="1.6" stroke-linejoin="round"/><circle cx="${pts[pts.length-1][0]}" cy="${pts[pts.length-1][1]}" r="2.8" fill="${c}"/>`;}});
+  return `<svg viewBox="0 0 420 ${rows.length*RH}" style="width:100%;height:auto;margin-top:6px" role="img" aria-label="Mi producción contra la meta">${g}</svg>`;}
+function wkPct(){const wk={};S.entries.forEach(e=>{if(!e.f)return;const k=wkMon(e.f),w=wk[k]||(wk[k]={c:0,a:0,n:0});(e.comps||[]).forEach(c=>{if(c.st in w)w[c.st]++;});});let C=0,T=0;
+  return Object.keys(wk).sort().map(k=>{const w=wk[k],cl=w.c+w.a+w.n;C+=w.c;T+=cl;return {k,pct:cl?100*C/T:null};});}
+function dirGrupoSVG(grp){const W=wkPct().filter(w=>w.pct!=null),ses=S.entries.filter(e=>e.t==='sesion'&&e.f&&e.comps.some(c=>c.st!=='p')).sort((a,b)=>a.f.localeCompare(b.f)),G=ses.slice(0,grp.length).map((e,i)=>({k:wkMon(e.f),pct:grp[i]}));
+  if(W.length<2||G.length<2)return '';const L=34,Rt=392,T=30,H=122,t0=new Date(W[0].k),sp=(new Date(W[W.length-1].k)-t0)||1,X=k=>L+(new Date(k)-t0)/sp*(Rt-L),Y=v=>T+H*(1-v/100),F='font-family="Montserrat,sans-serif"';
+  const ln=(a,c,d)=>`<polyline points="${a.map(q=>X(q.k)+','+Y(q.pct)).join(' ')}" fill="none" stroke="${c}" stroke-width="2.4" ${d?'stroke-dasharray="6 4" ':''}stroke-linejoin="round"/>`+a.map(q=>`<circle cx="${X(q.k)}" cy="${Y(q.pct)}" r="3" fill="${c}"/>`).join('');
+  const a=W[W.length-1],b=G[G.length-1],xe=X(a.k);
+  let g=[0,25,50,75,100].map(v=>`<line x1="${L}" y1="${Y(v)}" x2="${Rt}" y2="${Y(v)}" stroke="#24272C"/><text x="${L-5}" y="${Y(v)+3}" text-anchor="end" font-size="9" fill="#8E8E8A" ${F}>${v}</text>`).join('');
+  g+=`<line x1="${L}" y1="${Y(86)}" x2="${Rt}" y2="${Y(86)}" stroke="#E8C97A" stroke-dasharray="4 4"/><text x="${Rt}" y="${Y(86)-4}" text-anchor="end" font-size="9" fill="#E8C97A" ${F}>meta 86%</text>`+ln(G,'#7EB8C9',1)+ln(W,'#E8C97A',0);
+  g+=`<line x1="${xe}" y1="${Y(a.pct)}" x2="${xe}" y2="${Y(b.pct)}" stroke="#CC5555" stroke-width="1.5"/><text x="${xe-7}" y="${(Y(a.pct)+Y(b.pct))/2+3}" text-anchor="end" font-size="10" font-weight="500" fill="#e07a7a" ${F}>brecha ${Math.round(a.pct-b.pct)} pts</text>`;
+  g+=`<line x1="${L}" y1="10" x2="${L+18}" y2="10" stroke="#E8C97A" stroke-width="2.4"/><text x="${L+24}" y="13" font-size="10" fill="#E9E1D0" ${F}>Mi palabra</text><line x1="${L+104}" y1="10" x2="${L+122}" y2="10" stroke="#7EB8C9" stroke-width="2.4" stroke-dasharray="6 4"/><text x="${L+128}" y="13" font-size="10" fill="#E9E1D0" ${F}>La palabra de mi grupo</text>`;
+  return `<div class="lbl" style="margin-top:16px">Mi palabra contra la de mi grupo</div><p class="hint">Mi grupo tiende a converger hacia mi palabra en 3 o 4 semanas: aquí veo si la brecha se cierra o se abre. Ambas líneas son acumuladas.</p><svg viewBox="0 0 420 164" style="width:100%;height:auto" role="img" aria-label="Mi palabra contra la de mi grupo">${g}</svg>`;}
 
 /* ---------- cálculos ---------- */
 const complete=c=>c&&Array.isArray(c.s)&&c.s.length===12&&c.s.every(num);
