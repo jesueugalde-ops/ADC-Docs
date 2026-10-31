@@ -57,6 +57,7 @@ h1{font-family:var(--serif);font-weight:300;font-size:clamp(46px,9vw,92px);line-
 .cta-btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
 .btn-secundario{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid rgba(201,168,76,.5);color:var(--oro-v);padding:13px 22px;font-weight:500;font-size:12px;letter-spacing:.1em;text-transform:uppercase;border-radius:8px;text-decoration:none;transition:.2s;}
 .btn-secundario:hover{background:rgba(201,168,76,.1);border-color:var(--oro);}
+.btn-secundario.on{background:rgba(201,168,76,.18);border-color:var(--oro);}
 .btn-secundario.sm{padding:8px 14px;font-size:11px;}
 .btn-secundario.rojo{color:#e59a9a;border-color:rgba(204,85,85,.45);}
 .btn-secundario.rojo:hover{background:rgba(204,85,85,.1);}
@@ -281,7 +282,7 @@ dialog::backdrop{background:rgba(0,0,0,.74);backdrop-filter:blur(3px);}
     <button class="nav-cta" id="navEnviar" type="button"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-message-circle"/></svg><span>Enviar a Fer U</span></button>
   </div>
 </nav>
-<div class="ban" id="banEj" hidden><span><b>Estoy viendo un ejemplo con datos ficticios.</b> Nada de lo que haga aquí se guarda.</span><button class="btn-secundario sm" id="btnSalirEj" type="button">Salir del ejemplo</button></div>
+<div class="ban" id="banEj" hidden><span><b>Estoy viendo un ejemplo con datos ficticios.</b> Nada de lo que haga aquí se guarda.</span><span style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn-secundario sm" type="button" data-rol="novel">Novel</button><button class="btn-secundario sm" type="button" data-rol="consolidado">Consolidado</button><button class="btn-secundario sm" type="button" data-rol="director">Director</button></span><button class="btn-secundario sm" id="btnSalirEj" type="button">Salir del ejemplo</button></div>
 
 <header class="hero">
   <svg class="hero-iso" viewBox="0 0 32 32" fill="none" aria-hidden="true"><polygon points="16,2 30,16 16,30 2,16" stroke="#C9A84C" stroke-width=".5"/><polygon points="16,6 26,16 16,26 6,16" stroke="#E8C97A" stroke-width=".4"/><circle cx="16" cy="16" r="3.5" fill="#C9A84C"/></svg>
@@ -292,7 +293,7 @@ dialog::backdrop{background:rgba(0,0,0,.74);backdrop-filter:blur(3px);}
     <p class="hero-intro">Dos minutos al día para leerme con honestidad: lo que viví, lo que prometí y cómo se mueve mi radar.</p>
     <div class="hero-cta-group">
       <button class="cta-btn" id="heroCta" type="button"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg><span id="heroCtaT">Registrar mi día · 2 min</span></button>
-      <button class="btn-secundario" id="btnEj" type="button">Ver un ejemplo</button>
+      <button class="btn-secundario" type="button" data-rol="novel">Ejemplo · Agente Novel</button><button class="btn-secundario" type="button" data-rol="consolidado">Ejemplo · Agente Consolidado</button><button class="btn-secundario" type="button" data-rol="director">Ejemplo · Director de Agencia</button>
     </div>
     <p class="hero-nota" id="heroNota"></p>
   </div>
@@ -492,7 +493,7 @@ function norm(o){const b=blank();if(!o||typeof o!=='object')return b;
   b.entries=(Array.isArray(o.entries)?o.entries:[]).map(e=>({id:e.id||uid(),t:e.t==='libre'?'libre':'sesion',f:e.f||'',n:e.n||null,cal:+e.cal||0,notas:e.notas||'',res:e.res||'',antes:e.antes||'',fb:e.fb||'',pulso:e.pulso||{},comps:(e.comps||[]).map(normComp)}));
   ['personal','profesional','comercial'].forEach(d=>{b.rad[d]=(o.rad&&o.rad[d])||{};});
   b.dim=DIMS[o.dim]?o.dim:'personal';b.cp=CPS.some(c=>c.id===o.cp)?o.cp:'ini';
-  b.t=Object.assign({chg:0,sav:0,snd:0},o.t||{});return b;}
+  b.t=Object.assign({chg:0,sav:0,snd:0},o.t||{});b.pi=o.pi&&ROLES[o.pi.rol]?{rol:o.pi.rol}:null;return b;}
 let S=blank(),EJ=false,edOpen=false,dr=null,heroAct='dia';
 
 function persist(){if(EJ)return;try{localStorage.setItem(KEY,JSON.stringify(S));$('#stWarn').hidden=true;}catch(e){$('#stWarn').hidden=false;}}
@@ -527,6 +528,69 @@ function mkEjemplo(){
   [['pre',pre],['ini',ini],['med',med],['fin',fin]].forEach(([id,r])=>{['personal','profesional','comercial'].forEach(d=>{rad[d][id]=r[d];});});
   return {v:3,codigo:'IH-EJEMPLO',modalidad:'Reinvención Básica',fractura:'Hago por todos y dejo mis propias decisiones para después.',objs,entries,rad,dim:'personal',cp:'med'};
 }
+
+
+/* ---------- ejemplos por rol · metas de PI Benchmarks V8.5, IMS V8 e IAD V8 · datos ficticios ---------- */
+const ROLES={
+novel:{l:'Agente Novel',c:'NOVEL',k:'S',mod:'Reinvención Básica',fr:'Prospecto bien, pero me cuesta pedir el cierre.',
+ h:'Lo que produzco cada semana en mi ruta, contra la meta semanal. Promedio de mis últimas 4 semanas.',
+ objs:[['Sostener mi constancia aunque la semana no dé resultados','personal',0],['Pedir el cierre sin sentir que presiono','comercial',9],['Convertir mi primera cita en una segunda','comercial',7]],
+ pool:[['Agregar 8 prospectos nuevos a mi lista',2],['Hacer 4 primeras citas',2],['Pedir el cierre al final de cada segunda cita',1],['Escribir mi constancia del día en 3 líneas',0],['Pedir un referido al cliente que cierro',1],['Dormir antes de las 11 pm',0]],
+ ch:['Pedir el cierre en mi segunda cita',1],a:[3],n:[6],
+ rad:{personal:[[5,4,4,5,4,4,5,3,6,5,4,4],[7,6,7,7,6,6,7,5,7,7,6,6]],profesional:[[4,4,5,5,4,3,4,4,2,4,3,3],[6,6,7,7,6,6,6,7,4,6,5,5]],comercial:[[3,4,3,5,3,3,3,4,2,3,3,2],[6,6,6,7,6,5,6,7,3,6,6,5]]},
+ steps:[['Prospectos nuevos',8],['Primeras citas',4],['Segundas citas',2],['Cotizaciones',3],['Solicitudes pagadas',1],['Referidos',2]],
+ sem:[[6,3,1,1,0,0],[8,4,2,2,0,1],[9,4,3,2,1,1],[10,5,3,3,1,2]],
+ conv:[['Prospecto → 1ª cita',0,1,50],['1ª → 2ª cita',1,2,60],['2ª cita → solicitud',2,4,30],['Prospecto → solicitud',0,4,10,1]],
+ days:[['Días a mi primera venta',27,22]]},
+consolidado:{l:'Agente Consolidado',c:'CONSOLIDADO',k:'I',mod:'Reconexión',fr:'Mi cartera me sostiene y dejo para después lo que me haría crecer.',
+ h:'Lo que produzco cada semana desde mi cartera, contra la meta semanal. Promedio de mis últimas 4 semanas.',
+ nt:'La calibración propia del IAD del Consolidado está en construcción: hoy usa la base del Novel.',
+ objs:[['Contactar a mis clientes antes de que me llamen','comercial',7],['Cerrar lo que prometo en mi propia agenda','profesional',2],['Pedir referidos de calidad en los primeros 30 días','comercial',10]],
+ pool:[['Auditar 5 clientes de mi cartera',0],['Contactar a 6 clientes sin que me llamen',0],['Hacer 3 diagnósticos integrales',0],['Pedir referido a quien cerré esta semana',2],['Revisar mi agenda de la semana el lunes',1],['Cerrar mi día con mis acuerdos',1]],
+ ch:['Llamar a mis clientes dormidos',0],a:[1,3,5,9,10],n:[0,2,19],
+ rad:{personal:[[7,6,7,7,6,7,6,5,7,6,7,6],[8,7,8,8,7,8,7,6,8,7,8,8]],profesional:[[6,6,5,7,6,6,6,6,5,6,5,6],[7,7,6,8,7,7,7,7,6,7,6,7]],comercial:[[6,7,6,7,6,6,5,5,4,6,6,6],[7,8,7,8,7,7,6,7,5,7,7,7]]},
+ steps:[['Clientes auditados',5],['Contactos proactivos',6],['Diagnósticos integrales',3],['Propuestas multi-solución',2],['Cierres consultivos',1],['Referidos de calidad',1]],
+ sem:[[6,7,4,3,1,1],[5,8,3,2,1,0],[6,6,4,3,2,1],[7,7,4,2,1,1]],
+ conv:[['Auditoría → diagnóstico',0,2,60],['Diagnóstico → propuesta',2,3,70],['Propuesta → cierre',3,4,50]],
+ days:[['Días de contacto a cierre',34,30],['Días de cierre a pedir referido',41,30]]},
+director:{l:'Director de Agencia',c:'DIRECTOR',k:'C',mod:'Reinvención Básica',fr:'Lo hago yo porque me cuesta confiar en que otros lo hagan igual.',
+ h:'Mi desempeño como líder y la lectura de mi grupo, contra las metas del sistema.',
+ objs:[['Delegar con confianza','profesional',8],['Decidir sin esperar certeza total','profesional',9],['Construir un sistema que funcione sin mí','profesional',11]],
+ pool:[['Sesión 1 a 1 con cada Gerente',2],['Delegar un pendiente de mi semana',0],['Decidir con la información que ya tengo',1],['Revisar el IHS de mi grupo cada lunes',2],['Documentar un proceso que hoy solo yo sé',2],['Escribir tres líneas cada noche',1]],
+ ch:['Delegar la revisión semanal a un Gerente',0],a:[3],n:[],
+ rad:{personal:[[6,6,7,7,6,6,6,5,7,6,6,5],[8,7,8,8,7,7,7,6,8,7,7,7]],profesional:[[6,6,6,7,6,6,5,6,4,6,5,5],[8,8,8,8,8,7,7,7,6,8,7,7]],comercial:[[5,6,6,7,6,6,5,5,5,6,5,5],[7,7,8,8,7,7,7,7,7,7,7,7]]},
+ rows:[['Sesiones 1 a 1 con mis Gerentes','4 de 4','≥ 1 por Gerente',1],['Mi palabra (IHS personal)','ihs','≥ 86%'],['Incorporaciones al sistema','2','según la fase',1],['Mis objetivos estratégicos cumplidos','88%','≥ 80%',1],['Tiempo a la primera venta del grupo','31 días','≤ 22 días',0],['Tiempo a certificación del grupo','24 días','≤ 25 días',1],['Palabra del grupo (IHS)','61%','≥ 86%',0],['Conversión del grupo','8%','≥ 10%',0]],
+ pat:['Motor sin sistema','Yo produzco y cumplo, pero mi grupo no sigue mi ritmo: el sistema todavía no vive sin mí.']}
+};
+const LENS={D:{n:'Dominancia',d:'Impacto',v:'Conciencia',p:'sesiones 1 a 1, documentación y feedback individual'},I:{n:'Influencia',d:'Relación',v:'Dirección',p:'el seguimiento de lo que declaro con entusiasmo'},S:{n:'Estabilidad',d:'Dirección',v:'Impacto',p:'conversaciones difíciles y correcciones directas'},C:{n:'Concienzudo',d:'Conciencia',v:'Relación',p:'decisiones con incertidumbre y arranques sin certeza total'}};
+const ENT={
+hl:{D:'Entro por el costo futuro: lo que no cumplo hoy con mi equipo se vuelve resultado lento en pocas semanas.',I:'Entro por menos acuerdos y más específicos, con fecha y métrica: una estructura que me proteja de mi propio entusiasmo.',S:'Entro por la seguridad: honrar el acuerdo difícil es lo más cuidadoso que puedo hacer por quienes dependen de mí.',C:'Entro por la evidencia: mi historial de pospuestos muestra que el momento perfecto no llegó.'},
+hh:{D:'Aprender a soltar sin abandonar: confiar en la arquitectura que yo mismo construí.',I:'Sostener el ritmo sin campaña: estructuras que no dependan de mi entusiasmo.',S:'Apetito de siguiente nivel: crecer como expansión natural, no como riesgo de lo construido.',C:'Velocidad con suficiencia: lo suficientemente bueno y ejecutado rinde más que lo perfecto postergado.'},
+lh:{D:'Desde mi ambición: un diseño claro multiplica mi capacidad de impacto.',I:'Desde la visión compartida: diseñar con otros me hace ejecutar.',S:'Con calma, desde la evolución: un diseño que da dirección sin amenazar la estabilidad que ya construí.',C:'Desde sacar al papel el análisis que ya tengo en la cabeza.'}};
+function mkRol(rol){const R=ROLES[rol],o=mkEjemplo(),oid=['o1','o2','o3'],iso=(m,d)=>new Date(Date.UTC(2026,m,d)).toISOString().slice(0,10),F={pre:iso(6,14),ini:iso(6,21),med:iso(7,25),fin:iso(9,13)},W={pre:0,ini:.2,med:.55,fin:1};
+  o.codigo='IH-EJEMPLO-'+R.c;o.modalidad=R.mod;o.fractura=R.fr;o.objs=R.objs.map((x,i)=>({id:oid[i],t:x[0],dim:x[1],ai:x[2]}));
+  o.entries.forEach((e,i)=>{if(e.t!=='sesion')return;e.comps.forEach((c,k)=>{const ix=i*2+k,q=R.pool[ix%6];c.t=q[0];c.oid=oid[q[1]];c.st=i===11?'p':R.a.includes(ix)?'a':R.n.includes(ix)?'n':'c';c.re=false;c.from='';});});
+  [6,7,8].forEach((i,j)=>{o.entries[i].comps[0]={id:'x'+i,t:R.ch[0],st:'a',oid:oid[R.ch[1]],from:j?'x'+(i-1):'',re:j<2};});
+  o.rad={};Object.keys(DIMS).forEach(d=>{o.rad[d]={};const [a,b]=R.rad[d];Object.keys(F).forEach(id=>{o.rad[d][id]={f:F[id],s:a.map((v,i)=>Math.min(10,Math.max(1,Math.round(v+(b[i]-v)*W[id]))))};});});
+  o.pi={rol};return o;}
+function renderMomento(qd,r,p){const pi=S.pi;if(!pi||!ROLES[pi.rol])return '';const R=ROLES[pi.rol],P=pal(S.entries),ok=b=>`<b style="color:${b?'#4A9F6A':'#C8993A'}">${b?'●':'○'}</b>`,row=(a,b,c,d)=>`<tr><td>${a}</td><td class="v">${b}</td><td class="v">${c}</td><td class="v">${d}</td></tr>`,th=(a)=>`<div class="tw"><table><thead><tr><th>${a}</th><th class="v">Mi cifra</th><th class="v">Meta</th><th class="v"></th></tr></thead><tbody>`;
+  let h=`<div class="sub-card"><h3>Mi producción · ${R.l}</h3><p class="hint">${R.h}</p>`+th('Paso'),low=false,weak=null;
+  if(R.sem){const n=R.sem.length,sm=R.steps.map((x,i)=>R.sem.reduce((a,w)=>a+w[i],0)),av=sm.map(x=>x/n);
+    R.steps.forEach((x,i)=>{h+=row(x[0],av[i].toFixed(1),'≥ '+x[1]+' / sem',ok(av[i]>=x[1]));});
+    low=av.filter((a,i)=>a>=R.steps[i][1]).length<R.steps.length/2;h+='</tbody></table></div>'+th('Mi conversión (acumulada)');
+    R.conv.forEach(c=>{const v=100*sm[c[2]]/sm[c[1]];if(!c[4]&&(!weak||v/c[3]<weak.q))weak={q:v/c[3],l:c[0],v,m:c[3]};h+=row(c[0],Math.round(v)+'%','≥ '+c[3]+'%',ok(v>=c[3]));});
+    R.days.forEach(d=>{h+=row(d[0],d[1]+' d','≤ '+d[2]+' d',ok(d[1]<=d[2]));});
+  }else{let g=0;R.rows.forEach(x=>{const ih=x[1]==='ihs',v=ih?pc(P.pct):x[1],o=ih?P.pct>=86:!!x[3];if(o)g++;h+=row(x[0],v,x[2],ok(o));});low=g<R.rows.length/2;}
+  h+='</tbody></table></div>'+(R.nt?`<p class="hint">${R.nt}</p>`:'');
+  let f=r>=7&&p>=66&&low?'Mi producción está por debajo de lo que mi claridad y mi palabra permiten: algo externo la está frenando.':r>=7&&p<66&&!low?'Estoy produciendo por inercia: lo que prometo todavía no sostiene lo que produzco, y esa deuda me va a alcanzar.':'';
+  if(weak)h+=`<div class="obs"><h4>Dónde se detiene mi proceso</h4><p>${weak.l}: <b style="color:var(--oro-v);font-weight:500">${Math.round(weak.v)}%</b> (meta ≥ ${weak.m}%).</p></div>`;
+  if(R.pat)h+=`<div class="obs"><h4>Mi patrón</h4><p><b style="color:var(--oro-v);font-weight:500">${R.pat[0]}</b><br>${R.pat[1]}</p></div>`;
+  if(f)h+=`<div class="obs"><h4>Lo que cruzo: radar, palabra y producción</h4><p>${f}</p></div>`;
+  h+='</div>';
+  const L=LENS[R.k],E=ENT[qd]||{};
+  h+=`<div class="sub-card"><h3>Mi forma de decidir · ${L.n}</h3><p class="hint">Es una hipótesis de entrada, no una etiqueta: no cambia mi lectura, cambia por dónde conviene empezar la conversación.</p><ul class="cl"><li><span>Mi Fuerza dominante</span><b>${L.d}</b></li><li><span>Mi Fuerza más vulnerable</span><b>${L.v}</b></li><li><span>Lo que suelo posponer</span><b style="font-weight:400;text-align:right">${L.p}</b></li></ul>`;
+  if(E[R.k])h+=`<div class="obs"><h4>Por dónde entra mi conversación · ${QD[qd].n}</h4><p>${E[R.k]}</p><h4>Mismo resultado, otro origen</h4><ul>${Object.keys(LENS).filter(k=>k!==R.k).map(k=>`<li><b>${LENS[k].n}:</b> ${E[k]}</li>`).join('')}</ul></div>`;
+  return h+'</div>';}
 
 /* ---------- cálculos ---------- */
 const complete=c=>c&&Array.isArray(c.s)&&c.s.length===12&&c.s.every(num);
@@ -758,6 +822,7 @@ function renderAn(){
       <div class="obs"><h4>Hoy · ${f1(cur.r)} de radar · ${pc(cur.p)} de palabra</h4><p><b style="color:var(--oro-v);font-size:16px;font-weight:500">${Q.n}</b><br>${Q.d}</p><h4>Pregunta</h4><p>${Q.q}</p></div>
       ${path.length>1?`<p class="hint">Mi movimiento: ${path.map(x=>`<span style="color:${x.b.c}">${x.b.l}</span> ${QD[x.qd].n}`).join(' → ')}</p>`:''}</div>`;
     pr.push(Q.q);
+    h+=renderMomento(cur.qd,cur.r,cur.p);
   }
   const dd=Object.keys(DIMS).map(d=>{const c=cpsOf(d);return c.length?{d,a:c[c.length-1].a,l:c[c.length-1].l}:null;}).filter(Boolean);
   if(dd.length>=2){const sd=[...dd].sort((a,b)=>b.a-a.a),hi=sd[0],lo=sd[sd.length-1];
@@ -845,14 +910,14 @@ function saveDia(){
 }
 
 /* ---------- render global ---------- */
-function refreshAll(){renderHero();renderHoy();renderSums();renderRadar();renderAcuerdos();renderObjetivos();renderSesiones();renderFeedback();renderAn();renderEnvio();$('#banEj').hidden=!EJ;}
+function refreshAll(){renderHero();renderHoy();renderSums();renderRadar();renderAcuerdos();renderObjetivos();renderSesiones();renderFeedback();renderAn();renderEnvio();$('#banEj').hidden=!EJ;$$('[data-rol]').forEach(b=>b.classList.toggle('on',!!(EJ&&S.pi&&S.pi.rol===b.dataset.rol)));}
 
 /* ---------- eventos ---------- */
 $('#heroCta').addEventListener('click',()=>act(heroAct));
 $('#btnDia').addEventListener('click',()=>openDia());
 $('#navEnviar').addEventListener('click',()=>openAcc('enviar',true,true));
 $('#navChip').addEventListener('click',()=>openAcc('enviar',true,true));
-$('#btnEj').addEventListener('click',()=>{enterEj();window.scrollTo({top:0,behavior:'smooth'});});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-rol]');if(!b)return;enterEj(null,b.dataset.rol);const h=$('[data-acc="avance"]');if(h&&h.getAttribute('aria-expanded')!=='true')h.click();const a=$('#a-avance');if(a)a.scrollIntoView({behavior:'smooth',block:'start'});});
 $('#btnSalirEj').addEventListener('click',exitEj);
 $('#btnRadarDet').addEventListener('click',()=>setRadarDet($('#radarDet').hidden,false));
 $$('.acc-h[data-acc]').forEach(b=>b.addEventListener('click',()=>openAcc(b.dataset.acc,b.getAttribute('aria-expanded')!=='true')));
@@ -911,7 +976,7 @@ $('#fileImp').addEventListener('change',e=>{const f=e.target.files[0];if(!f)retu
 $('#btnPrint').addEventListener('click',()=>window.print());
 $('#btnBorrar').addEventListener('click',()=>{if(EJ){exitEj();return;}if(!confirm('Se borra todo lo que hay en esta bitácora, en este dispositivo. ¿Seguro? Antes guardo mi archivo si lo necesito.'))return;S=blank();try{localStorage.removeItem(KEY);}catch(e){}edOpen=false;refreshAll();});
 let backup=null;
-function enterEj(dim){if(!EJ)backup=S;EJ=true;S=norm(mkEjemplo());if(dim&&DIMS[dim])S.dim=dim;edOpen=false;setRadarDet(false);refreshAll();}
+function enterEj(dim,rol){if(!EJ)backup=S;EJ=true;S=norm(mkRol(rol||'novel'));if(dim&&DIMS[dim])S.dim=dim;edOpen=false;setRadarDet(false);refreshAll();}
 function exitEj(){EJ=false;S=backup||norm(loadStore())||blank();backup=null;edOpen=false;history.replaceState(null,'',location.pathname+location.search);refreshAll();window.scrollTo(0,0);}
 function fromHash(){const h=(location.hash||'').slice(1);
   if(h.indexOf('ejemplo')===0){enterEj(h.split('-')[1]);return;}
