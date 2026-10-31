@@ -567,11 +567,11 @@ const ENT={
 hl:{D:'Entro por el costo futuro: lo que no cumplo hoy con mi equipo se vuelve resultado lento en pocas semanas.',I:'Entro por menos acuerdos y más específicos, con fecha y métrica: una estructura que me proteja de mi propio entusiasmo.',S:'Entro por la seguridad: honrar el acuerdo difícil es lo más cuidadoso que puedo hacer por quienes dependen de mí.',C:'Entro por la evidencia: mi historial de pospuestos muestra que el momento perfecto no llegó.'},
 hh:{D:'Aprender a soltar sin abandonar: confiar en la arquitectura que yo mismo construí.',I:'Sostener el ritmo sin campaña: estructuras que no dependan de mi entusiasmo.',S:'Apetito de siguiente nivel: crecer como expansión natural, no como riesgo de lo construido.',C:'Velocidad con suficiencia: lo suficientemente bueno y ejecutado rinde más que lo perfecto postergado.'},
 lh:{D:'Desde mi ambición: un diseño claro multiplica mi capacidad de impacto.',I:'Desde la visión compartida: diseñar con otros me hace ejecutar.',S:'Con calma, desde la evolución: un diseño que da dirección sin amenazar la estabilidad que ya construí.',C:'Desde sacar al papel el análisis que ya tengo en la cabeza.'}};
-function mkRol(rol){const R=ROLES[rol],o=mkEjemplo(),oid=['o1','o2','o3'],iso=(m,d)=>new Date(Date.UTC(2026,m,d)).toISOString().slice(0,10),F={pre:iso(6,14),ini:iso(6,21),med:iso(7,25),fin:iso(9,13)},W={pre:0,ini:.2,med:.55,fin:1};
+function mkRol(rol){const R=ROLES[rol],o=mkEjemplo(),oid=['o1','o2','o3'],iso=(m,d)=>new Date(Date.UTC(2026,m,d)).toISOString().slice(0,10),F={pre:iso(6,14),ini:iso(6,21),med:iso(7,25),fin:iso(9,13)},W={pre:0,ini:.34,med:.67,fin:1};
   o.codigo='IH-EJEMPLO-'+R.c;o.modalidad=R.mod;o.fractura=R.fr;o.objs=R.objs.map((x,i)=>({id:oid[i],t:x[0],dim:x[1],ai:x[2]}));
   o.entries.forEach((e,i)=>{if(e.t!=='sesion')return;e.comps.forEach((c,k)=>{const ix=i*2+k,q=R.pool[ix%6];c.t=q[0];c.oid=oid[q[1]];c.st=i===11?'p':R.a.includes(ix)?'a':R.n.includes(ix)?'n':'c';c.re=false;c.from='';});});
   [6,7,8].forEach((i,j)=>{o.entries[i].comps[0]={id:'x'+i,t:R.ch[0],st:'a',oid:oid[R.ch[1]],from:j?'x'+(i-1):'',re:j<2};});
-  o.rad={};Object.keys(DIMS).forEach(d=>{o.rad[d]={};const [a,b]=R.rad[d];Object.keys(F).forEach(id=>{o.rad[d][id]={f:F[id],s:a.map((v,i)=>Math.min(10,Math.max(1,Math.round(v+(b[i]-v)*W[id]))))};});});
+  o.rad={};Object.keys(DIMS).forEach(d=>{o.rad[d]={};const [a0,b]=R.rad[d],a=a0.map(v=>Math.max(1,v-2));Object.keys(F).forEach(id=>{o.rad[d][id]={f:F[id],s:a.map((v,i)=>Math.min(10,Math.max(1,Math.round(v+(b[i]-v)*W[id]))))};});});
   o.pi={rol};return o;}
 function renderMomento(qd,r,p){const pi=S.pi;if(!pi||!ROLES[pi.rol])return '';const R=ROLES[pi.rol],P=pal(S.entries),ok=b=>`<b style="color:${b?'#4A9F6A':'#C8993A'}">${b?'●':'○'}</b>`,row=(a,b,c,d)=>`<tr><td>${a}</td><td class="v">${b}</td><td class="v">${c}</td><td class="v">${d}</td></tr>`,th=(a)=>`<div class="tw"><table><thead><tr><th>${a}</th><th class="v">Mi cifra</th><th class="v">Meta</th><th class="v"></th></tr></thead><tbody>`;
   let h=`<div class="sub-card"><h3>Mi producción · ${R.l}</h3><p class="hint">${R.h}</p>`+th('Paso'),low=false,weak=null;
@@ -641,9 +641,9 @@ function radarSVG(dim){
   for(let i=0;i<12;i++){const [x,y]=pt(i,10,R,cx,cy),[lx,ly]=pt(i,11.7,R,cx,cy);const isO=oa.includes(i);
     g+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${isO?'#6b5a2a':'#2a2d33'}"/><text x="${lx}" y="${ly+4}" text-anchor="middle" font-size="11" fill="${isO?'#E8C97A':'#8E8E8A'}" font-family="Montserrat,sans-serif" font-weight="500">${isO?'★':''}${i+1}</text>`;}
   const cs=cpsOf(dim);
-  cs.forEach(c=>{const p=c.s.map((v,i)=>pt(i,v,R,cx,cy).join(',')).join(' ');
-    g+=`<polygon points="${p}" fill="${c.c}" fill-opacity=".06" stroke="${c.c}" stroke-width="2.6" stroke-linejoin="round"/>`;
-    c.s.forEach((v,i)=>{const [x,y]=pt(i,v,R,cx,cy);g+=`<circle cx="${x}" cy="${y}" r="3" fill="${c.c}"/>`;});});
+  cs.forEach((c,ix)=>{const L=ix===cs.length-1,p=c.s.map((v,i)=>pt(i,v,R,cx,cy).join(',')).join(' ');
+    g+=`<polygon points="${p}" fill="${c.c}" fill-opacity="${L?.14:.03}" stroke="${c.c}" stroke-width="${L?3:2}" stroke-linejoin="round"/>`;
+    c.s.forEach((v,i)=>{const [x,y]=pt(i,v,R,cx,cy);g+=`<circle cx="${x}" cy="${y}" r="${L?3.6:2.6}" fill="${c.c}"/>`;});});
   if(!cs.length)g+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="12.5" fill="#8E8E8A" font-family="Montserrat,sans-serif">Mi primera medición aparece aquí</text>`;
   return `<svg class="rsvg" viewBox="0 0 420 410" role="img" aria-label="Mi radar de 12 áreas, dimensión ${DIMS[dim].l}">${g}</svg>`;
 }
@@ -651,7 +651,7 @@ function renderRadar(){
   const dim=S.dim,cs=cpsOf(dim),first=cs[0],last=cs[cs.length-1];
   $('#dims').innerHTML=Object.keys(DIMS).map(k=>`<button type="button" style="--dc:${DIMS[k].c}" data-d="${k}" aria-pressed="${k===dim}">${DIMS[k].l}</button>`).join('');
   $('#radarBox').innerHTML=radarSVG(dim);
-  $('#legend').innerHTML=cs.map(c=>`<div class="leg"><b style="color:${c.c}">${f1(c.a)}</b><span style="color:${c.c}">${c.l}</span></div>`).join('');
+  $('#legend').innerHTML=cs.map(c=>`<div class="leg"><b style="color:${c.c}">${f1(c.a)}</b><span style="color:${c.c}">${c.l}</span><small style="color:var(--mut2)">${c.f?fmt(c.f):''}</small></div>`).join('');
   const fr=c=>ESP.filter(([a,b])=>Math.abs(c.s[a]-c.s[b])>=3).length;
   $('#radarSum').innerHTML=cs.length?
     `<div class="sum"><b>${f1(last.a)}</b><span>Mi promedio hoy</span><small>${last.l}${last.f?' · '+fmt(last.f):''}</small></div>
