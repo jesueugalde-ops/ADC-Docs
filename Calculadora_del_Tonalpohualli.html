@@ -115,6 +115,8 @@ h2::before{content:'';flex:none;width:34px;height:1px;background:linear-gradient
 .fila dt{font:400 13.5px/1.5 var(--sans);letter-spacing:.02em;color:var(--gris)}
 .fila dd{font-family:var(--serif);font-weight:400;font-size:21px;line-height:1.4;color:var(--blanco);overflow-wrap:anywhere;font-variant-numeric:lining-nums}
 .grupo.uno .fila dd{font-size:24px}
+.fila dd .gl{display:block;margin-top:6px;font:300 14.5px/1.55 var(--sans);color:var(--gris-cl)}
+.fila dd .gl+.gl{margin-top:4px}
 .nota-lista{list-style:none;margin-top:6px}
 .nota-lista li{position:relative;padding:14px 0 14px 28px;font:300 14.5px/1.7 var(--sans);color:var(--gris-cl);background:linear-gradient(90deg,rgba(201,168,76,.2),transparent 80%) bottom/100% 1px no-repeat}
 .nota-lista li::before{content:'';position:absolute;left:4px;top:24px;width:6px;height:6px;transform:rotate(45deg);background:var(--oro)}
@@ -238,33 +240,97 @@ function calc(v){
  return o}
 const MES=L("enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre");
 const ms=g=>S[g%20]+" ("+TR[g%20]+") · "+IM[g/4|0];
-function text(v,o,man){
+/* ===== Glosario de energías · todas las definiciones reunidas de los documentos de Fer U =====
+   Fuentes (capa Meza + narrativas de Fer): Cosmogónica §4 acompañantes (Clase / Web+Fer) · §6 Trecenas (Libro) · §8 Veintenas (Libro) ·
+   Tablas Meza, Tabla 4 (Señores de la Noche) y Tabla 5 · ejemplos de Fanny y Anarely (Estilo Narrativo §6).
+   Un nombre puede tener varias definiciones: se muestran todas, separadas por «;». No se usan las capas NO-Meza. */
+const NM=L("iniciativa,dualidad,equilibrio,estabilidad,centralidad,solidez,transformación,continuidad,evolución,completud,reinicio,orden,renacimiento");
+const ANI={Colotl:"alacrán",Tzinacatl:"murciélago",Coyotl:"coyote",Tocatl:"araña",Tecolotl:"búho",Coatl:"serpiente",Itzpapalotl:"mariposa de obsidiana",Ocelotl:"jaguar",Petlazolcoatl:"ciempiés"};
+/* Tzinacatl, Tocatl y Petlazolcoatl: traducción tomada de Científico-Sistémica (en revisión) — por confirmar */
+const GL={
+Tonacatecuhtli:["Señor de Nuestro Sustento, dios creador y de la fertilidad","energía masculina: metas firmes y objetivos definidos"],
+Tonacacihuatl:["energía femenina, junto con Tonacatecuhtli: carácter enérgico, amable, centrado y de mando"],
+Quetzalcoatl:["energía vital, la voz que nutre y da vida","fértil creatividad que busca lo trascendente; espíritu de servicio","sabiduría al servicio"],
+Tepeyolohtli:["Corazón del monte: la fuerza de las cuevas, el silencio y la oscuridad donde nos conocemos","autoevaluación constante, introspección y control de las emociones"],
+Huehuecoyotl:["el Coyote Viejo: la sabiduría después del doloroso aprendizaje","agilidad, danza, ritmo y musicalidad"],
+Chalchiuhtlicue:["la señora de la falda de jade","fluidez, tenacidad y constancia del agua; amoldarse a las circunstancias"],
+Tecciztecatl:["dios lunar, señor del caracol y del ciclo de la vida","creatividad y regulación de los ciclos"],
+Tlalocantecuhtli:["señor del licor de la tierra: ímpetu, tenacidad, moldeamiento","señor del lugar de la lluvia"],
+Tlaloc:["señor del licor de la tierra: ímpetu, tenacidad, moldeamiento","fuerza de la tormenta: empuje y acometividad","recolector de aprendizajes de vida"],
+Mayahuel:["el maguey: generosa, madre de los humildes, abundante y nutriente","esencia femenina del maguey y del aguamiel: unión, evolución y despertar de los sentidos","la fuerza de la luna"],
+Xiuhtecuhtli:["señor del fuego: calor en el frío, luz en la oscuridad, intención y responsabilidad","el señor del calor celeste","centralidad, justicia, rectitud y honestidad"],
+Mictlantecuhtli:["señor de Mictlán: el reposo, la quietud, el pasado y el linaje","todo lo transforma y renueva; la muerte como paso a otros planos"],
+Xochipilli:["el Hijo de las Flores: florecimiento interior, autoconocimiento y autosanación","creatividad y juventud: cauce de las emociones y los sentimientos"],
+Pahtecatl:["señor de la medicina y la herbolaria; el cuidado a los demás","el de las plantas curativas"],
+Tezcatlipoca:["su humear del espejo: verte en tus memorias, lo que somos y queremos ser, el inconsciente, nuestra programación mental"],
+"Tezcatlipoca Ixquimilli":["su humear del espejo: verte en tus memorias, lo que somos y queremos ser, el inconsciente, nuestra programación mental"],
+Tlazohteotl:["tierra amorosa y protectora: recicla, hace composta, crea con lo que otros desechan","la señora que genera por medio del amor","calor de la Tierra: cariño, amor y protección"],
+"Xipe Totec":["cambia siempre de piel: actitudes, identidad, ideologías; transformación continua","depuración constante de actitudes para reacomodar y ordenar la vida"],
+Itzpapalotl:["mariposa de obsidiana: guerrera que acompaña a otros en sus infiernos","energía femenina de la noche: intuición, sensibilidad y fuerza interna"],
+Xolotl:["el Gemelo: guía a las almas al inframundo; guardián de la compañía incondicional","el compañero ideal: participativo, servicial y desprendido"],
+Chalchiuhtotolin:["guajolote de jade, nahual de Tezcatlipoca: el ego inflado y su limpieza","disciplina y servicio: la hermosura interna del jade"],
+Tonatiuh:["portador de los tona: la luz que nutre y guía, luz en la oscuridad","calor, resplandor y fuerza; carácter cálido y confiable"],
+Xochiquetzalli:["floreciendo desde adentro: belleza humana, las artes y los talentos","la hermosura en todo lo existente, con depuración constante"],
+Centeotl:["el generador del sustento","principio generador de los sustentos: el maíz y las plantas alimenticias"],
+Itztli:["Tezcatlipoca en la obsidiana obscura","la obsidiana: el filo para separarte de lo que ya no es tuyo"],
+Piltzintecuhtli:["el señor niño","lo que apenas empieza: asombro y comenzar de nuevo"],
+Ixnextli:["cualidades psíquicas ligadas al estado de ánimo; fuerza femenina que se proyecta, sobre todo en la juventud"],
+Chicomecoatl:["Siete Serpientes: los siete nutrientes del maíz, esencia femenina","fertilidad y sustento"],
+Itztlacoliuhqui:["el Cuchillo de Obsidiana, Tezcatlipoca oscuro: frialdad, dureza y depuración de lo que vale la pena conservar"],
+Ixcuinan:["facultad de Tezcatlipoca en las señoras de edad madura","ave augural: predecir y calcular sucesos a futuro"],
+Chantico:["calor femenino del hogar: cariño que cohesiona la unidad familiar","calidez en el trato diario y seguridad para los seres cercanos"],
+Itztapaltotec:["con Xipe Totec: los cambios de piel de la tierra y el orden en cada ser humano"],
+"Cuauhtli Ocelotl":["águila y ocelotl: procurar ser ambos en la vida cotidiana"],
+Tlahuizcalpantecuhtli:["el señor de la casa del amanecer","luminosidad que guía para no perderse en los caminos de la vida"],
+Huitzilopochtli:["el colibrí zurdo, el Colibrí del lado izquierdo","la voluntad a toda prueba"],
+Yayauqui:["Tezcatlipoca negro, el espejo negro","el despertar de la conciencia y del ser interno"],
+Xilonen:["la madre de los jilotes: el maíz tierno","honrar lo que apenas empieza, sin exigirle que ya esté terminado"],
+Ilamatecuhtli:["la Señora de la Dualidad","la tierra anciana: la sabiduría recogida durante el año"],
+"Teteo Inan":["la Tierra envejecida, madre de piel arrugada que ya dio sus frutos"],
+Mixcoatl:["a quien se consagra la caza"],
+Uiztocihuatl:["ligada a las mujeres que producen y distribuyen la sal"]};
+/* Sin definición en los documentos: solo traducción literal del náhuatl (se marca como tal). Chalmecatecuhtli: sin traducción, por confirmar. */
+const LIT={Tlaltecuhtli:"Señor de la Tierra",Ixtlilton:"el de la carita negra",Yaotl:"el guerrero","Citlalin i cue":"la de la falda de estrellas",Macuilxochitl:"Cinco Flor",Mictlancihuatl:"Señora de Mictlán"};
+const ALIAS={"Xipe Tótec":"Xipe Totec"};
+const RX=new RegExp([...Object.keys(GL),...Object.keys(LIT),...Object.keys(ALIAS)].sort((a,b)=>b.length-a.length).map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|"),"g");
+/* gl(texto del campo[, definición a omitir]) → " — definiciones" o "" */
+function gl(s,skip){const seen=new Set(),r=[];
+ (String(s).match(RX)||[]).forEach(k=>{const n=ALIAS[k]||k;if(seen.has(n))return;seen.add(n);
+  let d=(GL[n]||[]).filter(x=>!skip||x.toLowerCase()!=skip.toLowerCase()).join("; ");
+  if(!d&&LIT[n])d=LIT[n]+" (trad. literal)";r.push([n,d])});
+ const e=r.filter(x=>x[1]);if(!e.length)return"";
+ return" — "+e.map(x=>(r.length>1?x[0]+": ":"")+x[1]).join("  ·  ")}
+function text(v,o,man,full){
+ const G=(b,sk)=>full?gl(b,sk):"";
  const f=String(v.d).padStart(2,"0")+"/"+String(v.m).padStart(2,"0")+"/"+v.y+(v.min!=null?", "+((v.min/60|0)%12||12)+":"+String(v.min%60).padStart(2,"0")+(v.min<720?" am":" pm"):"");
  const l=["Yolohtl – Corazón: "+(v.nm||"—"),"Ihiyotl – Aliento: "+f+" · "+v.pl,""];
  if(o.nem)l.push("Rumbo: no existe en Nemontemi","Tezcatlipoca – Espejo: no existe en Nemontemi");
- else l.push("Rumbo: "+o.rb.slice(0,4).join(", "),"Tezcatlipoca – Espejo: "+o.rb[4]);
+ else l.push("Rumbo: "+o.rb.slice(0,4).join(", "),"Tezcatlipoca – Espejo: "+o.rb[4]+G(o.rb[4]));
  l.push("");
- if(o.hasT){l.push("Momento: "+S[o.ms]+", "+TR[o.ms],"Hora: "+IM[o.im]);if(o.um)l.push("Umbral: "+ms(o.um[0])+"  ↔  "+ms(o.um[1]));l.push("")}
+ if(o.hasT){l.push("Momento: "+S[o.ms]+", "+TR[o.ms],"Hora: "+IM[o.im]+G(IM[o.im]));if(o.um)l.push("Umbral: "+ms(o.um[0])+"  ↔  "+ms(o.um[1]));l.push("")}
  const n=o.nem?man.n:o.n,nz=o.nem?man.z:o.nz+1;
- l.push("Numeral del día: "+(n?n+", "+NU[n-1]:"pendiente de dictado"),"Signo del día: "+S[o.s]+", "+TR[o.s],"Acompañante: "+AC[o.s],"Pareja complementaria: "+PAR[S[o.s]],"");
- if(n){const d=SD[n-1];l.push("Tonalli – Día – Luz","Señor del día externo: "+d[0],"Animal volátil: "+d[1],"Acompañante interno: "+d[2],"")}
+ l.push("Numeral del día: "+(n?n+", "+NU[n-1]+", "+NM[n-1]:"pendiente de dictado"),"Signo del día: "+S[o.s]+", "+TR[o.s],"Acompañante: "+AC[o.s]+G(AC[o.s]),"Pareja complementaria: "+PAR[S[o.s]]+", "+TR[S.indexOf(PAR[S[o.s]])],"");
+ if(n){const d=SD[n-1];l.push("Tonalli – Día – Luz","Señor del día externo: "+d[0]+G(d[0]),"Animal volátil: "+d[1],"Acompañante interno: "+d[2]+G(d[2]),"")}
  else l.push("Tonalli – Día – Luz","Señor del día: pendiente (se indexa al conocer el Numeral)","");
  l.push("Yohualli – Noche – Obscuridad");
- if(nz){const z=SN[nz-1];l.push("Señor de la noche: "+nz+", "+z[0]+", "+z[1],"Animal: "+z[2])}else l.push("Señor de la noche: pendiente de dictado");
+ if(nz){const z=SN[nz-1];l.push("Señor de la noche: "+nz+", "+z[0]+", "+z[1]+G(z[0],z[1]),"Animal: "+z[2]+", "+ANI[z[2]])}else l.push("Señor de la noche: pendiente de dictado");
  l.push("");
  if(o.nem)l.push("Trecena de días: no existe en Nemontemi","","Cempohualli – Veintena: Nemontemi (día "+o.nd+" de 5), Completar lo que se ha vivido","Acompañante: —");
- else{const t=o.t0;l.push("Trecena de días: Ce "+S[o.st]+", "+TR[o.st],"Acompañante: "+TC[t],"","Cempohualli – Veintena: "+VE[o.v][0]+", "+VE[o.v][1]+" (veintena "+(o.v+1)+")","Acompañante: "+VE[o.v][2])}
- l.push("","Número anual: "+o.Nn+", "+NU[o.Nn-1],"Xiuitl – Año: "+PO[o.P]+", "+TR[[7,12,17,2][o.P]],"Acompañante: "+TP[o.tb][o.row],"","Tlalpilli – Atado de años: "+PO[o.tb]+", "+TR[[7,12,17,2][o.tb]]+" (Numeral 1)","Acompañante: "+TP[o.tb][0]);
+ else{const t=o.t0;l.push("Trecena de días: Ce "+S[o.st]+", "+TR[o.st],"Acompañante: "+TC[t]+G(TC[t]),"","Cempohualli – Veintena: "+VE[o.v][0]+", "+VE[o.v][1]+" (veintena "+(o.v+1)+")","Acompañante: "+VE[o.v][2]+G(VE[o.v][2]))}
+ l.push("","Número anual: "+o.Nn+", "+NU[o.Nn-1]+", "+NM[o.Nn-1],"Xiuitl – Año: "+PO[o.P]+", "+TR[[7,12,17,2][o.P]],"Acompañante: "+TP[o.tb][o.row]+G(TP[o.tb][o.row]),"","Tlalpilli – Atado de años: "+PO[o.tb]+", "+TR[[7,12,17,2][o.tb]]+" (Numeral 1)","Acompañante: "+TP[o.tb][0]+G(TP[o.tb][0]));
  if(o.notes.length){l.push("","Notas:");o.notes.forEach(x=>l.push("· "+x))}
  return l.join("\n")}
 /*UI*/
-const $=i=>document.getElementById(i),W="525644430676";let LT="";
+const $=i=>document.getElementById(i),W="525644430676";let LT="",LTc="";
 (function(){$("dd").innerHTML="<option value=''>Día</option>"+Array.from({length:31},(_,i)=>"<option>"+(i+1)+"</option>").join("");
 $("mm").innerHTML="<option value=''>Mes</option>"+MES.map((x,i)=>"<option value="+(i+1)+">"+x[0].toUpperCase()+x.slice(1)+"</option>").join("");
 let h="<option value=''>Año</option>";for(let a=new Date().getFullYear();a>=1900;a--)h+="<option>"+a+"</option>";$("yy").innerHTML=h})();
 const wa=t=>"https://wa.me/"+W+"?text="+encodeURIComponent(t).replace(/'/g,"%27");
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 /* Ficha: convierte el mismo texto LT (el que va a WhatsApp y al PDF) en grupos legibles. No calcula nada. */
+const GLAB=["Tezcatlipoca – Espejo","Hora","Acompañante","Acompañante interno","Señor del día externo","Señor de la noche"];
+function dd(l,x){const i=GLAB.includes(l)?x.indexOf(" — "):-1;if(i<0)return esc(x);
+ return esc(x.slice(0,i))+x.slice(i+3).split("  ·  ").map(s=>"<small class=gl>"+esc(s)+"</small>").join("")}
 function ficha(t){
  const gs=[];let g=null;
  t.split("\n").forEach(l=>{
@@ -275,7 +341,7 @@ function ficha(t){
   const m=l.match(/^([^:]+):\s(.*)$/);
   if(m)g.r.push([m[1],m[2]]);else g.h=l.replace(/:$/,"")});
  return gs.map((g,i)=>"<section class='grupo"+(i==0?" uno":"")+"'>"+(g.h?"<h3>"+esc(g.h)+"</h3>":"")+
-  (g.r.length?"<dl>"+g.r.map(r=>"<div class=fila><dt>"+esc(r[0])+"</dt><dd>"+esc(r[1])+"</dd></div>").join("")+"</dl>":"")+
+  (g.r.length?"<dl>"+g.r.map(r=>"<div class=fila><dt>"+esc(r[0])+"</dt><dd>"+dd(r[0],r[1])+"</dd></div>").join("")+"</dl>":"")+
   (g.n.length?"<ul class=nota-lista>"+g.n.map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>":"")+"</section>").join("")}
 function strips(o){
  let h="";
@@ -301,12 +367,12 @@ function run(){
  const o=calc(v);
  if(o.reinicio){out.innerHTML="<h2 class=tit>Tu Tonalpohualli</h2><div class=card><p class=warn>Ese día cae en el cuarto de día de cierre y reinicio del año (Acatl bisiesto) y no está tabulado. Consúltalo con tu maestro.</p></div>";return}
  const man={n:+($("mnum")&&$("mnum").value)||0,z:+($("mnoc")&&$("mnoc").value)||0};
- LT=text(v,o,man)+"\n\n— Mázatl Xamayari";
+ LT=text(v,o,man,true)+"\n\n— Mázatl Xamayari";LTc=text(v,o,man,false)+"\n\n— Mázatl Xamayari";
  const img="img/tonal/"+String(o.s+1).padStart(2,"0")+"-"+S[o.s].toLowerCase()+".png";
  let h="<h2 class=tit>Tu Tonalpohualli</h2><div class=card><img class=tonal src='"+img+"' alt='"+S[o.s]+"' onerror='this.remove()'>"+ficha(LT)+"</div>";
  if(o.nem){const op=(n,s)=>"<option value=''>—</option>"+Array.from({length:n},(_,i)=>"<option value="+(i+1)+(s==i+1?" selected":"")+">"+(i+1)+"</option>").join("");
   h+="<div class=card><div class=g><div><label for=mnum>Numeral dictado (1–13)</label><select id=mnum>"+op(13,man.n)+"</select></div><div><label for=mnoc>Señor de la Noche dictado (1–9)</label><select id=mnoc>"+op(9,man.z)+"</select></div></div></div>"}
- h+=strips(o)+"<div class=btns><a class=cta-btn target=_blank rel=noopener href='"+wa("Hola Mázatl, "+(v.nm?"soy "+v.nm+" y ":"")+"quiero agendar una sesión de interpretación de mi Tonalpohualli.")+"'>Agendar sesión de interpretación</a><a class=btn-secundario target=_blank rel=noopener href='"+wa(LT)+"'>Enviar por WhatsApp</a><button id=pf class=btn-secundario type=button>Crear PDF</button></div><p class=nota>La sesión se agenda por WhatsApp. Se pide una ofrenda económica como intercambio.</p>";
+ h+=strips(o)+"<div class=btns><a class=cta-btn target=_blank rel=noopener href='"+wa("Hola Mázatl, "+(v.nm?"soy "+v.nm+" y ":"")+"quiero agendar una sesión de interpretación de mi Tonalpohualli.")+"'>Agendar sesión de interpretación</a><a class=btn-secundario target=_blank rel=noopener href='"+wa(LTc)+"'>Enviar por WhatsApp</a><button id=pf class=btn-secundario type=button>Crear PDF</button></div><p class=nota>La sesión se agenda por WhatsApp. Se pide una ofrenda económica como intercambio.</p>";
  out.innerHTML=h;$("pf").onclick=pdf;
  ["mnum","mnoc"].forEach(i=>$(i)&&$(i).addEventListener("change",()=>{$("out").classList.remove("nuevo");run()}))}
 $("go").onclick=()=>{const o=$("out");o.classList.remove("nuevo");run();void o.offsetWidth;o.classList.add("nuevo")};
