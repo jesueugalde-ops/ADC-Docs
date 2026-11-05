@@ -164,21 +164,25 @@
   #printHead{display:none;margin-bottom:16px;}
   #printHead .ph-dim{font-family:var(--serif);font-size:24px;}
   #printHead .ph-meta{font-family:var(--mono);font-size:11px;color:#666;margin-top:4px;}
+.ctx-mini{font-size:13px;color:#BBBBB6;margin:16px 0 0;line-height:1.6}
+.esp-ttl{font:600 11.5px 'Montserrat',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#E8C97A;margin:6px 0 10px}
+.esp-pair{display:grid;grid-template-columns:58px 1fr auto;gap:12px;padding:10px 0;border-top:1px solid rgba(201,168,76,.22);font-size:13.5px;color:#BBBBB6;align-items:baseline}
+.esp-pair .ep-n{color:#C9A84C;font-weight:600}
+.esp-pair .ep-v{font-weight:600;color:#F6F6F2}
+.esp-pair.gap{color:#F6F6F2}
+.esp-pair.gap .ep-v{color:#E8C97A}
+.esp-pair.gap .ep-n::after{content:' ◆';color:#E8C97A}
+.esp-note{font-size:12.5px;color:#BBBBB6;margin-top:12px;line-height:1.6}
 </style>
 </head>
 <body>
 <div class="frame">
 
   <div class="eyebrow">Innovación Humana · Autoevaluación Privada</div>
-  <h1>Tu <em>Mapa</em>.<br>Doce áreas. Un espejo. Una fotografía honesta.</h1>
-  <p class="lede">Elige la dimensión que quieres calificar hoy. No hay respuesta correcta — solo la más honesta. Tu radar es una brújula: te muestra por dónde empezar. Al terminar, imprime tu resultado o envíamelo por WhatsApp para tenerlo listo en tu Sesión de Mapeo.</p>
+  <h1>¿Cuál es el <em>origen</em> de tus problemas?<br>¿Sabes cuál es el tuyo?</h1>
+  <p class="lede">Tu Mapa te lo muestra. Califica tus 12 áreas del 1 al 10: no hay respuesta correcta, solo la más honesta. Tu radar es una brújula: te muestra por dónde empezar.</p>
 
-  <div class="ctx-row">
-    <div class="ctx-item"><b>3</b>Dimensiones</div>
-    <div class="ctx-item"><b>12</b>Áreas por dimensión</div>
-    <div class="ctx-item"><b>~5 min</b>Por dimensión</div>
-    <div class="ctx-item"><b>100%</b>Privado — nadie ve tus respuestas hasta que tú las envías</div>
-  </div>
+  <p class="ctx-mini">3 dimensiones · unos 5 min por dimensión · 100% privado: nadie ve tus respuestas hasta que tú las envías.</p>
 
   <div class="tabs-dim" id="tabsDim"></div>
   <p class="dim-note" id="dimNote"></p>
@@ -190,13 +194,7 @@
     <input type="text" id="nombreInput" placeholder="Escribe aquí para identificarte" autocomplete="name">
   </div>
 
-  <div class="espejo-explain">
-    <b class="esp-title">Ley del Espejo</b>
-    <p class="esp-line">La primera mitad de tu círculo es tu arquitectura interna: <b>El Ser.</b></p>
-    <p class="esp-line">La segunda mitad es cómo esa arquitectura se manifiesta hacia afuera: <b>La Ruta.</b></p>
-    <p class="esp-line">Siempre hay una brecha de espejo: tu origen y tu resultado están yendo por caminos distintos.</p>
-    <p class="esp-instr"><b>Cómo usarla:</b> califica tus 12 áreas y mira cada pareja: la 1 con la 12, la 2 con la 11, la 3 con la 10, y así hasta el centro, 6 con 7. Las áreas 1 a 6 son El Ser; las 7 a 12, La Ruta. Cuando una pareja se separa 3 puntos o más, tu radar te marca la brecha. Llévala a tu Sesión de Mapeo.</p>
-  </div>
+  <div class="espejo-explain"><b class="esp-title">Ley del Espejo</b> <p class="esp-line">Tus calificaciones se reflejan entre sí: lo que ves afuera tiene relación con lo que vives adentro.</p></div>
 
   <div class="wrap">
     <div class="qpanel" id="qpanel"></div>
@@ -232,7 +230,7 @@
     </div>
   </div>
 
-  <div class="foot">INNOVACIÓN HUMANA · MAPA DE 12 ÁREAS V1 · 3 DIMENSIONES · LEY DEL ESPEJO · SEPTIEMBRE 2026<span style="display:block;margin:12px auto 0;max-width:640px;letter-spacing:0;text-transform:none;font-size:11px;line-height:1.6;opacity:.8">Innovación Humana ofrece acompañamiento personal y profesional. No constituye terapia ni atención médica o psicológica. Si estás en crisis, llama a la Línea de la Vida: 800 911 2000, las 24 horas.</span></div>
+  <div class="foot">INNOVACIÓN HUMANA · MAPA DE 12 ÁREAS V1 · 3 DIMENSIONES · LEY DEL ESPEJO · SEPTIEMBRE 2026<span style="display:block;margin:12px auto 0;max-width:640px;letter-spacing:0;text-transform:none;font-size:11px;line-height:1.6;opacity:.8">Innovación Humana ofrece acompañamiento personal y profesional. No constituye terapia ni atención médica o psicológica. Si estás en crisis, llama a la Línea de la Vida: 800 911 2000, las 24 horas.<br><a href="aviso-de-privacidad.html" style="color:#E8C97A">Aviso de privacidad</a> · <a href="terminos.html" style="color:#E8C97A">Términos del servicio</a></span></div>
 </div>
 
 <script>
@@ -348,7 +346,7 @@ function buildForm(){
     card.className = "qcard";
     card.style.setProperty("--dim-color", d.hex);
     card.innerHTML = `
-      <div class="q-indicator">Área ${String(i+1).padStart(2,"0")} de 12 · Espejo ↔ ${String(partner+1).padStart(2,"0")}</div>
+      <div class="q-indicator">Área ${String(i+1).padStart(2,"0")} de 12</div>
       <div class="qtitle">${a.t}</div>
       <div class="qtext">${a.q}</div>
       <div class="srow" id="srow-${i}"></div>
@@ -466,24 +464,19 @@ function checkEspejos(){
   box.innerHTML = "";
   const d = DATA[currentDim];
   const vals = scores[currentDim];
-  let any = false;
-  ESPEJOS.forEach(([a,b])=>{
-    if(vals[a] && vals[b]){
-      const gap = Math.abs(vals[a]-vals[b]);
-      if(gap>=3){
-        any = true;
-        const alto = vals[a]>vals[b] ? a : b;
-        const bajo = vals[a]>vals[b] ? b : a;
-        const div = document.createElement("div");
-        div.className = "esp-alert";
-        div.innerHTML = `<b>Brecha de Espejo ${String(a+1).padStart(2,"0")}↔${String(b+1).padStart(2,"0")}:</b> "${d.areas[alto].t}" (${vals[alto]}) y "${d.areas[bajo].t}" (${vals[bajo]}) tienen una brecha de ${gap} puntos — tu arquitectura interna y tu resultado externo van por caminos distintos aquí.`;
-        box.appendChild(div);
-      }
-    }
+  const rows = ESPEJOS.filter(([a,b])=>vals[a] && vals[b]);
+  if(!rows.length) return;
+  const ttl = document.createElement("div"); ttl.className = "esp-ttl"; ttl.textContent = "Tus espejos"; box.appendChild(ttl);
+  rows.forEach(([a,b])=>{
+    const gap = Math.abs(vals[a]-vals[b]);
+    const row = document.createElement("div");
+    row.className = "esp-pair" + (gap>=3 ? " gap" : "");
+    row.innerHTML = `<span class="ep-n">${String(a+1).padStart(2,"0")}↔${String(b+1).padStart(2,"0")}</span><span class="ep-t">${d.areas[a].t} · ${d.areas[b].t}</span><span class="ep-v">${vals[a]} · ${vals[b]}</span>`;
+    box.appendChild(row);
   });
-  if(!any && vals.every(v=>v>0)){
-    box.innerHTML = `<p class="esp-ok">Sin brechas de espejo mayores a 2 puntos — tu origen y tu manifestación están alineados.</p>`;
-  }
+  const note = document.createElement("p"); note.className = "esp-note";
+  note.textContent = rows.some(([a,b])=>Math.abs(vals[a]-vals[b])>=3) ? "Cuando una pareja se separa 3 puntos o más, ahí hay una brecha. Llévala a tu Sesión de Mapeo." : (vals.every(v=>v>0) ? "Tus espejos están alineados." : "");
+  box.appendChild(note);
 }
 
 function renderResults(){
