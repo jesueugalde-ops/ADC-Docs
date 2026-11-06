@@ -5,10 +5,10 @@
 <title>Calculadora Tonalpohualli · Mapa del Ihiyotl</title>
 <meta name="description" content="Calcula tu Tonalpohualli con la correlación de Arturo Meza: signo, numeral, rumbo y señores del día y de la noche según tu fecha, hora y lugar de nacimiento.">
 <!-- Isotipo de la pestaña -->
-<link rel="icon" href="img/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
-<link rel="icon" type="image/png" sizes="192x192" href="img/favicon-192.png">
-<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="icon" href="img/favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="192x192" href="img/favicon-192.png?v=2">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=2">
 <!-- Vista previa al compartir el link (WhatsApp, Facebook, LinkedIn…). og:image debe ser URL absoluta y el archivo debe existir en esa ruta -->
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_MX">
@@ -140,6 +140,7 @@ h2::before{content:'';flex:none;width:34px;height:1px;background:linear-gradient
 .foot{position:relative;margin-top:clamp(64px,9vw,96px);padding:44px 0 12px;text-align:center}
 .foot::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--oro-borde-med),transparent)}
 .foot::after{content:'';position:absolute;top:-4px;left:50%;width:8px;height:8px;transform:translateX(-50%) rotate(45deg);background:var(--negro-deep);border:1px solid var(--oro)}
+.venado{display:block;margin:0 auto 18px;height:120px;width:auto;filter:drop-shadow(0 0 22px rgba(201,168,76,.2))}
 .sig{font-family:var(--serif);font-style:italic;font-weight:400;font-size:24px;line-height:1.2;color:var(--oro-vivo)}
 .foot .nota{margin-top:16px}
 
@@ -187,6 +188,7 @@ h2::before{content:'';flex:none;width:34px;height:1px;background:linear-gradient
 <div id="out" aria-live="polite"></div>
 
 <footer class="foot">
+<img class="venado" src="img/venado.png" alt="Venado, Mázatl Xamayari" width="437" height="525" onerror="this.remove()">
 <p class="sig">Mázatl Xamayari</p>
 <p class="nota">skill tonalpohualli-arturo-meza (sincronizados al 22-oct-2026).</p>
 </footer>
@@ -372,7 +374,7 @@ function run(){
  let h="<h2 class=tit>Tu Tonalpohualli</h2><div class=card><img class=tonal src='"+img+"' alt='"+S[o.s]+"' onerror='this.remove()'>"+ficha(LT)+"</div>";
  if(o.nem){const op=(n,s)=>"<option value=''>—</option>"+Array.from({length:n},(_,i)=>"<option value="+(i+1)+(s==i+1?" selected":"")+">"+(i+1)+"</option>").join("");
   h+="<div class=card><div class=g><div><label for=mnum>Numeral dictado (1–13)</label><select id=mnum>"+op(13,man.n)+"</select></div><div><label for=mnoc>Señor de la Noche dictado (1–9)</label><select id=mnoc>"+op(9,man.z)+"</select></div></div></div>"}
- h+=strips(o)+"<div class=btns><a class=cta-btn target=_blank rel=noopener href='"+wa("Hola Mázatl, "+(v.nm?"soy "+v.nm+" y ":"")+"quiero agendar una sesión de interpretación de mi Tonalpohualli.")+"'>Agendar sesión de interpretación</a><a class=btn-secundario target=_blank rel=noopener href='"+wa(LTc)+"'>Enviar por WhatsApp</a><button id=pf class=btn-secundario type=button>Crear PDF</button></div><p class=nota>La sesión se agenda por WhatsApp. Se pide una ofrenda económica como intercambio.</p>";
+ h+=strips(o)+"<div class=btns><a class=cta-btn target=_blank rel=noopener href='"+wa("Hola Mázatl, "+(v.nm?"soy "+v.nm+" y ":"")+"quiero agendar la siembra de mi nombre y mi Tonalpohualli.")+"'>Agendar mi siembra</a><a class=btn-secundario target=_blank rel=noopener href='"+wa(LTc)+"'>Enviar por WhatsApp</a><button id=pf class=btn-secundario type=button>Crear PDF</button></div><p class=nota>La siembra se agenda por WhatsApp. Se pide una ofrenda económica como intercambio.</p>";
  out.innerHTML=h;$("pf").onclick=pdf;
  ["mnum","mnoc"].forEach(i=>$(i)&&$(i).addEventListener("change",()=>{$("out").classList.remove("nuevo");run()}))}
 $("go").onclick=()=>{const o=$("out");o.classList.remove("nuevo");run();void o.offsetWidth;o.classList.add("nuevo")};
