@@ -365,6 +365,9 @@ function pdf(){const J=window.jspdf;if(!J){alert("No se pudo cargar el generador
  d.setFontSize(10.5);
  for(const l of d.splitTextToSize(LT.replace(/↔/g,"/").replace(/−/g,"-"),180)){if(y>270){d.addPage();y=18}d.text(l,15,y);y+=5.2}
  d.save("tonalpohualli.pdf")}
+/* Sello: primero img/NN-signo.png; si no está, img/tonal/NN-signo.png; si no, el nombre original de la captura; si no, se oculta */
+const OR=L("Cipaktli,Ehecatl,Calli,Cuetzpallin,Coatl,Miquiztli,Mazatl,Tochtli,Atl,Itzcuintli,Ozomahtli,Malinalli,Acatl,Ocelotl,Cuauhtli,Cozcacuauhtli,ollin,Tekpatl,Kiawitl,Xochitl");
+function tfb(e){const c=(e.dataset.c||"").split("|").filter(Boolean),n=c.shift();if(!n){e.remove();return}e.dataset.c=c.join("|");e.src=n}
 function run(){
  const out=$("out"),y=+$("yy").value,m=+$("mm").value,d=+$("dd").value;
  if(!y||!m||!d){out.innerHTML="<p class=warn>Elige el día, el mes y el año de nacimiento.</p>";return}
@@ -376,8 +379,8 @@ function run(){
  if(o.reinicio){out.innerHTML="<h2 class=tit>Tu Tonalpohualli</h2><div class=card><p class=warn>Ese día cae en el cuarto de día de cierre y reinicio del año (Acatl bisiesto) y no está tabulado. Consúltalo con tu maestro.</p></div>";return}
  const man={n:+($("mnum")&&$("mnum").value)||0,z:+($("mnoc")&&$("mnoc").value)||0};
  LT=text(v,o,man,true)+"\n\n— Mázatl Xamayari";LTc=text(v,o,man,false)+"\n\n— Mázatl Xamayari";
- const img="img/tonal/"+String(o.s+1).padStart(2,"0")+"-"+S[o.s].toLowerCase()+".png";
- let h="<h2 class=tit>Tu Tonalpohualli</h2><div class=card><img class=tonal src='"+img+"' alt='"+S[o.s]+"' onerror='this.remove()'>"+ficha(LT)+"</div>";
+ const fn=String(o.s+1).padStart(2,"0")+"-"+S[o.s].toLowerCase()+".png",img="img/"+fn,alt=["img/tonal/"+fn,"img/"+OR[o.s]+".png"].join("|");
+ let h="<h2 class=tit>Tu Tonalpohualli</h2><div class=card><img class=tonal src='"+img+"' data-c='"+alt+"' alt='"+S[o.s]+"' onerror='tfb(this)'>"+ficha(LT)+"</div>";
  if(o.nem){const op=(n,s)=>"<option value=''>—</option>"+Array.from({length:n},(_,i)=>"<option value="+(i+1)+(s==i+1?" selected":"")+">"+(i+1)+"</option>").join("");
   h+="<div class=card><div class=g><div><label for=mnum>Numeral dictado (1–13)</label><select id=mnum>"+op(13,man.n)+"</select></div><div><label for=mnoc>Señor de la Noche dictado (1–9)</label><select id=mnoc>"+op(9,man.z)+"</select></div></div></div>"}
  h+=strips(o)+"<div class=btns><a class=cta-btn target=_blank rel=noopener href='"+wa("Hola Mázatl, "+(v.nm?"soy "+v.nm+" y ":"")+"quiero agendar la siembra de mi nombre y mi Tonalpohualli.")+"'>Agendar mi siembra</a><a class=btn-secundario target=_blank rel=noopener href='"+wa(LTc)+"'>Enviar por WhatsApp</a><button id=pf class=btn-secundario type=button>Crear PDF</button></div><p class=nota>La siembra se agenda por WhatsApp. Se pide una ofrenda económica como intercambio.</p>";
