@@ -276,7 +276,7 @@ Xochiquetzalli:["floreciendo desde adentro: belleza humana, las artes y los tale
 Centeotl:["el generador del sustento","principio generador de los sustentos: el maíz y las plantas alimenticias"],
 Itztli:["Tezcatlipoca en la obsidiana obscura","la obsidiana: el filo para separarte de lo que ya no es tuyo"],
 Piltzintecuhtli:["el señor niño","lo que apenas empieza: asombro y comenzar de nuevo"],
-Ixnextli:["cualidades psíquicas ligadas al estado de ánimo; fuerza femenina que se proyecta, sobre todo en la juventud"],
+Ixnextli:["cualidades psíquicas ligadas al estado de ánimo, sobre todo en la juventud"],
 Chicomecoatl:["Siete Serpientes: los siete nutrientes del maíz, esencia femenina","fertilidad y sustento"],
 Itztlacoliuhqui:["el Cuchillo de Obsidiana, Tezcatlipoca oscuro: frialdad, dureza y depuración de lo que vale la pena conservar"],
 Ixcuinan:["facultad de Tezcatlipoca en las señoras de edad madura","ave augural: predecir y calcular sucesos a futuro"],
@@ -294,32 +294,33 @@ Uiztocihuatl:["ligada a las mujeres que producen y distribuyen la sal"]};
 /* Sin definición en los documentos: solo traducción literal del náhuatl (se marca como tal). Chalmecatecuhtli: sin traducción, por confirmar. */
 const LIT={Tlaltecuhtli:"Señor de la Tierra",Ixtlilton:"el de la carita negra",Yaotl:"el guerrero","Citlalin i cue":"la de la falda de estrellas",Macuilxochitl:"Cinco Flor",Mictlancihuatl:"Señora de Mictlán"};
 const ALIAS={"Xipe Tótec":"Xipe Totec"};
-const RX=new RegExp([...Object.keys(GL),...Object.keys(LIT),...Object.keys(ALIAS)].sort((a,b)=>b.length-a.length).map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|"),"g");
-/* gl(texto del campo[, definición a omitir]) → " — definiciones" o "" */
-function gl(s,skip){const seen=new Set(),r=[];
- (String(s).match(RX)||[]).forEach(k=>{const n=ALIAS[k]||k;if(seen.has(n))return;seen.add(n);
-  let d=(GL[n]||[]).filter(x=>!skip||x.toLowerCase()!=skip.toLowerCase()).join("; ");
-  if(!d&&LIT[n])d=LIT[n]+" (trad. literal)";r.push([n,d])});
- const e=r.filter(x=>x[1]);if(!e.length)return"";
- return" — "+e.map(x=>(r.length>1?x[0]+": ":"")+x[1]).join("  ·  ")}
+/* Frase corta (epíteto) junto al nombre: sale de tus documentos (Fanny, Anarely, Tabla 4, Cosmogónica §4, §6 y §8). Vacío = pendiente. */
+const EP={Tonacatecuhtli:"Señor de Nuestro Sustento",Tonacacihuatl:"la energía femenina",Quetzalcoatl:"energía vital, la voz que nutre y da vida",Tepeyolohtli:"el corazón de los montes",Huehuecoyotl:"el Coyote Viejo",Chalchiuhtlicue:"la señora de la falda de jade",Tecciztecatl:"el portador del caracol",Tlalocantecuhtli:"el señor del licor de la tierra",Tlaloc:"el señor del licor de la tierra",Mayahuel:"la fuerza de la luna",Xiuhtecuhtli:"el señor del fuego y del calor celeste",Mictlantecuhtli:"el señor del reposo y la quietud",Xochipilli:"el Hijo de las Flores",Pahtecatl:"el de las plantas curativas",Tezcatlipoca:"el espejo humeante","Tezcatlipoca Ixquimilli":"el espejo humeante",Tlazohteotl:"el generador del amor y del cariño","Xipe Totec":"el que cambia siempre de piel",Itzpapalotl:"la mariposa de obsidiana",Xolotl:"el Gemelo, perro del inframundo",Chalchiuhtotolin:"el guajolote de jade",Tonatiuh:"el que emana luz",Xochiquetzalli:"la hermosura que florece desde adentro",Centeotl:"el generador del sustento",Itztli:"Tezcatlipoca en la obsidiana obscura",Piltzintecuhtli:"el señor niño",Ixnextli:"la fuerza femenina que se proyecta",Chicomecoatl:"Siete Serpientes, esencia femenina del maíz",Itztlacoliuhqui:"el Cuchillo de Obsidiana",Ixcuinan:"la facultad de Tezcatlipoca en las señoras de edad madura",Chantico:"el calor femenino del hogar",Itztapaltotec:"con Xipe Totec, los cambios de piel de la tierra","Cuauhtli Ocelotl":"águila y ocelotl",Tlahuizcalpantecuhtli:"el señor de la casa del amanecer",Huitzilopochtli:"el colibrí zurdo",Yayauqui:"Tezcatlipoca negro, el espejo negro",Xilonen:"el maíz tierno, la madre de los jilotes",Ilamatecuhtli:"la señora de la dualidad","Teteo Inan":"la Tierra envejecida",Mixcoatl:"a quien se consagra la caza",Uiztocihuatl:"ligada a las mujeres de la sal",Uauantli:"El Rayado",Chalmecatecuhtli:""};
+const RX=new RegExp([...Object.keys(GL),...Object.keys(EP),...Object.keys(LIT),...Object.keys(ALIAS)].sort((a,b)=>b.length-a.length).map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|"),"g");
+function M(s){const seen=new Set(),r=[];(String(s).match(RX)||[]).forEach(k=>{const n=ALIAS[k]||k;if(!seen.has(n)){seen.add(n);r.push([k,n])}});return r}
+/* E(campo) → "Nombre, frase corta  ·  Nombre, frase corta" */
+function E(s){const m=M(s);return m.length?m.map(([k,n])=>k+(EP[n]?", "+EP[n]:LIT[n]?", "+LIT[n]+" (trad. literal)":"")).join("  ·  "):String(s)}
+/* gl(campo[, definición a omitir]) → " — descripciones completas" o "" */
+function gl(s,skip){const m=M(s),r=m.map(([k,n])=>{const q=t=>t.toLowerCase().replace(/^(el|la|los|las) /,""),ep=q(EP[n]||"");return[k,(GL[n]||[]).map(x=>{const t=x.replace(/^(el|la|los|las) /i,"");return ep&&(t.toLowerCase().startsWith(ep+": ")||t.toLowerCase().startsWith(ep+", "))?t.slice(ep.length+2):x}).filter(x=>q(x)!=ep&&(!skip||q(x)!=q(skip))).join("; ")]}),e=r.filter(x=>x[1]);
+ return e.length?" — "+e.map(x=>(m.length>1?x[0]+": ":"")+x[1]).join("  ·  "):""}
 function text(v,o,man,full){
  const G=(b,sk)=>full?gl(b,sk):"";
  const f=String(v.d).padStart(2,"0")+"/"+String(v.m).padStart(2,"0")+"/"+v.y+(v.min!=null?", "+((v.min/60|0)%12||12)+":"+String(v.min%60).padStart(2,"0")+(v.min<720?" am":" pm"):"");
  const l=["Yolohtl – Corazón: "+(v.nm||"—"),"Ihiyotl – Aliento: "+f+" · "+v.pl,""];
  if(o.nem)l.push("Rumbo: no existe en Nemontemi","Tezcatlipoca – Espejo: no existe en Nemontemi");
- else l.push("Rumbo: "+o.rb.slice(0,4).join(", "),"Tezcatlipoca – Espejo: "+o.rb[4]+G(o.rb[4]));
+ else l.push("Rumbo: "+o.rb.slice(0,4).join(", "),"Tezcatlipoca – Espejo: "+E(o.rb[4])+G(o.rb[4]));
  l.push("");
- if(o.hasT){l.push("Momento: "+S[o.ms]+", "+TR[o.ms],"Hora: "+IM[o.im]+G(IM[o.im]));if(o.um)l.push("Umbral: "+ms(o.um[0])+"  ↔  "+ms(o.um[1]));l.push("")}
+ if(o.hasT){l.push("Momento: "+S[o.ms]+", "+TR[o.ms],"Hora: "+E(IM[o.im])+G(IM[o.im]));if(o.um)l.push("Umbral: "+ms(o.um[0])+"  ↔  "+ms(o.um[1]));l.push("")}
  const n=o.nem?man.n:o.n,nz=o.nem?man.z:o.nz+1;
- l.push("Numeral del día: "+(n?n+", "+NU[n-1]+", "+NM[n-1]:"pendiente de dictado"),"Signo del día: "+S[o.s]+", "+TR[o.s],"Acompañante: "+AC[o.s]+G(AC[o.s]),"Pareja complementaria: "+PAR[S[o.s]]+", "+TR[S.indexOf(PAR[S[o.s]])],"");
- if(n){const d=SD[n-1];l.push("Tonalli – Día – Luz","Señor del día externo: "+d[0]+G(d[0]),"Animal volátil: "+d[1],"Acompañante interno: "+d[2]+G(d[2]),"")}
+ l.push("Numeral del día: "+(n?n+", "+NU[n-1]+", "+NM[n-1]:"pendiente de dictado"),"Signo del día: "+S[o.s]+", "+TR[o.s],"Acompañante: "+E(AC[o.s])+G(AC[o.s]),"Pareja complementaria: "+PAR[S[o.s]]+", "+TR[S.indexOf(PAR[S[o.s]])],"");
+ if(n){const d=SD[n-1];l.push("Tonalli – Día – Luz","Señor del día externo: "+E(d[0])+G(d[0]),"Animal volátil: "+d[1],"Acompañante interno: "+E(d[2])+G(d[2]),"")}
  else l.push("Tonalli – Día – Luz","Señor del día: pendiente (se indexa al conocer el Numeral)","");
  l.push("Yohualli – Noche – Obscuridad");
  if(nz){const z=SN[nz-1];l.push("Señor de la noche: "+nz+", "+z[0]+", "+z[1]+G(z[0],z[1]),"Animal: "+z[2]+", "+ANI[z[2]])}else l.push("Señor de la noche: pendiente de dictado");
  l.push("");
  if(o.nem)l.push("Trecena de días: no existe en Nemontemi","","Cempohualli – Veintena: Nemontemi (día "+o.nd+" de 5), Completar lo que se ha vivido","Acompañante: —");
- else{const t=o.t0;l.push("Trecena de días: Ce "+S[o.st]+", "+TR[o.st],"Acompañante: "+TC[t]+G(TC[t]),"","Cempohualli – Veintena: "+VE[o.v][0]+", "+VE[o.v][1]+" (veintena "+(o.v+1)+")","Acompañante: "+VE[o.v][2]+G(VE[o.v][2]))}
- l.push("","Número anual: "+o.Nn+", "+NU[o.Nn-1]+", "+NM[o.Nn-1],"Xiuitl – Año: "+PO[o.P]+", "+TR[[7,12,17,2][o.P]],"Acompañante: "+TP[o.tb][o.row]+G(TP[o.tb][o.row]),"","Tlalpilli – Atado de años: "+PO[o.tb]+", "+TR[[7,12,17,2][o.tb]]+" (Numeral 1)","Acompañante: "+TP[o.tb][0]+G(TP[o.tb][0]));
+ else{const t=o.t0;l.push("Trecena de días: Ce "+S[o.st]+", "+TR[o.st],"Acompañante: "+E(TC[t])+G(TC[t]),"","Cempohualli – Veintena: "+VE[o.v][0]+", "+VE[o.v][1]+" (veintena "+(o.v+1)+")","Acompañante: "+E(VE[o.v][2])+G(VE[o.v][2]))}
+ l.push("","Número anual: "+o.Nn+", "+NU[o.Nn-1]+", "+NM[o.Nn-1],"Xiuitl – Año: "+PO[o.P]+", "+TR[[7,12,17,2][o.P]],"Acompañante: "+E(TP[o.tb][o.row])+G(TP[o.tb][o.row]),"","Tlalpilli – Atado de años: "+PO[o.tb]+", "+TR[[7,12,17,2][o.tb]]+" (Numeral 1)","Acompañante: "+E(TP[o.tb][0])+G(TP[o.tb][0]));
  if(o.notes.length){l.push("","Notas:");o.notes.forEach(x=>l.push("· "+x))}
  return l.join("\n")}
 /*UI*/
@@ -356,8 +357,13 @@ function strips(o){
  for(let i=0;i<18;i++)h+="<div class='"+(!o.nem&&i==o.v?"on":"")+"' title='"+VE[i][0]+"' style='flex:20'>"+(i+1)+"</div>";
  return h+"<div class='"+(o.nem?"on":"")+"' title='Nemontemi' style='flex:5'>N</div></div>"}
 function pdf(){const J=window.jspdf;if(!J){alert("No se pudo cargar el generador de PDF. Revisa tu conexión.");return}
- const d=new J.jsPDF({unit:"mm",format:"letter"});d.setFont("times","normal");d.setFontSize(16);d.text("Tonalpohualli",15,18);d.setFontSize(10.5);
- let y=28;for(const l of d.splitTextToSize(LT.replace(/↔/g,"/").replace(/−/g,"-"),180)){if(y>270){d.addPage();y=18}d.text(l,15,y);y+=5.2}
+ const d=new J.jsPDF({unit:"mm",format:"letter"}),PW=215.9;d.setFont("times","normal");d.setFontSize(16);d.text("Tonalpohualli",PW/2,16,{align:"center"});
+ let y=24;const im=document.querySelector("#out img.tonal");
+ /* sello del Códice Borgia (signo + acompañante) arriba del cálculo; si la imagen no cargó, el PDF sale sin él */
+ try{if(im&&im.complete&&im.naturalWidth){const c=document.createElement("canvas");c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext("2d").drawImage(im,0,0);
+  const w=64,hh=w*im.naturalHeight/im.naturalWidth;d.addImage(c.toDataURL("image/png"),"PNG",(PW-w)/2,y,w,hh);y+=hh+9}}catch(e){}
+ d.setFontSize(10.5);
+ for(const l of d.splitTextToSize(LT.replace(/↔/g,"/").replace(/−/g,"-"),180)){if(y>270){d.addPage();y=18}d.text(l,15,y);y+=5.2}
  d.save("tonalpohualli.pdf")}
 function run(){
  const out=$("out"),y=+$("yy").value,m=+$("mm").value,d=+$("dd").value;
