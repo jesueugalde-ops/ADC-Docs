@@ -1,119 +1,225 @@
 <!DOCTYPE html>
-<html lang="es"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tonalpohualli · La siembra de tu nombre · Mázatl Xamayari</title>
 <meta name="description" content="Tu identidad tiene origen en el tiempo. Recibe la siembra de tu nombre con tu Tonalpohualli, según la correlación de Arturo Meza.">
+<meta name="theme-color" content="#060608">
 <link rel="icon" href="img/favicon.ico?v=2" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png?v=2">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=2">
-<meta property="og:type" content="website"><meta property="og:locale" content="es_MX">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
 <meta property="og:title" content="Tonalpohualli · La siembra de tu nombre">
 <meta property="og:description" content="Tu identidad tiene origen en el tiempo. Conocerlo cambia la forma en que decides.">
 <meta property="og:image" content="https://jesueugalde-ops.github.io/ADC-Docs/img/og-tonalpohualli.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/ih.css?v=50">
 <style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---negro:#08080A;--negro-s:#0D0D10;--oro:#C9A84C;--oro-v:#E8C97A;--oro-b:rgba(201,168,76,.22);--blanco:#F6F6F2;--gris-cl:#BBBBBB;--gris:#8E8E8A;
---serif:'Cormorant Garamond',Georgia,serif;--sans:'Montserrat',system-ui,sans-serif}
-*,*::before,*::after{box-sizing:inherit}html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--negro);color:var(--blanco);font:300 16px/1.75 var(--sans);-webkit-font-smoothing:antialiased}
-.w{max-width:880px;margin:0 auto;padding:0 22px}
-section{padding:clamp(56px,9vw,96px) 0}section+section{border-top:1px solid var(--oro-b)}
-h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.15;margin:0}
-h1{font-size:clamp(38px,7vw,64px)}h2{font-size:clamp(30px,5vw,42px);color:var(--oro-v);margin-bottom:18px}
-.eb{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--oro);margin:0 0 20px}
-.hero{text-align:center;padding-top:clamp(40px,8vw,80px)}
-.hero img{display:block;margin:0 auto 26px;height:150px;width:auto;filter:drop-shadow(0 0 26px rgba(201,168,76,.22))}
-.hero p.l{font:italic 400 clamp(22px,3.6vw,30px)/1.4 var(--serif);color:var(--gris-cl);margin:16px 0 34px}
-.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.b{display:inline-block;padding:14px 26px;border:1px solid var(--oro);color:var(--oro-v);text-decoration:none;letter-spacing:.08em;font-size:14px;border-radius:2px;transition:.2s}
-.b:hover,.b:focus-visible{background:var(--oro);color:var(--negro)}.b.p{background:var(--oro);color:var(--negro);font-weight:500}.b.p:hover{background:var(--oro-v)}
-.lead{font:italic 400 clamp(21px,3vw,26px)/1.5 var(--serif);color:var(--gris-cl);margin:0 0 26px}
-.ben{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.ben li{padding-left:26px;position:relative}.ben li::before{content:'';position:absolute;left:4px;top:.8em;width:7px;height:7px;background:var(--oro);transform:rotate(45deg)}
-.fr{text-align:center;font:italic 400 clamp(24px,4vw,32px)/1.4 var(--serif);color:var(--oro-v);margin:40px 0 0}
-.pasos{list-style:none;counter-reset:p;margin:30px 0 0;padding:0;display:grid;gap:0}
-.pasos li{counter-increment:p;display:grid;grid-template-columns:56px 1fr;gap:6px 18px;padding:24px 0;border-top:1px solid var(--oro-b)}
-.pasos li:first-child{border-top:0}
-.pasos li::before{content:counter(p);grid-row:span 2;font:300 46px/1 var(--serif);color:var(--oro)}
-.pasos h3{font-size:26px;color:var(--blanco)}.pasos p{margin:0;color:var(--gris-cl)}
-.pasos .tag{display:inline-block;margin-top:10px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--oro)}
-.siembra{grid-column:2;min-width:0;background:linear-gradient(180deg,var(--negro-s),var(--negro));border:1px solid var(--oro-b);padding:18px 22px;margin-top:10px}
-.pausa{display:flex;gap:10px;align-items:center;margin-top:14px;color:var(--oro);letter-spacing:.5em;font-size:20px}
-.ej{display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:28px;align-items:center;margin-top:30px;border:1px solid var(--oro-b);padding:24px;background:var(--negro-s)}
-.ej figure{margin:0;text-align:center}.ej img{max-width:100%;height:auto;border-radius:6px}
-.ej figcaption{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);margin-top:10px}
-dl{margin:0}dt{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--oro);margin-top:12px}dt:first-child{margin-top:0}
-dd{margin:2px 0 0;font:400 20px/1.35 var(--serif)}dd small{display:block;font:300 14px/1.5 var(--sans);color:var(--gris-cl)}
-.nota{font-size:13px;color:var(--gris);margin-top:16px}
-footer{text-align:center;padding:60px 0 48px;border-top:1px solid var(--oro-b)}
-footer img{height:100px;width:auto;margin-bottom:14px}.sig{font:italic 400 26px var(--serif);color:var(--oro-v);margin:0}
-@media(max-width:640px){.ej{grid-template-columns:1fr;padding:18px}.pasos li{grid-template-columns:40px 1fr}.pasos li::before{font-size:36px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style></head><body>
+/* Solo lo propio de esta página. Colores, tipografía, botones, hero, secciones y pie vienen de css/ih.css */
 
-<header class="hero"><div class="w">
-<img src="img/venado.png" alt="Venado, Mázatl Xamayari" width="437" height="525" onerror="this.remove()">
-<p class="eb">Tonalpohualli · correlación de Arturo Meza</p>
-<h1>Tu identidad tiene origen en el tiempo.</h1>
-<p class="l">Conocerlo cambia la forma en que decides.</p>
-<div class="btns"><a class="b p" href="#proceso">Cómo es el proceso</a><a class="b" target="_blank" rel="noopener" href="https://wa.me/525643440676?text=Hola%20M%C3%A1zatl%2C%20quiero%20apartar%20mi%20siembra.">Apartar mi siembra</a></div>
-</div></header>
+/* Marca de la página: el venado y el nombre ancestral */
+.nav-brand{font-family:var(--sans)!important;font-weight:500!important;font-size:12.5px!important;letter-spacing:.2em!important;color:var(--blanco)!important;text-transform:uppercase;gap:12px!important}
+.nav-venado{display:block;height:30px;width:auto}
+@media(max-width:560px){.nav-brand{font-size:10.5px!important;letter-spacing:.12em!important}.nav-venado{height:26px}}
 
-<section><div class="w">
-<h2>¿Cómo aplica en tu vida?</h2>
-<p class="lead">El Tonalpohualli te invita a honrarte y centrarte en lugar de forzarte a copiar caminos ajenos.</p>
-<ul class="ben">
-<li>Comprendes los “porqués” de tu historia personal y comienzas a descubrir tu “para qué”.</li>
-<li>Identificas tus fortalezas naturales y los desafíos que viniste a integrar.</li>
-<li>Reconoces los patrones que han marcado tu camino y cómo resignificarlos.</li>
-<li>Entiendes tu ritmo interno y tus ciclos personales.</li>
-<li>Detectas decisiones alineadas con tu verdadera naturaleza.</li>
-<li>Recuperas coherencia entre lo que eres, lo que deseas y lo que haces.</li>
-<li>Ordenas tu línea de tiempo y das sentido a tus vivencias.</li>
-<li>Comprendes mejor a quienes te rodean desde su propia naturaleza.</li>
-<li>Dejas de forzar la vida y comienzas a actuar desde la conciencia.</li>
-<li>Recibes el mapa de tu identidad espiritual, que revela la esencia con la que llegaste a esta experiencia humana.</li>
-</ul>
-</div></section>
+/* Hero: el venado ocupa el lugar de la foto */
+.hero-foto.venado{aspect-ratio:auto;display:grid;place-items:center;margin-right:0;position:relative}
+.hero-foto.venado::before{content:'';position:absolute;inset:6% 10%;background:radial-gradient(closest-side,rgba(201,168,76,.16),transparent 75%);pointer-events:none}
+.hero .hero-foto.venado img{position:relative;width:auto;height:min(440px,58vw);max-width:100%;object-fit:contain;-webkit-mask-image:none;mask-image:none;filter:drop-shadow(0 0 30px rgba(201,168,76,.22))}
+@media(max-width:900px){.hero-foto.venado{margin:0 auto 8px}.hero .hero-foto.venado img{height:min(200px,46vw)}}
 
-<section id="proceso"><div class="w">
-<p class="eb">El proceso</p><h2>Cinco pasos, a tu ritmo</h2>
-<ol class="pasos">
-<li><h3>Tu ofrenda aparta tu lugar</h3><p>$250 MXN por persona, por depósito o transferencia. Te comparto los datos por WhatsApp y confirmo cuando la recibo.</p></li>
-<li><h3>Me compartes tus datos de nacimiento</h3><p>Tu fecha, tu hora y tu lugar de nacimiento, por WhatsApp. Si no sabes la hora, se calcula sin ella. Yo calculo tu Tonalpohualli con la correlación de Arturo Meza: 22 conceptos que te interpreto.</p></li>
+/* Beneficios: dos columnas, rombo como viñeta */
+.ben{list-style:none;margin:48px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px}
+.ben li{position:relative;padding:22px 0 22px 30px;font:300 20px/1.5 var(--serif);color:#E4E4DF;background:linear-gradient(90deg,rgba(201,168,76,.22),transparent 80%) bottom/100% 1px no-repeat}
+.ben li::before{content:'';position:absolute;left:4px;top:1.55em;width:7px;height:7px;transform:rotate(45deg);background:var(--oro)}
+.lead-wrap{margin-top:36px;max-width:760px}
+@media(max-width:820px){.ben{grid-template-columns:1fr}}
 
-<li><h3>Eliges tu horario</h3><p>Escoges el día y la hora que te acomoden entre los que te propongo.</p></li>
-<li><h3>Tu siembra</h3><p>No es una interpretación: es la siembra de tu nombre. Tu nombre y los 22 conceptos de tu Tonalpohualli se siembran en tu mente. Tu sesión es en línea y dura 30 minutos. Comparto mi pantalla y te muestro directamente tu cálculo. Ten a la mano papel y lápiz o pluma.</p>
-<div class="siembra"><p style="margin:0">Es mucha información valiosa y suele emocionar. Por eso la siembra va con pausas: me detengo para que me digas lo que piensas y lo que sientes antes de seguir.</p><div class="pausa" aria-hidden="true">· · ·</div></div></li>
-<li><h3>Recibes tu formato en PDF</h3><p>Al inicio de la siembra te lo comparto, por si quieres revisarlo a la par conmigo. Trae el texto de tus 22 conceptos, con el nombre en náhuatl y su traducción al español de cada uno, y el sello del Códice Borgia: la imagen de tu signo y de tu acompañante.</p></li>
-</ol>
-<p class="nota">Si después de tu siembra quieres ir más a fondo, lo platicamos.</p>
-<div class="btns" style="margin-top:34px"><a class="b p" target="_blank" rel="noopener" href="https://wa.me/525643440676?text=Hola%20M%C3%A1zatl%2C%20quiero%20apartar%20mi%20siembra.">Apartar mi siembra por WhatsApp</a></div>
-<p class="nota" style="text-align:center">¿Te recomendó alguien? Cuéntame quién en tu mensaje.</p>
-</div></section>
+/* Proceso: cinco pasos en secuencia */
+.pasos{list-style:none;margin:52px 0 0;padding:0;counter-reset:p;max-width:880px}
+.pasos>li{counter-increment:p;display:grid;grid-template-columns:76px minmax(0,1fr);column-gap:24px;padding:34px 0;background:linear-gradient(90deg,rgba(201,168,76,.26),transparent 80%) bottom/100% 1px no-repeat}
+.pasos>li:last-child{background:none}
+.pasos>li::before{content:counter(p);grid-column:1;grid-row:1/span 3;font:italic 300 54px/1 var(--serif);padding-right:.08em;background:linear-gradient(180deg,var(--oro-vivo),var(--oro));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.pasos>li>*{grid-column:2}
+.pasos h3{font:400 27px/1.2 var(--serif);color:var(--blanco);margin:0 0 10px}
+.pasos p{font:300 15.5px/1.75 var(--sans);color:var(--gris-cl);max-width:62ch;margin:0}
+.siembra{position:relative;margin-top:24px;padding:4px 0 4px 28px}
+.siembra::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:1px;background:linear-gradient(180deg,var(--oro-vivo),transparent);box-shadow:0 0 12px rgba(232,201,122,.35)}
+.pasos .siembra p{font:italic 300 clamp(20px,1vw + 14px,23px)/1.55 var(--serif);color:var(--blanco);max-width:none}
+.pausa-puntos{display:flex;gap:10px;margin-top:16px}
+.pausa-puntos i{width:7px;height:7px;transform:rotate(45deg);border:1px solid var(--oro)}
+.pausa-puntos i:nth-child(2){background:var(--oro)}
+.nota{font:300 13px/1.7 var(--sans);color:var(--gris)}
+.cierre-proceso{max-width:880px;margin-top:8px}
+@media(max-width:640px){.pasos>li{grid-template-columns:44px minmax(0,1fr);column-gap:16px}.pasos>li::before{font-size:38px}.pasos h3{font-size:24px}}
 
-<section><div class="w">
-<p class="eb">Tu formato</p><h2>Así se ve tu cálculo</h2>
-<p class="lead">Nombre en náhuatl, traducción al español y el sello del Códice Borgia de tu signo y tu acompañante.</p>
-<div class="ej">
-<figure><img src="img/07-mazatl.png" data-c="img/tonal/07-mazatl.png" alt="Sello del Códice Borgia: Mazatl" onerror="var c=this.dataset.c;if(c){this.dataset.c='';this.src=c}else this.closest('figure').remove()"><figcaption>Sello · Mazatl, Venado</figcaption></figure>
-<dl>
-<dt>Rumbo</dt><dd>Tlahuiztlampa<small>Lugar del amanecer · Oriente · Amarillo</small></dd>
-<dt>Tezcatlipoca · Espejo</dt><dd>Quetzalcoatl<small>energía vital, la voz que nutre y da vida</small></dd>
-<dt>Numeral del día</dt><dd>3, Yei<small>equilibrio</small></dd>
-<dt>Signo del día</dt><dd>Mazatl<small>Venado</small></dd>
-<dt>Acompañante</dt><dd>Tlalocantecuhtli<small>señor del licor de la tierra: ímpetu, tenacidad, moldeamiento</small></dd>
-<dt>Veintena</dt><dd>Atemoztli<small>El descenso de las aguas</small></dd>
-</dl></div>
-<p class="nota">Ejemplo: el tonal de Mázatl. Tu formato incluye los 22 conceptos de tu cálculo.</p>
-<p class="fr">Porque tú no estás separado del tiempo… recuerda: tú eres tiempo.</p>
-<div class="btns" style="margin-top:34px"><a class="b p" target="_blank" rel="noopener" href="https://wa.me/525643440676?text=Hola%20M%C3%A1zatl%2C%20quiero%20apartar%20mi%20siembra.">Apartar mi siembra por WhatsApp</a></div>
-</div></section>
+/* Formato de ejemplo */
+.ej{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:clamp(32px,5vw,64px);align-items:center;margin-top:48px}
+.sello{margin:0;text-align:center}
+.sello-marco{border:1px solid var(--oro-borde-med);outline:1px solid var(--oro-borde);outline-offset:10px;border-radius:10px;background:var(--negro-suave);padding:12px}
+.sello-marco img{display:block;width:100%;height:auto;border-radius:6px}
+.sello figcaption{margin-top:26px;font:italic 400 17px/1.3 var(--serif);color:var(--gris-cl)}
+.fila{padding:18px 0;background:linear-gradient(90deg,rgba(201,168,76,.22),transparent 80%) bottom/100% 1px no-repeat}
+.fila:first-child{padding-top:0}
+.fila:last-child{background:none;padding-bottom:0}
+.fila dt{font:italic 400 17px/1.2 var(--serif);color:var(--oro);margin-bottom:4px}
+.fila dd{margin:0;font:400 26px/1.25 var(--serif);color:var(--blanco)}
+.fila dd small{display:block;margin-top:4px;font:300 14px/1.55 var(--sans);color:var(--gris-cl)}
+.ej-nota{margin-top:36px}
+@media(max-width:820px){.ej{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}}
 
-<footer><img src="img/venado.png" alt="" onerror="this.remove()"><p class="sig">Mázatl Xamayari</p>
-<p class="nota" style="max-width:560px;margin:18px auto 0">Fer U (Innovación Humana) ofrece acompañamiento personal. No constituye terapia ni atención médica o psicológica. Los resultados varían de una persona a otra. <a href="https://jesueugalde-ops.github.io/ADC-Docs/aviso-de-privacidad.html" target="_blank" rel="noopener" style="color:var(--oro-v)">Aviso de privacidad</a></p></footer>
-</body></html>
+/* Cierre y pie */
+.cta-final .cta-lema{margin-top:30px}
+.cta-final .nota{margin-top:6px;text-align:center}
+.foot-venado{display:block;width:62px;height:auto;margin:0 auto 14px}
+.foot-aviso{max-width:560px;margin:18px auto 0;font:300 13px/1.7 var(--sans);letter-spacing:0;color:var(--gris)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero .linea{animation:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="i-message-circle" viewBox="0 0 24 24"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="M12 6v6l4 2" /></symbol>
+<symbol id="i-circle-dollar-sign" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" /> <path d="M12 18V6" /></symbol>
+<symbol id="i-circle-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" /></symbol>
+<symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
+</svg>
+
+<nav class="nav">
+  <a href="#hero" class="nav-brand">
+    <img class="nav-venado" src="img/venado.png" width="437" height="525" alt="" onerror="this.remove()">
+    Mázatl Xamayari
+  </a>
+  <div class="nav-actions">
+    <a href="https://wa.me/525643440676?text=Hola%20M%C3%A1zatl%2C%20quiero%20apartar%20mi%20siembra." class="nav-cta" target="_blank" rel="noopener">
+      <svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-message-circle"/></svg> <span class="nav-cta-full">Apartar mi siembra</span><span class="nav-cta-short">Apartar</span>
+    </a>
+  </div>
+</nav>
+
+<main>
+
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <p class="hero-kicker">Tonalpohualli · correlación de Arturo Meza</p>
+    <h1>Tu identidad tiene origen en el <em>tiempo</em>.</h1>
+    <div class="linea" aria-hidden="true"></div>
+    <p class="hero-promesa">Conocerlo cambia la forma en que decides.</p>
+    <div class="hero-cta-group">
+      <a class="cta-btn" target="_blank" rel="noopener" href="https://wa.me/525643440676?text=Hola%20M%C3%A1zatl%2C%20quiero%20apartar%20mi%20siembra.">
+        <svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-message-circle"/></svg> Apartar mi siembra
+      </a>
+      <a class="btn-secundario" href="#proceso">
+        <svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-down"/></svg> Cómo es el proceso
+      </a>
+    </div>
+  </div>
+  <figure class="hero-foto venado">
+    <img src="img/venado.png" width="437" height="525" fetchpriority="high" decoding="async" alt="Venado, Mázatl Xamayari" onerror="this.closest('figure').remove()">
+  </figure>
+  <ul class="ley">
+    <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg><span class="ley-t">Sesión en línea: 30&nbsp;min</span></li>
+    <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-dollar-sign"/></svg><span class="ley-t">Ofrenda: $250&nbsp;MXN por persona</span></li>
+    <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg><span class="ley-t">Recibes tu formato en PDF</span></li>
+  </ul>
+</section>
+
+<section class="section alt" id="aplica">
+  <div class="wrap">
+    <div class="eyebrow">Lo que cambia</div>
+    <h2 class="sec-title">¿Cómo aplica en <em>tu vida</em>?</h2>
+    <div class="lead-wrap"><p class="editorial-lead">El Tonalpohualli te invita a honrarte y centrarte en lugar de forzarte a copiar caminos ajenos.</p></div>
+    <ul class="ben">
+      <li>Comprendes los “porqués” de tu historia personal y comienzas a descubrir tu “para qué”.</li>
+      <li>Identificas tus fortalezas naturales y los desafíos que viniste a integrar.</li>
+      <li>Reconoces los patrones que han marcado tu camino y cómo resignificarlos.</li>
+      <li>Entiendes tu ritmo interno y tus ciclos personales.</li>
+      <li>Detectas decisiones alineadas con tu verdadera naturaleza.</li>
+      <li>Recuperas coherencia entre lo que eres, lo que deseas y lo que haces.</li>
+      <li>Ordenas tu línea de tiempo y das sentido a tus vivencias.</li>
+      <li>Comprendes mejor a quienes te rodean desde su propia naturaleza.</li>
+      <li>Dejas de forzar la vida y comienzas a actuar desde la conciencia.</li>
+      <li>Recibes el mapa de tu identidad espiritual, que revela la esencia con la que llegaste a esta experiencia humana.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="proceso">
+  <div class="wrap">
+    <div class="eyebrow">El proceso</div>
+    <h2 class="sec-title">Cinco pasos, <em>a tu ritmo</em></h2>
+    <ol class="pasos">
+      <li><h3>Tu ofrenda aparta tu lugar</h3><p>$250 MXN por persona, por depósito o transferencia. Te comparto los datos por WhatsApp y confirmo cuando la recibo.</p></li>
+      <li><h3>Me compartes tus datos de nacimiento</h3><p>Tu fecha, tu hora y tu lugar de nacimiento, por WhatsApp. Si no sabes la hora, se calcula sin ella. Yo calculo tu Tonalpohualli con la correlación de Arturo Meza: 22 conceptos que te interpreto.</p></li>
+      <li><h3>Eliges tu horario</h3><p>Escoges el día y la hora que te acomoden entre los que te propongo.</p></li>
+      <li><h3>Tu siembra</h3><p>No es una interpretación: es la siembra de tu nombre. Tu nombre y los 22 conceptos de tu Tonalpohualli se siembran en tu mente. Tu sesión es en línea y dura 30 minutos. Comparto mi pantalla y te muestro directamente tu cálculo. Ten a la mano papel y lápiz o pluma.</p>
+        <div class="siembra"><p>Es mucha información valiosa y suele emocionar. Por eso la siembra va con pausas: me detengo para que me digas lo que piensas y lo que sientes antes de seguir.</p><div class="pausa-puntos" aria-hidden="true"><i></i><i></i><i></i></div></div></li>
+      <li><h3>Recibes tu formato en PDF</h3><p>Al inicio de la siembra te lo comparto, por si quieres revisarlo a la par conmigo. Trae el texto de tus 22 conceptos, con el nombre en náhuatl y su traducción al español de cada uno, y el sello del Códice Borgia: la imagen de tu signo y de tu acompañante.</p></li>
+    </ol>
+    <div class="cierre-proceso">
+      <p class="nota">Si después de tu siembra quieres ir más a fondo, lo platicamos.</p>
+      <div class="hero-cta-group" style="align-items:flex-start">
+        <a class="cta-btn" target="_blank" rel="noopener" href="https://wa.me/525643440676?text=Hola%20M%C3%A1zatl%2C%20quiero%20apartar%20mi%20siembra.">
+          <svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-message-circle"/></svg> Apartar mi siembra por WhatsApp
+        </a>
+        <p class="nota">¿Te recomendó alguien? Cuéntame quién en tu mensaje.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="formato">
+  <div class="wrap">
+    <div class="eyebrow">Tu formato</div>
+    <h2 class="sec-title">Así se ve <em>tu cálculo</em></h2>
+    <p class="sec-desc">Nombre en náhuatl, traducción al español y el sello del Códice Borgia de tu signo y tu acompañante.</p>
+    <div class="ej">
+      <figure class="sello">
+        <div class="sello-marco"><img src="img/07-mazatl.png" data-c="img/tonal/07-mazatl.png" alt="Sello del Códice Borgia: Mazatl" onerror="var c=this.dataset.c;if(c){this.dataset.c='';this.src=c}else this.closest('figure').remove()"></div>
+        <figcaption>Sello · Mazatl, Venado</figcaption>
+      </figure>
+      <dl>
+        <div class="fila"><dt>Rumbo</dt><dd>Tlahuiztlampa<small>Lugar del amanecer · Oriente · Amarillo</small></dd></div>
+        <div class="fila"><dt>Tezcatlipoca · Espejo</dt><dd>Quetzalcoatl<small>energía vital, la voz que nutre y da vida</small></dd></div>
+        <div class="fila"><dt>Numeral del día</dt><dd>3, Yei<small>equilibrio</small></dd></div>
+        <div class="fila"><dt>Signo del día</dt><dd>Mazatl<small>Venado</small></dd></div>
+        <div class="fila"><dt>Acompañante</dt><dd>Tlalocantecuhtli<small>señor del licor de la tierra: ímpetu, tenacidad, moldeamiento</small></dd></div>
+        <div class="fila"><dt>Veintena</dt><dd>Atemoztli<small>El descenso de las aguas</small></dd></div>
+      </dl>
+    </div>
+    <p class="nota ej-nota">Ejemplo: el tonal de Mázatl. Tu formato incluye los 22 conceptos de tu cálculo.</p>
+  </div>
+</section>
+
+<section class="section cta-final" id="cta-final">
+  <div class="wrap">
+    <h2 class="sec-title centrado">Porque tú no estás separado del <em>tiempo</em></h2>
+    <p class="cta-lema">Recuerda: tú eres tiempo.</p>
+    <ul class="ley" style="margin-top:34px">
+      <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> 30 min en línea · $250 MXN por persona</li>
+    </ul>
+    <div class="cta-final-acciones" style="margin-top:32px">
+      <a class="cta-btn" target="_blank" rel="noopener" href="https://wa.me/525643440676?text=Hola%20M%C3%A1zatl%2C%20quiero%20apartar%20mi%20siembra.">
+        <svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-message-circle"/></svg> Apartar mi siembra por WhatsApp
+      </a>
+      <p class="nota">¿Te recomendó alguien? Cuéntame quién en tu mensaje.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <img class="foot-venado" src="img/venado.png" width="437" height="525" loading="lazy" decoding="async" alt="" onerror="this.remove()">
+  <div>MÁZATL XAMAYARI</div>
+  <p class="foot-aviso">Mázatl Xamayari ofrece acompañamiento personal. No constituye terapia ni atención médica o psicológica. Los resultados varían de una persona a otra.</p>
+  <a class="foot-link" href="https://jesueugalde-ops.github.io/ADC-Docs/aviso-de-privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a>
+</footer>
+
+</body>
+</html>
