@@ -27,12 +27,11 @@
 .nav-venado{display:block;height:30px;width:auto}
 @media(max-width:560px){.nav-brand{font-size:10.5px!important;letter-spacing:.12em!important}.nav-venado{height:26px}}
 
-/* Hero: el venado ocupa el lugar de la foto */
-.hero-foto.venado{aspect-ratio:auto;display:grid;place-items:center;margin-right:0;position:relative}
-.hero-foto.venado::before{content:'';position:absolute;inset:6% 10%;background:radial-gradient(closest-side,rgba(201,168,76,.16),transparent 75%);pointer-events:none}
-.hero .hero-foto.venado img{position:relative;width:auto;height:min(440px,58vw);max-width:100%;object-fit:contain;-webkit-mask-image:none;mask-image:none;filter:drop-shadow(0 0 30px rgba(201,168,76,.22))}
-@media(max-width:900px){.hero-foto.venado{margin:0 auto 8px}.hero .hero-foto.venado img{height:min(200px,46vw)}}
-
+/* Hero: la Piedra del Sol ocupa el lugar de la foto */
+.hero-foto.piedra{aspect-ratio:auto;display:grid;place-items:center;margin-right:0;position:relative}
+.hero-foto.piedra::before{content:'';position:absolute;inset:0;background:radial-gradient(closest-side,rgba(201,168,76,.20),transparent 78%);pointer-events:none}
+.hero .hero-foto.piedra img{position:relative;width:min(500px,100%);height:auto;aspect-ratio:1/1;object-fit:contain;-webkit-mask-image:none;mask-image:none;filter:saturate(.92) drop-shadow(0 0 34px rgba(201,168,76,.28))}
+@media(max-width:900px){.hero-foto.piedra{margin:0 auto 8px;width:min(300px,78vw)}}
 .hero p.hero-def{font-size:19px;line-height:1.6;margin-top:18px;max-width:520px}
 @media(min-width:901px){.hero p.hero-def{margin-left:0}}
 
@@ -123,8 +122,8 @@
       </a>
     </div>
   </div>
-  <figure class="hero-foto venado">
-    <img src="img/venado.png" width="437" height="525" fetchpriority="high" decoding="async" alt="Venado, Mázatl Xamayari" onerror="this.closest('figure').remove()">
+  <figure class="hero-foto piedra">
+    <img src="img/piedra-del-sol.webp" width="800" height="800" fetchpriority="high" decoding="async" alt="Piedra del Sol, calendario azteca" onerror="this.closest('figure').remove()">
   </figure>
   <ul class="ley">
     <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg><span class="ley-t">Sesión en línea: 30&nbsp;min</span></li>
