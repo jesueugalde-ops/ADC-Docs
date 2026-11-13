@@ -359,8 +359,8 @@ const pt=(r,a)=>{const t=(a-90)*Math.PI/180;return[CX+r*Math.cos(t),CX+r*Math.si
 const arc=(r0,r1,a0,a1)=>{const A=pt(r1,a0),B=pt(r1,a1),C=pt(r0,a1),D=pt(r0,a0);return"M"+A+"A"+r1+" "+r1+" 0 0 1 "+B+"L"+C+"A"+r0+" "+r0+" 0 0 0 "+D+"Z"};
 function build(p){
  const min=p.hour*60+p.minute,v={y:p.year,m:p.month,d:p.day,min:min,reg:"c",man:false,nm:"",pl:""};
- O=calc(v);const an=ANC[O.P],m=mod(min-an,1440),G=m/18|0,r=m%18,im=G/4|0;
- const um=(r<=1||r>=16)?[G,mod(G+(r>=16?1:-1),80)]:null,on=x=>um?um.includes(x):x==G;
+ O=calc(v);O.um=null;O.notes=O.notes.filter(x=>!/umbral/i.test(x));const an=ANC[O.P],m=mod(min-an,1440),G=m/18|0,im=G/4|0;
+ const on=x=>x==G;
  let s="";
  for(let i=0;i<20;i++){const a0=i*18+.5,a1=(i+1)*18-.5,c=i==im?" on":"",q=pt(255,i*18+9);
   s+="<path class='im"+c+"' d='"+arc(240,270,a0,a1)+"'><title>Imantli "+(i+1)+": "+IM[i]+"</title></path><text class='imn"+c+"' x='"+q[0]+"' y='"+q[1]+"'>"+(i+1)+"</text>"}
@@ -372,7 +372,7 @@ function build(p){
  s+="<g id='mano'><line class='aguja' x1='"+a0[0]+"' y1='"+a0[1]+"' x2='"+a1[0]+"' y2='"+a1[1]+"'/><circle class='pivote' cx='"+a0[0]+"' cy='"+a0[1]+"' r='4'/></g>";
  g("rj").innerHTML=s;hand=g("mano");
  g("fecha").textContent=FD.format(new Date());
- g("cm").textContent=um?S[um[0]%20]+" ↔ "+S[um[1]%20]:S[G%20]+" · "+TR[G%20];
+ g("cm").textContent=S[G%20]+" · "+TR[G%20];
  g("ck").textContent="Hora · Imantli "+(im+1);g("ci").textContent=IM[im];
  const out=g("out");
  if(O.reinicio){out.innerHTML="<h2>El Tonalpohualli de este día</h2><div class=card><p class=warn>Este día cae en el cuarto de día de cierre y reinicio del año (Acatl bisiesto) y no está tabulado. Consúltalo con tu maestro.</p></div>";return}
