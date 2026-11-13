@@ -357,13 +357,57 @@ function strips(o){
  for(let i=0;i<18;i++)h+="<div class='"+(!o.nem&&i==o.v?"on":"")+"' title='"+VE[i][0]+"' style='flex:20'>"+(i+1)+"</div>";
  return h+"<div class='"+(o.nem?"on":"")+"' title='Nemontemi' style='flex:5'>N</div></div>"}
 function pdf(){const J=window.jspdf;if(!J){alert("No se pudo cargar el generador de PDF. Revisa tu conexión.");return}
- const d=new J.jsPDF({unit:"mm",format:"letter"}),PW=215.9;d.setFont("times","normal");d.setFontSize(16);d.text("Tonalpohualli",PW/2,16,{align:"center"});
- let y=24;const im=document.querySelector("#out img.tonal");
- /* sello del Códice Borgia (signo + acompañante) arriba del cálculo; si la imagen no cargó, el PDF sale sin él */
+ const d=new J.jsPDF({unit:"mm",format:"letter"}),PW=215.9,PH=279.4,ML=20,MR=20,LW=46,VX=ML+LW+4,VW=PW-MR-VX;
+ const ORO=[150,120,45],TXT=[28,28,28],GRIS=[112,112,106],TEN=[222,218,208];
+ const clean=s=>String(s).replace(/↔/g,"/").replace(/−/g,"-");
+ const col=(c,k)=>(k?d.setDrawColor:d.setTextColor).call(d,c[0],c[1],c[2]);
+ const sp=s=>clean(s).toUpperCase().split("").join(" ");
+ let y=18;
+ const need=h=>{if(y+h>PH-22){d.addPage();y=20}};
+ /* 1. Encabezado */
+ d.setFont("times","normal");d.setFontSize(17);col(ORO);d.text(sp("Tonalpohualli"),PW/2,y,{align:"center"});y+=4;
+ d.setLineWidth(.4);col(ORO,1);d.line(PW/2-22,y,PW/2+22,y);y+=7;
+ /* sello del Códice Borgia (si la imagen no cargó, el PDF sale sin él) */
+ const im=document.querySelector("#out img.tonal");
  try{if(im&&im.complete&&im.naturalWidth){const c=document.createElement("canvas");c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext("2d").drawImage(im,0,0);
-  const w=64,hh=w*im.naturalHeight/im.naturalWidth;d.addImage(c.toDataURL("image/png"),"PNG",(PW-w)/2,y,w,hh);y+=hh+9}}catch(e){}
- d.setFontSize(10.5);
- for(const l of d.splitTextToSize(LT.replace(/↔/g,"/").replace(/−/g,"-"),180)){if(y>270){d.addPage();y=18}d.text(l,15,y);y+=5.2}
+  const w=50,hh=w*im.naturalHeight/im.naturalWidth;d.addImage(c.toDataURL("image/png"),"PNG",(PW-w)/2,y,w,hh);y+=hh+8}}catch(e){}
+ /* 2. Grupos: mismo parseo que ficha() */
+ const gs=[];let g=null;
+ LT.split("\n").forEach(l=>{if(!l.trim()){g=null;return}if(l.startsWith("— "))return;
+  if(!g){g={h:"",r:[],n:[]};gs.push(g)}
+  if(l.startsWith("· ")){g.n.push(l.slice(2));return}
+  const m=l.match(/^([^:]+):\s(.*)$/);if(m)g.r.push([m[1],m[2]]);else g.h=l.replace(/:$/,"")});
+ /* 3. Bloque de identidad (primer grupo: nombre y fecha) */
+ if(gs[0]){const a=gs[0].r[0],b=gs[0].r[1];
+  if(a){d.setFont("times","bold");d.setFontSize(20);col(TXT);d.text(clean(a[1]),PW/2,y,{align:"center"});y+=6;
+   d.setFont("helvetica","normal");d.setFontSize(7.5);col(GRIS);d.text(sp(a[0]),PW/2,y,{align:"center"});y+=7}
+  if(b){d.setFont("times","italic");d.setFontSize(11);col(TXT);d.text(clean(b[1]),PW/2,y,{align:"center"});y+=4;
+   d.setFont("helvetica","normal");d.setFontSize(7.5);col(GRIS);d.text(sp(b[0]),PW/2,y+1,{align:"center"});y+=8}}
+ /* 4. Filas */
+ const row=(l,v)=>{let main=v,gl=[];
+  if(GLAB.includes(l)){const i=v.indexOf(" — ");if(i>=0){main=v.slice(0,i);gl=v.slice(i+3).split("  ·  ")}}
+  d.setFont("times","bold");d.setFontSize(11);const ml=d.splitTextToSize(clean(main),VW);
+  d.setFont("times","italic");d.setFontSize(9);const gls=gl.map(s=>d.splitTextToSize(clean(s),VW));
+  const h=ml.length*5+gls.reduce((a,x)=>a+x.length*4+1,0)+3;need(h);
+  d.setFont("helvetica","normal");d.setFontSize(7.2);col(GRIS);d.text(d.splitTextToSize(clean(l).toUpperCase(),LW).slice(0,2),ML,y+3.6,{lineHeightFactor:1.3});
+  d.setFont("times","bold");d.setFontSize(11);col(TXT);ml.forEach((t,i)=>d.text(t,VX,y+4+i*5));
+  let yy=y+4+(ml.length-1)*5+4.2;
+  d.setFont("times","italic");d.setFontSize(9);col(GRIS);
+  gls.forEach(x=>{x.forEach((t,i)=>d.text(t,VX,yy+i*4));yy+=x.length*4+1});
+  y+=h;d.setLineWidth(.15);col(TEN,1);d.line(ML,y-1.5,PW-MR,y-1.5)};
+ gs.slice(1).forEach(G=>{
+  if(G.h){need(24);y+=3;d.setFont("helvetica","bold");d.setFontSize(8.5);col(ORO);d.text(sp(G.h),ML,y);y+=2;
+   d.setLineWidth(.35);col(ORO,1);d.line(ML,y,PW-MR,y);y+=4}
+  G.r.forEach(r=>row(r[0],r[1]));
+  if(G.n.length){need(12);
+   d.setFont("times","normal");d.setFontSize(10);col(TXT);
+   G.n.forEach(x=>{const t=d.splitTextToSize(clean(x),PW-ML-MR-5);need(t.length*4.6+1);d.text("·",ML+1,y);t.forEach((s,i)=>d.text(s,ML+5,y+i*4.6));y+=t.length*4.6+1.5})}
+  y+=3});
+ /* 5. Pie en cada página */
+ const N=d.getNumberOfPages();
+ for(let p=1;p<=N;p++){d.setPage(p);d.setLineWidth(.3);col(ORO,1);d.line(ML,PH-16,PW-MR,PH-16);
+  d.setFont("times","italic");d.setFontSize(9.5);col(GRIS);d.text("Mázatl Xamayari",ML,PH-11);
+  d.setFont("helvetica","normal");d.setFontSize(7.5);d.text(p+" / "+N,PW-MR,PH-11,{align:"right"})}
  d.save("tonalpohualli.pdf")}
 /* Sello: primero img/NN-signo.png; si no está, img/tonal/NN-signo.png; si no, el nombre original de la captura; si no, se oculta */
 const OR=L("Cipaktli,Ehecatl,Calli,Cuetzpallin,Coatl,Miquiztli,Mazatl,Tochtli,Atl,Itzcuintli,Ozomahtli,Malinalli,Acatl,Ocelotl,Cuauhtli,Cozcacuauhtli,ollin,Tekpatl,Kiawitl,Xochitl");
