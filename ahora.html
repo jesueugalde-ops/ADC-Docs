@@ -376,7 +376,7 @@ function build(p){
  g("ck").textContent="Hora · Imantli "+(im+1);g("ci").textContent=IM[im];
  const out=g("out");
  if(O.reinicio){out.innerHTML="<h2>El Tonalpohualli de este día</h2><div class=card><p class=warn>Este día cae en el cuarto de día de cierre y reinicio del año (Acatl bisiesto) y no está tabulado. Consúltalo con tu maestro.</p></div>";return}
- const T=text(v,O,{n:0,z:0},true).split("\n").slice(3).join("\n").replace("Tu hora cae","La hora actual cae");
+ const T=text(v,O,{n:0,z:0},false).split("\n").slice(3).join("\n").replace("Tu hora cae","La hora actual cae");
  out.innerHTML="<h2>El Tonalpohualli de este día</h2><div class=card>"+ficha(T)+"</div>"}
 function tick(){
  const p=parts(),k=[p.year,p.month,p.day,p.hour,p.minute].join("-");if(k!==key){key=k;build(p)}
