@@ -97,6 +97,16 @@
 .pausa-cifra{display:block;font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-weight:500;font-size:clamp(46px,5vw,72px);line-height:1;color:#E8C97A}
 .pausa-cifra-txt{display:block;margin-top:10px;font-family:var(--sans,'Montserrat',system-ui,sans-serif);font-size:15px;line-height:1.55;color:#E9E1D0}
 .pausa-nota{display:block;margin-top:8px;font-family:var(--sans,'Montserrat',system-ui,sans-serif);font-size:13px;line-height:1.5;color:#8E8E8A}
+
+/* Puertas por perfil (v51) */
+.puertas-index .puertas-intro{text-align:center;font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-size:clamp(22px,3vw,30px);font-weight:300;line-height:1.25;margin:0 auto}
+.puertas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:26px 0 0}
+a.puerta{display:block;text-decoration:none;color:inherit;border:1px solid rgba(201,168,76,.28);border-radius:14px;padding:22px 22px 20px;background:rgba(255,255,255,.025);transition:border-color .2s,background .2s}
+a.puerta:hover,a.puerta:focus-visible{border-color:#E8C97A;background:rgba(201,168,76,.07)}
+.puerta-yo{display:block;font-family:var(--sans,'Montserrat',system-ui,sans-serif);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#E8C97A;margin-bottom:10px}
+.puerta-t{display:block;font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-size:23px;font-weight:400;line-height:1.2;margin:0 0 10px}
+.puerta-d{display:block;font-family:var(--sans,'Montserrat',system-ui,sans-serif);font-size:14.5px;line-height:1.6;color:#BBBBB6;margin:0 0 14px}
+.puerta-go{font-family:var(--sans,'Montserrat',system-ui,sans-serif);font-size:13.5px;color:#E8C97A;text-decoration:underline;text-underline-offset:4px}
 </style>
 <style id="def-foto-css">
 /* Definición + foto de sesión */
@@ -197,6 +207,19 @@
       </ul>
     <p class="hero-nota">¿Ya sabes qué te limita? <a href="https://calendly.com/jesueugalde/descubrimiento?utm_source=web-mx" target="_blank" rel="noopener">Agenda directo tu Sesión de Mapeo</a>.</p>
   
+  </section>
+
+  <!-- ═══ 1b. PUERTAS · elige tu camino ═══ -->
+  <section class="section section--compact puertas-index" id="puertas">
+    <div class="wrap">
+      <div class="eyebrow centrado"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Elige tu camino</div>
+      <p class="puertas-intro">Una página para cada momento: elige la que se parece a ti.</p>
+      <div class="puertas-grid">
+        <a class="puerta" href="https://jesueugalde-ops.github.io/ADC-Docs/landing-mx.html"><span class="puerta-yo">Soy persona o líder de familia</span><span class="puerta-t">¿Sientes que vas sin rumbo aunque por fuera todo funcione?</span><span class="puerta-d">Entiende cuál es realmente el problema y recupera tu camino.</span><span class="puerta-go">Ver mi página →</span></a>
+        <a class="puerta" href="https://jesueugalde-ops.github.io/ADC-Docs/agencias.html"><span class="puerta-yo">Soy Director de agencia</span><span class="puerta-t">Tu agencia depende de ti. Eso te hace lo más importante.</span><span class="puerta-d">Diseño contigo la experiencia de tu agencia: la tuya, la de tus gerentes, reclutadores y la de tus agentes.</span><span class="puerta-go">Ver mi página →</span></a>
+        <a class="puerta" href="https://jesueugalde-ops.github.io/ADC-Docs/agentes.html"><span class="puerta-yo">Soy agente de seguros</span><span class="puerta-t">Tu cartera solo crece cuando tú te mueves.</span><span class="puerta-d">Diseño contigo tu marca, tu servicio y tu ciclo de ventas.</span><span class="puerta-go">Ver mi página →</span></a>
+      </div>
+    </div>
   </section>
 
   <!-- ═══ 2. EXPERIENCIAS REALES · cinturón de resultados + 4 testimonios + ver más ═══ -->
@@ -361,7 +384,7 @@
         <div class="esc-radar">
           <svg id="rd" viewBox="-130 -130 260 260" role="group" aria-label="Radar de 12 áreas, ejemplo ilustrativo"></svg>
           <div class="rd-area idle" id="rd-area" aria-live="polite">Toca un punto para ver qué área mide</div>
-          <div class="rd-dims" role="group" aria-label="Dimensión del mapa">
+          <div class="rd-dims" role="group" aria-label="Dimensión del radar">
             <button type="button" class="on" data-dim="personal" aria-pressed="true">Personal</button>
             <button type="button" data-dim="profesional" aria-pressed="false">Profesional</button>
             <button type="button" data-dim="comercial" aria-pressed="false">Comercial</button>
@@ -377,7 +400,7 @@
             <li><span class="de">De relaciones que desgastan</span><span class="a">a vínculos donde puedes ser tú</span></li>
             <li><span class="de">De cargar lo que te daña</span><span class="a">a soltarlo sin pelearte contigo</span></li>
           </ul>
-          <p class="logro-cierre">Lo medimos en tu mapa de 12 áreas: lo que cambia se ve, no solo se siente.</p>
+          <p class="logro-cierre">Lo medimos en tu radar de 12 áreas: lo que cambia se ve, no solo se siente.</p>
         </div>
       </div>
     </div>
@@ -528,7 +551,7 @@
       <p class="sec-desc">No todos los procesos se midieron igual. Unos siguieron las 12 áreas a lo largo del tiempo, otros algunos indicadores y otros son solo experiencia vivida. Cada caso dice cuál es.</p>
       <div class="casos-grid">
         <article class="caso-card"><span class="caso-tag">Medido · 12 áreas</span><h4>Carlos</h4><div class="caso-meta">Director de agencia · 3.5 meses</div><p>Llegó con casi nada de producción y sin estructura. En 3.5 meses su promedio en 12 áreas de vida y trabajo pasó de 5.3 a 8.8. La comunicación subió de 4 a 9, la productividad de 4 a 9 y el amor propio de 5 a 9. En el camino tomó su propia decisión: dejar su agencia. Lo acompañé sin empujarlo hacia ningún lado. El éxito no siempre es vender más; a veces es recuperar tu vida. Satisfacción: 5/5.</p></article>
-        <article class="caso-card"><span class="caso-tag">Medido · 12 áreas</span><h4>Ernesto</h4><div class="caso-meta">Director que heredó su agencia · 12 semanas</div><p>Por fuera todo funcionaba; por dentro estaba desconectado de su rol. Su promedio en 12 indicadores pasó de 5.2 a 8.7, y el de los profesionales de 4.1 a 8.6. Cumplió el 91.6% de sus compromisos. Primero empeoró y luego mejoró: en la semana 4 habilidades clave de venta bajaron (de 3 a 2) antes de subir a 9 en la semana 12. Al revisar su cartera de clientes identificamos 16 oportunidades de Vida y GMM que no tenía proyectadas; 6 se cerraron durante el proceso (≈37%) y otras 5 seguían activas al terminar el servicio. Satisfacción: 4.95/5.</p></article>
+        <article class="caso-card"><span class="caso-tag">Medido · 12 áreas</span><h4>Ernesto</h4><div class="caso-meta">Director que heredó su agencia · 12 semanas</div><p>Por fuera todo funcionaba; por dentro estaba desconectado de su rol. Su promedio en 12 áreas pasó de 5.2 a 8.7, y el de los profesionales de 4.1 a 8.6. Cumplió el 91.6% de sus compromisos. Primero empeoró y luego mejoró: en la semana 4 habilidades clave de venta bajaron (de 3 a 2) antes de subir a 9 en la semana 12. Al revisar su cartera de clientes identificamos 16 oportunidades de Vida y GMM que no tenía proyectadas; 6 se cerraron durante el proceso (≈37%) y otras 5 seguían activas al terminar el servicio. Satisfacción: 4.95/5.</p></article>
       </div>
       <div id="casos-panel" hidden>
         <div class="casos-grid">
@@ -558,7 +581,7 @@
       <p class="sec-desc">Afinado sesión a sesión con generaciones de alumnos.</p>
 
       <h3 class="sub-seccion" style="margin-top:64px;">No hay un camino trazado: lo construimos en ciclos.</h3>
-      <div class="proceso-editorial-grid ciclo-af"><div class="paso-editorial"><div class="paso-num">1</div><h4>Mapeamos</h4><p>En tu Sesión de Mapeo ves lo que normalmente no puedes o evitas ver y decidimos por dónde empezar.</p></div><div class="paso-editorial"><div class="paso-num">2</div><h4>Identificamos</h4><p>De forma continua vemos qué te limita en tu pensamiento, tu identidad, tus relaciones, tus estrategias, tus decisiones y tus resultados.</p></div><div class="paso-editorial"><div class="paso-num">3</div><h4>Acuerdas y experimentas</h4><p>De cada hallazgo sale un acuerdo contigo mismo que pruebas en tu vida real: una nueva forma de vivirte y de desempeñarte.</p></div><div class="paso-editorial"><div class="paso-num">4</div><h4>Medimos y ajustamos</h4><p>Revisas tu mapa de 12 áreas como brújula. Lo que cambió ajusta el siguiente ciclo: el programa se arma sobre la marcha, a tu necesidad.</p></div></div>
+      <div class="proceso-editorial-grid ciclo-af"><div class="paso-editorial"><div class="paso-num">1</div><h4>Mapeamos</h4><p>En tu Sesión de Mapeo ves lo que normalmente no puedes o evitas ver y decidimos por dónde empezar.</p></div><div class="paso-editorial"><div class="paso-num">2</div><h4>Identificamos</h4><p>De forma continua vemos qué te limita en tu pensamiento, tu identidad, tus relaciones, tus estrategias, tus decisiones y tus resultados.</p></div><div class="paso-editorial"><div class="paso-num">3</div><h4>Acuerdas y experimentas</h4><p>De cada hallazgo sale un acuerdo contigo mismo que pruebas en tu vida real: una nueva forma de vivirte y de desempeñarte.</p></div><div class="paso-editorial"><div class="paso-num">4</div><h4>Medimos y ajustamos</h4><p>Revisas tu radar de 12 áreas como brújula. Lo que cambió ajusta el siguiente ciclo: el programa se arma sobre la marcha, a tu necesidad.</p></div></div>
       <details class="acordeon-item" style="margin-top:28px;"><summary class="acordeon-header">Herramientas que usamos según lo que aparezca en tu Mapeo</summary><div class="acordeon-body"><ul style="margin-left:18px;"><li><strong>Ideas e historia.</strong> Exploramos tus ideas, creencias y patrones: la arquitectura que hoy sostiene tus decisiones.</li><li><strong>Diseño de nuevos hábitos.</strong> Diseñamos hábitos saludables y un relacionamiento consciente, al ritmo real de tu día a día.</li><li><strong>Trabajar lo que más importa.</strong> Trabajamos las relaciones que más pesan, con personas y dinámicas reales.</li><li><strong>Atreverte a ver.</strong> Te acompaño a mirar lo que evitas o no has podido ver, a tu ritmo, con respeto y rigor.</li><li><strong>Estrategia y objetivos.</strong> Aclaramos tus metas y diseñamos la estrategia para ejecutarlas sin fricción.</li><li><strong>Medición que valida.</strong> Medimos tus resultados y progresos; la acción validada refuerza tu nueva identidad.</li></ul></div></details>
       <div class="franja franja--foto">
         <div class="franja-foto-frame">
@@ -611,7 +634,7 @@
         </div>
       </div>
 
-      <p class="sec-desc cierre-filtro">Si te reconociste, el siguiente paso no es otro libro ni otro retiro: <strong>es un mapa de 5 minutos</strong>, sin costo.</p>
+      <p class="sec-desc cierre-filtro">Si te reconociste, el siguiente paso no es otro libro ni otro retiro: <strong>es una Evaluación de 5 minutos</strong>, sin costo.</p>
       <div style="text-align:center;margin-top:18px;"><a href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html" class="cta-btn"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg> Hacer mi Evaluación</a></div>
     </div>
   </section>
@@ -710,7 +733,7 @@
         <div class="precio-card">
           <div>
             <div class="p-title">Reconexión</div>
-            <div class="p-price">$8,000 <span class="mxn">MXN</span></div>
+            <div class="p-price">$8,000 <span class="mxn">MXN + I.V.A.</span></div>
             <div class="p-sub"><s>$12,000 MXN</s> · precio especial</div>
             <div class="p-sub">7 sesiones 1:1 de 90 min</div>
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Para un momento difícil, una decisión o una limitante específica.</p>
@@ -723,7 +746,7 @@
         <div class="precio-card">
           <div>
             <div class="p-title">Innovación Humana Básica</div>
-            <div class="p-price">$12,000 <span class="mxn">MXN</span></div>
+            <div class="p-price">$12,000 <span class="mxn">MXN + I.V.A.</span></div>
             <div class="p-sub"><s>$18,000 MXN</s> · precio especial</div>
             <div class="p-sub">12 sesiones 1:1 de 90 min · 12 semanas</div>
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Para transformar tu vida a fondo con un proceso semanal y una inversión más accesible.</p>
@@ -737,7 +760,7 @@
           <div>
             <div class="p-title">Innovación Humana Profunda</div>
             <div class="p-sub">Arquitectura de Identidad</div>
-            <div class="p-price">$50,000 <span class="mxn">MXN</span></div>
+            <div class="p-price">$50,000 <span class="mxn">MXN + I.V.A.</span></div>
             <div class="p-sub">24 talleres 1:1 de 2 h · 4 meses</div>
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Re-arquitectura de tu identidad, hábitos, decisiones y relaciones, con tus blueprints en Miro.</p>
             <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
@@ -749,7 +772,7 @@
         <div class="precio-card">
           <div>
             <div class="p-title">A medida</div>
-            <div class="p-price"><span class="mxn desde">Desde</span>$75,000 <span class="mxn">MXN</span></div>
+            <div class="p-price"><span class="mxn desde">Desde</span>$75,000 <span class="mxn">MXN + I.V.A.</span></div>
             <div class="p-sub">Por aplicación · hasta 6 meses</div>
             <p style="font-family:var(--sans); font-size:14px; color:var(--gris-cl); margin-bottom:14px;">Programa intensivo diseñado contigo, con especialistas invitados. Puede incluir procesos presenciales.</p>
             <button type="button" class="link-casos p-incluye-btn" aria-expanded="false" data-open="Ver qué incluye" data-close="Ocultar" onclick="togglePlan(this)">+ Ver qué incluye</button>
@@ -762,7 +785,7 @@
       <p class="garantia"><strong>Garantía de satisfacción:</strong> después de cada sesión calificas del 1 al 10 qué tan útil te resultó. Si a partir de la semana 4 el promedio acumulado de tus calificaciones (mínimo 3) queda por debajo de 7.5/10 y cumpliste el 100% de tus actividades, acuerdos y compromisos, te devuelvo lo que hayas pagado y descontinuamos el servicio. La calificación mide cómo percibes cada sesión; garantiza ajuste y esfuerzo, no un resultado específico. Las condiciones completas están en tu Acuerdo de Servicio.</p>
 
       <div class="precios-notas">
-        <p>Precios en MXN para servicios <strong>online</strong>. Pago por anticipo o transferencias semanales o mensuales.</p>
+        <p>Precios en MXN, más I.V.A., para servicios <strong>online</strong>. Pago por anticipo o transferencias semanales o mensuales.</p>
         <p><strong>Precio especial:</strong> Reconexión e Innovación Humana Básica; vigente hasta el 31 de diciembre de 2026. La Sesión de Mapeo no tiene costo.</p>
       </div>
 
@@ -920,7 +943,7 @@ function toggleDolores(){var x=document.querySelectorAll('.dolor-extra');for(var
         Empieza con tu <strong>Evaluación</strong> (5 minutos por dimensión, gratis y privada: solo me la envías si quieres). Después, tu <strong>Sesión de Mapeo</strong> de 60 minutos: lees tu radar de 12 áreas, nombramos juntos lo que ves, sin juicio, y sales con una ruta a tu medida.
       </p>
       <ul class="ley">
-        <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> Sin costo, con 6 lugares nuevos cada semana. Llega con tu Mapa de 12 áreas hecho.</li>
+        <li><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> Sin costo, con 6 lugares nuevos cada semana. Llega con tu Evaluación hecha: tu radar de 12 áreas.</li>
       </ul>
 
       <div class="cta-final-acciones">
