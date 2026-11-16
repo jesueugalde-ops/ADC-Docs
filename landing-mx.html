@@ -111,7 +111,7 @@
 <style id="venado">.sello-venado{display:block;width:96px;height:auto;margin:28px 0 8px}.foot-venado{display:block;width:62px;height:auto;margin:0 auto 14px}</style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-rombo-mark" viewBox="0 0 24 24"><path d="M12 5 19 12 12 19 5 12Z" fill="currentColor" stroke="none"/></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-rombo-mark" viewBox="0 0 24 24"><path d="M12 5 19 12 12 19 5 12Z" fill="currentColor" stroke="none"/></symbol><symbol id="i-circle-x" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /></symbol><symbol id="i-circle-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" /></symbol><symbol id="i-circle-plus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="M8 12h8" /> <path d="M12 8v8" /></symbol><symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /></symbol></defs></svg>
 
 <nav class="nav">
   <a href="index.html" class="nav-brand" aria-label="Fer U, página principal">
@@ -146,18 +146,100 @@
 
 <div class="wrap lm-franja"><figure class="lm-foto" style="max-width:720px;margin:0 auto;aspect-ratio:3/2"><img src="img/dim-personal.webp" width="1100" height="733" loading="lazy" decoding="async" alt="Sesión personal 1 a 1 por videollamada: una alumna sonríe en la pantalla mientras Fer U la acompaña"></figure></div>
 
-<!-- 2 · Espejo -->
-<section class="section alt">
-  <div class="wrap">
-    <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Reconocerte</div>
-        <h2 class="sec-title">Quizá te suene <em>familiar</em></h2>
-    <div class="lm-espejo">
-      <div><h3>¿Te sientes sin rumbo?</h3><p>Sabes lo que quieres, pero no cómo llegar.</p></div>
-      <div><h3>¿Quieres saber de dónde viene el problema?</h3><p>Lo que se repite tiene un origen. Lo encontramos juntos.</p></div>
-      <div><h3>¿No sabes por dónde empezar?</h3><p>Por eso empezamos con tu radar de 12 áreas, y en el camino definimos el plan.</p></div>
-      <div><h3>¿Por qué no llega eso que quieres?</h3><p>Lo vemos juntos, sin juicio.</p></div>
+<!-- 2 · Filtro de elección -->
+<section class="section alt" id="para-mi">
+    <div class="wrap">
+      <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Filtro de Elección</div>
+      <h2 class="sec-title">¿Cómo sé si <em>Fer U</em> es para mí?</h2>
+      <p class="sec-desc">Ya hiciste terapia. Ya probaste otras formas de estar mejor. Y sigues volviendo al mismo lugar. Lo que ves afuera es <strong>el reflejo de una estructura interna</strong> que aún no has mirado de frente.</p>
+      <p class="sec-desc filtro-lead">Seguramente ya tienes una explicación:</p>
+
+      <ul class="dolores">
+        <li><span class="dolor">Una relación que no funciona</span><span class="creencia">“Es tóxica; el problema es esa persona.”</span></li>
+        <li><span class="dolor">Reaccionas siempre igual</span><span class="creencia">“Así soy yo: ansioso, explosivo, frío.”</span></li>
+        <li><span class="dolor">Una máscara que ya pesa</span><span class="creencia">“Estoy bien; nadie tiene por qué saberlo.”</span></li>
+        <li><span class="dolor">Un dolor que no se va</span><span class="creencia">“Ya debería haberlo superado.”</span></li>
+        <li><span class="dolor">Estrés que ya normalizaste</span><span class="creencia">“Es el precio de la vida que construí.”</span></li>
+        <li><span class="dolor">Hábitos que te dañan</span><span class="creencia">“Son solo mi válvula de escape.”</span></li>
+        <li class="dolor-extra" id="dolor-extra-1" hidden><span class="dolor">Un equipo que no responde</span><span class="creencia">“Es su falta de capacidad o de responsabilidad.”</span></li>
+        <li class="dolor-extra" id="dolor-extra-2" hidden><span class="dolor">Ventas que no despegan</span><span class="creencia">“Es el mercado, o mis clientes no tienen dinero.”</span></li>
+      </ul>
+      <div class="dolores-toggle" style="text-align:center;margin:14px 0 6px;"><button type="button" class="btn-secundario" id="dolores-btn" aria-expanded="false" aria-controls="dolor-extra-1 dolor-extra-2" onclick="toggleDolores()"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-plus"/></svg> ¿Diriges un equipo o un negocio?</button></div>
+      <p class="sec-desc dolores-cierre"><span class="pico">Cada explicación cubre una parte. <span class="concepto">Ninguna explica por qué se repite.</span></span></p>
+
+      <div class="editorial-fit-container">
+        <div class="fit-column no">
+          <h3>No es para ti si...</h3>
+          <ul class="fit-list">
+            <li>Quieres que otro te diga qué hacer, en vez de construir tu propio criterio.</li>
+            <li>Necesitas que todo sea cómodo: aquí se nombra, con respeto, lo que incomoda.</li>
+            <li>Necesitas atención clínica ahora: esto no sustituye la terapia, la psiquiatría ni la atención de emergencia.</li>
+          </ul>
+        </div>
+        <div class="fit-column si">
+          <h3>Es para ti si...</h3>
+          <ul class="fit-list">
+            <li>Has logrado y has perdido, y para volver a lograrlo toca aclarar qué importa de verdad.</li>
+            <li>Sabes hacia dónde vas, pero te falta el sistema interno para sostenerlo.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="sec-desc cierre-filtro">Si te reconociste, el siguiente paso no es otro libro ni otro retiro: <strong>es una Evaluación Espejo de 5 minutos</strong>, sin costo.</p>
+      <div style="text-align:center;margin-top:18px;"><a href="https://jesueugalde-ops.github.io/ADC-Docs/mapa.html" class="cta-btn"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg> Hacer mi Evaluación Espejo</a></div>
     </div>
-    <p class="lm-cierra">Si te reconociste en alguna, esto es para ti.</p>
+  </section>
+
+<!-- 3 · Definición -->
+<section class="section" id="definicion">
+  <div class="wrap">
+    <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Definición</div>
+    <h2 class="sec-title">¿Qué es <em>Innovación Humana</em>?</h2>
+    <div class="editorial-def-grid">
+        <div class="editorial-lead">
+          Un ciclo de autoconocimiento, transformación y reinvención personal, acompañado de principio a fin.
+        </div>
+        <div class="editorial-body-text">
+          <p><strong>Lo nuevo se experimenta dentro de un espacio seguro</strong>, para que tu cerebro consolide patrones nuevos.</p>
+        </div>
+      </div>
+    <div class="match-table-editorial">
+        <div class="match-row-editorial">
+          <div class="match-col-editorial no">
+            <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-x"/></svg> No es</span>
+            <p><strong>Terapia clínica</strong> — no diagnostica ni la sustituye; cuando hace falta, trabajamos en paralelo con un profesional</p>
+          </div>
+          <div class="match-col-editorial si">
+            <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> Sí es</span>
+            <p><span class="concepto">Un camino propio</span> — entiendes de dónde viene el problema, decides desde ti y redefines tu origen</p>
+          </div>
+        </div>
+        <div class="match-row-editorial">
+          <div class="match-col-editorial no">
+            <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-x"/></svg> No es</span>
+            <p><strong>Coaching motivacional</strong> — no trabaja sobre el ánimo ni metas efímeras</p>
+          </div>
+          <div class="match-col-editorial si">
+            <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> Sí es</span>
+            <p><span class="concepto">Diseño y medición</span> — mapas, acción continua y decisiones validadas</p>
+          </div>
+        </div>
+        <div class="match-row-editorial">
+          <div class="match-col-editorial no">
+            <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-x"/></svg> No es</span>
+            <p><strong>Una fórmula genérica</strong> de bienestar</p>
+          </div>
+          <div class="match-col-editorial si">
+            <span class="match-label"><svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-circle-check"/></svg> Sí es</span>
+            <p><span class="concepto">Un camino único</span> sobre una estructura constante, respaldada por 14 años de campo</p>
+          </div>
+        </div>
+      </div>
+    <details class="acordeon-item" style="margin-top:26px"><summary class="acordeon-header">Qué es y qué no es: el alcance del servicio</summary><div class="acordeon-body">
+        <h3>Qué es y qué no es</h3>
+        <p>Innovación Humana es acompañamiento personal y profesional uno a uno. No soy psicólogo, psiquiatra, médico ni otro profesional de la salud con licencia. No diagnostico ni trato ninguna condición, y no receto, cambio ni opino sobre medicación. Mi servicio no sustituye la terapia, la psiquiatría ni la atención médica. Si trabajas con un profesional con licencia, con gusto trabajo en paralelo, con tu consentimiento. Los resultados varían de una persona a otra.</p>
+        <p>Si estás en crisis, llama a la Línea de la Vida (800 911 2000, las 24 horas) o a tu número local de emergencias.</p>
+      </div></details>
   </div>
 </section>
 
@@ -209,13 +291,6 @@
       <figure class="lm-foto" style="aspect-ratio:3/2"><img src="img/metodo-pizarra.webp" width="1600" height="1066" loading="lazy" decoding="async" alt="Fer U explicando el diagrama Ikigai en un pizarrón mientras un participante trabaja en su laptop"></figure>
       <div class="proceso-editorial-grid g4"><div class="paso-editorial"><div class="paso-num">1</div><h4>Mapeamos</h4><p>En tu Sesión de Mapeo ves lo que normalmente no puedes o evitas ver y decidimos por dónde empezar.</p></div><div class="paso-editorial"><div class="paso-num">2</div><h4>Identificamos</h4><p>De forma continua vemos qué te limita en tu pensamiento, tu identidad, tus relaciones, tus estrategias, tus decisiones y tus resultados.</p></div><div class="paso-editorial"><div class="paso-num">3</div><h4>Acuerdas y experimentas</h4><p>De cada hallazgo sale un acuerdo contigo mismo que pruebas en tu vida real: una nueva forma de vivirte y de desempeñarte.</p></div><div class="paso-editorial"><div class="paso-num">4</div><h4>Medimos y ajustamos</h4><p>Revisas tu radar de 12 áreas como brújula. Lo que cambió ajusta el siguiente ciclo: el programa se arma sobre la marcha, a tu necesidad.</p></div></div>
       <p class="lm-frase">Es autoconocimiento, intención y acción continua: cómo piensas, cómo te ves y cuánta autonomía tienes para decidir. Tu realidad cambia porque cambia tu forma de ser, de pensar, de relacionarte y de decidir.</p>
-      <p><b>Entre sesiones, dos minutos al día</b> (bitácora opcional en Innovación Humana Básica y Profunda):</p>
-      <ul>
-        <li>Calificas qué tan útil fue tu sesión.</li>
-        <li>Cierras tus acuerdos con un color: cumplido, pospuesto o no cumplido. Lo pospuesto no se pierde: se vuelve a acordar, sin deuda.</li>
-        <li>Dejas una línea para mí sobre lo esencial de tu día.</li>
-        <li>Con el tiempo tu palabra se vuelve visible: ves cuánto cumples lo que te prometes, y así se fortalecen tu honorabilidad y tu dignidad.</li>
-      </ul>
       <p class="lm-frase">Tú y yo guiamos el proceso. Nadie te entrega un camino hecho.</p>
     </div></details>
     <details class="acordeon-item"><summary class="acordeon-header">Servicios: elige según tu momento</summary><div class="acordeon-body">
@@ -245,6 +320,7 @@
         <div class="eyebrow"><svg class="lucide-icon icon-inline" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rombo-mark"/></svg> Acompañamiento &amp; Guía</div>
         <h2 class="sec-title">Soy <em>Fer U</em></h2>
         <p class="sec-desc">Emprendí 18 veces, gané y perdí todo, y aun así no podía habitar mi propia piel con gusto. Lo que me cambió no fue otro logro: fue volver al origen. Hoy te acompaño a recorrer tu camino, sin atajos y sin empujarte hacia ningún lado.</p>
+        <p class="lm-cred">Desde 2008 invierto y trabajo en mí mismo: logré experimentar y transformar mi humanidad y mis relaciones.</p>
         <p class="lm-cred">14 años de campo y un método afinado con generaciones de alumnos.</p>
         <img class="sello-venado" src="img/logo-venado.webp" width="438" height="526" loading="lazy" decoding="async" alt="Venado geométrico, logotipo de Fer U">
         <img class="lm-firma" src="img/firma-feru.webp" loading="lazy" decoding="async" alt="Firma de Fer U">
@@ -284,5 +360,6 @@ document.getElementById('rail-prev').addEventListener('click',function(){step(-1
 document.getElementById('rail-next').addEventListener('click',function(){step(1)});
 })();
 </script>
+<script>function toggleDolores(){var x=document.querySelectorAll('.dolor-extra');for(var i=0;i<x.length;i++)x[i].removeAttribute('hidden');var b=document.getElementById('dolores-btn');if(b){b.setAttribute('aria-expanded','true');b.parentNode.style.display='none';}}</script>
 </body>
 </html>
