@@ -15,12 +15,11 @@
 <meta property="og:site_name" content="Tonalpohualli · Mázatl Xamayari">
 <meta property="og:title" content="Calculadora del Tonalpohualli · Mapa del Ihiyotl">
 <meta property="og:description" content="Tu signo, tu numeral, tu rumbo y tus señores del día y de la noche, con la correlación de Arturo Meza.">
-<meta property="og:image" content="https://jesueugalde-ops.github.io/ADC-Docs/img/piedra-del-sol.webp">
-<meta property="og:image:type" content="image/webp">
-<meta property="og:image:width" content="800">
-<meta property="og:image:height" content="800">
-<meta property="og:image:alt" content="Piedra del Sol, calendario azteca">
-<meta name="twitter:image" content="https://jesueugalde-ops.github.io/ADC-Docs/img/piedra-del-sol.webp">
+<meta property="og:image" content="https://jesueugalde-ops.github.io/ADC-Docs/img/og-tonalpohualli.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mictlantecuhtli y Ehécatl-Quetzalcóatl, dualidad del Códice Borgia">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -325,13 +324,12 @@ function text(v,o,man,full){
  if(o.notes.length){l.push("","Notas:");o.notes.forEach(x=>l.push("· "+x))}
  return l.join("\n")}
 /*UI*/
-const $=i=>document.getElementById(i),W="525644430676";let LT="",LTc="";
+const $=i=>document.getElementById(i);let LT="";
 (function(){$("dd").innerHTML="<option value=''>Día</option>"+Array.from({length:31},(_,i)=>"<option>"+(i+1)+"</option>").join("");
 $("mm").innerHTML="<option value=''>Mes</option>"+MES.map((x,i)=>"<option value="+(i+1)+">"+x[0].toUpperCase()+x.slice(1)+"</option>").join("");
 let h="<option value=''>Año</option>";for(let a=new Date().getFullYear();a>=1900;a--)h+="<option>"+a+"</option>";$("yy").innerHTML=h})();
-const wa=t=>"https://wa.me/"+W+"?text="+encodeURIComponent(t).replace(/'/g,"%27");
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-/* Ficha: convierte el mismo texto LT (el que va a WhatsApp y al PDF) en grupos legibles. No calcula nada. */
+/* Ficha: convierte el mismo texto LT (el mismo que va al PDF) en grupos legibles. No calcula nada. */
 const GLAB=["Tezcatlipoca – Espejo","Hora","Acompañante","Acompañante interno","Señor del día externo","Señor de la noche"];
 function dd(l,x){const i=GLAB.includes(l)?x.indexOf(" — "):-1;if(i<0)return esc(x);
  return esc(x.slice(0,i))+x.slice(i+3).split("  ·  ").map(s=>"<small class=gl>"+esc(s)+"</small>").join("")}
@@ -357,59 +355,85 @@ function strips(o){
  h+="<h2>Mapa del Ihiyotl · tu lugar en el año</h2><div class=strip>";
  for(let i=0;i<18;i++)h+="<div class='"+(!o.nem&&i==o.v?"on":"")+"' title='"+VE[i][0]+"' style='flex:20'>"+(i+1)+"</div>";
  return h+"<div class='"+(o.nem?"on":"")+"' title='Nemontemi' style='flex:5'>N</div></div>"}
-function pdf(){const J=window.jspdf;if(!J){alert("No se pudo cargar el generador de PDF. Revisa tu conexión.");return}
- const d=new J.jsPDF({unit:"mm",format:"letter"}),PW=215.9,PH=279.4,ML=20,MR=20,LW=46,VX=ML+LW+4,VW=PW-MR-VX;
- const ORO=[150,120,45],TXT=[28,28,28],GRIS=[112,112,106],TEN=[222,218,208];
- const clean=s=>String(s).replace(/↔/g,"/").replace(/−/g,"-");
- const col=(c,k)=>(k?d.setDrawColor:d.setTextColor).call(d,c[0],c[1],c[2]);
- const sp=s=>clean(s).toUpperCase().split("").join(" ");
- let y=18;
- const need=h=>{if(y+h>PH-22){d.addPage();y=20}};
- /* 1. Encabezado */
- d.setFont("times","normal");d.setFontSize(17);col(ORO);d.text(sp("Tonalpohualli"),PW/2,y,{align:"center"});y+=4;
- d.setLineWidth(.4);col(ORO,1);d.line(PW/2-22,y,PW/2+22,y);y+=7;
- /* sello del Códice Borgia (si la imagen no cargó, el PDF sale sin él) */
- const im=document.querySelector("#out img.tonal");
- try{if(im&&im.complete&&im.naturalWidth){const c=document.createElement("canvas");c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext("2d").drawImage(im,0,0);
-  const w=50,hh=w*im.naturalHeight/im.naturalWidth;d.addImage(c.toDataURL("image/png"),"PNG",(PW-w)/2,y,w,hh);y+=hh+8}}catch(e){}
- /* 2. Grupos: mismo parseo que ficha() */
- const gs=[];let g=null;
- LT.split("\n").forEach(l=>{if(!l.trim()){g=null;return}if(l.startsWith("— "))return;
+/* ═══ PDF · pensado para imprimir ═══
+   Fondo blanco (cero tinta de relleno) · un solo tono de oro oscuro · Times estándar de jsPDF (sin fuentes incrustadas)
+   Usa el mismo texto LT que la ficha en pantalla. No calcula nada. */
+function buildPdf(J,txt,img){
+ const d=new J.jsPDF({unit:"mm",format:"letter"}),PW=215.9,PH=279.4,M=20,X2=PW-M,VX=66,VW=X2-VX,TOP=18,BOT=PH-24;
+ const ORO=[140,109,31],TINTA=[28,28,28],GRIS=[105,105,105],LINEA=[218,214,203];
+ const tc=c=>d.setTextColor(c[0],c[1],c[2]),dc=c=>d.setDrawColor(c[0],c[1],c[2]),
+  LH=s=>s*.3528*1.38,                       /* alto de línea en mm para un cuerpo en pt */
+  fnt=(st,s,c)=>{d.setFont("times",st);d.setFontSize(s);tc(c)},
+  /* texto con espaciado entre letras, letra por letra (no depende de charSpace) */
+  trk=(s,x,y,cs,al)=>{const a=[...s],cw=a.map(c=>d.getTextWidth(c)),w=cw.reduce((p,q)=>p+q,0)+cs*(a.length-1);let px=al=="c"?x-w/2:x;a.forEach((c,i)=>{d.text(c,px,y);px+=cw[i]+cs})};
+ let y=TOP;
+ const pg=()=>{d.addPage();y=TOP},
+  need=h=>{if(y+h>BOT)pg()};
+
+ /* ── Parseo: mismo criterio que ficha() ── */
+ const GLAB=["Tezcatlipoca – Espejo","Hora","Acompañante","Acompañante interno","Señor del día externo","Señor de la noche"],gs=[];let g=null;
+ String(txt).replace(/↔/g,"/").replace(/−/g,"-").split("\n").forEach(l=>{
+  if(!l.trim()){g=null;return}
+  if(l.startsWith("— "))return;
   if(!g){g={h:"",r:[],n:[]};gs.push(g)}
   if(l.startsWith("· ")){g.n.push(l.slice(2));return}
-  const m=l.match(/^([^:]+):\s(.*)$/);if(m)g.r.push([m[1],m[2]]);else g.h=l.replace(/:$/,"")});
- /* 3. Bloque de identidad (primer grupo: nombre y fecha) */
- if(gs[0]){const a=gs[0].r[0],b=gs[0].r[1];
-  if(a){d.setFont("times","bold");d.setFontSize(20);col(TXT);d.text(clean(a[1]),PW/2,y,{align:"center"});y+=6;
-   d.setFont("helvetica","normal");d.setFontSize(7.5);col(GRIS);d.text(sp(a[0]),PW/2,y,{align:"center"});y+=7}
-  if(b){d.setFont("times","italic");d.setFontSize(11);col(TXT);d.text(clean(b[1]),PW/2,y,{align:"center"});y+=4;
-   d.setFont("helvetica","normal");d.setFontSize(7.5);col(GRIS);d.text(sp(b[0]),PW/2,y+1,{align:"center"});y+=8}}
- /* 4. Filas */
- const row=(l,v)=>{let main=v,gl=[];
-  if(GLAB.includes(l)){const i=v.indexOf(" — ");if(i>=0){main=v.slice(0,i);gl=v.slice(i+3).split("  ·  ")}}
-  d.setFont("times","bold");d.setFontSize(11);const ml=d.splitTextToSize(clean(main),VW);
-  d.setFont("times","italic");d.setFontSize(9);const gls=gl.map(s=>d.splitTextToSize(clean(s),VW));
-  const h=ml.length*5+gls.reduce((a,x)=>a+x.length*4+1,0)+3;need(h);
-  d.setFont("helvetica","normal");d.setFontSize(7.2);col(GRIS);d.text(d.splitTextToSize(clean(l).toUpperCase(),LW).slice(0,2),ML,y+3.6,{lineHeightFactor:1.3});
-  d.setFont("times","bold");d.setFontSize(11);col(TXT);ml.forEach((t,i)=>d.text(t,VX,y+4+i*5));
-  let yy=y+4+(ml.length-1)*5+4.2;
-  d.setFont("times","italic");d.setFontSize(9);col(GRIS);
-  gls.forEach(x=>{x.forEach((t,i)=>d.text(t,VX,yy+i*4));yy+=x.length*4+1});
-  y+=h;d.setLineWidth(.15);col(TEN,1);d.line(ML,y-1.5,PW-MR,y-1.5)};
- gs.slice(1).forEach(G=>{
-  if(G.h){need(24);y+=3;d.setFont("helvetica","bold");d.setFontSize(8.5);col(ORO);d.text(sp(G.h),ML,y);y+=2;
-   d.setLineWidth(.35);col(ORO,1);d.line(ML,y,PW-MR,y);y+=4}
-  G.r.forEach(r=>row(r[0],r[1]));
-  if(G.n.length){need(12);
-   d.setFont("times","normal");d.setFontSize(10);col(TXT);
-   G.n.forEach(x=>{const t=d.splitTextToSize(clean(x),PW-ML-MR-5);need(t.length*4.6+1);d.text("·",ML+1,y);t.forEach((s,i)=>d.text(s,ML+5,y+i*4.6));y+=t.length*4.6+1.5})}
-  y+=3});
- /* 5. Pie en cada página */
+  const m=l.match(/^([^:]+):\s(.*)$/);
+  if(m)g.r.push([m[1],m[2]]);else g.h=l.replace(/:$/,"")});
+
+ /* ── Encabezado ── */
+ dc(ORO);d.setLineWidth(.5);d.line(M,y,X2,y);y+=11;
+ fnt("normal",20,TINTA);trk("TONALPOHUALLI",PW/2,y,3.4,"c");y+=7;
+ fnt("italic",11,ORO);d.text("Mapa del Ihiyotl",PW/2,y,{align:"center"});y+=7;
+
+ /* ── Sello del Códice Borgia (si cargó) ── */
+ if(img){const mh=46,mw=46;let w=mw,h=w*img.h/img.w;if(h>mh){h=mh;w=h*img.w/img.h}
+  d.addImage(img.u,"PNG",(PW-w)/2,y,w,h);y+=h+8}
+
+ /* ── Identidad: nombre y aliento, centrados ── */
+ const id=gs.length&&!gs[0].h?gs.shift():null;
+ if(id){id.r.forEach((r,i)=>{
+   fnt("normal",7.5,ORO);trk(r[0].toUpperCase(),PW/2,y,1.4,"c");y+=LH(i?11:17)*.82;
+   if(i==0)fnt("normal",17,TINTA);else fnt("normal",11,GRIS);
+   d.splitTextToSize(r[1],X2-M).forEach(s=>{d.text(s,PW/2,y,{align:"center"});y+=LH(i?11:17)});y+=2.2});
+  y+=1;dc(ORO);d.setLineWidth(.2);d.line(PW/2-14,y,PW/2+14,y);y+=8}
+
+ /* ── Fila: etiqueta | valor + glosa ── */
+ const row=(lab,val,dry)=>{
+  let main=val,gl=[];const i=GLAB.includes(lab)?val.indexOf(" — "):-1;
+  if(i>=0){main=val.slice(0,i);gl=val.slice(i+3).split("  ·  ")}
+  d.setFont("times","normal");d.setFontSize(10.5);const ml=d.splitTextToSize(main,VW);
+  d.setFontSize(8.5);const ll=d.splitTextToSize(lab,VX-M-5);
+  d.setFont("times","italic");d.setFontSize(8.5);const gls=gl.map(s=>d.splitTextToSize(s,VW));
+  const hv=ml.length*LH(10.5)+gls.reduce((p,q)=>p+q.length*LH(8.5)+.9,0),h=Math.max(ll.length*LH(8.5),hv)+3.2;
+  if(dry)return h;
+  need(h);let yy=y+1.4+10.5*.3528;
+  fnt("normal",10.5,TINTA);ml.forEach(s=>{d.text(s,VX,yy);yy+=LH(10.5)});
+  fnt("italic",8.5,GRIS);gls.forEach(q=>{yy+=.9;q.forEach(s=>{d.text(s,VX,yy);yy+=LH(8.5)})});
+  fnt("normal",8.5,ORO);let ly=y+1.4+8.5*.3528+.6;ll.forEach(s=>{d.text(s,M,ly);ly+=LH(8.5)});
+  y+=h;return h};
+ const sep=()=>{dc(LINEA);d.setLineWidth(.15);d.line(M,y-1.2,X2,y-1.2)};
+
+ /* ── Grupos ── */
+ gs.forEach(G=>{
+  const hh=G.h?10:0;d.setFont("times","italic");d.setFontSize(8.5);
+  const nl=G.n.map(x=>d.splitTextToSize(x,X2-M-5)),nh=nl.reduce((p,q)=>p+q.length*LH(8.5)+1,0);
+  const tot=hh+G.r.reduce((p,r)=>p+row(r[0],r[1],1),0)+nh;
+  if(tot<BOT-TOP)need(tot);else if(G.h)need(hh+18);
+  if(G.h){fnt("normal",8.5,ORO);trk(G.h.toUpperCase(),M,y+2.6,1.4);y+=5.4;dc(ORO);d.setLineWidth(.3);d.line(M,y,X2,y);y+=3.2}
+  G.r.forEach((r,i)=>{row(r[0],r[1]);if(i<G.r.length-1)sep()});
+  if(nl.length){fnt("italic",8.5,GRIS);nl.forEach(q=>{need(q.length*LH(8.5)+1);d.text("·",M,y+3);q.forEach(s=>{d.text(s,M+5,y+3);y+=LH(8.5)});y+=1})}
+  y+=6});
+
+ /* ── Pie de página en todas las hojas ── */
  const N=d.getNumberOfPages();
- for(let p=1;p<=N;p++){d.setPage(p);d.setLineWidth(.3);col(ORO,1);d.line(ML,PH-16,PW-MR,PH-16);
-  d.setFont("times","italic");d.setFontSize(9.5);col(GRIS);d.text("Mázatl Xamayari",ML,PH-11);
-  d.setFont("helvetica","normal");d.setFontSize(7.5);d.text(p+" / "+N,PW-MR,PH-11,{align:"right"})}
- d.save("tonalpohualli.pdf")}
+ for(let p=1;p<=N;p++){d.setPage(p);dc(LINEA);d.setLineWidth(.2);d.line(M,PH-17,X2,PH-17);
+  fnt("normal",8,GRIS);d.text("Mázatl Xamayari · Tonalpohualli · correlación de Arturo Meza",M,PH-12);d.text(p+" / "+N,X2,PH-12,{align:"right"})}
+ return d}
+function pdf(){const J=window.jspdf;if(!J){alert("No se pudo cargar el generador de PDF. Revisa tu conexión.");return}
+ let img=null;const im=document.querySelector("#out img.tonal");
+ /* sello del Códice Borgia (signo + acompañante); si la imagen no cargó, el PDF sale sin él */
+ try{if(im&&im.complete&&im.naturalWidth){const c=document.createElement("canvas");c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext("2d").drawImage(im,0,0);img={u:c.toDataURL("image/png"),w:im.naturalWidth,h:im.naturalHeight}}}catch(e){}
+ buildPdf(J,LT,img).save("tonalpohualli.pdf")}
 /* Sello: primero img/NN-signo.png; si no está, img/tonal/NN-signo.png; si no, el nombre original de la captura; si no, se oculta */
 const OR=L("Cipaktli,Ehecatl,Calli,Cuetzpallin,Coatl,Miquiztli,Mazatl,Tochtli,Atl,Itzcuintli,Ozomahtli,Malinalli,Acatl,Ocelotl,Cuauhtli,Cozcacuauhtli,ollin,Tekpatl,Kiawitl,Xochitl");
 function tfb(e){const c=(e.dataset.c||"").split("|").filter(Boolean),n=c.shift();if(!n){e.remove();return}e.dataset.c=c.join("|");e.src=n}
@@ -423,12 +447,12 @@ function run(){
  const o=calc(v);
  if(o.reinicio){out.innerHTML="<h2 class=tit>Tu Tonalpohualli</h2><div class=card><p class=warn>Ese día cae en el cuarto de día de cierre y reinicio del año (Acatl bisiesto) y no está tabulado. Consúltalo con tu maestro.</p></div>";return}
  const man={n:+($("mnum")&&$("mnum").value)||0,z:+($("mnoc")&&$("mnoc").value)||0};
- LT=text(v,o,man,true)+"\n\n— Mázatl Xamayari";LTc=text(v,o,man,false)+"\n\n— Mázatl Xamayari";
+ LT=text(v,o,man,true)+"\n\n— Mázatl Xamayari";
  const fn=String(o.s+1).padStart(2,"0")+"-"+S[o.s].toLowerCase()+".png",img="img/"+fn,alt=["img/tonal/"+fn,"img/"+OR[o.s]+".png"].join("|");
  let h="<h2 class=tit>Tu Tonalpohualli</h2><div class=card><img class=tonal src='"+img+"' data-c='"+alt+"' alt='"+S[o.s]+"' onerror='tfb(this)'>"+ficha(LT)+"</div>";
  if(o.nem){const op=(n,s)=>"<option value=''>—</option>"+Array.from({length:n},(_,i)=>"<option value="+(i+1)+(s==i+1?" selected":"")+">"+(i+1)+"</option>").join("");
   h+="<div class=card><div class=g><div><label for=mnum>Numeral dictado (1–13)</label><select id=mnum>"+op(13,man.n)+"</select></div><div><label for=mnoc>Señor de la Noche dictado (1–9)</label><select id=mnoc>"+op(9,man.z)+"</select></div></div></div>"}
- h+=strips(o)+"<div class=btns><a class=cta-btn target=_blank rel=noopener href='"+wa("Hola Mázatl, "+(v.nm?"soy "+v.nm+" y ":"")+"quiero agendar la siembra de mi nombre y mi Tonalpohualli.")+"'>Agendar mi siembra</a><a class=btn-secundario target=_blank rel=noopener href='"+wa(LTc)+"'>Enviar por WhatsApp</a><button id=pf class=btn-secundario type=button>Crear PDF</button></div><p class=nota>La siembra se agenda por WhatsApp. Se pide una ofrenda económica como intercambio.</p>";
+ h+=strips(o)+"<div class=btns><button id=pf class=btn-secundario type=button>Crear PDF</button></div>";
  out.innerHTML=h;$("pf").onclick=pdf;
  ["mnum","mnoc"].forEach(i=>$(i)&&$(i).addEventListener("change",()=>{$("out").classList.remove("nuevo");run()}))}
 $("go").onclick=()=>{const o=$("out");o.classList.remove("nuevo");run();void o.offsetWidth;o.classList.add("nuevo")};
