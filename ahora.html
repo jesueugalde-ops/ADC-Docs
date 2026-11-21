@@ -159,24 +159,57 @@ h2::before{content:'';flex:none;width:34px;height:1px;background:linear-gradient
 
 /* ═══ RELOJ ═══ */
 .card.cr{padding:clamp(10px,2.5vw,32px) clamp(6px,2.5vw,32px) clamp(24px,4.5vw,44px)}
-.reloj{position:relative;max-width:600px;margin:0 auto}
+.reloj{position:relative;max-width:600px;margin:0 auto;container-type:inline-size}
 .reloj svg{display:block;width:100%;height:auto;overflow:visible}
-.im{fill:rgba(201,168,76,.07);stroke:var(--oro-borde);stroke-width:1}
+.im{fill:rgba(201,168,76,.07);stroke:var(--oro-borde);stroke-width:1;transition:fill .6s var(--ease),stroke .6s var(--ease)}
 .im.on{fill:var(--oro-vivo);stroke:var(--oro-puro)}
-.mo{fill:rgba(201,168,76,.22)}
-.mo.on{fill:var(--oro-puro)}
-.imn{font:500 12px var(--sans);fill:var(--gris-cl);text-anchor:middle;dominant-baseline:central}
+.mo{fill:rgba(201,168,76,.14);cursor:pointer;transition:fill .5s var(--ease)}
+.mo:hover{fill:rgba(255,224,138,.38)}
+.mo.on{fill:rgba(255,224,138,.5)}
+.mo.pv{fill:rgba(255,224,138,.6);stroke:var(--oro-puro);stroke-width:1.2}
+.mi{pointer-events:none;opacity:.88}
+.mo.on+.mi{opacity:0}
+.imn{font:500 12px var(--sans);fill:var(--gris-cl);text-anchor:middle;dominant-baseline:central;transition:fill .6s var(--ease)}
 .imn.on{fill:#0A0806;font-weight:600}
 .tk{stroke:var(--oro-borde-med);stroke-width:1}
 .hl{font:italic 500 21px var(--serif);fill:var(--oro-vivo);text-anchor:middle;dominant-baseline:central}
 .ancla{fill:var(--oro-puro)}
 .aguja{stroke:var(--oro-puro);stroke-width:2.5;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(255,224,138,.8))}
 .pivote{fill:var(--oro-puro)}
-.centro{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24%;pointer-events:none}
-.hora{font:300 clamp(30px,8.4vw,48px)/1 var(--serif);letter-spacing:.5px;font-variant-numeric:tabular-nums lining-nums;color:var(--blanco)}
-.centro .k{font:400 11.5px/1.3 var(--sans);color:var(--gris);margin-top:12px}
-.centro .v{font:400 clamp(18px,4.6vw,25px)/1.15 var(--serif);color:var(--oro-vivo)}
+/* Progreso del Momento: se llena en 18 min alrededor del centro */
+.pista{fill:none;stroke:var(--oro-borde);stroke-width:1.5}
+.carga{fill:none;stroke:var(--oro-vivo);stroke-width:2;stroke-linecap:round;opacity:.75;filter:drop-shadow(0 0 4px rgba(232,201,122,.6))}
+.chp{fill:var(--oro-puro);filter:drop-shadow(0 0 5px rgba(255,224,138,.9));transform-box:fill-box;transform-origin:center;animation:latido 1s ease-out infinite}
+@keyframes latido{0%{transform:scale(2);opacity:1}100%{transform:scale(1);opacity:.85}}
+/* Lente: el Momento actual sale del anillo */
+#lente{pointer-events:none}
+#lente .halo{fill:none;stroke:var(--oro-puro);stroke-width:2;filter:drop-shadow(0 0 8px rgba(255,224,138,.85));animation:respira 3.2s ease-in-out infinite}
+#lente .fondo{fill:var(--negro-deep)}
+#lente .cuerpo{transform-box:fill-box;transform-origin:center}
+#lente.pop .cuerpo{animation:pop .75s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes pop{0%{transform:scale(.25);opacity:0}60%{opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes respira{0%,100%{stroke-opacity:.55}50%{stroke-opacity:1}}
+/* Centro */
+.centro{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 17%;pointer-events:none}
+.cimg{position:relative;width:27cqw;height:27cqw;width:min(27cqw,160px);height:min(27cqw,160px);display:flex;align-items:center;justify-content:center;margin-bottom:2.2cqw;border:1px solid var(--oro-borde-med);border-radius:10px;outline:1px solid var(--oro-borde);outline-offset:4px;background:rgba(3,3,4,.55);overflow:hidden;box-shadow:0 0 26px rgba(201,168,76,.16)}
+.cimg img{display:block;width:100%;height:100%;object-fit:contain}
+.cimg img[hidden]{display:none}
+.cimg .cn{font:300 clamp(28px,9cqw,52px)/1 var(--serif);color:var(--oro);opacity:.8}
+.cimg.cambia{animation:cambia .7s var(--ease) both}
+@keyframes cambia{0%{opacity:0;transform:scale(.88) rotate(-2deg);filter:brightness(1.7)}100%{opacity:1;transform:none;filter:none}}
+.hora{font:300 clamp(24px,7.4cqw,46px)/1 var(--serif);letter-spacing:.5px;font-variant-numeric:tabular-nums lining-nums;color:var(--blanco)}
+.centro .k{font:400 clamp(9.5px,1.9cqw,11.5px)/1.3 var(--sans);color:var(--gris);margin-top:2.2cqw}
+.centro .v{font:400 clamp(14px,3.8cqw,23px)/1.15 var(--serif);color:var(--oro-vivo);text-wrap:balance}
+.centro .pvw{color:var(--oro-puro)}
 .reloj-nota{font:300 12.5px/1.7 var(--sans);color:var(--gris);text-align:center;max-width:56ch;margin:18px auto 0}
+@container (max-width:420px){
+  .centro{padding:0 14%}
+  .centro .k{display:none}
+  .centro.pv #cmk{display:block;margin-top:0;margin-bottom:2px}
+  .cimg{margin-bottom:1.8cqw;outline:none}
+  .centro .v{font-size:clamp(12.5px,3.9cqw,16px)}
+  .centro .v+.v{margin-top:2px}
+}
 </style></head><body>
 <main>
 <header class="hero">
@@ -190,10 +223,13 @@ h2::before{content:'';flex:none;width:34px;height:1px;background:linear-gradient
 <div class="card cr">
 <div class="reloj">
 <svg id="rj" viewBox="-10 -10 640 640" role="img" aria-label="Reloj de 24 horas del Tonalpohualli"></svg>
-<div class="centro"><div class="hora" id="hh">--:--:--</div>
-<div class="k">Momento</div><div class="v" id="cm">—</div>
+<div class="centro">
+<div class="cimg" id="cimg"><img id="cim" alt="" hidden><span class="cn" id="cnum"></span></div>
+<div class="hora" id="hh">--:--:--</div>
+<div class="k" id="cmk">Momento</div><div class="v" id="cm">—</div>
 <div class="k" id="ck">Hora · Imantli</div><div class="v" id="ci">—</div></div>
 </div>
+<p class="reloj-nota" id="rnota">Pasa el cursor (o toca) un cuadro del anillo de Momentos para ver su tonal y su horario.</p>
 <dl class="grupo uno" style="margin:34px clamp(10px,3vw,0px) 0">
 <div class="fila"><dt>Próximo Momento</dt><dd id="px">—</dd></div>
 <div class="fila"><dt>Próximo Imantli</dt><dd id="cd">—</dd></div></dl>
@@ -360,38 +396,118 @@ const TZ="America/Mexico_City",CX=310,
 FH=new Intl.DateTimeFormat("en-US",{timeZone:TZ,hourCycle:"h23",year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric",second:"numeric"}),
 FD=new Intl.DateTimeFormat("es-MX",{timeZone:TZ,weekday:"long",day:"numeric",month:"long",year:"numeric"}),
 g=i=>document.getElementById(i),p2=n=>String(n).padStart(2,"0");
-let key="",O=null,hand=null;
+const REDUCE=matchMedia("(prefers-reduced-motion:reduce)").matches,HOVER=matchMedia("(hover:hover)").matches;
+const CR=2*Math.PI*205; /* circunferencia del anillo de progreso */
+
+/* ── Imágenes de los tonales: mismas rutas que la calculadora ──
+   img/NN-signo.png → img/tonal/NN-signo.png → img/<nombre de la captura>.png
+   y, si la página no vive junto a la carpeta img/, las mismas rutas en tu GitHub Pages. */
+const OR=L("Cipaktli,Ehecatl,Calli,Cuetzpallin,Coatl,Miquiztli,Mazatl,Tochtli,Atl,Itzcuintli,Ozomahtli,Malinalli,Acatl,Ocelotl,Cuauhtli,Cozcacuauhtli,ollin,Tekpatl,Kiawitl,Xochitl"),
+BASE="https://jesueugalde-ops.github.io/ADC-Docs/",
+IMG=new Array(20).fill(undefined); /* undefined = buscando · null = no hay · texto = ruta que sí cargó */
+function cands(i){const fn=p2(i+1)+"-"+S[i].toLowerCase()+".png",r=["img/"+fn,"img/tonal/"+fn,"img/"+OR[i]+".png"];return r.concat(r.map(x=>BASE+x))}
+function probe(i){const c=cands(i);let n=0;
+ (function next(){if(n>=c.length){IMG[i]=null;paint(i);return}
+  const u=c[n++],im=new Image();im.onload=()=>{IMG[i]=u;paint(i)};im.onerror=next;im.src=u})()}
+/* cuando una imagen se resuelve, se pinta en todos los lugares donde aparece */
+function paint(i){
+ document.querySelectorAll('#rj image[data-s="'+i+'"]').forEach(e=>{if(typeof IMG[i]==="string")e.setAttribute("href",IMG[i]);else e.removeAttribute("href")});
+ if(cenS===i)showImg(i)}
+
+let key="",O=null,P=-1,G=-1,lastG=-2,hand=null,prev=null,pvT=0,cenS=-1,cenK=-1;
+let IMS=[],IMN=[],MOS=[],carga=null,chispa=null,lente=null,lenteImg=null;
 function parts(){const p={};FH.formatToParts(new Date()).forEach(x=>{if(x.type!="literal")p[x.type]=+x.value});p.hour%=24;return p}
 const pt=(r,a)=>{const t=(a-90)*Math.PI/180;return[CX+r*Math.cos(t),CX+r*Math.sin(t)]};
 const arc=(r0,r1,a0,a1)=>{const A=pt(r1,a0),B=pt(r1,a1),C=pt(r0,a1),D=pt(r0,a0);return"M"+A+"A"+r1+" "+r1+" 0 0 1 "+B+"L"+C+"A"+r0+" "+r0+" 0 0 0 "+D+"Z"};
-function build(p){
- const min=p.hour*60+p.minute,v={y:p.year,m:p.month,d:p.day,min:min,reg:"c",man:false,nm:"",pl:""};
- O=calc(v);O.um=null;O.notes=O.notes.filter(x=>!/umbral/i.test(x));const an=ANC[O.P],m=mod(min-an,1440),G=m/18|0,im=G/4|0;
- const on=x=>x==G;
+const fmt=m=>{m=mod(m,1440);return p2(m/60|0)+":"+p2(m%60)};
+
+/* ── El reloj (se arma una vez por año-portador; después solo se marcan clases) ── */
+function ring(an){
  let s="";
- for(let i=0;i<20;i++){const a0=i*18+.5,a1=(i+1)*18-.5,c=i==im?" on":"",q=pt(255,i*18+9);
-  s+="<path class='im"+c+"' d='"+arc(240,270,a0,a1)+"'><title>Imantli "+(i+1)+": "+IM[i]+"</title></path><text class='imn"+c+"' x='"+q[0]+"' y='"+q[1]+"'>"+(i+1)+"</text>"}
- for(let k=0;k<80;k++)s+="<path class='mo"+(on(k)?" on":"")+"' d='"+arc(212,232,k*4.5+.35,(k+1)*4.5-.35)+"'><title>"+S[k%20]+" · "+TR[k%20]+"</title></path>";
+ s+="<circle class='pista' cx='"+CX+"' cy='"+CX+"' r='205'/>"+
+    "<circle class='carga' id='carga' cx='"+CX+"' cy='"+CX+"' r='205' transform='rotate(-90 "+CX+" "+CX+")' stroke-dasharray='"+CR.toFixed(2)+"' stroke-dashoffset='"+CR.toFixed(2)+"'/>"+
+    "<g id='chispa' transform='rotate(0 "+CX+" "+CX+")'><circle class='chp' cx='"+CX+"' cy='105' r='3.4'/></g>";
+ for(let i=0;i<20;i++){const a0=i*18+.5,a1=(i+1)*18-.5,q=pt(255,i*18+9);
+  s+="<path class='im' d='"+arc(240,270,a0,a1)+"'><title>Imantli "+(i+1)+": "+IM[i]+"</title></path><text class='imn' x='"+q[0]+"' y='"+q[1]+"'>"+(i+1)+"</text>"}
+ for(let k=0;k<80;k++){const a=k*4.5+2.25,q=pt(222,a),sg=k%20,u=typeof IMG[sg]==="string"?" href='"+IMG[sg]+"'":"";
+  s+="<path class='mo' data-k='"+k+"' d='"+arc(212,232,k*4.5+.35,(k+1)*4.5-.35)+"'><title>"+S[sg]+" · "+TR[sg]+" · "+fmt(an+k*18)+"–"+fmt(an+k*18+18)+"</title></path>"+
+     "<image class='mi' data-s='"+sg+"' x='"+(q[0]-8)+"' y='"+(q[1]-8)+"' width='16' height='16' preserveAspectRatio='xMidYMid meet' transform='rotate("+a+" "+q[0]+" "+q[1]+")'"+u+"/>"}
  for(let h=0;h<24;h++){const a=mod(h*60-an,1440)/4,l=h%3==0,A=pt(l?274:277,a),B=pt(284,a);s+="<line class='tk' x1='"+A[0]+"' y1='"+A[1]+"' x2='"+B[0]+"' y2='"+B[1]+"'/>";
   if(l){const q=pt(300,a);s+="<text class='hl' x='"+q[0]+"' y='"+q[1]+"'>"+p2(h)+"</text>"}}
  const t=pt(293,0);s+="<path class='ancla' d='M"+t[0]+" "+(t[1]-6)+"l5 6-5 6-5-6z'/>";
+ /* lente: el Momento actual sale del anillo */
+ s+="<g id='lente'><g class='cuerpo'><circle class='fondo' r='21.5'/><image id='lenteimg' x='-15' y='-15' width='30' height='30' preserveAspectRatio='xMidYMid meet'/><circle class='halo' r='22'/></g></g>";
  const a0=pt(204,0),a1=pt(272,0);
  s+="<g id='mano'><line class='aguja' x1='"+a0[0]+"' y1='"+a0[1]+"' x2='"+a1[0]+"' y2='"+a1[1]+"'/><circle class='pivote' cx='"+a0[0]+"' cy='"+a0[1]+"' r='4'/></g>";
- g("rj").innerHTML=s;hand=g("mano");
- g("fecha").textContent=FD.format(new Date());
- g("cm").textContent=S[G%20]+" · "+TR[G%20];
+ g("rj").innerHTML=s;
+ hand=g("mano");carga=g("carga");chispa=g("chispa");lente=g("lente");lenteImg=g("lenteimg");
+ IMS=[...document.querySelectorAll("#rj .im")];IMN=[...document.querySelectorAll("#rj .imn")];MOS=[...document.querySelectorAll("#rj .mo")];
+ lastG=-2;cenK=-1}
+
+/* ── Marca el Imantli y el Momento actuales; mueve la lente ── */
+function mark(){
+ const im=G/4|0;
+ IMS.forEach((e,i)=>e.classList.toggle("on",i==im));IMN.forEach((e,i)=>e.classList.toggle("on",i==im));
+ MOS.forEach((e,k)=>e.classList.toggle("on",k==G));
+ if(G===lastG)return;
+ const q=pt(217,G*4.5+2.25),sg=G%20;
+ lente.setAttribute("transform","translate("+q[0]+" "+q[1]+")");
+ lenteImg.dataset.s=sg;
+ if(typeof IMG[sg]==="string")lenteImg.setAttribute("href",IMG[sg]);else lenteImg.removeAttribute("href");
+ lente.classList.remove("pop");void lente.getBoundingClientRect();lente.classList.add("pop");
+ lastG=G;
+ if(prev==null)center(G,false,true)}
+
+/* ── Centro: imagen del tonal + nombres ── */
+function showImg(s){
+ const u=IMG[s],im=g("cim"),n=g("cnum");n.textContent=s+1;
+ if(typeof u==="string"){if(im.getAttribute("src")!==u)im.src=u;im.alt=S[s]+", "+TR[s];im.hidden=false;n.hidden=true}
+ else{im.hidden=true;n.hidden=false}}
+function center(k,pv,flash){
+ const s=k%20,im=k/4|0,c=document.querySelector(".centro");
+ g("cm").textContent=S[s]+" · "+TR[s];
+ g("cmk").textContent=pv?"Momento · "+fmt(ANC[O.P]+k*18)+"–"+fmt(ANC[O.P]+k*18+18):"Momento";
  g("ck").textContent="Hora · Imantli "+(im+1);g("ci").textContent=IM[im];
+ g("cm").classList.toggle("pvw",pv);g("cmk").classList.toggle("pvw",pv);c.classList.toggle("pv",pv);
+ const nuevo=cenS!==s;cenS=s;cenK=k;showImg(s);
+ if(flash&&nuevo&&!REDUCE){const f=g("cimg");f.classList.remove("cambia");void f.offsetWidth;f.classList.add("cambia")}}
+function setPv(k){
+ clearTimeout(pvT);
+ MOS.forEach(e=>e.classList.remove("pv"));
+ if(k==null||k===G){prev=null;center(G,false,true);return}
+ prev=k;MOS[k].classList.add("pv");center(k,true,true);
+ if(!HOVER)pvT=setTimeout(()=>setPv(null),5000)}
+
+/* ── Actualización por minuto ── */
+function update(p){
+ const min=p.hour*60+p.minute,v={y:p.year,m:p.month,d:p.day,min:min,reg:"c",man:false,nm:"",pl:""};
+ O=calc(v);O.um=null;O.notes=O.notes.filter(x=>!/umbral/i.test(x));
+ const an=ANC[O.P],m=mod(min-an,1440);G=m/18|0;
+ if(O.P!==P||!hand){P=O.P;ring(an);if(prev!=null)prev=null}
+ mark();
+ g("fecha").textContent=FD.format(new Date());
  const out=g("out");
  if(O.reinicio){out.innerHTML="<h2>El Tonalpohualli de este día</h2><div class=card><p class=warn>Este día cae en el cuarto de día de cierre y reinicio del año (Acatl bisiesto) y no está tabulado. Consúltalo con tu maestro.</p></div>";return}
  const T=text(v,O,{n:0,z:0},false).split("\n").slice(3).join("\n").replace("Tu hora cae","La hora actual cae");
  out.innerHTML="<h2>El Tonalpohualli de este día</h2><div class=card>"+ficha(T)+"</div>"}
+
+/* ── Cada segundo ── */
 function tick(){
- const p=parts(),k=[p.year,p.month,p.day,p.hour,p.minute].join("-");if(k!==key){key=k;build(p)}
- const sec=p.hour*3600+p.minute*60+p.second,s0=mod(sec-ANC[O.P]*60,86400),n=1080-s0%1080,gn=((s0/1080|0)+1)%80,ni=4320-s0%4320,gi=((s0/4320|0)+1)%20;
+ const p=parts(),k=[p.year,p.month,p.day,p.hour,p.minute].join("-");if(k!==key){key=k;update(p)}
+ const sec=p.hour*3600+p.minute*60+p.second,s0=mod(sec-ANC[O.P]*60,86400),n=1080-s0%1080,gn=((s0/1080|0)+1)%80,ni=4320-s0%4320,gi=((s0/4320|0)+1)%20,fr=(s0%1080)/1080;
  if(hand)hand.setAttribute("transform","rotate("+s0/240+" "+CX+" "+CX+")");
+ if(carga)carga.setAttribute("stroke-dashoffset",(CR*(1-fr)).toFixed(2));
+ if(chispa)chispa.setAttribute("transform","rotate("+(fr*360).toFixed(3)+" "+CX+" "+CX+")");
  g("hh").textContent=p2(p.hour)+":"+p2(p.minute)+":"+p2(p.second);
  g("px").textContent=S[gn%20]+" ("+TR[gn%20]+") en "+(n/60|0)+":"+p2(n%60);
  g("cd").textContent=IM[gi]+" en "+(ni/3600|0)+":"+p2((ni%3600)/60|0)+":"+p2(ni%60);
- g("rj").setAttribute("aria-label","Reloj de 24 horas del Tonalpohualli, son las "+p2(p.hour)+":"+p2(p.minute))}
+ g("rj").setAttribute("aria-label","Reloj de 24 horas del Tonalpohualli, son las "+p2(p.hour)+":"+p2(p.minute)+", Momento "+S[G%20]+", "+TR[G%20])}
+
+/* vista previa al pasar el cursor / tocar un cuadro del anillo */
+const rj=g("rj");
+rj.addEventListener("mouseover",e=>{const c=e.target.closest&&e.target.closest(".mo");if(c)setPv(+c.dataset.k)});
+rj.addEventListener("mouseleave",()=>{if(HOVER)setPv(null)});
+
+for(let i=0;i<20;i++)probe(i);
 tick();setInterval(tick,1000)})();
 </script></body></html>
